@@ -14,6 +14,32 @@
       type="image/x-icon"
     />
 
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .label {
+        min-width: 120px;
+        color: rgb(129, 129, 255);
+        font-weight: bold;
+        font-size: 16px;
+        white-space: nowrap;
+        margin-right: 40px; /* Tambahkan jarak ke kanan */
+      }
+
+      .mb-3 {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .value {
+        flex: 1;
+        font-size: 16px;
+      }
+    </style>
+
     <!-- Fonts and icons -->
     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -75,12 +101,6 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
-              <li class="nav-item active">
-                <a href="dashboard_OP.html">
-                  <i class="fas fa-home"></i>
-                  <p>Dashboard</p>
-                </a>
-              </li>
               <li class="nav-section">
                 <span class="sidebar-mini-icon">
                   <i class="fa fa-ellipsis-h"></i>
@@ -253,8 +273,6 @@
                       </li>
                       <li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Account Setting</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Logout</a>
                       </li>
                     </div>
@@ -268,20 +286,64 @@
 
         <div class="container">
           <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
-              <div>
-                <h2 class="fw-bold mb-3">Dashboard</h2>
-                <h6 class="op-7 mb-2">Dashboard Bukti Dukung Administrasi BPS Provinsi DKI Jakarta Tahun Anggaran 2024</h6>
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-1"></div>
+            <div class="row mt-4">
+              <!-- Card Kiri -->
+              <div class="col-md-4 mx-auto">
+                <div class="card text-center d-flex align-items-center justify-content-center" style="padding: 20px; border-radius: 20px; height: 100%;">
+                  <div class="card-body">
+                    <div class="avatar-sm">
+                      <img
+                        src="assets/img/profile.png"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <h5 style="font-weight: normal; margin-bottom: 10px;">Agape Bagus Rega Anggara</h5>
+                    <h4 style="font-weight: bold;">222212455</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Kanan -->
+              <div class="col-md-8">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <h4 class="card-title">Detail Profile</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="container">
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">Nama Lengkap</div>
+                        <div class="value">Agape Bagus Rega Anggara</div>
+                      </div>
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">NIP</div>
+                        <div class="value">222212455</div>
+                      </div>
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">Email</div>
+                        <div class="value">bagusrega4@gmail.com</div>
+                      </div>    
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">Jabatan</div>
+                        <div class="value">Kepala BPS</div>
+                      </div> 
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">Golongan</div>
+                        <div class="value">IV A</div>
+                      </div>  
+                      <div class="mb-3 d-flex align-items-center">
+                        <div class="label">Wilayah</div>
+                        <div class="value">BPS DKI Jakarta</div>
+                      </div>  
+                    </div>                                                                      
+                  </div>                  
+                </div>
               </div>
             </div>
-
-            <!-- Dashboard Section -->
-            
-
           </div>
-        </div>
+        </div>        
       </div>
     </div>
 
