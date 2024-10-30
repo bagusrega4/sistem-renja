@@ -12,6 +12,49 @@
 
     <script defer src="script.js"></script>
 
+    <style>
+      .modal-body {
+        padding: 15px;
+      }
+
+      .notification-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .notif-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 18px;
+        margin-right: 10px;
+      }
+
+      .notif-success {
+        background-color: #28a745; /* Green for success */
+      }
+
+      .notif-danger {
+        background-color: #dc3545; /* Red for danger */
+      }
+
+      .notification-text strong {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .notification-text p {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+      }
+    </style>
+
     <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
@@ -209,11 +252,9 @@
                       </div>
                     </div>
                   </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >See all notifications<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
+                    <button type="button" class="btn btn-see-all" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                      See all notifications <i class="fa fa-angle-right"></i>
+                    </button>
                   </ul>
                 </li>
                 <li class="nav-item topbar-user dropdown hidden-caret">
@@ -271,6 +312,38 @@
           <!-- End Navbar -->
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
+              </div>
+              <div class="modal-body">
+                <div class="notification-item">
+                  <div class="notif-icon notif-success">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Selesai</strong>
+                    <p>5 minutes ago</p>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notif-icon notif-danger">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Ditolak</strong>
+                    <p>12 minutes ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
             <div

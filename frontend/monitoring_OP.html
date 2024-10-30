@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     
-
     <!-- <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
     <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -13,6 +13,49 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script defer src="script.js"></script>
+
+    <style>
+      .modal-body {
+        padding: 15px;
+      }
+
+      .notification-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .notif-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 18px;
+        margin-right: 10px;
+      }
+
+      .notif-success {
+        background-color: #28a745; /* Green for success */
+      }
+
+      .notif-danger {
+        background-color: #dc3545; /* Red for danger */
+      }
+
+      .notification-text strong {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .notification-text p {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+      }
+    </style>
 
     <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
     <meta
@@ -214,27 +257,6 @@
                     <button type="button" class="btn btn-see-all" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                       See all notifications <i class="fa fa-angle-right"></i>
                     </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            ...
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </ul>
                 </li>
                 <li class="nav-item topbar-user dropdown hidden-caret">
@@ -291,7 +313,96 @@
           </nav>
           <!-- End Navbar -->
         </div>
+        
+        <!-- Modal Notification -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
+              </div>
+              <div class="modal-body">
+                <div class="notification-item">
+                  <div class="notif-icon notif-success">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Selesai</strong>
+                    <p>5 minutes ago</p>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notif-icon notif-danger">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Ditolak</strong>
+                    <p>12 minutes ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- Modal Delete -->
+        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
+              </div>
+              <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDelete">Yakin</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Modal View -->
+        <div class="modal fade" id="viewModalCenter" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>RO</th>
+                      <th>Komponen</th>
+                      <th>Sub Komponen</th>
+                      <th>Akun</th>
+                      <th>No. FP</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Nama Permintaan</th>
+                      <th>No. SK</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
+                      <td class="text-end">001-Gaji & Tunjangan</td>
+                      <td class="text-end">EWS</td>
+                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
+                      <td class="text-end">144</td>
+                      <td class="text-end">15/04/2024 - 20/04/2024</td>
+                      <td class="text-end">Supervisi Sensus Ekonomi</td>
+                      <td class="text-end">001/31510/VS.100/2024</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>           
+
+        <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
             <div
@@ -440,17 +551,17 @@
                             <td class="text-end">Supervisi Sensus Ekonomi</td>
                             <td class="text-end">
                               <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm me-2">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                  <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                  <i class="fas fa-edit"></i>
+                                </button>                              
                                 <button class="btn btn-info btn-sm me-2">
                                     <i class="fas fa-desktop"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
                               </div>
                             </td>
@@ -467,17 +578,17 @@
                             <td class="text-end">Supervisi Sensus Penduduk</td>
                             <td class="text-end">
                               <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm me-2">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                  <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                  <i class="fas fa-edit"></i>
+                                </button> 
                                 <button class="btn btn-info btn-sm me-2">
                                     <i class="fas fa-desktop"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
                               </div>
                             </td>
@@ -494,17 +605,17 @@
                             <td class="text-end">Supervisi Sensus Tani</td>
                             <td class="text-end">
                               <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm me-2">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                  <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                  <i class="fas fa-edit"></i>
+                                </button> 
                                 <button class="btn btn-info btn-sm me-2">
                                     <i class="fas fa-desktop"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
                               </div>
                             </td>
@@ -521,17 +632,17 @@
                             <td class="text-end">Supervisi Survei Indeks Pembangunan Manusia</td>
                             <td class="text-end">
                               <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm me-2">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                  <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                  <i class="fas fa-edit"></i>
+                                </button> 
                                 <button class="btn btn-info btn-sm me-2">
                                     <i class="fas fa-desktop"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
                               </div>
                             </td>
@@ -548,17 +659,17 @@
                             <td class="text-end">Supervisi Survei Angakatan Kerja Nasional</td>
                             <td class="text-end">
                               <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm me-2">
-                                    <i class="fas fa-eye"></i>
+                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                  <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                  <i class="fas fa-edit"></i>
+                                </button> 
                                 <button class="btn btn-info btn-sm me-2">
                                     <i class="fas fa-desktop"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
                               </div>
                             </td>
@@ -576,9 +687,13 @@
           </div>
         </div>
       </div>
-
     </div>
     
+    <!-- JavaScript Bootstrap dan jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
