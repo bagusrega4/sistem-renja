@@ -235,7 +235,7 @@
                   <li>
                     <div class="notif-scroll scrollbar-outer">
                       <div class="notif-center">
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
                           <div class="notif-icon notif-success">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -244,7 +244,7 @@
                             <span class="time">5 minutes ago</span>
                           </div>
                         </a>
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
                           <div class="notif-icon notif-danger">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -348,7 +348,111 @@
             </div>
           </div>
         </div>
-        
+
+        <!-- Modal Kembali -->
+        <div class="modal fade" id="backModalCenter" tabindex="-1" role="dialog" aria-labelledby="backModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="backModalCenterTitle">PERINGATAN !</h5>
+              </div>
+              <div class="modal-body">
+                <p>Apakah Anda yakin ingin kembali?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmback">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="cancelback">Tidak</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Kirim -->
+        <div class="modal fade" id="kirimModalCenter" tabindex="-1" role="dialog" aria-labelledby="kirimModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="kirimModalCenterTitle">PERINGATAN !</h5>
+              </div>
+              <div class="modal-body">
+                <p>Apakah Anda yakin ingin mengirim?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmback">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="cancelback">Tidak</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
@@ -360,7 +464,7 @@
                 <h6 class="op-7 mb-2">Upload File Yang Diperlukan</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="monitoring_OP.html" class="btn btn-danger btn-round">Kembali</a>
+                <a href="monitoring_OP.html" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#backModalCenter">Kembali</a>
               </div>
             </div>
             <div class="col-md-14">
@@ -495,7 +599,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="monitoring_OP.html" class="btn btn-success btn-round">Kirim File</a>
+                <a href="monitoring_OP.html" class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#kirimModalCenter">Kirim File</a>
               </div>
             </div>
       </div>
@@ -527,35 +631,19 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
     <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
+      document.getElementById('confirmback').addEventListener('click', function() {
+        window.location.href = 'monitoring_OP.html';
+      });
+      document.getElementById('cancelback').addEventListener('click', function() {
+        $('#backModalCenter').modal('hide');
       });
 
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
+      document.getElementById('confirmSend').addEventListener('click', function() {
+        window.location.href = 'monitoring_OP.html';
       });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
+      document.getElementById('cancelSend').addEventListener('click', function() {
+        $('#kirimModalCenter').modal('hide');
       });
     </script>
   </body>

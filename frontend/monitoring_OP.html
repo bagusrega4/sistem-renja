@@ -237,7 +237,7 @@
                   <li>
                     <div class="notif-scroll scrollbar-outer">
                       <div class="notif-center">
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
                           <div class="notif-icon notif-success">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -246,7 +246,7 @@
                             <span class="time">5 minutes ago</span>
                           </div>
                         </a>
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
                           <div class="notif-icon notif-danger">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -320,7 +320,7 @@
           <!-- End Navbar -->
         </div>
         
-        <!-- Modal Notification -->
+        <!-- Modal Notification all -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -362,8 +362,8 @@
                 <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmDelete">Yakin</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
               </div>
             </div>
           </div>
@@ -406,7 +406,75 @@
               </div>
             </div>
           </div>
-        </div>           
+        </div>   
+        
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Isi content halaman -->
         <div class="container">
@@ -513,7 +581,7 @@
                               </div>
                             </td>
                             <td class="text-end">
-                              <span class="badge badge-secondary">Entri Operator</span>
+                              <span class="badge badge-danger">Entri Operator</span>
                             </td>
                           </tr>
                           <tr>
@@ -613,35 +681,12 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
     <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
+      document.getElementById('confirmdelete').addEventListener('click', function() {
+        window.location.href = 'monitoring_OP.html';
       });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
+      document.getElementById('canceldelete').addEventListener('click', function() {
+        $('#deleteModalCenter').modal('hide');
       });
     </script>
   </body>

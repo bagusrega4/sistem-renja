@@ -221,7 +221,7 @@
                   <li>
                     <div class="notif-scroll scrollbar-outer">
                       <div class="notif-center">
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
                           <div class="notif-icon notif-success">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -230,7 +230,7 @@
                             <span class="time">5 minutes ago</span>
                           </div>
                         </a>
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
                           <div class="notif-icon notif-danger">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -335,6 +335,74 @@
           </div>
         </div>
 
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
@@ -365,7 +433,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Jumlah Pengajuan</p>
-                          <h4 class="card-title">1,294</h4>
+                          <h4 class="card-title">129</h4>
                         </div>
                       </div>
                     </div>
@@ -386,7 +454,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Disetujui</p>
-                          <h4 class="card-title">1200</h4>
+                          <h4 class="card-title">90</h4>
                         </div>
                       </div>
                     </div>
@@ -407,7 +475,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Ditolak</p>
-                          <h4 class="card-title">10</h4>
+                          <h4 class="card-title">20</h4>
                         </div>
                       </div>
                     </div>
@@ -428,7 +496,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Dalam Proses</p>
-                          <h4 class="card-title">84</h4>
+                          <h4 class="card-title">19</h4>
                         </div>
                       </div>
                     </div>
@@ -449,22 +517,10 @@
                       <canvas id="statisticsChart"></canvas>
                     </div>
                     <ul class="html-legend">
-                      <li>
-                        <span style="background-color: blue;"></span>
-                        Jumlah Pengajuan
-                      </li>
-                      <li>
-                        <span style="background-color: green;"></span>
-                        Pengajuan Approved
-                      </li>
-                      <li>
-                        <span style="background-color: red;"></span>
-                        Pengajuan Rejected
-                      </li>
-                      <li>
-                        <span style="background-color: orange;"></span>
-                        Pengajuan Dalam Proses
-                      </li>
+                      <li><span style="background-color: blue;"></span> Jumlah Pengajuan</li>
+                      <li><span style="background-color: green;"></span> Pengajuan Approved</li>
+                      <li><span style="background-color: red;"></span> Pengajuan Rejected</li>
+                      <li><span style="background-color: orange;"></span> Pengajuan Dalam Proses</li>
                     </ul>
                   </div>
                 </div>
@@ -501,5 +557,30 @@
 
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
+
+    <script>
+      const ctx = document.getElementById('statisticsChart').getContext('2d');
+      const data = {
+        labels: ['Jumlah Pengajuan', 'Approved', 'Rejected', 'Dalam Proses'],
+        datasets: [{
+          label: 'Statistik Pengajuan',
+          data: [129, 90, 20, 19],
+          backgroundColor: ['blue', 'green', 'red', 'orange'],
+        }]
+      };
+      const config = {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+      const statisticsChart = new Chart(ctx, config);
+    </script>
   </body>
 </html>

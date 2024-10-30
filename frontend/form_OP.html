@@ -221,7 +221,7 @@
                   <li>
                     <div class="notif-scroll scrollbar-outer">
                       <div class="notif-center">
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
                           <div class="notif-icon notif-success">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -230,7 +230,7 @@
                             <span class="time">5 minutes ago</span>
                           </div>
                         </a>
-                        <a href="#">
+                        <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
                           <div class="notif-icon notif-danger">
                             <i class="fa fa-file-alt"></i>
                           </div>
@@ -330,6 +330,74 @@
                     <p>12 minutes ago</p>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
