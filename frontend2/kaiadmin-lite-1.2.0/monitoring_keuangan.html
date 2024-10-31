@@ -81,7 +81,7 @@
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <!-- <link rel="stylesheet" href="assets/css/demo.css" /> -->
+    <link rel="stylesheet" href="assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -134,13 +134,30 @@
                   <p>Form</p>
                 </a>
               </li>
-              <li class="nav-item active">
-                <a href="monitoring_keuangan.html">
+              <li class="nav-item active submenu">
+                <a data-bs-toggle="collapse" href="#monitoring">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
-                  <span class="badge badge-success">1</span>
-                  <span class="badge badge-danger">1</span>
+                  <span class="caret"></span>
                 </a>
+                <div class="collapse show" id="monitoring">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="monitoring_OP_keuangan.html">
+                          <span class="sub-item">Operator</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                      <li class="active">
+                        <a href="monitoring_keuangan.html">
+                          <span class="sub-item">Keuangan</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a href="download_keuangan.html">
@@ -153,7 +170,7 @@
                   margin-right: 0; /* Remove space on the right side of the first badge */
                 }
                 .nav-item a .badge-danger {
-                  margin-left: 2px; /* Adjust this value to control the spacing between badges */
+                  margin-left: 0; /* Adjust this value to control the spacing between badges */
                 }
               </style>
             </ul>
@@ -527,12 +544,12 @@
             >
               <div>
                 <h3 class="fw-bold mb-3">Monitoring Keuangan</h3>
-                <h6 class="op-7 mb-2">Monitoring pengajuan yang dilakukan oleh Tim Keuangan</h6>
+                <h6 class="op-7 mb-2">Monitoring pengajuan yang diajukan oleh Operator</h6>
               </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <!-- <a href="monitoring_file_keuangan.html" class="btn btn-label-info btn-round me-2">Monitoring File</a> -->
+              <!-- <div class="ms-md-auto py-2 py-md-0">
+                <a href="monitoring_file_keuangan.html" class="btn btn-label-info btn-round me-2">Monitoring File</a>
                 <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
-              </div>
+              </div> -->
             </div>
 
 
@@ -825,8 +842,8 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project!
-    <script src="assets/js/setting-demo.js"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <!-- <script src="assets/js/setting-demo.js"></script>
     <script src="assets/js/demo.js"></script> -->
 
   </body>

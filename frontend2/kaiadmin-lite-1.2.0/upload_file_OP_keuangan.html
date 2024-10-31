@@ -2,18 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
-    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
-    <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script defer src="script.js"></script>
-
+    <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
     <style>
       .modal-body {
         padding: 15px;
@@ -55,9 +44,22 @@
         color: #666;
         margin: 0;
       }
-    </style>
 
-    <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
+      .label {
+        min-width: 120px;
+        color: rgb(45, 45, 176);
+        font-weight: bold;
+        font-size: 16px;
+        white-space: nowrap;
+        margin-right: 40px; /* Tambahkan jarak ke kanan */
+      }
+
+      .value {
+        flex: 1;
+        font-size: 16px;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
@@ -130,7 +132,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="dashboard_operator.html">
+                <a href="dashboard_keuangan.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
                 </a>
@@ -142,21 +144,38 @@
                 <h4 class="text-section">Components</h4>
               </li>
               <li class="nav-item">
-                <a href="form_OP.html">
+                <a href="form_keuangan.html">
                   <i class="fas fa-file"></i>
                   <p>Form</p>
                 </a>
               </li>
-              <li class="nav-item active">
-                <a href="monitoring_OP.html">
+              <li class="nav-item active submenu">
+                <a data-bs-toggle="collapse" href="#monitoring">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
-                  <span class="badge badge-success">1</span>
-                  <span class="badge badge-danger">1</span>
+                  <span class="caret"></span>
                 </a>
+                <div class="collapse show" id="monitoring">
+                    <ul class="nav nav-collapse">
+                      <li class="active">
+                        <a href="monitoring_OP_keuangan.html">
+                          <span class="sub-item">Operator</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="monitoring_keuangan.html">
+                          <span class="sub-item">Keuangan</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
-                <a href="download_OP.html">
+                <a href="download_keuangan.html">
                   <i class="fas fa-download"></i>
                   <p>Download</p>
                 </a>
@@ -207,10 +226,6 @@
             class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
           >
             <div class="container-fluid">
-              <nav
-                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-              >
-              </nav>
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
@@ -317,10 +332,10 @@
               </ul>
             </div>
           </nav>
+          <!-- End Navbar -->
         </div>
-        <!-- End Navbar -->
 
-        <!-- Modal Notification all -->
+        <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -351,58 +366,37 @@
           </div>
         </div>
 
-        <!-- Modal Delete -->
-        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+        <!-- Modal Kembali -->
+        <div class="modal fade" id="backModalCenter" tabindex="-1" role="dialog" aria-labelledby="backModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
+                <h5 class="modal-title" id="backModalCenterTitle">PERINGATAN !</h5>
               </div>
               <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
+                <p>Apakah Anda yakin ingin kembali?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
-                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
+                <button type="button" class="btn btn-danger" id="confirmback">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="cancelback">Tidak</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Modal View -->
-        <div class="modal fade" id="viewModalCenter" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <!-- Modal Kirim -->
+        <div class="modal fade" id="kirimModalCenter" tabindex="-1" role="dialog" aria-labelledby="kirimModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+                <h5 class="modal-title" id="kirimModalCenterTitle">PERINGATAN !</h5>
               </div>
               <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>RO</th>
-                      <th>Komponen</th>
-                      <th>Sub Komponen</th>
-                      <th>Akun</th>
-                      <th>No. FP</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Nama Permintaan</th>
-                      <th>No. SK</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
-                      <td class="text-end">001-Gaji & Tunjangan</td>
-                      <td class="text-end">EWS</td>
-                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
-                      <td class="text-end">144</td>
-                      <td class="text-end">15/04/2024 - 20/04/2024</td>
-                      <td class="text-end">Supervisi Sensus Ekonomi</td>
-                      <td class="text-end">001/31510/VS.100/2024</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <p>Apakah Anda yakin ingin mengirim?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmback">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="cancelback">Tidak</button>
               </div>
             </div>
           </div>
@@ -483,177 +477,150 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Monitoring</h2>
-                <h6 class="op-7 mb-2">Monitoring Rincian Kegiatan</h6>
+                <h2 class="fw-bold mb-3">Upload File Operator</h2>
+                <h6 class="op-7 mb-2">Upload File Yang Diperlukan</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_OP.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+                <a href="monitoring_OP_keuangan.html" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#backModalCenter">Kembali</a>
               </div>
             </div>
-              <div class="col-md-12">
-                <div class="card card-round">
-                  <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Tabel Monitoring</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-icon btn-clean me-0"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="fas fa-filter"></i>
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Range Tanggal</a>
-                            <a class="dropdown-item" href="#">Akun Belanja</a>
-                          </div>
-                        </div>
-                      </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-4 d-flex align-items-center">
+                      <div class="label">Nomor FP</div>
+                      <div class="value">144</div>
                     </div>
-                  </div>
-                  <div class="card-body p-0">
-                    <div class="table-responsive">
-                      <!-- Projects table -->
-                      <table id="example" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>No. FP</th>
-                                <th>Tanggal Kegiatan</th>
-                                <th>Nama Permintaan</th>
-                                <th>Aksi</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              1
-                            </th>
-                            <td class="text-end">144</td>
-                            <td class="text-end">15/04/2024 - 20/04/2024</td>
-                            <td class="text-end">Supervisi Sensus Ekonomi</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_operator.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                              </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-warning">Pengecekan Dokumen</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              2
-                            </th>
-                            <td class="text-end">175</td>
-                            <td class="text-end">18/05/2024 - 26/05/2024</td>
-                            <td class="text-end">Supervisi Sensus Penduduk</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_operator.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                              </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-danger">Entri Operator</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              3
-                            </th>
-                            <td class="text-end">165</td>
-                            <td class="text-end">04/06/2024 - 10/06/2024</td>
-                            <td class="text-end">Supervisi Sensus Tani</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_operator.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                              </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-primary">Proses Pembayaran</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              4
-                            </th>
-                            <td class="text-end">195</td>
-                            <td class="text-end">16/07/2024 - 27/07/2024</td>
-                            <td class="text-end">Supervisi Survei Angakatan Kerja Nasional</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_operator.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                              </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Selesai</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Nama Permintaan</div>
+                      <div class="value">Supervisi Sensus Ekonomi</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">KAK yang sudah ditandatangani</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Surat Tugas</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">SK KPA untuk dasar pembayaran honor</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Laporan Innas disertai Lampiran Jadwal dan Dokumentasi</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Daftar Hadir</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Absen Harian</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-14">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="label">Rekapitulasi Nomor Rekening Innas</div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                      <div class="col-md-4">
+                        <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
+            >
+              <div class="ms-md-auto py-2 py-md-0">
+                <a href="monitoring_OP_keuangan.html" class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#kirimModalCenter">Kirim File</a>
+              </div>
+            </div>
       </div>
     </div>
-
-    <!-- JavaScript Bootstrap dan jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
@@ -682,11 +649,18 @@
     <script src="assets/js/kaiadmin.min.js"></script>
 
     <script>
-      document.getElementById('confirmdelete').addEventListener('click', function() {
-        window.location.href = 'monitoring_OP.html';
+      document.getElementById('confirmback').addEventListener('click', function() {
+        window.location.href = 'monitoring_OP_keuangan.html';
       });
-      document.getElementById('canceldelete').addEventListener('click', function() {
-        $('#deleteModalCenter').modal('hide');
+      document.getElementById('cancelback').addEventListener('click', function() {
+        $('#backModalCenter').modal('hide');
+      });
+
+      document.getElementById('confirmSend').addEventListener('click', function() {
+        window.location.href = 'monitoring_OP_keuangan.html';
+      });
+      document.getElementById('cancelSend').addEventListener('click', function() {
+        $('#kirimModalCenter').modal('hide');
       });
     </script>
   </body>

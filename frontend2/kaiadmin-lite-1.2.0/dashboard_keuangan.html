@@ -90,7 +90,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="dashboard_keuangan.html" class="logo d-flex align-items-center">
               <img
                 src="assets/img/logo-bps.png"
                 alt="navbar brand"
@@ -135,12 +135,29 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="monitoring_keuangan.html">
+                <a data-bs-toggle="collapse" href="#monitoring">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
-                  <span class="badge badge-success">1</span>
-                  <span class="badge badge-danger">1</span>
+                  <span class="caret"></span>
                 </a>
+                <div class="collapse" id="monitoring">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="monitoring_OP_keuangan.html">
+                          <span class="sub-item">Operator</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="monitoring_keuangan.html">
+                          <span class="sub-item">Keuangan</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a href="download_keuangan.html">
@@ -474,7 +491,8 @@
                 <h6 class="op-7 mb-2">Lihat statistik pengajuan yang masuk dari pegawai BPS Provinsi DKI Jakarta</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="monitoring_keuangan.html" class="btn btn-primary btn-round me-2">Monitoring</a>
+                <a href="monitoring_OP_keuangan.html" class="btn btn-secondary btn-round me-2">Monitoring Operator</a>
+                <a href="monitoring_keuangan.html" class="btn btn-primary btn-round me-2">Monitoring Keuangan</a>
                 <a href="form_keuangan.html" class="btn btn-label-info btn-round">Add Pengajuan</a>
               </div>
             </div>
