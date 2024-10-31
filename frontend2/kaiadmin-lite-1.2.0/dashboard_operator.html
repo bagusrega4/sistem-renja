@@ -2,7 +2,50 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
+    <style>
+      .modal-body {
+        padding: 15px;
+      }
+
+      .notification-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .notif-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 18px;
+        margin-right: 10px;
+      }
+
+      .notif-success {
+        background-color: #28a745; /* Green for success */
+      }
+
+      .notif-danger {
+        background-color: #dc3545; /* Red for danger */
+      }
+
+      .notification-text strong {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .notification-text p {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
@@ -39,7 +82,7 @@
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <!-- <link rel="stylesheet" href="assets/css/demo.css" /> -->
   </head>
   <body>
     <div class="wrapper">
@@ -53,9 +96,9 @@
                 src="assets/img/logo-bps.png"
                 alt="navbar brand"
                 class="navbar-brand"
-                height="20"
+                height="30"
               />
-              <span class="ms-1 text-white fw-bold">DKI Jakarta</span> <!-- Tulisan DKI Jakarta -->
+              <span class="ms-1 text-white fw-bold">DKI Jakarta</span>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -75,15 +118,9 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item active">
-                <a
-                  data-bs-toggle="collapse"
-                  href="#dashboard"
-                  class="collapsed"
-                  aria-expanded="false"
-                >
+                <a href="dashboard_operator.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
-                  <span></span>
                 </a>
               </li>
               <li class="nav-section">
@@ -93,13 +130,13 @@
                 <h4 class="text-section">Components</h4>
               </li>
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
+                <a href="form_OP.html">
                   <i class="fas fa-file"></i>
                   <p>Form</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                <a href="monitoring_OP.html">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
                   <span class="badge badge-success">1</span>
@@ -107,11 +144,19 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
+                <a href="download_OP.html">
                   <i class="fas fa-download"></i>
                   <p>Download</p>
                 </a>
               </li>
+              <style>
+                .nav-item a .badge-success {
+                  margin-right: 0; /* Remove space on the right side of the first badge */
+                }
+                .nav-item a .badge-danger {
+                  margin-left: 2px; /* Adjust this value to control the spacing between badges */
+                }
+              </style>
             </ul>
           </div>
         </div>
@@ -125,7 +170,7 @@
             <div class="logo-header" data-background-color="dark">
               <a href="index.html" class="logo">
                 <img
-                  src="assets/img/logo-bps.svg"
+                  src="assets/img/kaiadmin/logo_light.svg"
                   alt="navbar brand"
                   class="navbar-brand"
                   height="20"
@@ -151,31 +196,6 @@
           >
             <div class="container-fluid">
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li
-                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
-                >
-                  <a
-                    class="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-search animated fadeIn">
-                    <form class="navbar-left navbar-form nav-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          placeholder="Search ..."
-                          class="form-control"
-                        />
-                      </div>
-                    </form>
-                  </ul>
-                </li>
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
                     class="nav-link dropdown-toggle"
@@ -187,74 +207,48 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">4</span>
+                    <span class="notification">2</span>
                   </a>
                   <ul
                     class="dropdown-menu notif-box animated fadeIn"
                     aria-labelledby="notifDropdown"
                   >
-                    <li>
-                      <div class="dropdown-title">
-                        You have 4 new notification
+                  <li>
+                    <div class="dropdown-title">
+                      You have 2 new notification
+                    </div>
+                  </li>
+                  <li>
+                    <div class="notif-scroll scrollbar-outer">
+                      <div class="notif-center">
+                        <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
+                          <div class="notif-icon notif-success">
+                            <i class="fa fa-file-alt"></i>
+                          </div>
+                          <div class="notif-content">
+                            <span class="block"> Pengajuan Selesai </span>
+                            <span class="time">5 minutes ago</span>
+                          </div>
+                        </a>
+                        <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
+                          <div class="notif-icon notif-danger">
+                            <i class="fa fa-file-alt"></i>
+                          </div>
+                          <div class="notif-content">
+                            <span class="block">
+                              Pengajuan Ditolak
+                            </span>
+                            <span class="time">12 minutes ago</span>
+                          </div>
+                        </a>
                       </div>
-                    </li>
-                    <li>
-                      <div class="notif-scroll scrollbar-outer">
-                        <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-success">
-                              <i class="fa fa-comment"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block">
-                                Rahmad commented on Admin
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/profile2.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="block">
-                                Reza send messages to you
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-danger">
-                              <i class="fa fa-heart"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> Farrah liked Admin </span>
-                              <span class="time">17 minutes ago</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >See all notifications<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
+                    </div>
+                  </li>
+                    <button type="button" class="btn btn-see-all" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                      See all notifications <i class="fa fa-angle-right"></i>
+                    </button>
                   </ul>
                 </li>
-                
                 <li class="nav-item topbar-user dropdown hidden-caret">
                   <a
                     class="dropdown-toggle profile-pic"
@@ -271,7 +265,7 @@
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
+                      <span class="fw-bold">Operator</span>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -286,10 +280,11 @@
                             />
                           </div>
                           <div class="u-text">
-                            <h4>Hizrian</h4>
-                            <p class="text-muted">hello@example.com</p>
+                            <h4>Agape Bagus Rega Anggara</h4>
+                            <p class="text-muted">bagusrega4@gmail.com</p>
+                            <p class="text-muted">as Operator Role</p>
                             <a
-                              href="profile.html"
+                              href="profile-OP.html"
                               class="btn btn-xs btn-secondary btn-sm"
                               >View Profile</a
                             >
@@ -297,12 +292,6 @@
                         </div>
                       </li>
                       <li>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">My Balance</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Account Setting</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Logout</a>
                       </li>
@@ -315,6 +304,106 @@
           <!-- End Navbar -->
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
+              </div>
+              <div class="modal-body">
+                <div class="notification-item">
+                  <div class="notif-icon notif-success">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Selesai</strong>
+                    <p>5 minutes ago</p>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notif-icon notif-danger">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Ditolak</strong>
+                    <p>12 minutes ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
             <div
@@ -325,8 +414,8 @@
                 <h6 class="op-7 mb-2">Lihat statistik pengajuan yang telah dilakukan</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Monitoring</a>
-                <a href="#" class="btn btn-primary btn-round">Add Pengajuan</a>
+                <a href="monitoring_OP.html" class="btn btn-label-info btn-round me-2">Monitoring</a>
+                <a href="form_OP.html" class="btn btn-primary btn-round">Add Pengajuan</a>
               </div>
             </div>
             <div class="row">
@@ -338,13 +427,13 @@
                         <div
                           class="icon-big text-center icon-primary bubble-shadow-small"
                         >
-                          <i class="fas fa-file-alt"></i>
+                          <i class="fa fa-file-alt"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Pengajuan</p>
-                          <h4 class="card-title">1,294</h4>
+                          <p class="card-category">Jumlah Pengajuan</p>
+                          <h4 class="card-title">129</h4>
                         </div>
                       </div>
                     </div>
@@ -357,15 +446,15 @@
                     <div class="row align-items-center">
                       <div class="col-icon">
                         <div
-                          class="icon-big text-center icon-info bubble-shadow-small bg-success"
+                          class="icon-big text-center icon-success bubble-shadow-small"
                         >
-                          <i class="fas fa-check"></i>
+                          <i class="fa fa-file-alt"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Pengajuan Approved</p>
-                          <h4 class="card-title">1303</h4>
+                          <p class="card-category">Disetujui</p>
+                          <h4 class="card-title">90</h4>
                         </div>
                       </div>
                     </div>
@@ -378,15 +467,15 @@
                     <div class="row align-items-center">
                       <div class="col-icon">
                         <div
-                          class="icon-big text-center icon-success bubble-shadow-small bg-danger"
+                          class="icon-big text-center icon-danger bubble-shadow-small"
                         >
-                          <i class="fas fa-times"></i>
+                          <i class="fa fa-file-alt"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Pengajuan Rejected</p>
-                          <h4 class="card-title">1345</h4>
+                          <p class="card-category">Ditolak</p>
+                          <h4 class="card-title">20</h4>
                         </div>
                       </div>
                     </div>
@@ -401,13 +490,13 @@
                         <div
                           class="icon-big text-center icon-secondary bubble-shadow-small"
                         >
-                          <i class="fas fa-cog"></i>
+                          <i class="fa fa-file-alt"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Pengajuan Dalam Proses</p>
-                          <h4 class="card-title">576</h4>
+                          <p class="card-category">Dalam Proses</p>
+                          <h4 class="card-title">19</h4>
                         </div>
                       </div>
                     </div>
@@ -415,27 +504,12 @@
                 </div>
               </div>
             </div>
-
             <div class="row justify-content-center">
               <div class="col-md-10 center">
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row">
                       <div class="card-title">Statistik Pengajuan</div>
-                      <div class="card-tools">
-                        <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
-                          <span class="btn-label">
-                            <i class="fa fa-pencil"></i>
-                          </span>
-                          Export
-                        </a>
-                        <a href="#" class="btn btn-label-info btn-round btn-sm">
-                          <span class="btn-label">
-                            <i class="fa fa-print"></i>
-                          </span>
-                          Print
-                        </a>
-                      </div>
                     </div>
                   </div>
                   <div class="card-body">
@@ -443,121 +517,11 @@
                       <canvas id="statisticsChart"></canvas>
                     </div>
                     <ul class="html-legend">
-                      <li>
-                        <span style="background-color: blue;"></span>
-                        Jumlah Pengajuan
-                      </li>
-                      <li>
-                        <span style="background-color: green;"></span>
-                        Pengajuan Approved
-                      </li>
-                      <li>
-                        <span style="background-color: red;"></span>
-                        Pengajuan Rejected
-                      </li>
-                      <li>
-                        <span style="background-color: orange;"></span>
-                        Pengajuan Dalam Proses
-                      </li>
+                      <li><span style="background-color: blue;"></span> Jumlah Pengajuan</li>
+                      <li><span style="background-color: green;"></span> Pengajuan Approved</li>
+                      <li><span style="background-color: red;"></span> Pengajuan Rejected</li>
+                      <li><span style="background-color: orange;"></span> Pengajuan Dalam Proses</li>
                     </ul>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="col-md-8">
-                <div class="card card-round">
-                  <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">History Pengajuan</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-icon btn-clean me-0"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="fas fa-ellipsis-h"></i>
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#"
-                              >Something else here</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body p-0">
-                    <div class="table-responsive">
-                      <!-- Projects table -->
-                      <table class="table align-items-center mb-0">
-                        <thead class="thead-light">
-                          <tr>
-                            <th scope="col">Nomor FP</th>
-                            <th scope="col" class="text-end">Nama Kegiatan</th>
-                            <th scope="col" class="text-end">Tanggal Input</th>
-                            <th scope="col" class="text-end">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-sm me-2"
-                              >
-                                <i class="fa fa-cog"></i>
-                              </button>
-                              FP001
-                            </th>
-                            <td class="text-end">Perjalanan Dinas</td>
-                            <td class="text-end">30-10-2024</td>
-                            <td class="text-end">
-                              <span class="badge badge-warning text-dark">On Progress</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              FP002
-                            </th>
-                            <td class="text-end">Pelatihan Surveyor 2</td>
-                            <td class="text-end">25-10-2024</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Approved</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-danger btn-sm me-2"
-                              >
-                                <i class="fa fa-times"></i>
-                              </button>
-                              FP003
-                            </th>
-                            <td class="text-end">Pelatihan Surveyor 1</td>
-                            <td class="text-end">15-10-2024</td>
-                            <td class="text-end">
-                              <span class="badge badge-danger">Rejected</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -565,35 +529,9 @@
           </div>
           </div>
         </div>
-      <!--
-        <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    BPS Provinsi DKI Jakarta
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="#">Kelompok 3 3SI2</a>
-            </div>
-            
-          </div>
-        </footer>-->
       </div>
-
-      
     </div>
+
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
@@ -614,49 +552,35 @@
     <!-- Datatables -->
     <script src="assets/js/plugin/datatables/datatables.min.js"></script>
 
-    <!-- Bootstrap Notify -->
-    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets/js/plugin/jsvectormap/world.js"></script>
-
     <!-- Sweet Alert -->
     <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
     <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
+      const ctx = document.getElementById('statisticsChart').getContext('2d');
+      const data = {
+        labels: ['Jumlah Pengajuan', 'Approved', 'Rejected', 'Dalam Proses'],
+        datasets: [{
+          label: 'Statistik Pengajuan',
+          data: [129, 90, 20, 19],
+          backgroundColor: ['blue', 'green', 'red', 'orange'],
+        }]
+      };
+      const config = {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+      const statisticsChart = new Chart(ctx, config);
     </script>
   </body>
 </html>

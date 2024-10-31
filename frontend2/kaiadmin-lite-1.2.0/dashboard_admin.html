@@ -2,7 +2,49 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
+    <style>
+        .modal-body {
+          padding: 15px;
+        }
+
+        .notification-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .notif-icon {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          color: white;
+          font-size: 18px;
+          margin-right: 10px;
+        }
+
+        .notif-success {
+          background-color: #28a745; /* Green for success */
+        }
+
+        .notif-danger {
+          background-color: #dc3545; /* Red for danger */
+        }
+
+        .notification-text strong {
+          font-size: 14px;
+          color: #333;
+        }
+
+        .notification-text p {
+          font-size: 12px;
+          color: #666;
+          margin: 0;
+        }
+    </style>
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
@@ -53,7 +95,7 @@
                 src="assets/img/logo-bps.png"
                 alt="navbar brand"
                 class="navbar-brand"
-                height="20"
+                height="30"
               />
               <span class="ms-1 text-white fw-bold">DKI Jakarta</span> <!-- Tulisan DKI Jakarta -->
             </a>
@@ -77,7 +119,7 @@
               <li class="nav-item active">
                 <a
                   data-bs-toggle="collapse"
-                  href="#dashboard"
+                  href="dashboard_admin.html"
                   class="collapsed"
                   aria-expanded="false"
                 >
@@ -91,6 +133,26 @@
                   <i class="fa fa-ellipsis-h"></i>
                 </span>
                 <h4 class="text-section">Components</h4>
+              </li>
+              <li class="nav-item">
+                <a href="form_OP.html">
+                  <i class="fas fa-file"></i>
+                  <p>Form</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="monitoring_OP.html">
+                  <i class="fas fa-desktop"></i>
+                  <p>Monitoring</p>
+                  <span class="badge badge-success">1</span>
+                  <span class="badge badge-danger">1</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="download_OP.html">
+                  <i class="fas fa-download"></i>
+                  <p>Download</p>
+                </a>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
@@ -110,6 +172,20 @@
                   <p>Kelola Database</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#forms">
+                  <i class="fas fa-download"></i>
+                  <p>Download</p>
+                </a>
+              </li>
+              <style>
+                .nav-item a .badge-success {
+                  margin-right: 0; /* Remove space on the right side of the first badge */
+                }
+                .nav-item a .badge-danger {
+                  margin-left: 2px; /* Adjust this value to control the spacing between badges */
+                }
+              </style>
             </ul>
           </div>
         </div>
@@ -252,7 +328,7 @@
                     </li>
                   </ul>
                 </li>
-                
+
                 <li class="nav-item topbar-user dropdown hidden-caret">
                   <a
                     class="dropdown-toggle profile-pic"
@@ -326,8 +402,8 @@
                 <a href="#" class="btn btn-primary btn-round me-2">Kelola Form</a>
                 <a href="#" class="btn btn-primary btn-round me-2">Kelola Pengguna</a>
                 <a href="#" class="btn btn-primary btn-round me-2">Kelola Database</a>
-                
-                
+
+
               </div>
             </div>
             <div class="row">
@@ -464,9 +540,9 @@
                   </div>
                 </div>
               </div>
-            
-            
-              
+
+
+
               <div class="col-md-8">
                 <div class="card card-round">
                   <div class="card-header">
@@ -588,12 +664,12 @@
               2024, made with <i class="fa fa-heart heart text-danger"></i> by
               <a href="#">Kelompok 3 3SI2</a>
             </div>
-            
+
           </div>
         </footer>-->
       </div>
 
-      
+
     </div>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
