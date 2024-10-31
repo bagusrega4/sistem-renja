@@ -81,7 +81,7 @@
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <!-- <link rel="stylesheet" href="assets/css/demo.css" /> -->
   </head>
   <body>
     <div class="wrapper">
@@ -364,6 +364,162 @@
         </div>
         <!-- End Navbar -->
 
+        <!-- Modal Notification all -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
+              </div>
+              <div class="modal-body">
+                <div class="notification-item">
+                  <div class="notif-icon notif-success">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Selesai</strong>
+                    <p>5 minutes ago</p>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notif-icon notif-danger">
+                    <i class="fa fa-file-alt"></i>
+                  </div>
+                  <div class="notification-text">
+                    <strong>Pengajuan Ditolak</strong>
+                    <p>12 minutes ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Delete -->
+        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
+              </div>
+              <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
+                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal View -->
+        <div class="modal fade" id="viewModalCenter" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>RO</th>
+                      <th>Komponen</th>
+                      <th>Sub Komponen</th>
+                      <th>Akun</th>
+                      <th>No. FP</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Nama Permintaan</th>
+                      <th>No. SK</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
+                      <td class="text-end">001-Gaji & Tunjangan</td>
+                      <td class="text-end">EWS</td>
+                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
+                      <td class="text-end">144</td>
+                      <td class="text-end">15/04/2024 - 20/04/2024</td>
+                      <td class="text-end">Supervisi Sensus Ekonomi</td>
+                      <td class="text-end">001/31510/VS.100/2024</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif acc -->
+        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>195</td>
+                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                      <td>16/07/2024 - 27/07/2024</td>
+                      <td>
+                        <span class="badge badge-success">Selesai</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal natif tolak -->
+        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>No. FP</th>
+                      <th>Nama Permintaan</th>
+                      <th>Tanggal Kegiatan</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>175</td>
+                      <td>Supervisi Sensus Penduduk</td>
+                      <td>18/05/2024 - 26/05/2024</td>
+                      <td>
+                        <span class="badge badge-danger">Entri Operator</span>
+                      </td>
+                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="container">
           <div class="page-inner">
             <div
@@ -374,8 +530,8 @@
                 <h6 class="op-7 mb-2">Monitoring pengajuan yang dilakukan oleh Tim Keuangan</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <!--<a href="#" class="btn btn-label-info btn-round me-2">Monitoring</a>-->
-                <a href="#" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+                <!-- <a href="monitoring_file_keuangan.html" class="btn btn-label-info btn-round me-2">Monitoring File</a> -->
+                <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
               </div>
             </div>
 
@@ -433,13 +589,13 @@
                           <td>Yulia Dhita</td>
                           <td class="text-end">
                             <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2">
+                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                               </button>
-                              <button class="btn btn-info btn-sm me-2">
+                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                               </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi">
+                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             </div>
@@ -467,13 +623,13 @@
                           <td>Blessi Muntia</td>
                           <td class="text-end">
                             <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2">
+                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                               </button>
-                              <button class="btn btn-info btn-sm me-2">
+                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                               </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi">
+                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             </div>
@@ -502,13 +658,13 @@
                           <td>Imalia Rosida</td>
                           <td class="text-end">
                             <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2">
+                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                               </button>
-                              <button class="btn btn-info btn-sm me-2">
+                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                               </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi">
+                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             </div>
@@ -538,15 +694,15 @@
                           <td>Agape Bagus Rega</td>
                           <td class="text-end">
                             <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2">
+                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                               </button>
-                              <button class="btn btn-info btn-sm me-2">
+                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                               </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi">
+                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
                                 <i class="fas fa-pencil-alt"></i>
-                            </button>
+                              </button>
                             </div>
                           </td>
                           <td class="text-end">
@@ -573,13 +729,13 @@
                           <td>Muhammad Ilham</td>
                           <td class="text-end">
                             <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2">
+                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                               </button>
-                              <button class="btn btn-info btn-sm me-2">
+                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                               </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi">
+                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                             </div>
@@ -673,29 +829,5 @@
     <script src="assets/js/setting-demo.js"></script>
     <script src="assets/js/demo.js"></script> -->
 
-    <script>
-        const ctx = document.getElementById('statisticsChart').getContext('2d');
-        const data = {
-          labels: ['Jumlah Pengajuan', 'Approved', 'Rejected', 'Dalam Proses'],
-          datasets: [{
-            label: 'Statistik Pengajuan',
-            data: [129, 90, 20, 19],
-            backgroundColor: ['blue', 'green', 'red', 'orange'],
-          }]
-        };
-        const config = {
-          type: 'bar',
-          data: data,
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            }
-          }
-        };
-        const statisticsChart = new Chart(ctx, config);
-      </script>
   </body>
 </html>
