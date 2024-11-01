@@ -174,10 +174,43 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="menage_flag.html">
-              <i class="fas fa-flag"></i>
-              <p>Menage Flag</p>
+            <a data-bs-toggle="collapse" href="#flag">
+                <i class="fas fa-flag"></i>
+                <p>Manage Flag</p>
+                <span class="caret"></span>
             </a>
+            <div class="collapse" id="flag">
+                <ul class="nav nav-collapse">
+                    <li>
+                        <a href="manage_flag_akun.html">
+                            <span class="sub-item"
+                                >Akun</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a href="manage_flag_komponen.html">
+                            <span class="sub-item"
+                                >Komponen</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a href="manage_flag_subkomponen.html">
+                            <span class="sub-item"
+                                >Subkomponen</span
+                            >
+                        </a>
+                    </li>
+                    <li>
+                        <a href="manage_flag_output.html">
+                            <span class="sub-item"
+                                >Output</span
+                            >
+                        </a>
+                    </li>
+                </ul>
+            </div>
           </li>
           <style>
             .nav-item a .badge-success {
@@ -186,7 +219,7 @@
             .nav-item a .badge-danger {
               margin-left: 2px; /* Adjust this value to control the spacing between badges */
             }
-          </style>              
+          </style>
         </ul>
       </div>
     </div>
