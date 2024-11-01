@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Bukti Dukung Administrasi | BPS DKI Jakarta</title>
+    <style>
+        .modal-body {
+          padding: 15px;
+        }
+
+        .notification-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .notif-icon {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          color: white;
+          font-size: 18px;
+          margin-right: 10px;
+        }
+
+        .notif-success {
+          background-color: #28a745; /* Green for success */
+        }
+
+        .notif-danger {
+          background-color: #dc3545; /* Red for danger */
+        }
+
+        .notification-text strong {
+          font-size: 14px;
+          color: #333;
+        }
+
+        .notification-text p {
+          font-size: 12px;
+          color: #666;
+          margin: 0;
+        }
+      </style>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="../assets/img/kaiadmin/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["../assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <!-- <link rel="stylesheet" href="../assets/css/demo.css" /> -->
+  </head>
+  <body>
+    <div class="wrapper">
+<!-- Sidebar -->
+<div class="sidebar" data-background-color="dark">
+  <div class="sidebar-logo">
+    <!-- Logo Header -->
+    <div class="logo-header" data-background-color="dark">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img
+          src="../assets/img/kaiadmin/logo_bps.png"
+          alt="navbar brand"
+          class="navbar-brand"
+          height="30"
+        />
+        <span class="ms-1 text-white fw-bold">DKI Jakarta</span> <!-- Tulisan DKI Jakarta -->
+      </a>
+      <div class="nav-toggle">
+        <button class="btn btn-toggle toggle-sidebar">
+          <i class="gg-menu-right"></i>
+        </button>
+        <button class="btn btn-toggle sidenav-toggler">
+          <i class="gg-menu-left"></i>
+        </button>
+      </div>
+      <button class="topbar-toggler more">
+        <i class="gg-more-vertical-alt"></i>
+      </button>
+    </div>
+    <!-- End Logo Header -->
+    </div>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+      <div class="sidebar-content">
+        <ul class="nav nav-secondary">
+          <li class="nav-item">
+            <a href="dashboard_admin.html">
+              <i class="fas fa-home"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-section">
+            <span class="sidebar-mini-icon">
+              <i class="fa fa-ellipsis-h"></i>
+            </span>
+            <h4 class="text-section">Components</h4>
+          </li>
+          <li class="nav-item">
+            <a href="form_admin.html">
+              <i class="fas fa-file"></i>
+              <p>Form</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#base">
+              <i class="fas fa-desktop"></i>
+              <p>Monitoring</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse show" id="base">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="monitoring_OP.html">
+                    <span class="sub-item">Operator</span>
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="monitoring_keuangan.html">
+                    <span class="sub-item">Keuangan</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="download_admin.html">
+              <i class="fas fa-download"></i>
+              <p>Download</p>
+            </a>
+          </li>
+          <li class="nav-section">
+            <span class="sidebar-mini-icon">
+              <i class="fa fa-ellipsis-h"></i>
+            </span>
+            <h4 class="text-section">Settings</h4>
+          </li>
+          <li class="nav-item">
+            <a href="menage_akun.html">
+              <i class="fas fa-cog"></i>
+              <p>Menage Akun</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="menage_flag.html">
+              <i class="fas fa-flag"></i>
+              <p>Menage Flag</p>
+            </a>
+          </li>
+          <style>
+            .nav-item a .badge-success {
+              margin-right: 0; /* Remove space on the right side of the first badge */
+            }
+            .nav-item a .badge-danger {
+              margin-left: 2px; /* Adjust this value to control the spacing between badges */
+            }
+          </style>              
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="index.html" class="logo">
+                        <img
+                            src="../assets/img/kaiadmin/logo_light.svg"
+                            alt="navbar brand"
+                            class="navbar-brand"
+                            height="20"
+                        />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <!-- Navbar Header -->
+            <nav
+                class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+            >
+                <div class="container-fluid">
+                    <ul
+                        class="navbar-nav topbar-nav ms-md-auto align-items-center"
+                    >
+                        <li
+                            class="nav-item topbar-icon dropdown hidden-caret"
+                        >
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="notifDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <i class="fa fa-bell"></i>
+                                <span class="notification">2</span>
+                            </a>
+                            <ul
+                                class="dropdown-menu notif-box animated fadeIn"
+                                aria-labelledby="notifDropdown"
+                            >
+                                <li>
+                                    <div class="dropdown-title">
+                                        You have 2 new notification
+                                    </div>
+                                </li>
+                                <li>
+                                    <div
+                                        class="notif-scroll scrollbar-outer"
+                                    >
+                                        <div class="notif-center">
+                                            <a
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#accModalCenter"
+                                            >
+                                                <div
+                                                    class="notif-icon notif-success"
+                                                >
+                                                    <i
+                                                        class="fa fa-file-alt"
+                                                    ></i>
+                                                </div>
+                                                <div
+                                                    class="notif-content"
+                                                >
+                                                    <span class="block">
+                                                        Pengajuan
+                                                        Selesai
+                                                    </span>
+                                                    <span class="time"
+                                                        >5 minutes
+                                                        ago</span
+                                                    >
+                                                </div>
+                                            </a>
+                                            <a
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#tolakModalCenter"
+                                            >
+                                                <div
+                                                    class="notif-icon notif-danger"
+                                                >
+                                                    <i
+                                                        class="fa fa-file-alt"
+                                                    ></i>
+                                                </div>
+                                                <div
+                                                    class="notif-content"
+                                                >
+                                                    <span class="block">
+                                                        Pengajuan
+                                                        Ditolak
+                                                    </span>
+                                                    <span class="time"
+                                                        >12 minutes
+                                                        ago</span
+                                                    >
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <button
+                                    type="button"
+                                    class="btn btn-see-all"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter"
+                                >
+                                    See all notifications
+                                    <i class="fa fa-angle-right"></i>
+                                </button>
+                            </ul>
+                        </li>
+                        <li
+                            class="nav-item topbar-user dropdown hidden-caret"
+                        >
+                            <a
+                                class="dropdown-toggle profile-pic"
+                                data-bs-toggle="dropdown"
+                                href="#"
+                                aria-expanded="false"
+                            >
+                                <div class="avatar-sm">
+                                    <img
+                                        src="../assets/img/profile.png"
+                                        alt="..."
+                                        class="avatar-img rounded-circle"
+                                    />
+                                </div>
+                                <span class="profile-username">
+                                    <span class="op-7">Hi,</span>
+                                    <span class="fw-bold"
+                                        >Tim Keuangan</span
+                                    >
+                                </span>
+                            </a>
+                            <ul
+                                class="dropdown-menu dropdown-user animated fadeIn"
+                            >
+                                <div
+                                    class="dropdown-user-scroll scrollbar-outer"
+                                >
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="avatar-lg">
+                                                <img
+                                                    src="../assets/img/profile.jpg"
+                                                    alt="image profile"
+                                                    class="avatar-img rounded"
+                                                />
+                                            </div>
+                                            <div class="u-text">
+                                                <h4>
+                                                    Agape Bagus Rega
+                                                    Anggara
+                                                </h4>
+                                                <p class="text-muted">
+                                                    bagusrega4@gmail.com
+                                                </p>
+                                                <p class="text-muted">
+                                                    as Financial Team
+                                                </p>
+                                                <a
+                                                    href="profile-OP.html"
+                                                    class="btn btn-xs btn-secondary btn-sm"
+                                                    >View Profile</a
+                                                >
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div
+                                            class="dropdown-divider"
+                                        ></div>
+                                        <a
+                                            class="dropdown-item"
+                                            href="#"
+                                            >Logout</a
+                                        >
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End Navbar -->
+
+        <div class="container">
+          <div class="page-inner">
+            <div
+              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
+            >
+            <div>
+              <a href="monitoring_keuangan.html" class="btn btn-dark mb-4">
+                  <i class="fas fa-arrow-left"></i>   Back
+              </a>
+              <h3 class="fw-bold mb-3">Monitoring File</h3>
+              <h6 class="op-7 mb-2">Monitoring pada berkas yang telah di upload operator dan beri pesetujuan untuk pengajuan</h6>
+          </div>
+
+
+            </div>
+
+
+            <!-- Tabel Monitoring-->
+
+            <div class="col-md-12">
+              <div class="card card-round">
+                <div class="card-header">
+                  <div class="card-head-row card-tools-still-right">
+                    <div class="card-title">Supervisi Survei Ekonomi Nasional</div>
+
+                  </div>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table id="example" class="table table-striped" style="width:100%">
+
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Dokumen Rencana Anggaran</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button class="btn btn-success btn-sm me-2">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Dokumen Kontrak Kerja</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button class="btn btn-success btn-sm me-2">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Dokumen Laporan Keuangan</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button class="btn btn-success btn-sm me-2">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">4</th>
+                          <td>Dokumen Pengadaan Barang</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button class="btn btn-success btn-sm me-2">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">5</th>
+                          <td>Dokumen Sertifikat Pelatihan</td>
+                          <td>
+                            <div class="d-flex justify-content-end">
+                              <button class="btn btn-success btn-sm me-2">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                      <tfoot>
+
+                      </tfoot>
+                    </table>
+
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="ms-md-auto py-2 py-md-0 text-end">
+                <a href="#" class="btn btn-success btn-round">
+                  <i class="fas fa-check"></i> Approve Pengajuan
+                </a>
+                <a href="#" class="btn btn-danger btn-round">
+                  <i class="fas fa-times"></i> Reject Pengajuan
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <!--
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    BPS Provinsi DKI Jakarta
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Help </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Licenses </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="copyright">
+              2024, made with <i class="fa fa-heart heart text-danger"></i> by
+              <a href="#">Kelompok 3 3SI2</a>
+            </div>
+
+          </div>
+        </footer>-->
+      </div>
+
+
+    </div>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="../assets/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/world.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="../assets/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <!-- <script src="../assets/js/setting-demo.js"></script>
+    <script src="../assets/js/demo.js"></script> -->
+  </body>
+</html>
