@@ -134,13 +134,30 @@
                     <p>Form</p>
                   </a>
                 </li>
-                <li class="nav-item active">
-                  <a href="monitoring_keuangan.html">
-                    <i class="fas fa-desktop"></i>
-                    <p>Monitoring</p>
-                    <span class="badge badge-success">1</span>
-                    <span class="badge badge-danger">1</span>
-                  </a>
+                <li class="nav-item active submenu">
+                    <a data-bs-toggle="collapse" href="#monitoring">
+                      <i class="fas fa-desktop"></i>
+                      <p>Monitoring</p>
+                      <span class="caret"></span>
+                    </a>
+                    <div class="collapse show" id="monitoring">
+                        <ul class="nav nav-collapse">
+                          <li>
+                            <a href="monitoring_OP_keuangan.html">
+                              <span class="sub-item">Operator</span>
+                              <span class="badge badge-success">1</span>
+                              <span class="badge badge-danger">1</span>
+                            </a>
+                          </li>
+                          <li class="active">
+                            <a href="monitoring_keuangan.html">
+                              <span class="sub-item">Keuangan</span>
+                              <span class="badge badge-success">1</span>
+                              <span class="badge badge-danger">1</span>
+                            </a>
+                          </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                   <a href="download_keuangan.html">
@@ -463,14 +480,6 @@
 
                 </div>
 
-              </div>
-              <div class="ms-md-auto py-2 py-md-0 text-end">
-                <a href="#" class="btn btn-success btn-round">
-                  <i class="fas fa-check"></i> Approve Pengajuan
-                </a>
-                <a href="#" class="btn btn-danger btn-round">
-                  <i class="fas fa-times"></i> Reject Pengajuan
-                </a>
               </div>
             </div>
           </div>

@@ -90,7 +90,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="dashboard_keuangan.html" class="logo d-flex align-items-center">
               <img
                 src="assets/img/logo-bps.png"
                 alt="navbar brand"
@@ -116,7 +116,7 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a href="dashboard_keuangan.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
@@ -134,13 +134,30 @@
                   <p>Form</p>
                 </a>
               </li>
-              <li class="nav-item active">
-                <a href="monitoring_keuangan.html">
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#monitoring">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
-                  <span class="badge badge-success">1</span>
-                  <span class="badge badge-danger">1</span>
+                  <span class="caret"></span>
                 </a>
+                <div class="collapse" id="monitoring">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="monitoring_OP_keuangan.html">
+                          <span class="sub-item">Operator</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="monitoring_keuangan.html">
+                          <span class="sub-item">Keuangan</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a href="download_keuangan.html">
@@ -364,7 +381,7 @@
         </div>
         <!-- End Navbar -->
 
-        <!-- Modal Notification all -->
+        <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -390,63 +407,6 @@
                     <p>12 minutes ago</p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal Delete -->
-        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
-              </div>
-              <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
-                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal View -->
-        <div class="modal fade" id="viewModalCenter" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
-              </div>
-              <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>RO</th>
-                      <th>Komponen</th>
-                      <th>Sub Komponen</th>
-                      <th>Akun</th>
-                      <th>No. FP</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Nama Permintaan</th>
-                      <th>No. SK</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
-                      <td class="text-end">001-Gaji & Tunjangan</td>
-                      <td class="text-end">EWS</td>
-                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
-                      <td class="text-end">144</td>
-                      <td class="text-end">15/04/2024 - 20/04/2024</td>
-                      <td class="text-end">Supervisi Sensus Ekonomi</td>
-                      <td class="text-end">001/31510/VS.100/2024</td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
@@ -520,251 +480,137 @@
           </div>
         </div>
 
+        <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
             <div
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h3 class="fw-bold mb-3">Monitoring Keuangan</h3>
-                <h6 class="op-7 mb-2">Monitoring pengajuan yang dilakukan oleh Tim Keuangan</h6>
+                <h3 class="fw-bold mb-3">Dashboard Keuangan</h3>
+                <h6 class="op-7 mb-2">Lihat statistik pengajuan yang masuk dari pegawai BPS Provinsi DKI Jakarta</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <!-- <a href="monitoring_file_keuangan.html" class="btn btn-label-info btn-round me-2">Monitoring File</a> -->
-                <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+                <a href="monitoring_OP_keuangan.html" class="btn btn-secondary btn-round me-2">Monitoring Operator</a>
+                <a href="monitoring_keuangan.html" class="btn btn-primary btn-round me-2">Monitoring Keuangan</a>
+                <a href="form_keuangan.html" class="btn btn-label-info btn-round">Add Pengajuan</a>
               </div>
             </div>
-
-
-            <!-- Tabel Monitoring-->
-
-            <div class="col-md-12">
-              <div class="card card-round">
-                <div class="card-header">
-                  <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Tabel Monitoring</div>
-                    <div class="card-tools">
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-icon btn-clean me-0"
-                          type="button"
-                          id="dropdownMenuButton"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
+            <div class="row">
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-primary bubble-shadow-small"
                         >
-                          <i class="fas fa-filter"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#">Range Tanggal</a>
-                          <a class="dropdown-item" href="#">Akun Belanja</a>
+                          <i class="fas fa-file-alt"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Pengajuan</p>
+                          <h4 class="card-title">594</h4>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-body p-0">
-                  <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table id="example" class="table table-striped" style="width:100%">
-                      <thead>
-                          <tr>
-                              <th>No.</th>
-                              <th>No. FP</th>
-                              <th>Tanggal Kegiatan</th>
-                              <th>Nama Permintaan</th>
-                              <th>Nama Pengaju</th>
-                              <th>Aksi</th>
-                              <th>Status</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">
-                            1
-                          </th>
-                          <td class="text-end">144</td>
-                          <td class="text-end">15/04/2024 - 20/04/2024</td>
-                          <td class="text-end">Supervisi Sensus Ekonomi</td>
-                          <td>Yulia Dhita</td>
-                          <td class="text-end">
-                            <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                  <i class="fas fa-desktop"></i>
-                              </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            </div>
-                          </td>
-                          <td class="text-end">
-                            <div class="dropdown">
-                              <button class="btn btn-warning dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Pengecekan Dokumen
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                  <li><a class="dropdown-item" href="#">Proses Pembayaran</a></li>
-                                  <li><a class="dropdown-item" href="#">Pengecekan Dokumen</a></li>
-                                  <li><a class="dropdown-item" href="#">Rejected</a></li>
-                                  <li><a class="dropdown-item" href="#">Selesai</a></li>
-                              </ul>
-                          </div>                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            2
-                          </th>
-                          <td class="text-end">175</td>
-                          <td class="text-end">18/05/2024 - 26/05/2024</td>
-                          <td class="text-end">Supervisi Sensus Penduduk</td>
-                          <td>Blessi Muntia</td>
-                          <td class="text-end">
-                            <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                  <i class="fas fa-desktop"></i>
-                              </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            </div>
-                          </td>
-                          <td class="text-end">
-                            <div class="dropdown">
-                              <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Proses Pembayaran
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                  <li><a class="dropdown-item" href="#">Proses Pembayaran</a></li>
-                                  <li><a class="dropdown-item" href="#">Pengecekan Dokumen</a></li>
-                                  <li><a class="dropdown-item" href="#">Rejected</a></li>
-                                  <li><a class="dropdown-item" href="#">Selesai</a></li>
-                              </ul>
-                          </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            3
-                          </th>
-                          <td class="text-end">165</td>
-                          <td class="text-end">04/06/2024 - 10/06/2024</td>
-                          <td class="text-end">Supervisi Sensus Tani</td>
-                          <td>Imalia Rosida</td>
-                          <td class="text-end">
-                            <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                  <i class="fas fa-desktop"></i>
-                              </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            </div>
-                          </td>
-                          <td class="text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-warning dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pengecekan Dokumen
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                    <li><a class="dropdown-item" href="#">Proses Pembayaran</a></li>
-                                    <li><a class="dropdown-item" href="#">Pengecekan Dokumen</a></li>
-                                    <li><a class="dropdown-item" href="#">Rejected</a></li>
-                                    <li><a class="dropdown-item" href="#">Selesai</a></li>
-                                </ul>
-                            </div>
-                        </td>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-info bubble-shadow-small bg-success"
+                        >
+                          <i class="fas fa-check"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Pengajuan di Approved</p>
+                          <h4 class="card-title">303</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-success bubble-shadow-small bg-danger"
+                        >
+                          <i class="fas fa-times"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Pengajuan di Rejected</p>
+                          <h4 class="card-title">45</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-secondary bubble-shadow-small"
+                        >
+                          <i class="fas fa-cog"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Dalam Proses</p>
+                          <h4 class="card-title">76</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            4
-                          </th>
-                          <td class="text-end">180</td>
-                          <td class="text-end">14/06/2024 - 21/06/2024</td>
-                          <td class="text-end">Supervisi Survei Indeks Pembangunan Manusia</td>
-                          <td>Agape Bagus Rega</td>
-                          <td class="text-end">
-                            <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                  <i class="fas fa-desktop"></i>
-                              </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
-                                <i class="fas fa-pencil-alt"></i>
-                              </button>
-                            </div>
-                          </td>
-                          <td class="text-end">
-                            <div class="dropdown">
-                              <button class="btn btn-danger dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Rejected
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                  <li><a class="dropdown-item" href="#">Proses Pembayaran</a></li>
-                                  <li><a class="dropdown-item" href="#">Pengecekan Dokumen</a></li>
-                                  <li><a class="dropdown-item" href="#">Rejected</a></li>
-                                  <li><a class="dropdown-item" href="#">Selesai</a></li>
-                              </ul>
-                          </div>
-                        </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            5
-                          </th>
-                          <td class="text-end">195</td>
-                          <td class="text-end">16/07/2024 - 27/07/2024</td>
-                          <td class="text-end">Supervisi Survei Angakatan Kerja Nasional</td>
-                          <td>Muhammad Ilham</td>
-                          <td class="text-end">
-                            <div class="d-flex justify-content-end">
-                              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                  <i class="fas fa-desktop"></i>
-                              </button>
-                              <button class="btn btn-success btn-sm me-2" aria-label="Ubah Informasi" onclick="window.location.href='form_keuangan.html'">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            </div>
-                          </td>
-                          <td class="text-end">
-                            <div class="dropdown">
-                              <button class="btn btn-success dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Selesai
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                  <li><a class="dropdown-item" href="#">Proses Pembayaran</a></li>
-                                  <li><a class="dropdown-item" href="#">Pengecekan Dokumen</a></li>
-                                  <li><a class="dropdown-item" href="#">Rejected</a></li>
-                                  <li><a class="dropdown-item" href="#">Selesai</a></li>
-                              </ul>
-                          </div>
-                        </td>
-                        </tr>
-                      </tbody>
-                    </table>
+            <div class="row justify-content-center">
+                <div class="col-md-10 center">
+                  <div class="card card-round">
+                    <div class="card-header">
+                      <div class="card-head-row">
+                        <div class="card-title">Statistik Pengajuan</div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="chart-container" style="min-height: 375px">
+                        <canvas id="statisticsChart"></canvas>
+                      </div>
+                      <ul class="html-legend">
+                        <li><span style="background-color: blue;"></span> Jumlah Pengajuan</li>
+                        <li><span style="background-color: green;"></span> Pengajuan Approved</li>
+                        <li><span style="background-color: red;"></span> Pengajuan Rejected</li>
+                        <li><span style="background-color: orange;"></span> Pengajuan Dalam Proses</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
-      <!--
-        <footer class="footer">
+
+       <!-- <footer class="footer">
           <div class="container-fluid d-flex justify-content-between">
             <nav class="pull-left">
               <ul class="nav">
@@ -825,9 +671,33 @@
     <!-- Kaiadmin JS -->
     <script src="assets/js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project!
-    <script src="assets/js/setting-demo.js"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <!-- <script src="assets/js/setting-demo.js"></script>
     <script src="assets/js/demo.js"></script> -->
 
+    <script>
+        const ctx = document.getElementById('statisticsChart').getContext('2d');
+        const data = {
+          labels: ['Jumlah Pengajuan', 'Approved', 'Rejected', 'Dalam Proses'],
+          datasets: [{
+            label: 'Statistik Pengajuan',
+            data: [594, 303, 45, 76],
+            backgroundColor: ['blue', 'green', 'red', 'orange'],
+          }]
+        };
+        const config = {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
+        const statisticsChart = new Chart(ctx, config);
+      </script>
   </body>
 </html>

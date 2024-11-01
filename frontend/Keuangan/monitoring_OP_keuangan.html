@@ -64,7 +64,7 @@
     />
     <link
       rel="icon"
-      href="assets/img/kaiadmin/favicon.ico"
+      href="assets/img/logo-bps.png"
       type="image/x-icon"
     />
 
@@ -130,7 +130,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="dashboard_operator.html">
+                <a href="dashboard_keuangan.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
                 </a>
@@ -142,21 +142,38 @@
                 <h4 class="text-section">Components</h4>
               </li>
               <li class="nav-item">
-                <a href="form_OP.html">
+                <a href="form_keuangan.html">
                   <i class="fas fa-file"></i>
                   <p>Form</p>
                 </a>
               </li>
-              <li class="nav-item active">
-                <a href="monitoring_OP.html">
+              <li class="nav-item active submenu">
+                <a data-bs-toggle="collapse" href="#monitoring">
                   <i class="fas fa-desktop"></i>
                   <p>Monitoring</p>
-                  <span class="badge badge-success">1</span>
-                  <span class="badge badge-danger">1</span>
+                  <span class="caret"></span>
                 </a>
+                <div class="collapse show" id="monitoring">
+                    <ul class="nav nav-collapse">
+                      <li class="active">
+                        <a href="monitoring_OP_keuangan.html">
+                          <span class="sub-item">Operator</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="monitoring_keuangan.html">
+                          <span class="sub-item">Keuangan</span>
+                          <span class="badge badge-success">1</span>
+                          <span class="badge badge-danger">1</span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
-                <a href="download_OP.html">
+                <a href="download_keuangan.html">
                   <i class="fas fa-download"></i>
                   <p>Download</p>
                 </a>
@@ -377,32 +394,34 @@
                 <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
               </div>
               <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>RO</th>
-                      <th>Komponen</th>
-                      <th>Sub Komponen</th>
-                      <th>Akun</th>
-                      <th>No. FP</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Nama Permintaan</th>
-                      <th>No. SK</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
-                      <td class="text-end">001-Gaji & Tunjangan</td>
-                      <td class="text-end">EWS</td>
-                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
-                      <td class="text-end">144</td>
-                      <td class="text-end">15/04/2024 - 20/04/2024</td>
-                      <td class="text-end">Supervisi Sensus Ekonomi</td>
-                      <td class="text-end">001/31510/VS.100/2024</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table class="table table-striped" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>RO</th>
+                        <th>Komponen</th>
+                        <th>Sub Komponen</th>
+                        <th>Akun</th>
+                        <th>No. FP</th>
+                        <th>Tanggal Kegiatan</th>
+                        <th>Nama Permintaan</th>
+                        <th>No. SK</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
+                        <td class="text-end">001-Gaji & Tunjangan</td>
+                        <td class="text-end">EWS</td>
+                        <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
+                        <td class="text-end">144</td>
+                        <td class="text-end">15/04/2024 - 20/04/2024</td>
+                        <td class="text-end">Supervisi Sensus Ekonomi</td>
+                        <td class="text-end">001/31510/VS.100/2024</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -483,11 +502,11 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Monitoring</h2>
-                <h6 class="op-7 mb-2">Monitoring Rincian Kegiatan</h6>
+                <h2 class="fw-bold mb-3">Monitoring Operator</h2>
+                <h6 class="op-7 mb-2">Monitoring rincian kegiatan yang telah diajukan</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_OP.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+                <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
               </div>
             </div>
               <div class="col-md-12">
@@ -542,10 +561,10 @@
                                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_keuangan.html'">
                                   <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload-file-operator.html'">
+                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
@@ -569,10 +588,10 @@
                                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_keuangan.html'">
                                   <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload-file-operator.html'">
+                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
@@ -596,10 +615,10 @@
                                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_keuangan.html'">
                                   <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload-file-operator.html'">
+                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
@@ -623,10 +642,10 @@
                                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
                                   <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_OP.html'">
+                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_keuangan.html'">
                                   <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload-file-operator.html'">
+                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP_keuangan.html'">
                                   <i class="fas fa-desktop"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
