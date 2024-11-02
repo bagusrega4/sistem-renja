@@ -138,19 +138,19 @@
                                 </span>
                                 <h4 class="text-section">Components</h4>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a href="form_keuangan.html">
                                     <i class="fas fa-file"></i>
                                     <p>Form</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item active submenu">
                                 <a data-bs-toggle="collapse" href="#monitoring">
                                     <i class="fas fa-desktop"></i>
                                     <p>Monitoring</p>
                                     <span class="caret"></span>
                                 </a>
-                                <div class="collapse" id="monitoring">
+                                <div class="collapse show" id="monitoring">
                                     <ul class="nav nav-collapse">
                                         <li>
                                             <a
@@ -168,7 +168,7 @@
                                                 >
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="active">
                                             <a href="monitoring_keuangan.html">
                                                 <span class="sub-item"
                                                     >Keuangan</span
@@ -575,13 +575,19 @@
                             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
                         >
                             <div>
+                                <a
+                                    href="monitoring_keuangan.html"
+                                    class="btn btn-dark mb-4"
+                                >
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </a>
                                 <h2 class="fw-bold mb-3">Form Tim Keuangan</h2>
                                 <h6 class="op-7 mb-2">
-                                    Form Upload File Tim Keuangan 
-                                    BPS Provinsi DKI Jakarta Tahun Anggaran 2024
+                                    Form Upload File Tim Keuangan BPS Provinsi
+                                    DKI Jakarta Tahun Anggaran 2024
                                 </h6>
                             </div>
-                            <div class="ms-md-auto py-2 py-md-0">
+                            <!-- <div class="ms-md-auto py-2 py-md-0">
                                 <a
                                     href="monitoring_OP_keuangan.html"
                                     class="btn btn-secondary btn-round me-2"
@@ -592,14 +598,14 @@
                                     class="btn btn-primary btn-round me-2"
                                     >Monitoring Keuangan</a
                                 >
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- Form Section -->
                         <form>
                             <div class="mb-3">
                                 <label for="noSPBy" class="form-label"
-                                    >No. SPBy 
+                                    >No. SPBy
                                     <span class="text-danger">*</span></label
                                 >
                                 <input
@@ -667,73 +673,115 @@
 
                             <div class="col-md-14">
                                 <div class="card h-100">
-                                  <div class="card-body">
-                                    <div class="container">
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="label">Bukti Transfer</div>
-                                      </div>
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="col-md-4">
-                                          <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="label">
+                                                    Bukti Transfer
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="col-md-4">
+                                                    <input
+                                                        type="file"
+                                                        id="profilePhoto"
+                                                        class="form-control"
+                                                        accept="image/*"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
+                            </div>
 
-                              <div class="col-md-14">
+                            <div class="col-md-14">
                                 <div class="card h-100">
-                                  <div class="card-body">
-                                    <div class="container">
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="label">SPJ Honor Innas</div>
-                                      </div>
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="col-md-4">
-                                          <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="label">
+                                                    SPJ Honor Innas
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="col-md-4">
+                                                    <input
+                                                        type="file"
+                                                        id="profilePhoto"
+                                                        class="form-control"
+                                                        accept="image/*"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
+                            </div>
 
-                              <div class="col-md-14">
+                            <div class="col-md-14">
                                 <div class="card h-100">
-                                  <div class="card-body">
-                                    <div class="container">
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="label">SSP Honor Innas</div>
-                                      </div>
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="col-md-4">
-                                          <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="label">
+                                                    SSP Honor Innas
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="col-md-4">
+                                                    <input
+                                                        type="file"
+                                                        id="profilePhoto"
+                                                        class="form-control"
+                                                        accept="image/*"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
+                            </div>
 
-                              <div class="col-md-14">
+                            <div class="col-md-14">
                                 <div class="card h-100">
-                                  <div class="card-body">
-                                    <div class="container">
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="label">File Tim Keuangan lainnya</div>
-                                      </div>
-                                      <div class="mb-3 d-flex align-items-center">
-                                        <div class="col-md-4">
-                                          <input type="file" id="profilePhoto" class="form-control" accept="image/*">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="label">
+                                                    File Tim Keuangan lainnya
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mb-3 d-flex align-items-center"
+                                            >
+                                                <div class="col-md-4">
+                                                    <input
+                                                        type="file"
+                                                        id="profilePhoto"
+                                                        class="form-control"
+                                                        accept="image/*"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
-
-                            
+                            </div>
                         </form>
 
                         <div
