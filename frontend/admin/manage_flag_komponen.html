@@ -130,7 +130,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="dashboard_admin.html">
+                <a href="index.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
                 </a>
@@ -439,113 +439,6 @@
           </div>
         </div>
 
-        <!-- Modal View -->
-        <div class="modal fade" id="viewModalCenter" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
-              </div>
-              <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>RO</th>
-                      <th>Komponen</th>
-                      <th>Sub Komponen</th>
-                      <th>Akun</th>
-                      <th>No. FP</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Nama Permintaan</th>
-                      <th>No. SK</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-end">2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
-                      <td class="text-end">001-Gaji & Tunjangan</td>
-                      <td class="text-end">EWS</td>
-                      <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
-                      <td class="text-end">144</td>
-                      <td class="text-end">15/04/2024 - 20/04/2024</td>
-                      <td class="text-end">Supervisi Sensus Ekonomi</td>
-                      <td class="text-end">001/31510/VS.100/2024</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal natif acc -->
-        <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
-              </div>
-              <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>No. FP</th>
-                      <th>Nama Permintaan</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>195</td>
-                      <td>Supervisi Survei Angakatan Kerja Nasional</td>
-                      <td>16/07/2024 - 27/07/2024</td>
-                      <td>
-                        <span class="badge badge-success">Selesai</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal natif tolak -->
-        <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
-              </div>
-              <div class="modal-body">
-                <table class="table table-striped" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>No. FP</th>
-                      <th>Nama Permintaan</th>
-                      <th>Tanggal Kegiatan</th>
-                      <th>Status</th>
-                      <th>Catatan</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>175</td>
-                      <td>Supervisi Sensus Penduduk</td>
-                      <td>18/05/2024 - 26/05/2024</td>
-                      <td>
-                        <span class="badge badge-danger">Entri Operator</span>
-                      </td>
-                      <td>Terdapat kejanggalan dalam surat KAK anda</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Isi content halaman -->
         <div class="container">
           <div class="page-inner">
@@ -553,18 +446,18 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Monitoring</h2>
-                <h6 class="op-7 mb-2">Monitoring Rincian Kegiatan</h6>
+                <h2 class="fw-bold mb-3">Menage Flag</h2>
+                <h6 class="op-7 mb-2">Mengatur Flag Tabel Komponen</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_admin.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+                <a href="form_add_komponen_flag.html" class="btn btn-primary btn-round">Tambah Komponen</a>
               </div>
             </div>
               <div class="col-md-12">
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Tabel Monitoring</div>
+                      <div class="card-title">Tabel Komponen</div>
                       <div class="card-tools">
                         <div class="dropdown">
                           <button
@@ -592,11 +485,10 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>No. FP</th>
-                                <th>Tanggal Kegiatan</th>
-                                <th>Nama Permintaan</th>
+                                <th>Kode</th>
+                                <th>Nama Komponen</th>
+                                <th>Flag</th>
                                 <th>Aksi</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -604,108 +496,175 @@
                             <th scope="row">
                               1
                             </th>
-                            <td class="text-end">144</td>
-                            <td class="text-end">15/04/2024 - 20/04/2024</td>
-                            <td class="text-end">Supervisi Sensus Ekonomi</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
+                            <td class="text-start">522151</td>
+                            <td class="text-start">Belanja Jasa Profesi</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                1
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_admin.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
                               </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-warning">Pengecekan Dokumen</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
                               2
                             </th>
-                            <td class="text-end">175</td>
-                            <td class="text-end">18/05/2024 - 26/05/2024</td>
-                            <td class="text-end">Supervisi Sensus Penduduk</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
+                            <td class="text-start">2</td>
+                            <td class="text-start">Operasional dan Pemeliharaan Kantor</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_admin.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
                               </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-danger">Entri Operator</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
                               3
                             </th>
-                            <td class="text-end">165</td>
-                            <td class="text-end">04/06/2024 - 10/06/2024</td>
-                            <td class="text-end">Supervisi Sensus Tani</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
+                            <td class="text-start">5</td>
+                            <td class="text-start">Dukungan Penyelenggaraan Tugas dan Fungsi Unit</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_admin.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
                               </div>
-                            </td>
-                            <td class="text-end">
-                              <span class="badge badge-primary">Proses Pembayaran</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
                               4
                             </th>
-                            <td class="text-end">195</td>
-                            <td class="text-end">16/07/2024 - 27/07/2024</td>
-                            <td class="text-end">Supervisi Survei Angakatan Kerja Nasional</td>
-                            <td class="text-end">
-                              <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                  <i class="fas fa-eye"></i>
+                            <td class="text-start">51</td>
+                            <td class="text-start">Persiapan</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
                                 </button>
-                                <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='form_admin.html'">
-                                  <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_OP.html'">
-                                  <i class="fas fa-desktop"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
                               </div>
                             </td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Selesai</span>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              5
+                            </th>
+                            <td class="text-start">52</td>
+                            <td class="text-start">Pengumpulan Data</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              6
+                            </th>
+                            <td class="text-start">53</td>
+                            <td class="text-start">Pengolahan dan Analisis</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              7
+                            </th>
+                            <td class="text-start">54</td>
+                            <td class="text-start">Diseminasi dan Evaluasi</td>
+                            <td class="text-start">1</td>
+                            <td>
+                              <div class="btn-group dropdown">
+                                <button
+                                  class="btn btn-warning dropdown-toggle"
+                                  type="button"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  1
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a class="dropdown-item" href="#">1</a>
+                                    <a class="dropdown-item" href="#">0</a>
+                                  </li>
+                                </ul>
+                              </div>
                             </td>
                           </tr>
                         </tbody>
