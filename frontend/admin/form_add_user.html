@@ -181,21 +181,21 @@
                                 </span>
                                 <h4 class="text-section">Settings</h4>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item active">
                                 <a href="manage_akun.html">
-                                    <i class="fas fa-cog"></i>
-                                    <p>Manage Akun</p>
+                                    <i class="fas fa-users-cog"></i>
+                                    <p>Manage User</p>
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a data-bs-toggle="collapse" href="#flag">
                                     <i class="fas fa-flag"></i>
                                     <p>Manage Flag</p>
                                     <span class="caret"></span>
                                 </a>
-                                <div class="collapse show" id="flag">
+                                <div class="collapse" id="flag">
                                     <ul class="nav nav-collapse">
-                                        <li class="active">
+                                        <li>
                                             <a href="manage_flag_akun.html">
                                                 <span class="sub-item"
                                                     >Akun</span
@@ -511,7 +511,7 @@
                             <!-- Kode -->
                             <div class="mb-3">
                                 <label for="nomorFP" class="form-label"
-                                    >Kode
+                                    >Username
                                     <span class="text-danger">*</span></label
                                 >
                                 <input
@@ -523,10 +523,10 @@
                                 />
                             </div>
 
-                            <!-- Nomor SK -->
+                            <!-- Password -->
                             <div class="mb-3">
                                 <label for="nomorSK" class="form-label"
-                                    >Nama Akun
+                                    >Password
                                     <span class="text-danger">*</span></label
                                 >
                                 <input
@@ -536,6 +536,37 @@
                                     placeholder="Your answer"
                                     required
                                 />
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="nomorSK" class="form-label"
+                                    >Email
+                                    <span class="text-danger">*</span></label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="nomorSK"
+                                    placeholder="Your answer"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Role -->
+                            <div class="mb-3">
+                                <label for="ro" class="form-label"
+                                    >Role
+                                    <span class="text-danger">*</span></label
+                                >
+                                <select class="form-select" id="ro">
+                                    <option value="" disabled selected hidden>
+                                        Choose
+                                    </option>
+                                    <option value="1">User</option>
+                                    <option value="1">Keuangan</option>
+                                    <option value="1">Admin</option>
+                                </select>
                             </div>
                         </form>
 
