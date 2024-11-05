@@ -440,13 +440,8 @@
               <h3 class="fw-bold mb-3">Monitoring File</h3>
               <h6 class="op-7 mb-2">Monitoring pada berkas yang telah di upload operator dan beri pesetujuan untuk pengajuan</h6>
           </div>
-
-
             </div>
-
-
             <!-- Tabel Monitoring-->
-
             <div class="col-md-12">
               <div class="card card-round">
                 <div class="card-header">
@@ -516,62 +511,46 @@
                             </div>
                           </td>
                         </tr>
-
                       </tbody>
-                      <tfoot>
-
-                      </tfoot>
                     </table>
-
                   </div>
-
                 </div>
-
               </div>
               <div class="ms-md-auto py-2 py-md-0 text-end">
                 <a href="#" class="btn btn-success btn-round">
                   <i class="fas fa-check"></i> Approve Pengajuan
                 </a>
-                <a href="#" class="btn btn-danger btn-round">
+                <a href="#" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#catatanModalCenter">
                   <i class="fas fa-times"></i> Reject Pengajuan
                 </a>
               </div>
             </div>
           </div>
+          <!-- Modal Catatan Penolakan -->
+          <div class="modal fade" id="catatanModalCenter" tabindex="-1" role="dialog" aria-labelledby="catatanModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="catatanModalCenterTitle">Tambahkan Catatan Penolakan</h5>
+                </div>
+                <div class="modal-body">
+                  <form id="rejectionForm">
+                    <div class="form-group">
+                      <label for="rejectionNote">Alasan Penolakan</label>
+                      <textarea class="form-control" id="rejectionNote" rows="5" placeholder="Masukkan alasan penolakan di sini..."></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" id="batal">Batal</button>
+                  <button type="button" class="btn btn-primary" onclick="saveRejectionNote()">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-
-
-
-
-      <!--
-        <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    BPS Provinsi DKI Jakarta
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="#">Kelompok 3 3SI2</a>
-            </div>
-
-          </div>
-        </footer>-->
       </div>
-
 
     </div>
     <!--   Core JS Files   -->
@@ -610,5 +589,18 @@
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <!-- <script src="../assets/js/setting-demo.js"></script>
     <script src="../assets/js/demo.js"></script> -->
+
+    <script>
+      function saveRejectionNote() {
+        const rejectionNote = document.getElementById('rejectionNote').value;
+        // Process or save the rejection note as needed
+        console.log('Rejection Note:', rejectionNote);
+        $('#catatanModalCenter').modal('hide');
+      }
+
+      document.getElementById('batal').addEventListener('click', function() {
+        $('#catatanModalCenter').modal('hide');
+      });
+    </script>
   </body>
 </html>

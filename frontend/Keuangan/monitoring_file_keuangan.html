@@ -51,12 +51,12 @@
     />
     <link
       rel="icon"
-      href="assets/img/kaiadmin/favicon.ico"
+      href="../assets/img/kaiadmin/favicon.ico"
       type="image/x-icon"
     />
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -67,7 +67,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["assets/css/fonts.min.css"],
+          urls: ["../assets/css/fonts.min.css"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -76,109 +76,104 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <!-- <link rel="stylesheet" href="assets/css/demo.css" /> -->
+    <!-- <link rel="stylesheet" href="../assets/css/demo.css" /> -->
   </head>
   <body>
     <div class="wrapper">
-      <!-- Sidebar -->
-      <div class="sidebar" data-background-color="dark">
-        <div class="sidebar-logo">
-          <!-- Logo Header -->
-          <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo d-flex align-items-center">
-              <img
-                src="assets/img/logo-bps.png"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="30"
-              />
-              <span class="ms-1 text-white fw-bold">DKI Jakarta</span>
+<!-- Sidebar -->
+<div class="sidebar" data-background-color="dark">
+  <div class="sidebar-logo">
+    <!-- Logo Header -->
+    <div class="logo-header" data-background-color="dark">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img
+          src="../assets/img/kaiadmin/logo_bps.png"
+          alt="navbar brand"
+          class="navbar-brand"
+          height="30"
+        />
+        <span class="ms-1 text-white fw-bold">DKI Jakarta</span> <!-- Tulisan DKI Jakarta -->
+      </a>
+      <div class="nav-toggle">
+        <button class="btn btn-toggle toggle-sidebar">
+          <i class="gg-menu-right"></i>
+        </button>
+        <button class="btn btn-toggle sidenav-toggler">
+          <i class="gg-menu-left"></i>
+        </button>
+      </div>
+      <button class="topbar-toggler more">
+        <i class="gg-more-vertical-alt"></i>
+      </button>
+    </div>
+    <!-- End Logo Header -->
+    </div>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+      <div class="sidebar-content">
+        <ul class="nav nav-secondary">
+          <li class="nav-item">
+            <a href="dashboard_admin.html">
+              <i class="fas fa-home"></i>
+              <p>Dashboard</p>
             </a>
-            <div class="nav-toggle">
-              <button class="btn btn-toggle toggle-sidebar">
-                <i class="gg-menu-right"></i>
-              </button>
-              <button class="btn btn-toggle sidenav-toggler">
-                <i class="gg-menu-left"></i>
-              </button>
-            </div>
-            <button class="topbar-toggler more">
-              <i class="gg-more-vertical-alt"></i>
-            </button>
-          </div>
-          <!-- End Logo Header -->
-        </div>
-        <div class="sidebar-wrapper scrollbar scrollbar-inner">
-            <div class="sidebar-content">
-              <ul class="nav nav-secondary">
-                <li class="nav-item">
-                  <a href="dashboard_keuangan.html">
-                    <i class="fas fa-home"></i>
-                    <p>Dashboard</p>
+          </li>
+          <li class="nav-section">
+            <span class="sidebar-mini-icon">
+              <i class="fa fa-ellipsis-h"></i>
+            </span>
+            <h4 class="text-section">Components</h4>
+          </li>
+          <li class="nav-item">
+            <a href="form_admin.html">
+              <i class="fas fa-file"></i>
+              <p>Form</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#base">
+              <i class="fas fa-desktop"></i>
+              <p>Monitoring</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse show" id="base">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="monitoring_OP_keuangan.html">
+                    <span class="sub-item">Operator</span>
                   </a>
                 </li>
-                <li class="nav-section">
-                  <span class="sidebar-mini-icon">
-                    <i class="fa fa-ellipsis-h"></i>
-                  </span>
-                  <h4 class="text-section">Components</h4>
-                </li>
-                <li class="nav-item">
-                  <a href="form_keuangan.html">
-                    <i class="fas fa-file"></i>
-                    <p>Form</p>
+                <li class="active">
+                  <a href="monitoring_keuangan.html">
+                    <span class="sub-item">Keuangan</span>
                   </a>
                 </li>
-                <li class="nav-item active submenu">
-                    <a data-bs-toggle="collapse" href="#monitoring">
-                      <i class="fas fa-desktop"></i>
-                      <p>Monitoring</p>
-                      <span class="caret"></span>
-                    </a>
-                    <div class="collapse show" id="monitoring">
-                        <ul class="nav nav-collapse">
-                          <li>
-                            <a href="monitoring_OP_keuangan.html">
-                              <span class="sub-item">Operator</span>
-                              <span class="badge badge-success">1</span>
-                              <span class="badge badge-danger">1</span>
-                            </a>
-                          </li>
-                          <li class="active">
-                            <a href="monitoring_keuangan.html">
-                              <span class="sub-item">Keuangan</span>
-                              <span class="badge badge-success">1</span>
-                              <span class="badge badge-danger">1</span>
-                            </a>
-                          </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                  <a href="download_keuangan.html">
-                    <i class="fas fa-download"></i>
-                    <p>Download</p>
-                  </a>
-                </li>
-                <style>
-                  .nav-item a .badge-success {
-                    margin-right: 0; /* Remove space on the right side of the first badge */
-                  }
-                  .nav-item a .badge-danger {
-                    margin-left: 2px; /* Adjust this value to control the spacing between badges */
-                  }
-                </style>
               </ul>
             </div>
-          </div>
-        </div>
-        <!-- End Sidebar -->
-
+          </li>
+          <li class="nav-item">
+            <a href="download_admin.html">
+              <i class="fas fa-download"></i>
+              <p>Download</p>
+            </a>
+          </li>
+          <style>
+            .nav-item a .badge-success {
+              margin-right: 0; /* Remove space on the right side of the first badge */
+            }
+            .nav-item a .badge-danger {
+              margin-left: 2px; /* Adjust this value to control the spacing between badges */
+            }
+          </style>              
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End Sidebar -->
       <div class="main-panel">
         <div class="main-header">
             <div class="main-header-logo">
@@ -186,7 +181,7 @@
                 <div class="logo-header" data-background-color="dark">
                     <a href="index.html" class="logo">
                         <img
-                            src="assets/img/kaiadmin/logo_light.svg"
+                            src="../assets/img/kaiadmin/logo_light.svg"
                             alt="navbar brand"
                             class="navbar-brand"
                             height="20"
@@ -316,7 +311,7 @@
                             >
                                 <div class="avatar-sm">
                                     <img
-                                        src="assets/img/profile.jpg"
+                                        src="../assets/img/profile.png"
                                         alt="..."
                                         class="avatar-img rounded-circle"
                                     />
@@ -338,7 +333,7 @@
                                         <div class="user-box">
                                             <div class="avatar-lg">
                                                 <img
-                                                    src="assets/img/profile.jpg"
+                                                    src="../assets/img/profile.jpg"
                                                     alt="image profile"
                                                     class="avatar-img rounded"
                                                 />
@@ -390,16 +385,11 @@
               <a href="monitoring_keuangan.html" class="btn btn-dark mb-4">
                   <i class="fas fa-arrow-left"></i>   Back
               </a>
-              <h2 class="fw-bold mb-3">Monitoring File</h2>
+              <h3 class="fw-bold mb-3">Monitoring File</h3>
               <h6 class="op-7 mb-2">Monitoring pada berkas yang telah di upload operator dan beri pesetujuan untuk pengajuan</h6>
           </div>
-
-
             </div>
-
-
             <!-- Tabel Monitoring-->
-
             <div class="col-md-12">
               <div class="card card-round">
                 <div class="card-header">
@@ -469,91 +459,97 @@
                             </div>
                           </td>
                         </tr>
-
                       </tbody>
-                      <tfoot>
-
-                      </tfoot>
                     </table>
-
                   </div>
-
                 </div>
-
+              </div>
+              <div class="ms-md-auto py-2 py-md-0 text-end">
+                <a href="#" class="btn btn-success btn-round">
+                  <i class="fas fa-check"></i> Approve Pengajuan
+                </a>
+                <a href="#" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#catatanModalCenter">
+                  <i class="fas fa-times"></i> Reject Pengajuan
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Modal Catatan Penolakan -->
+          <div class="modal fade" id="catatanModalCenter" tabindex="-1" role="dialog" aria-labelledby="catatanModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="catatanModalCenterTitle">Tambahkan Catatan Penolakan</h5>
+                </div>
+                <div class="modal-body">
+                  <form id="rejectionForm">
+                    <div class="form-group">
+                      <label for="rejectionNote">Alasan Penolakan</label>
+                      <textarea class="form-control" id="rejectionNote" rows="5" placeholder="Masukkan alasan penolakan di sini..."></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" id="batal">Batal</button>
+                  <button type="button" class="btn btn-primary" onclick="saveRejectionNote()">Simpan</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
-
-
-
-      <!--
-        <footer class="footer">
-          <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-left">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    BPS Provinsi DKI Jakarta
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Help </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"> Licenses </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="copyright">
-              2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="#">Kelompok 3 3SI2</a>
-            </div>
-
-          </div>
-        </footer>-->
       </div>
 
 
     </div>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../assets/js/plugin/chart.js/chart.min.js"></script>
 
     <!-- jQuery Sparkline -->
-    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <!-- Chart Circle -->
-    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
 
     <!-- Datatables -->
-    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 
     <!-- jQuery Vector Maps -->
-    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets/js/plugin/jsvectormap/world.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/world.js"></script>
 
     <!-- Sweet Alert -->
-    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="assets/js/kaiadmin.min.js"></script>
+    <script src="../assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <!-- <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script> -->
+    <!-- <script src="../assets/js/setting-demo.js"></script>
+    <script src="../assets/js/demo.js"></script> -->
+    <script>
+      function saveRejectionNote() {
+        const rejectionNote = document.getElementById('rejectionNote').value;
+        // Process or save the rejection note as needed
+        console.log('Rejection Note:', rejectionNote);
+        $('#catatanModalCenter').modal('hide');
+      }
+
+      document.getElementById('batal').addEventListener('click', function() {
+        $('#catatanModalCenter').modal('hide');
+      });
+    </script>
   </body>
 </html>
