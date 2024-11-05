@@ -421,19 +421,19 @@
           </div>
         </div>
 
-        <!-- Modal Delete -->
-        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+        <!-- Modal Ubah Flag -->
+        <div class="modal fade" id="changeFlagModalCenter" tabindex="-1" role="dialog" aria-labelledby="changeFlagModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
+                <h5 class="modal-title" id="changeFlagModalCenterTitle">PERINGATAN !</h5>
               </div>
               <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
+                <p>Apakah Anda yakin ingin menonaktifkan <b>Akun Belanja</b> ini?</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
-                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
+                <button type="button" class="btn btn-primary" id="canceldelete">Tidak</button>
               </div>
             </div>
           </div>
@@ -446,7 +446,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Menage Flag</h2>
+                <h2 class="fw-bold mb-3">Manage Flag</h2>
                 <h6 class="op-7 mb-2">Mengatur flag tabel Akun</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
@@ -510,8 +510,8 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
-                                    <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item"  href="#">1</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -536,7 +536,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -561,7 +561,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -586,7 +586,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -611,7 +611,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -636,7 +636,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -661,7 +661,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -712,10 +712,10 @@
 
     <script>
       document.getElementById('confirmdelete').addEventListener('click', function() {
-        window.location.href = 'monitoring_OP.html';
+        window.location.href = 'manage_flag_akun.html';
       });
       document.getElementById('canceldelete').addEventListener('click', function() {
-        $('#deleteModalCenter').modal('hide');
+        $('#changeFlagModalCenter').modal('hide');
       });
     </script>
   </body>

@@ -421,22 +421,22 @@
           </div>
         </div>
 
-        <!-- Modal Delete -->
-        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
-              </div>
-              <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus pengajuan ini?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
-                <button type="button" class="btn btn-secondary" id="canceldelete">Tidak</button>
+        <!-- Modal Ubah Flag -->
+        <div class="modal fade" id="changeFlagModalCenter" tabindex="-1" role="dialog" aria-labelledby="changeFlagModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="changeFlagModalCenterTitle">PERINGATAN !</h5>
+                </div>
+                <div class="modal-body">
+                  <p>Apakah Anda yakin ingin menonaktifkan <b>Subkomponen</b> ini?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" id="confirmdelete">Yakin</button>
+                  <button type="button" class="btn btn-primary" id="canceldelete">Tidak</button>
+                </div>
               </div>
             </div>
-          </div>
         </div>
 
         <!-- Isi content halaman -->
@@ -446,7 +446,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Menage Flag</h2>
+                <h2 class="fw-bold mb-3">Manage Flag</h2>
                 <h6 class="op-7 mb-2">Mengatur Flag Tabel Sub Komponen</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
@@ -511,7 +511,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -536,7 +536,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                   <li>
                                     <a class="dropdown-item" href="#">1</a>
-                                    <a class="dropdown-item" href="#">0</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
                                   </li>
                                 </ul>
                               </div>
@@ -586,12 +586,12 @@
     <script src="../assets/js/kaiadmin.min.js"></script>
 
     <script>
-      document.getElementById('confirmdelete').addEventListener('click', function() {
-        window.location.href = 'monitoring_OP.html';
-      });
-      document.getElementById('canceldelete').addEventListener('click', function() {
-        $('#deleteModalCenter').modal('hide');
-      });
+        document.getElementById('confirmdelete').addEventListener('click', function() {
+          window.location.href = 'manage_flag_subkomponen.html';
+        });
+        document.getElementById('canceldelete').addEventListener('click', function() {
+          $('#changeFlagModalCenter').modal('hide');
+        });
     </script>
   </body>
 </html>
