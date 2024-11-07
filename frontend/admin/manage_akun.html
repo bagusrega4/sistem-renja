@@ -103,7 +103,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="dashboard_admin.html" class="logo d-flex align-items-center">
               <img
                 src="../assets/img/kaiadmin/logo_bps.png"
                 alt="navbar brand"
@@ -130,7 +130,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="index.html">
+                <a href="dashboard_admin.html">
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
                 </a>
@@ -250,9 +250,9 @@
           <div class="main-header-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-              <a href="index.html" class="logo">
+              <a href="dashboard_admin.html" class="logo">
                 <img
-                  src="../assets/img/kaiadmin/logo_light.svg"
+                  src="assets/img/kaiadmin/logo_light.svg"
                   alt="navbar brand"
                   class="navbar-brand"
                   height="20"
@@ -277,10 +277,6 @@
             class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
           >
             <div class="container-fluid">
-              <nav
-                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-              >
-              </nav>
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
@@ -309,22 +305,22 @@
                       <div class="notif-center">
                         <a data-bs-toggle="modal" data-bs-target="#accModalCenter">
                           <div class="notif-icon notif-success">
-                            <i class="fa fa-file-alt"></i>
+                            <i class="fa fa-check"></i>
                           </div>
                           <div class="notif-content">
-                            <span class="block"> Pengajuan Selesai </span>
-                            <span class="time">5 minutes ago</span>
+                            <span class="block">Supervisi Sakernas</span> <!-- Nama Pengajuan -->
+                            <span class="time">No. FP: 195</span>
                           </div>
                         </a>
                         <a data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
                           <div class="notif-icon notif-danger">
-                            <i class="fa fa-file-alt"></i>
+                            <i class="fa fa-times"></i>
                           </div>
                           <div class="notif-content">
                             <span class="block">
-                              Pengajuan Ditolak
+                              Supervisi Sensus Penduduk
                             </span>
-                            <span class="time">12 minutes ago</span>
+                            <span class="time">No. FP: 175</span>
                           </div>
                         </a>
                       </div>
@@ -344,7 +340,7 @@
                   >
                     <div class="avatar-sm">
                       <img
-                        src="../assets/img/profile.png"
+                        src="assets/img/profile.png"
                         alt="..."
                         class="avatar-img rounded-circle"
                       />
@@ -360,7 +356,7 @@
                         <div class="user-box">
                           <div class="avatar-lg">
                             <img
-                              src="../assets/img/profile.png"
+                              src="assets/img/profile.png"
                               alt="image profile"
                               class="avatar-img rounded"
                             />
@@ -368,7 +364,7 @@
                           <div class="u-text">
                             <h4>Agape Bagus Rega Anggara</h4>
                             <p class="text-muted">bagusrega4@gmail.com</p>
-                            <p class="text-muted">as Operator Role</p>
+                            <p class="text-muted">as Admin</p>
                             <a
                               href="profile.html"
                               class="btn btn-xs btn-secondary btn-sm"
@@ -387,57 +383,158 @@
               </ul>
             </div>
           </nav>
-          <!-- End Navbar -->
         </div>
+        <!-- End Navbar -->
 
         <!-- Modal Notification all -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
-              </div>
-              <div class="modal-body">
-                <div class="notification-item">
-                  <div class="notif-icon notif-success">
-                    <i class="fa fa-file-alt"></i>
-                  </div>
-                  <div class="notification-text">
-                    <strong>Pengajuan Selesai</strong>
-                    <p>5 minutes ago</p>
-                  </div>
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">All Notifications</h5>
                 </div>
-                <div class="notification-item">
-                  <div class="notif-icon notif-danger">
-                    <i class="fa fa-file-alt"></i>
+                <div class="modal-body">
+                  <!-- Notification Item for Pengajuan Selesai -->
+                  <div class="notification-item d-flex align-items-center mb-3">
+                    <div class="notif-icon notif-success me-2">
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <div class="notification-text w-100">
+                      <a class="d-flex justify-content-between align-items-center text-decoration-none" data-bs-toggle="collapse" href="#base-selesai" role="button" aria-expanded="false" aria-controls="base-selesai">
+                        <div>
+                          <strong>Pengajuan Selesai</strong>
+                          <p class="mb-0 text-muted">1 Pengajuan</p>
+                        </div>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse mt-2" id="base-selesai">
+                        <ul class="list-unstyled ps-3">
+                          <li>
+                            <div class="notif-content" data-bs-toggle="modal" data-bs-target="#accModalCenter">
+                              <span class="block">Supervisi Sakernas</span>
+                              <span class="time text-muted">No. FP: 195</span>
+                            </a>
+                          </div>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div class="notification-text">
-                    <strong>Pengajuan Ditolak</strong>
-                    <p>12 minutes ago</p>
+                  <!-- Notification Item for Pengajuan Ditolak -->
+                  <div class="notification-item d-flex align-items-center">
+                    <div class="notif-icon notif-danger me-2">
+                      <i class="fa fa-times"></i>
+                    </div>
+                    <div class="notification-text w-100">
+                      <a class="d-flex justify-content-between align-items-center text-decoration-none" data-bs-toggle="collapse" href="#base-ditolak" role="button" aria-expanded="false" aria-controls="base-ditolak">
+                        <div>
+                          <strong>Pengajuan Ditolak</strong>
+                          <p class="mb-0 text-muted">1 Pengajuan</p>
+                        </div>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse mt-2" id="base-ditolak">
+                        <ul class="list-unstyled ps-3">
+                          <li>
+                            <div class="notif-content" data-bs-toggle="modal" data-bs-target="#tolakModalCenter">
+                              <span class="block">Supervisi Sensus Penduduk</span>
+                              <span class="time text-muted">No. FP: 175</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <!-- Modal natif acc -->
+          <div class="modal fade" id="accModalCenter" tabindex="-1" role="dialog" aria-labelledby="accModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="accModalCenterTitle">Pengajuan Diterima</h5>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-striped" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>No. FP</th>
+                        <th>Nama Permintaan</th>
+                        <th>Tanggal Kegiatan</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>195</td>
+                        <td>Supervisi Survei Angakatan Kerja Nasional</td>
+                        <td>16/07/2024 - 27/07/2024</td>
+                        <td>
+                          <span class="badge badge-success">Selesai</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal natif tolak -->
+          <div class="modal fade" id="tolakModalCenter" tabindex="-1" role="dialog" aria-labelledby="tolakModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="tolakModalCenterTitle">Pengajuan Ditolak</h5>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-striped" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>No. FP</th>
+                        <th>Nama Permintaan</th>
+                        <th>Tanggal Kegiatan</th>
+                        <th>Status</th>
+                        <th>Catatan</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>175</td>
+                        <td>Supervisi Sensus Penduduk</td>
+                        <td>18/05/2024 - 26/05/2024</td>
+                        <td>
+                          <span class="badge badge-danger">Entri Operator</span>
+                        </td>
+                        <td>Terdapat kejanggalan dalam surat KAK anda</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <!-- Modal Ubah Role -->
         <div class="modal fade" id="ubahRoleModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
-              </div>
-              <div class="modal-body">
-                <p>Apakah Anda yakin ingin merubah role user ini?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="confirmdelete">Yakin</button>
-                <button type="button" class="btn btn-danger" id="canceldelete">Tidak</button>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalCenterTitle">PERINGATAN !</h5>
+                </div>
+                <div class="modal-body">
+                  <p>Apakah Anda yakin ingin merubah role user ini?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success" id="confirmdelete">Yakin</button>
+                  <button type="button" class="btn btn-danger" id="canceldelete">Tidak</button>
+                </div>
               </div>
             </div>
-          </div>
         </div>
+
 
         <!-- Isi content halaman -->
         <div class="container">
@@ -446,7 +543,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h2 class="fw-bold mb-3">Manage Akun</h2>
+                <h2 class="fw-bold mb-3">Manage User</h2>
                 <h6 class="op-7 mb-2">Manage akun BPS Provinsi DKI Jakarta</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
@@ -457,7 +554,7 @@
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Tabel Manage Akun</div>
+                      <div class="card-title">Tabel Manage User</div>
                       <div class="card-tools">
                         <div class="dropdown">
                           <button
