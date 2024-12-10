@@ -24,11 +24,11 @@ class Pegawai extends Model
     // Menentukan kolom yang dapat diisi secara massal
     protected $fillable = [
         'nama',
-        'niplama',
-        'nipbaru',
+        'nip_lama',
+        'nip_baru',
         'jabatan',
         'wilayah',
-        'namawilayah',
+        'nama_wilayah',
         'golongan',
     ];
 
@@ -37,6 +37,6 @@ class Pegawai extends Model
 
     public function formPengajuans()
     {
-        return $this->hasMany(FormPengajuan::class, 'nip_pengaju', 'nipbaru');
+        return $this->hasMany(FormPengajuan::class, 'nip_pengaju', 'nip_baru');
     }
 }

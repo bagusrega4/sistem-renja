@@ -10,10 +10,10 @@ class FormPengajuan extends Model
     use HasFactory;
 
     // Nama tabel
-    protected $table = 'formpengajuan';
+    protected $table = 'form_pengajuan';
 
     // Primary key
-    protected $primaryKey = 'noFP';
+    protected $primaryKey = 'no_fp';
 
     // Tipe primary key
     public $incrementing = true;
@@ -25,9 +25,9 @@ class FormPengajuan extends Model
         'kode_komponen',
         'kode_subkomponen',
         'kode_akun',
-        'tanggalMulai',
-        'tanggalAkhir',
-        'noSK',
+        'tanggal_mulai',
+        'tangga_akhir',
+        'no_sk',
         'uraian',
         'nominal',
         'nip_pengaju'

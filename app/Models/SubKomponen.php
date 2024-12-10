@@ -10,7 +10,7 @@ class SubKomponen extends Model
     use HasFactory;
 
     // Menentukan tabel yang terkait
-    protected $table = 'sub_komponen';
+    protected $table = 'subkomponen';
 
     // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
