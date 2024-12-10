@@ -54,7 +54,7 @@
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="monitoring_OP.html">
+                                <a href="/monitoring/operator">
                                     <span class="sub-item">Operator</span>
                                 </a>
                             </li>

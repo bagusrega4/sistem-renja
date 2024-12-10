@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringKeuanganController;
+use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ManageFormController;
 use App\Http\Controllers\ManageUserController;
@@ -28,6 +29,7 @@ Route::get('/admin/', function () {
 
 Route::resource('form', FormController::class);
 Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
+Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
 Route::resource('manage/user', ManageUserController::class);
