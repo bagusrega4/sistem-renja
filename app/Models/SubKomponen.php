@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Komponen extends Model
+class SubKomponen extends Model
 {
     use HasFactory;
 
     // Menentukan tabel yang terkait
-    protected $table = 'komponen';
+    protected $table = 'sub_komponen';
 
     // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
@@ -24,7 +24,7 @@ class Komponen extends Model
     // Menentukan kolom yang dapat diisi secara massal
     protected $fillable = [
         'kode',
-        'komponen',
+        'sub_komponen',
         'flag',
     ];
 

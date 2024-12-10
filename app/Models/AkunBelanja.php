@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Komponen extends Model
+class AkunBelanja extends Model
 {
     use HasFactory;
 
     // Menentukan tabel yang terkait
-    protected $table = 'komponen';
+    protected $table = 'akun_belanja';
 
     // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
@@ -24,10 +24,11 @@ class Komponen extends Model
     // Menentukan kolom yang dapat diisi secara massal
     protected $fillable = [
         'kode',
-        'komponen',
+        'akun_belanja',
         'flag',
     ];
 
     // Menentukan apakah menggunakan timestamps
     public $timestamps = false;
+
 }
