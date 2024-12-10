@@ -20,7 +20,14 @@ class Output extends Model
     // Menentukan tipe data primary key
     protected $keyType = 'int';
 
-    protected $fillable = ['kegiatan', 'kro', 'ro', 'output', 'flag'];
+    protected $fillable = [
+        'kegiatan',
+        'kro',
+        'ro',
+        'output',
+        'flag'
+    ];
+
     public $timestamps = false;
 
     public function kegiatan()

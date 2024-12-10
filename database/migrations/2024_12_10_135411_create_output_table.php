@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('akun', function (Blueprint $table) {
+        Schema::create('output', function (Blueprint $table) {
             $table->id();
-            $table->kode();
-            $table->akun();
+            $table->kegiatan();
+            $table->kro();
+            $table->ro();
+            $table->output();
             $table->flag();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('akun');
+        Schema::dropIfExists('output');
     }
 };
