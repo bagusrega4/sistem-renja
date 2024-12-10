@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Komponen extends Model
+class KRO extends Model
 {
     use HasFactory;
 
     // Menentukan tabel yang terkait
-    protected $table = 'komponen';
+    protected $table = 'kro';
 
     // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
@@ -24,15 +24,15 @@ class Komponen extends Model
     // Menentukan kolom yang dapat diisi secara massal
     protected $fillable = [
         'kode',
-        'komponen',
+        'kro',
         'flag',
     ];
 
     // Menentukan apakah menggunakan timestamps
     public $timestamps = false;
 
-    public function formPengajuans()
+    public function outputs()
     {
-        return $this->hasMany(FormPengajuan::class, 'kode_komponen', 'kode');
+        return $this->hasMany(Output::class, 'kro', 'kode');
     }
 }

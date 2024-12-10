@@ -30,4 +30,9 @@ class Kegiatan extends Model
 
     // Menentukan apakah menggunakan timestamps
     public $timestamps = false;
+
+    public function outputs()
+    {
+        return $this->hasMany(Output::class, 'kegiatan', 'kode');
+    }
 }

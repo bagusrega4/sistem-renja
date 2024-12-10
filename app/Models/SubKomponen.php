@@ -30,4 +30,9 @@ class SubKomponen extends Model
 
     // Menentukan apakah menggunakan timestamps
     public $timestamps = false;
+
+    public function formPengajuans()
+    {
+        return $this->hasMany(FormPengajuan::class, 'kode_subkomponen', 'kode');
+    }
 }
