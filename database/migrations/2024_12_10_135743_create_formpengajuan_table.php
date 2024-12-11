@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_pengajuan', function (Blueprint $table) {
-            $table->bigIncrements('no_fp'); // Primary key dengan auto increment
-            $table->unsignedBigInteger('id_output'); // Foreign key ke tabel Output
-            $table->unsignedInteger('kode_komponen'); // Foreign key ke tabel Komponen
-            $table->unsignedInteger('kode_subkomponen'); // Foreign key ke tabel SubKomponen
-            $table->unsignedInteger('kode_akun'); // Foreign key ke tabel AkunBelanja
-            $table->date('tanggal_mulai'); // Tanggal mulai
-            $table->date('tanggal_akhir'); // Tanggal akhir
-            $table->string('no_sk', 50)->nullable(); // No SK, opsional
-            $table->text('uraian')->nullable(); // Uraian, opsional
-            $table->decimal('nominal', 15, 2); // Nominal, max 15 digit, 2 desimal
-            $table->string('nip_pengaju', 20); // Foreign key ke tabel Pegawai
+            $table->bigIncrements('no_fp');
+            $table->unsignedBigInteger('id_output');
+            $table->unsignedInteger('kode_komponen');
+            $table->unsignedInteger('kode_subkomponen');
+            $table->unsignedInteger('kode_akun');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_akhir');
+            $table->string('no_sk', 50)->nullable();
+            $table->text('uraian')->nullable();
+            $table->decimal('nominal', 15, 2);
+            $table->string('nip_pengaju', 20);
 
             // Foreign key constraints
             $table->foreign('id_output')->references('id')->on('output');

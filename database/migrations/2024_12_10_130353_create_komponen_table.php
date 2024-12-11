@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('komponen', function (Blueprint $table) {
             $table->id();
-            $table->kode();
-            $table->komponen();
-            $table->flag();
+            $table->integer('kode')->unique();
+            $table->string('komponen', 100);
+            $table->boolean('flag')->default(1);
         });
     }
 

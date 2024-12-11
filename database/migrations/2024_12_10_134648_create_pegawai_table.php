@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
-            $table->nama();
-            $table->nip_lama();
-            $table->nip_baru();
-            $table->jabatan();
-            $table->wilayah();
-            $table->nama_wilayah();
-            $table->golongan();
+            $table->string('nama', 100);
+            $table->integer('nip_lama');
+            $table->string('nip_baru', 20);
+            $table->string('jabatan', 100);
+            $table->string('kode_wilayah', 10);
+            $table->string('nama_wilayah', 255);
+            $table->string('golongan', 5);
         });
     }
 

@@ -9,27 +9,22 @@ class Komponen extends Model
 {
     use HasFactory;
 
-    // Menentukan tabel yang terkait
     protected $table = 'komponen';
-
-    // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
-
-    // Menentukan apakah primary key auto increment
     public $incrementing = true;
-
-    // Menentukan tipe data primary key
     protected $keyType = 'int';
+    public $timestamps = false;
 
-    // Menentukan kolom yang dapat diisi secara massal
     protected $fillable = [
         'kode',
         'komponen',
         'flag',
     ];
 
-    // Menentukan apakah menggunakan timestamps
-    public $timestamps = false;
+    public function scopeVisible($query)
+    {
+        return $query->where('flag', 1);
+    }
 
     public function formPengajuans()
     {

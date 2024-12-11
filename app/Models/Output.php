@@ -10,39 +10,38 @@ class Output extends Model
     use HasFactory;
 
     protected $table = 'output';
-
-    // Menentukan primary key (jika bukan id default Laravel)
     protected $primaryKey = 'id';
-
-    // Menentukan apakah primary key auto increment
     public $incrementing = true;
-
-    // Menentukan tipe data primary key
     protected $keyType = 'int';
+    public $timestamps = false;
 
     protected $fillable = [
         'kegiatan',
-        'kro',
-        'ro',
-        'output',
+        'kode_kro',
+        'kode_ro',
+        'kode_output',
         'flag'
     ];
 
-    public $timestamps = false;
+    public function scopeVisible($query)
+    {
+        return $query->where('flag', 1);
+    }
 
+    // Relasi ke Kegiatan, KRO, RO (many-to-one)
     public function kegiatan()
     {
-        return $this->belongsTo(Kegiatan::class, 'kegiatan', 'kode');
+        return $this->belongsTo(Kegiatan::class, 'kode_kegiatan', 'kode');
     }
 
     public function kro()
     {
-        return $this->belongsTo(KRO::class, 'kro', 'kode');
+        return $this->belongsTo(KRO::class, 'kode_kro', 'kode');
     }
 
     public function ro()
     {
-        return $this->belongsTo(RO::class, 'ro', 'kode');
+        return $this->belongsTo(RO::class, 'kode_ro', 'kode');
     }
 
     // Relasi ke FormPengajuan (one-to-many)

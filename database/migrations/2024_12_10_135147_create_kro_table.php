@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('kro', function (Blueprint $table) {
             $table->id();
-            $table->kode();
-            $table->kro();
-            $table->flag();
+            $table->string('kode', 3)->unique();
+            $table->string('kro', 100);
+            $table->boolean('flag')->default(1);
         });
     }
 

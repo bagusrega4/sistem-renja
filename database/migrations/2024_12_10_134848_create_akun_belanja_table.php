@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('akun_belanja', function (Blueprint $table) {
             $table->id();
-            $table->kode();
-            $table->akun_belanja();
-            $table->flag();
+            $table->string('kode', 6)->unique();
+            $table->string('akun_belanja', 255);
+            $table->boolean('flag')->default(1);
         });
     }
 

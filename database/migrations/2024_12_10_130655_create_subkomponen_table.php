@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subkomponen', function (Blueprint $table) {
+        Schema::create('sub_komponen', function (Blueprint $table) {
             $table->id();
-            $table->kode();
-            $table->sub_komponen();
-            $table->flag();
+            $table->char('kode', 1)->unique();
+            $table->string('sub_komponen', 100);
+            $table->boolean('flag')->default(1);
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subkomponen');
+        Schema::dropIfExists('sub_komponen');
     }
 };
