@@ -20,7 +20,7 @@ class Pegawai extends Model
         'nip_lama',
         'nip_baru',
         'jabatan',
-        'wilayah',
+        'kode_wilayah',
         'nama_wilayah',
         'golongan',
     ];
