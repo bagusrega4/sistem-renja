@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts/app')
 @section('content')
 <div class="container">
     <div class="page-inner">
@@ -16,7 +16,7 @@
                 </label>
                 <input type="text" class="form-control" id="no_fp" name="no_fp" placeholder="Masukkan nomor FP" required>
                 @error('output')
-                    <small>{{ $message}}</small>
+                <small>{{ $message}}</small>
                 @enderror
             </div>
             <!-- Dropdown Rincian Output -->
@@ -27,11 +27,11 @@
                 <select class="form-select" id="id_output" name="id_output" required>
                     <option value="" disabled selected hidden>Pilih Rincian Output</option>
                     @foreach ($output as $output)
-                        <option value="{{ $output->id }}">{{ $output->output }}</option>
+                    <option value="{{ $output->id }}">{{ $output->output }}</option>
                     @endforeach
                 </select>
                 @error('output')
-                    <small>{{ $message}}</small>
+                <small>{{ $message}}</small>
                 @enderror
             </div>
 
@@ -43,7 +43,7 @@
                 <select class="form-select" id="kode_komponen" name="kode_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                        <option value="{{ $item->kode }}">{{ $item->komponen }}</option>
+                    <option value="{{ $item->kode }}">{{ $item->komponen }}</option>
                     @endforeach
                 </select>
             </div>
@@ -56,7 +56,7 @@
                 <select class="form-select" id="kode_subkomponen" name="kode_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                        <option value="{{ $item->kode }}">{{ $item->sub_komponen}}</option>
+                    <option value="{{ $item->kode }}">{{ $item->sub_komponen}}</option>
                     @endforeach
                 </select>
             </div>
@@ -69,7 +69,7 @@
                 <select class="form-select" id="kode_akun" name="kode_akun" required>
                     <option value="" disabled selected hidden>Pilih Akun</option>
                     @foreach ($akun as $item)
-                        <option value="{{ $item->kode }}">{{ $item->akun }}</option>
+                    <option value="{{ $item->kode }}">{{ $item->akun }}</option>
                     @endforeach
                 </select>
             </div>
