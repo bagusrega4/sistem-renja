@@ -44,13 +44,13 @@ class FormPengajuan extends Model
         return $this->belongsTo(SubKomponen::class, 'kode_subkomponen', 'kode');
     }
 
-    public function akunBelanja()
+    public function akun()
     {
         return $this->belongsTo(AkunBelanja::class, 'kode_akun', 'kode');
     }
 
     public function pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'nip_pengaju', 'nipbaru');
+        return $this->belongsTo(Pegawai::class, 'nip_pengaju', 'nip_lama');
     }
 }

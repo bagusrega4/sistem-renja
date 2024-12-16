@@ -28,7 +28,7 @@ Route::get('/admin/', function () {
 });
 
 Route::resource('form', FormController::class);
-Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
+/*Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
 Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
@@ -37,3 +37,8 @@ Route::resource('manage/mak/akun', ManageMAKAkunController::class);
 Route::resource('manage/mak/komponen', ManageMAKKomponenController::class);
 Route::resource('manage/mak/output', ManageMAKOutputController::class);
 Route::resource('manage/mak/subkomponen', ManageMAKSubKomponenController::class);
+
+*/
+Route::get('/formPengajuan',[FormController::class,'index'])->name('form.index');
+Route::get('/create',[FormController::class, 'create'])->name('form.create');
+Route::post('/store',[FormController::class, 'store'])->name('form.store');
