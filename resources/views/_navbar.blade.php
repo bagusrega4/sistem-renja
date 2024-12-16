@@ -118,7 +118,16 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <button class="dropdown-item cursor cursor-pointer" :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </button>
+                                </form>
                             </li>
                         </div>
                     </ul>
