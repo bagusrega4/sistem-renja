@@ -2,6 +2,7 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+<<<<<<< Updated upstream
         <h2 class="fw-bold mb-3">Form</h2>
         <h6 class="op-7 mb-2">
             Form Registrasi Bukti Dukung Administrasi BPS Provinsi DKI Jakarta Tahun Anggaran 2024
@@ -9,6 +10,23 @@
 
         <form action="{{ route('form.store') }}" method="POST">
             @csrf
+=======
+        <div
+            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div>
+                <h2 class="fw-bold mb-3">Form</h2>
+                <h6 class="op-7 mb-2">
+                    Form Registrasi Bukti Dukung Administrasi
+                    BPS Provinsi DKI Jakarta Tahun Anggaran 2024
+                </h6>
+            </div>
+            <div class="ms-md-auto py-2 py-md-0">
+                <a
+                    href="/monitoring/operator"
+                    class="btn btn-primary btn-round">Monitoring Rincian Kegiatan</a>
+            </div>
+        </div>
+>>>>>>> Stashed changes
 
             <div class="mb-3">
                 <label for="no_fp" class="form-label">Nomor FP
@@ -112,6 +130,16 @@
 
             <button type="submit" class="btn btn-success">Kirim</button>
         </form>
+<<<<<<< Updated upstream
+=======
+
+        <div
+            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div class="ms-md-auto py-2 py-md-0">
+                <a href="/monitoring/operator" class="btn btn-success btn-round">Kirim</a>
+            </div>
+        </div>
+>>>>>>> Stashed changes
     </div>
 </div>
 @endsection
