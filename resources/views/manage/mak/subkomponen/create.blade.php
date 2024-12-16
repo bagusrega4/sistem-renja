@@ -28,7 +28,7 @@
                 <h6 class="op-7 mb-2">Menambahkan Sub Komponen Baru</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('manage.mak.subkomponen') }}" class="btn btn-secondary btn-round">Kembali</a>
+                <a href="{{ route('manage.mak.subkomponen') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                             <option value="0" {{ old('flag') == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
         </div>

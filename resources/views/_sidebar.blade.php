@@ -4,7 +4,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="/dashboard" class="logo d-flex align-items-center">
                 <img
-                    src="../../assets/img/logo.png"
+                    src="../../../assets/img/logo.png"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="30" />

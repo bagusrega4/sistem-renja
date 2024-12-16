@@ -9,7 +9,7 @@
                 <h6 class="op-7 mb-2">Menambahkan Komponen Baru</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('manage.mak.komponen') }}" class="btn btn-secondary btn-round">Kembali</a>
+                <a href="{{ route('manage.mak.komponen') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
 
@@ -43,7 +43,7 @@
                         </select>
                     </div>
                     <!-- Tambahkan field lainnya jika diperlukan -->
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
         </div>

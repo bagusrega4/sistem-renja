@@ -95,11 +95,11 @@
                                                     Apakah Anda yakin ingin mengubah flag untuk sub komponen "{{ $subcomponent->sub_komponen }}"?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                                                     <form action="{{ route('manage.mak.subkomponen.updateFlag', $subcomponent->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                                     </form>
                                                 </div>
                                             </div>

@@ -88,11 +88,11 @@
                                                     Apakah Anda yakin ingin mengubah flag untuk akun "{{ $account->akun_belanja }}"?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                                                     <form action="{{ route('manage.mak.akun.updateFlag', $account->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                                     </form>
                                                 </div>
                                             </div>
