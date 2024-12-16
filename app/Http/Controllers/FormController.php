@@ -18,9 +18,9 @@ class FormController extends Controller
         $output = Output::all();
         $komponen = Komponen::all();
         $subKomponen = SubKomponen::all();
-        $akun = AkunBelanja::all();
-        $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akun', 'pegawai'])->get();
-        return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akun'));
+        $akunBelanja = AkunBelanja::all();
+        $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'pegawai'])->get();
+        return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 
     // Menampilkan form untuk membuat pengajuan baru
@@ -29,8 +29,8 @@ class FormController extends Controller
         $output = Output::all();
         $komponen = Komponen::all();
         $subKomponen = SubKomponen::all();
-        $akun = AkunBelanja::all();
-        return view('form.create', compact('output', 'komponen', 'subKomponen', 'akun'));
+        $akunBelanja = AkunBelanja::all();
+        return view('form.create', compact('output', 'komponen', 'subKomponen', 'akunBelanja'));
     }
 
     // Menyimpan data pengajuan baru
@@ -46,8 +46,8 @@ class FormController extends Controller
             'tanggal_akhir' => 'required|date',
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
-            'nominal' => 'required|numeric| min:0|max:10000000000000000000000000',
-            //'nip_pengaju' => 'required|exists:pegawai,niplama',
+            'nominal' => 'required|numeric| min:0|max:1000000000000',
+            // 'nip_pengaju' => 'required|exists:pegawai,nip_lama',
         ]);
 
         $formPengajuan = new FormPengajuan();
@@ -63,7 +63,7 @@ class FormController extends Controller
         $formPengajuan['nominal'] = $request->nominal;
         $formPengajuan['nip_pengaju'] = 340015132;
         $formPengajuan -> save();
-        
+
         return redirect()->route('form.index')->with('success', 'Form pengajuan berhasil disimpan.');
     }
 

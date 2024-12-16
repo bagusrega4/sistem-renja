@@ -57,6 +57,7 @@ Route::resource('manage/mak/akun', ManageMAKAkunController::class);
 Route::resource('manage/mak/komponen', ManageMAKKomponenController::class);
 Route::resource('manage/mak/output', ManageMAKOutputController::class);
 Route::resource('manage/mak/subkomponen', ManageMAKSubKomponenController::class);
+
 Route::get('/formPengajuan', [FormController::class, 'index'])->name('form.index');
 Route::get('/create', [FormController::class, 'create'])->name('form.create');
 Route::post('/store', [FormController::class, 'store'])->name('form.store');

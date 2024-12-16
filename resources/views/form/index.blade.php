@@ -68,8 +68,8 @@
                 </label>
                 <select class="form-select" id="kode_akun" name="kode_akun" required>
                     <option value="" disabled selected hidden>Pilih Akun</option>
-                    @foreach ($akun as $item)
-                    <option value="{{ $item->kode }}">{{ $item->akun }}</option>
+                    @foreach ($akunBelanja as $item)
+                        <option value="{{ $item->kode }}">{{ $item->akun_belanja }}</option>
                     @endforeach
                 </select>
             </div>
