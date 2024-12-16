@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link
         rel="icon"
-        href="{{ asset('/assets/img/kaiadmin/favicon.ico') }}"
+        href="{{ asset('/assets/img/logo.png') }}"
         type="image/x-icon" />
 
     <!-- Fonts and icons -->

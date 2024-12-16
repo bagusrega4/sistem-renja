@@ -2,9 +2,9 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="/dashboard" class="logo d-flex align-items-center">
                 <img
-                    src="../assets/img/kaiadmin/logo_bps.png"
+                    src="../../assets/img/logo.png"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="30" />
@@ -28,7 +28,7 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item active">
-                    <a href="dashboard_admin.html">
+                    <a href="/dashboard">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -87,7 +87,7 @@
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#flag">
                         <i class="fas fa-flag"></i>
-                        <p>Manage Flag</p>
+                        <p>Manage MAK</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="flag">

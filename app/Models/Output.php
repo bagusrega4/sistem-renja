@@ -16,10 +16,10 @@ class Output extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'kegiatan',
+        'kode_kegiatan',
         'kode_kro',
         'kode_ro',
-        'kode_output',
+        'output',
         'flag'
     ];
 

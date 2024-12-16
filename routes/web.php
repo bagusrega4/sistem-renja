@@ -9,10 +9,7 @@ use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ManageFormController;
 use App\Http\Controllers\ManageUserController;
-use App\Http\Controllers\ManageMAKAkunController;
-use App\Http\Controllers\ManageMAKKomponenController;
-use App\Http\Controllers\ManageMAKOutputController;
-use App\Http\Controllers\ManageMAKSubKomponenController;
+use App\Http\Controllers\ManageMAKController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,10 +50,30 @@ Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
 Route::resource('manage/user', ManageUserController::class);
-Route::resource('manage/mak/akun', ManageMAKAkunController::class);
-Route::resource('manage/mak/komponen', ManageMAKKomponenController::class);
-Route::resource('manage/mak/output', ManageMAKOutputController::class);
-Route::resource('manage/mak/subkomponen', ManageMAKSubKomponenController::class);
+
+Route::name('manage.')->prefix('/manage')->group(function () {
+    Route::name('mak.')->prefix('/mak')->group(function () {
+        Route::get('/akun', [ManageMAKController::class, 'akun'])->name('akun');
+        Route::get('/akun/create', [ManageMAKController::class, 'createAkun'])->name('akun.create');
+        Route::post('/akun/store', [ManageMAKController::class, 'storeAkun'])->name('akun.store');
+        Route::put('/akun/{id}/update-flag', [ManageMAKController::class, 'updateFlagAkun'])->name('akun.updateFlag');
+
+        Route::get('/komponen', [ManageMAKController::class, 'komponen'])->name('komponen');
+        Route::get('/komponen/create', [ManageMAKController::class, 'createKomponen'])->name('komponen.create');
+        Route::post('/komponen/store', [ManageMAKController::class, 'storeKomponen'])->name('komponen.store');
+        Route::put('/komponen/{id}/update-flag', [ManageMAKController::class, 'updateFlagKomponen'])->name('komponen.updateFlag');
+
+        Route::get('/subkomponen', [ManageMAKController::class, 'subkomponen'])->name('subkomponen');
+        Route::get('/subkomponen/create', [ManageMAKController::class, 'createSubKomponen'])->name('subkomponen.create');
+        Route::post('/subkomponen/store', [ManageMAKController::class, 'storeSubKomponen'])->name('subkomponen.store');
+        Route::put('/subkomponen/{id}/update-flag', [ManageMAKController::class, 'updateFlagSubKomponen'])->name('subkomponen.updateFlag');
+
+        Route::get('/output', [ManageMAKController::class, 'output'])->name('output');
+        Route::get('/output/create', [ManageMAKController::class, 'createOutput'])->name('output.create');
+        Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
+        Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
+    });
+});
 
 Route::get('/formPengajuan', [FormController::class, 'index'])->name('form.index');
 Route::get('/create', [FormController::class, 'create'])->name('form.create');

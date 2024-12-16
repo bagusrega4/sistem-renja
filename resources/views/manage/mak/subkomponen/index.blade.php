@@ -1,15 +1,23 @@
 @extends('layouts/app')
+
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Manage Flag</h2>
-                <h6 class="op-7 mb-2">Mengatur Flag Tabel Sub Komponen</h6>
+                <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
+                <h6 class="op-7 mb-2">Mengelola Mata Anggaran Keuangan tabel Sub Komponen</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_add_subkomponen_flag.html" class="btn btn-primary btn-round">Tambah Sub Komponen</a>
+                <a href="{{ route('manage.mak.subkomponen.create') }}" class="btn btn-primary btn-round">Tambah Sub Komponen</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -38,68 +46,69 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Projects table -->
+                        <!-- Tabel Sub Komponen -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>Kode</th>
-                                    <th>Sub manage_flag_komponen</th>
-                                    <th>Flag</th>
+                                    <th>Sub Komponen</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">A</td>
-                                    <td class="text-start">Tanpa Sub Komponen</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
+                                @foreach ($subcomponents as $subcomponent)
+                                    <tr>
+                                        <th scope="row">
+                                            {{ $loop->iteration }}
+                                        </th>
+                                        <td class="text-start">{{ $subcomponent->kode }}</td>
+                                        <td class="text-start">{{ $subcomponent->sub_komponen }}</td>
+                                        <td>
+                                            <div class="btn-group dropdown">
+                                                <button
+                                                    class="btn btn-warning dropdown-toggle"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown">
+                                                    {{ $subcomponent -> flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="#">Tampilkan</a>
+                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter{{ $loop->iteration }}" href="#">Jangan Tampilkan</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Ubah Flag -->
+                                    <div class="modal fade" id="changeFlagModalCenter{{ $loop->iteration }}" tabindex="-1" aria-labelledby="changeFlagModalCenterLabel{{ $loop->iteration }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeFlagModalCenterLabel{{ $loop->iteration }}">Ubah Flag</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Konten Modal: Konfirmasi Ubah Flag -->
+                                                    Apakah Anda yakin ingin mengubah flag untuk sub komponen "{{ $subcomponent->sub_komponen }}"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('manage.mak.subkomponen.updateFlag', $subcomponent->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        2
-                                    </th>
-                                    <td class="text-start">B</td>
-                                    <td class="text-start">EWS (Economic White Survey)</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>
+                        <!-- Akhir Tabel Sub Komponen -->
                     </div>
                 </div>
             </div>
