@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('output', function (Blueprint $table) {
             $table->id();
-            $table->integer('kode_kegiatan')->unique();
-            $table->string('kode_kro', 3)->unique();
-            $table->string('kode_ro', 3)->unique();
+            $table->integer('kode_kegiatan');
+            $table->string('kode_kro', 3);
+            $table->string('kode_ro', 3);
             $table->string('output', 255);
             $table->boolean('flag')->default(1);
 
