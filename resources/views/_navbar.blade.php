@@ -87,13 +87,13 @@
                         aria-expanded="false">
                         <div class="avatar-sm">
                             <img
-                                src="assets/img/profile.png"
+                                src="https://www.w3schools.com/howto/img_avatar.png"
                                 alt="..."
                                 class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
-                            <span class="fw-bold">Agape</span>
+                            <span class="fw-bold">{{ Auth::user()->username }}</span>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -102,14 +102,14 @@
                                 <div class="user-box">
                                     <div class="avatar-lg">
                                         <img
-                                            src="assets/img/profile.png"
+                                            src="https://www.w3schools.com/howto/img_avatar.png"
                                             alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
-                                        <h4>Agape Bagus Rega Anggara</h4>
-                                        <p class="text-muted">bagusrega4@gmail.com</p>
-                                        <p class="text-muted">as Admin</p>
+                                        <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
+                                        <p class="text-muted">{{ Auth::user()->email }}</p>
+                                        <p class="text-muted text-capitalize">as {{ Auth::user()->role }}</p>
                                         <a
                                             href="profile.html"
                                             class="btn btn-xs btn-secondary btn-sm">View Profile</a>
@@ -118,7 +118,16 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <button class="dropdown-item cursor cursor-pointer" :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </button>
+                                </form>
                             </li>
                         </div>
                     </ul>

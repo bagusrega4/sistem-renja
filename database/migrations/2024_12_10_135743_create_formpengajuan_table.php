@@ -13,23 +13,21 @@ return new class extends Migration
     {
         Schema::create('form_pengajuan', function (Blueprint $table) {
             $table->bigIncrements('no_fp');
-            $table->unsignedBigInteger('id_output');
-            $table->unsignedInteger('kode_komponen');
-            $table->unsignedInteger('kode_subkomponen');
-            $table->unsignedInteger('kode_akun');
+            $table->integer('id_output');
+            $table->string('kode_komponen');
+            $table->char('kode_subkomponen');
+            $table->string('kode_akun');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
-            $table->string('no_sk', 50)();
-            $table->text('uraian')();
-            $table->decimal('nominal', 15, 2);
+            $table->string('no_sk', 50);
+            $table->text('uraian');
+            $table->decimal('nominal', 15, 0);
             $table->string('nip_pengaju', 20);
 
             // Foreign key constraints
-            $table->foreign('id_output')->references('id')->on('output');
             $table->foreign('kode_komponen')->references('kode')->on('komponen');
             $table->foreign('kode_subkomponen')->references('kode')->on('sub_komponen');
             $table->foreign('kode_akun')->references('kode')->on('akun_belanja');
-            $table->foreign('nip_pengaju')->references('nip_baru')->on('pegawai');
         });
     }
 

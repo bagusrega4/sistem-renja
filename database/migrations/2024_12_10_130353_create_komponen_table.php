@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('komponen', function (Blueprint $table) {
             $table->id();
-            $table->integer('kode')->unique();
+            $table->string('kode', 3)->unique();
             $table->string('komponen', 100);
             $table->boolean('flag')->default(1);
         });
