@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Pegawai;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -16,9 +18,39 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $niplama = Auth::user()->niplama;
+        $pegawai = Pegawai::where('nip_lama', $niplama)->firstOrFail();
         return view('profile.edit', [
             'user' => $request->user(),
+            'pegawai' => $pegawai
         ]);
+    }
+
+    public function setPhotoProfile(Request $request): RedirectResponse
+    {
+        // Validasi file gambar
+        $request->validate([
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+
+        try {
+            $user = Auth::user();
+
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            if ($user->photo && \Storage::disk('public')->exists($user->photo)) {
+                \Storage::disk('public')->delete($user->photo);
+            }
+
+            // Simpan path gambar baru ke database
+            $user->photo = $imagePath;
+            $user->save();
+
+            return back()->with('success', 'Photo uploaded successfully!')
+                ->with('image', $imagePath);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to upload photo. Please try again.');
+        }
     }
 
     /**
