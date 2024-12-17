@@ -1,15 +1,23 @@
 @extends('layouts/app')
+
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Manage Flag</h2>
-                <h6 class="op-7 mb-2">Mengatur Flag Tabel Output</h6>
+                <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
+                <h6 class="op-7 mb-2">Mengelola Mata Anggaran Keuangan tabel Output</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_add_output_flag.html" class="btn btn-primary btn-round">Tambah Output</a>
+                <a href="{{ route('manage.mak.output.create') }}" class="btn btn-primary btn-round">Tambah Output</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -38,347 +46,73 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Projects table -->
+                        <!-- Tabel Output -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Id</th>
                                     <th>Kode Kegiatan</th>
                                     <th>KRO</th>
                                     <th>RO</th>
                                     <th>Output</th>
-                                    <th>Flag</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">24</td>
-                                    <td class="text-start">2910</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">007</td>
-                                    <td class="text-start">PUBLIKASI/ LAPORAN STATISTIK TANAMAN PANGAN</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
+                                @foreach ($outputs as $output)
+                                    <tr>
+                                        <th scope="row">
+                                            {{ $loop->iteration }}
+                                        </th>
+                                        <td class="text-start">{{ $output->kode_kegiatan }}</td>
+                                        <td class="text-start">{{ $output->kode_kro }}</td>
+                                        <td class="text-start">{{ $output->kode_ro }}</td>
+                                        <td class="text-start">{{ $output->output }}</td>
+                                        <td>
+                                            <div class="btn-group dropdown">
+                                                <button
+                                                    class="btn btn-warning dropdown-toggle"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown">
+                                                    {{ $output->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="#">Tampilkan</a>
+                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter{{ $loop->iteration }}" href="#">Jangan Tampilkan</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Ubah Flag -->
+                                    <div class="modal fade" id="changeFlagModalCenter{{ $loop->iteration }}" tabindex="-1" aria-labelledby="changeFlagModalCenterLabel{{ $loop->iteration }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeFlagModalCenterLabel{{ $loop->iteration }}">Ubah Flag</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Konten Modal: Konfirmasi Ubah Flag -->
+                                                    Apakah Anda yakin ingin mengubah flag untuk output "{{ $output->output }}"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('manage.mak.output.updateFlag', $output->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">23</td>
-                                    <td class="text-start">2909</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">005</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK PETERNAKAN PERIKANAN DAN KEHUTANAN </td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">21</td>
-                                    <td class="text-start">2908</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">004</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK KEUANGAN TEKNOLOGI INFORMASI DAN PARIWISATA</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">22</td>
-                                    <td class="text-start">2908</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">009</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK E-COMMERCE</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">19</td>
-                                    <td class="text-start">2907</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">006</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK KETAHANAN SOSIAL</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">20</td>
-                                    <td class="text-start">2907</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">008</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN PENDATAAN PODES</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">17</td>
-                                    <td class="text-start">2906</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">003</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK KESEJAHTERAAN RAKYAT</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">18</td>
-                                    <td class="text-start">2906</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">006</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN SUSENAS</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">15</td>
-                                    <td class="text-start">2905</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">004</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN SAKERNAS</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">16</td>
-                                    <td class="text-start">2905</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">005</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK KEPENDUDUKAN DAN KETENAGAKERJAAN</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">14</td>
-                                    <td class="text-start">2904</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">006</td>
-                                    <td class="text-start">PUBLIKASI/ LAPORAN STATISTIK TANAMAN PANGANPUBLIKASI/LAPORAN STATISTIK INDUSTRI PERTAMBANGAN DAN PENGGALIAN ENERGI DAN KONSTRUKSI</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">12</td>
-                                    <td class="text-start">2903</td>
-                                    <td class="text-start">BMA</td>
-                                    <td class="text-start">009</td>
-                                    <td class="text-start">PUBLIKASI/LAPORAN STATISTIK HARGA</td>
-                                    <td class="text-start">1</td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                1
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">1</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter" href="#">0</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>
+                        <!-- Akhir Tabel Output -->
                     </div>
                 </div>
             </div>
