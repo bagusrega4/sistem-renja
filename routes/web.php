@@ -51,7 +51,7 @@ Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
 Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
-Route::resource('manage/user', ManageUserController::class);
+Route::resource('manage/user', ManageUserController::class)->except(['show']);
 
 Route::get('/monitoring/keuangan/{id}', [MonitoringKeuanganController::class, 'view'])->name('view');
 
@@ -77,10 +77,20 @@ Route::name('manage.')->prefix('/manage')->group(function () {
         Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
         Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
     });
+    Route::name('user.')->prefix('/user')->group(function () {
+        Route::get('/index', [ManageUserController::class, 'index'])->name('index');
+        Route::get('/create', [ManageUserController::class, 'create'])->name('create');
+        Route::post('/store', [ManageUserController::class, 'store'])->name('store');
+        Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
+    });
 });
 
 Route::get('/formPengajuan', [FormController::class, 'index'])->name('form.index');
 Route::get('/create', [FormController::class, 'create'])->name('form.create');
 Route::post('/store', [FormController::class, 'store'])->name('form.store');
 
+Route::get('/form/edit/{no_fp}}', [FormController::class, 'edit'])->name('form.edit');
+Route::put('/form/update/{no_fp}', [FormController::class, 'update'])->name('form.update');
+
+Route::get('monitoring/operator', [MonitoringOperatorController::class,'index'])-> name('monitoring.operator');
 require __DIR__ . '/auth.php';
