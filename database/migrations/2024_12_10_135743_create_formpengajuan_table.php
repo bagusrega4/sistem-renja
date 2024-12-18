@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_pengajuan', function (Blueprint $table) {
-            $table->bigIncrements('no_fp');
+            $table->string('no_fp')->unique();
             $table->integer('id_output');
             $table->string('kode_komponen');
             $table->char('kode_subkomponen');

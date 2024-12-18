@@ -11,7 +11,7 @@
           <h6 class="op-7 mb-2">Monitoring Rincian Kegiatan</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-          <a href="#" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+          <a href="/form" class="btn btn-primary btn-round">Tambah Pengajuan</a>
         </div>
       </div>
         <div class="col-md-12">
@@ -65,14 +65,14 @@
                       <td class="text-end">
                         <div class="d-flex justify-content-end">
                           <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $fp->no_fp }}" data-bs-no-fp="{{ $fp -> no_fp}}">
-                            <i class="fas fa-eye"></i>        
+                            <i class="fas fa-eye"></i>
                           </button>
-                          
-                          <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='{{route('form.edit', $fp->no_fp)}}'">
+
+                          <button class="btn btn-secondary btn-sm me-2" onclick="window.location.href='{{ route('form.edit', $fp->no_fp) }}'">
                             <i class="fas fa-edit"></i>
                           </button>
 
-                          <button class="btn btn-info btn-sm me-2" onclick="window.location.href='upload_file_admin.html'">
+                          <button class="btn btn-info btn-sm me-2" onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->no_fp) }}'">
                             <i class="fas fa-desktop"></i>
                           </button>
                           <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
@@ -85,7 +85,7 @@
                       </td>
                     </tr>
                     @endforeach
-                   
+
                   </tbody>
                 </table>
               </div>
@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
- 
+
 @endsection
 
                           <!-- Modal View -->
@@ -139,7 +139,7 @@
                                             </button>
                                           </td>
                                         </tr>
-                                        
+
                                       </tbody>
                                     </table>
                                   </div>

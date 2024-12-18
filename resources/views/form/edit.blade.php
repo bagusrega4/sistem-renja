@@ -1,9 +1,9 @@
 @extends('layouts/app')
 @section('content')
 <div class="container">
-    
+
     <div class="page-inner">
-        
+
         <h2 class="fw-bold mb-3">Edit Form</h2>
         <h6 class="op-7 mb-2">
             Edit Form Registrasi Bukti Dukung Administrasi BPS Provinsi DKI Jakarta
@@ -122,7 +122,7 @@
                 <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" value="{{$formPengajuan->nominal}}" required>
             </div>
 
-            <button type="submit" class="btn btn-success">Kirim</button>
+            <button type="submit" class="btn btn-success">Ubah</button>
         </form>
     </div>
 </div>

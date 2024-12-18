@@ -89,7 +89,7 @@ Route::get('/formPengajuan', [FormController::class, 'index'])->name('form.index
 Route::get('/create', [FormController::class, 'create'])->name('form.create');
 Route::post('/store', [FormController::class, 'store'])->name('form.store');
 
-Route::get('/form/edit/{no_fp}}', [FormController::class, 'edit'])->name('form.edit');
+Route::get('/form/edit/{no_fp}', [FormController::class, 'edit'])->name('form.edit');
 Route::put('/form/update/{no_fp}', [FormController::class, 'update'])->name('form.update');
 
 Route::get('monitoring/operator', [MonitoringOperatorController::class, 'index'])->name('monitoring.operator');
