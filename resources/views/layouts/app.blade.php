@@ -86,6 +86,8 @@
         });
     </script>
 
+    @yield('stylecss')
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/plugins.min.css') }}" />
@@ -163,6 +165,8 @@
         {{ session('success') }}
     </div>
     @endif
+
+    @yield('script')
 </body>
 
 </html>

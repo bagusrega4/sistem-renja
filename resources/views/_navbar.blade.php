@@ -87,7 +87,7 @@
                         aria-expanded="false">
                         <div class="avatar-sm">
                             <img
-                                src="https://www.w3schools.com/howto/img_avatar.png"
+                                src="{{!Auth::user()->photo? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/'.Auth::user()->photo) }}"
                                 alt="..."
                                 class="avatar-img rounded-circle" />
                         </div>
@@ -102,7 +102,7 @@
                                 <div class="user-box">
                                     <div class="avatar-lg">
                                         <img
-                                            src="https://www.w3schools.com/howto/img_avatar.png"
+                                            src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
                                             alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
@@ -110,9 +110,9 @@
                                         <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
                                         <p class="text-muted text-capitalize">as {{ Auth::user()->role }}</p>
-                                        <a
-                                            href="profile.html"
-                                            class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                        <a href="{{route('profile.edit')}}" class="btn btn-xs btn-secondary btn-sm">
+                                            {{ __('View Profile') }}
+                                        </a>
                                     </div>
                                 </div>
                             </li>
