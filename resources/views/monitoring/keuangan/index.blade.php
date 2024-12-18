@@ -1,6 +1,46 @@
 @extends('layouts/app')
 @section('content')
 <div class="container">
+    <!-- Modal View -->
+    <div class="modal fade" id="viewModal{{$pengajuan->no_fp}}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{$pengajuan->no_fp}}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>RO</th>
+                                    <th>Komponen</th>
+                                    <th>Sub Komponen</th>
+                                    <th>Akun</th>
+                                    <th>No. FP</th>
+                                    <th>Tanggal Kegiatan</th>
+                                    <th>Nama Permintaan</th>
+                                    <th>No. SK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-end">{{!$p ? "": $p-> id_ouput}}2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
+                                    <td class="text-end">001-Gaji & Tunjangan</td>
+                                    <td class="text-end">EWS</td>
+                                    <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
+                                    <td class="text-end">144</td>
+                                    <td class="text-end">15/04/2024 - 20/04/2024</td>
+                                    <td class="text-end">Supervisi Sensus Ekonomi</td>
+                                    <td class="text-end">001/31510/VS.100/2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="page-inner">
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
@@ -54,17 +94,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($pengajuan as $p)
                                 <tr>
                                     <th scope="row">
-                                        1
+                                        {{ $loop->iteration }}
                                     </th>
-                                    <td class="text-end">144</td>
-                                    <td class="text-end">15/04/2024 - 20/04/2024</td>
-                                    <td class="text-end">Supervisi Sensus Ekonomi</td>
-                                    <td>Yulia Dhita</td>
+                                    <td class="text-end">{{ $p->no_fp }}</td>
+                                    <td class="text-end">{{ $p->tanggal_mulai }}</td>
+                                    <td class="text-end">{{ $p->uraian }}</td>
+                                    <td class="text-end">{{ $pegawai->nama }}</td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
+                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" href="javascript:void(0)" id="btn-view" data-id="{{ $post->id }}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
@@ -87,139 +128,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">
-                                        2
-                                    </th>
-                                    <td class="text-end">175</td>
-                                    <td class="text-end">18/05/2024 - 26/05/2024</td>
-                                    <td class="text-end">Supervisi Sensus Penduduk</td>
-                                    <td>Blessi Muntia</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                                <i class="fas fa-desktop"></i>
-                                            </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
-                                                <i class="fas fa-upload"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <button class="btn btn-danger dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Rejected
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        3
-                                    </th>
-                                    <td class="text-end">165</td>
-                                    <td class="text-end">04/06/2024 - 10/06/2024</td>
-                                    <td class="text-end">Supervisi Sensus Tani</td>
-                                    <td>Imalia Rosida</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                                <i class="fas fa-desktop"></i>
-                                            </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
-                                                <i class="fas fa-upload"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <button class="btn btn-success dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Approve
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        4
-                                    </th>
-                                    <td class="text-end">180</td>
-                                    <td class="text-end">14/06/2024 - 21/06/2024</td>
-                                    <td class="text-end">Supervisi Survei Indeks Pembangunan Manusia</td>
-                                    <td>Agape Bagus Rega</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                                <i class="fas fa-desktop"></i>
-                                            </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
-                                                <i class="fas fa-upload"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <button class="btn btn-danger dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Rejected
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        5
-                                    </th>
-                                    <td class="text-end">195</td>
-                                    <td class="text-end">16/07/2024 - 27/07/2024</td>
-                                    <td class="text-end">Supervisi Survei Angakatan Kerja Nasional</td>
-                                    <td>Muhammad Ilham</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
-                                                <i class="fas fa-desktop"></i>
-                                            </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
-                                                <i class="fas fa-upload"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <button class="btn btn-success dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Approve
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -228,4 +137,30 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    //button create post event
+    $('body').on('click', '#btn-view', function() {
+
+        let post_id = $(this).data('id');
+
+        //fetch detail post with ajax
+        $.ajax({
+            url: `/posts/${post_id}`,
+            type: "GET",
+            cache: false,
+            success: function(response) {
+
+                //fill data to form
+                $('#post_id').val(response.data.id);
+                $('#title-edit').val(response.data.title);
+                $('#content-edit').val(response.data.content);
+
+                //open modal
+                $('#modal-edit').modal('show');
+            }
+        });
+    });
+</script>
 @endsection

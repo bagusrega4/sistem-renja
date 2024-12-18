@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/edit-profile', [ProfileController::class,'setPhotoProfile'])->name('edit.profile');
+Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
 
 Route::get('/check-auth', function () {
     if (Auth::check()) {
@@ -52,6 +52,8 @@ Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
 Route::resource('manage/user', ManageUserController::class);
+
+Route::get('/monitoring/keuangan/{id}', [MonitoringKeuanganController::class, 'view'])->name('view');
 
 Route::name('manage.')->prefix('/manage')->group(function () {
     Route::name('mak.')->prefix('/mak')->group(function () {
