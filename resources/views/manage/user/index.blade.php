@@ -1,7 +1,16 @@
 @extends('layouts/app')
+
 @section('content')
 <div class="container">
     <div class="page-inner">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -9,7 +18,7 @@
                 <h6 class="op-7 mb-2">Manage akun BPS Provinsi DKI Jakarta</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="form_add_user.html" class="btn btn-primary btn-round">Tambah User</a>
+                <a href="{{ route('manage.user.create') }}" class="btn btn-primary btn-round">Tambah User</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -43,148 +52,54 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th>NIP Lama</th>
                                     <th>Username</th>
+                                    <th>Password</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Ubah Role</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        1
-                                    </th>
-                                    <td class="text-start">heryanah</td>
-                                    <td class="text-start">heryanah@bps.go.id</td>
-                                    <td class="text-start">
-                                        <span class="badge badge-warning">User</span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $user->niplama }}</td>
+                                        <td>{{ $user->username }}</td>
+                                        <td>{{ $user->password }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <!-- Button untuk membuka modal -->
+                                            <button 
                                                 class="btn btn-warning dropdown-toggle"
                                                 type="button"
                                                 data-bs-toggle="dropdown">
-                                                User
+                                                {{ $user->role }}
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">User</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Keuangan</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Admin</a>
+                                                    <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="role" value="User">
+                                                        <button type="submit" class="dropdown-item">User</button>
+                                                    </form>
+                                                    <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="role" value="Keuangan">
+                                                        <button type="submit" class="dropdown-item">Keuangan</button>
+                                                    </form>
+                                                    <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="role" value="Admin">
+                                                        <button type="submit" class="dropdown-item">Admin</button>
+                                                    </form>
                                                 </li>
                                             </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        2
-                                    </th>
-                                    <td class="text-start">aprie</td>
-                                    <td class="text-start">aprie@bps.go.id</td>
-                                    <td class="text-start">
-                                        <span class="badge badge-primary">Keuangan</span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-primary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                Keuangan
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">User</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Keuangan</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Admin</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        3
-                                    </th>
-                                    <td class="text-start">riniapsari</td>
-                                    <td class="text-start">riniapsari@bps.go.id</td>
-                                    <td class="text-start">
-                                        <span class="badge badge-warning">User</span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-warning dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                User
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">User</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Keuangan</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Admin</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        4
-                                    </th>
-                                    <td class="text-start">agus.sumarna</td>
-                                    <td class="text-start">agus.sumarna@bps.go.id</td>
-                                    <td class="text-start">
-                                        <span class="badge badge-primary">Keuangan</span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-primary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                Keuangan
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">User</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Keuangan</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Admin</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        5
-                                    </th>
-                                    <td class="text-start">alifah</td>
-                                    <td class="text-start">alifah@bps.go.id</td>
-                                    <td class="text-start">
-                                        <span class="badge badge-danger">Admin</span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn btn-danger dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown">
-                                                Admin
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">User</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Keuangan</a>
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ubahRoleModalCenter" href="#">Admin</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

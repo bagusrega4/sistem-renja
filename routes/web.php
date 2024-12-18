@@ -49,7 +49,7 @@ Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
 Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
-Route::resource('manage/user', ManageUserController::class);
+Route::resource('manage/user', ManageUserController::class)->except(['show']);
 
 Route::name('manage.')->prefix('/manage')->group(function () {
     Route::name('mak.')->prefix('/mak')->group(function () {
@@ -72,6 +72,12 @@ Route::name('manage.')->prefix('/manage')->group(function () {
         Route::get('/output/create', [ManageMAKController::class, 'createOutput'])->name('output.create');
         Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
         Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
+    });
+    Route::name('user.')->prefix('/user')->group(function () {
+        Route::get('/index', [ManageUserController::class, 'index'])->name('index');
+        Route::get('/create', [ManageUserController::class, 'create'])->name('create');
+        Route::post('/store', [ManageUserController::class, 'store'])->name('store');
+        Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
     });
 });
 
