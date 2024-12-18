@@ -1,46 +1,6 @@
 @extends('layouts/app')
 @section('content')
 <div class="container">
-    <!-- Modal View -->
-    <div class="modal fade" id="viewModal{{$pengajuan->no_fp}}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{$pengajuan->no_fp}}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>RO</th>
-                                    <th>Komponen</th>
-                                    <th>Sub Komponen</th>
-                                    <th>Akun</th>
-                                    <th>No. FP</th>
-                                    <th>Tanggal Kegiatan</th>
-                                    <th>Nama Permintaan</th>
-                                    <th>No. SK</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-end">{{!$p ? "": $p-> id_ouput}}2896.QMA.006 - PEMANFAATAN BIG DATA UNTUK STATISTIK RESMI</td>
-                                    <td class="text-end">001-Gaji & Tunjangan</td>
-                                    <td class="text-end">EWS</td>
-                                    <td class="text-end">Belanja Barang Persediaan Barang Konsumsi</td>
-                                    <td class="text-end">144</td>
-                                    <td class="text-end">15/04/2024 - 20/04/2024</td>
-                                    <td class="text-end">Supervisi Sensus Ekonomi</td>
-                                    <td class="text-end">001/31510/VS.100/2024</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="page-inner">
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
@@ -105,10 +65,10 @@
                                     <td class="text-end">{{ $pegawai->nama }}</td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" href="javascript:void(0)" id="btn-view" data-id="{{ $post->id }}">
+                                            <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href='monitoring_file_keuangan.html'">
+                                            <button class="btn btn-info btn-sm me-2" action="{{route('monitoring.file.keuangan')}}">
                                                 <i class="fas fa-desktop"></i>
                                             </button>
                                             <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
@@ -138,29 +98,46 @@
     </div>
 </div>
 @endsection
-@section('script')
-<script>
-    //button create post event
-    $('body').on('click', '#btn-view', function() {
 
-        let post_id = $(this).data('id');
-
-        //fetch detail post with ajax
-        $.ajax({
-            url: `/posts/${post_id}`,
-            type: "GET",
-            cache: false,
-            success: function(response) {
-
-                //fill data to form
-                $('#post_id').val(response.data.id);
-                $('#title-edit').val(response.data.title);
-                $('#content-edit').val(response.data.content);
-
-                //open modal
-                $('#modal-edit').modal('show');
-            }
-        });
-    });
-</script>
-@endsection
+<!-- Modal View -->
+@foreach($pengajuan as $fp)
+<div class="modal fade" id="viewModalCenter{{ $fp->no_fp }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->no_fp }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>RO</th>
+                                <th>Komponen</th>
+                                <th>Sub Komponen</th>
+                                <th>Akun</th>
+                                <th>No. FP</th>
+                                <th>Tanggal Kegiatan</th>
+                                <th>Nama Permintaan</th>
+                                <th>No. SK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
+                                <td class="text-end">{{$fp -> komponen -> komponen}}</td>
+                                <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
+                                <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
+                                <td class="text-end">{{$fp -> no_fp}}</td>
+                                <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
+                                <td class="text-end">{{$fp -> uraian}}</td>
+                                <td class="text-end">{{$fp -> no_sk}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach

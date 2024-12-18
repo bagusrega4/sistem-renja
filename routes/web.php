@@ -48,12 +48,12 @@ Route::get('/check-auth', function () {
 
 Route::resource('form', FormController::class);
 Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
+Route::get('monitoring/keuangan/file', [MonitoringKeuanganController::class, 'viewFile'])->name('monitoring.file.keuangan');
+
 Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
 Route::resource('manage/user', ManageUserController::class)->except(['show']);
-
-Route::get('/monitoring/keuangan/{id}', [MonitoringKeuanganController::class, 'view'])->name('view');
 
 Route::name('manage.')->prefix('/manage')->group(function () {
     Route::name('mak.')->prefix('/mak')->group(function () {
@@ -92,5 +92,5 @@ Route::post('/store', [FormController::class, 'store'])->name('form.store');
 Route::get('/form/edit/{no_fp}}', [FormController::class, 'edit'])->name('form.edit');
 Route::put('/form/update/{no_fp}', [FormController::class, 'update'])->name('form.update');
 
-Route::get('monitoring/operator', [MonitoringOperatorController::class,'index'])-> name('monitoring.operator');
+Route::get('monitoring/operator', [MonitoringOperatorController::class, 'index'])->name('monitoring.operator');
 require __DIR__ . '/auth.php';
