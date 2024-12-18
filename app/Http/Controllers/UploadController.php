@@ -2,29 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\FormPengajuan;
 use App\Models\FileOperator;
+use Illuminate\Http\Request;
 
-class MonitoringOperatorController extends Controller
+class UploadController extends Controller
 {
     public function index()
     {
-        // Mengambil data form pengajuan
-        $formPengajuan = FormPengajuan::get();
-        return view('monitoring.operator.index', compact('formPengajuan'));
-    }
-
-    public function uploadIndex($no_fp)
-    {
-        $form = FormPengajuan::find($no_fp);
-        return view('monitoring.operator.upload', compact('form'));
+        $formPengajuans = FormPengajuan::all();
+        return view('upload.operator.index', compact('formPengajuans'));
     }
 
     public function storeFileOperator(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'no_fp' => 'required|exists:form_pengajuan,no_fp|unique:file_operator,no_fp',
+            'no_fp' => 'required|exists:form_pengajuan,no_fp|unique:form_pengajuan,no_fp',
             'nama_permintaan' => 'required|exists:form_pengajuan,uraian',
             'kak_ttd' => 'required|image|mimes:jpeg,jpg,png|max:4096',
             'surat_tugas' => 'required|image|mimes:jpeg,jpg,png|max:4096',
@@ -34,6 +28,7 @@ class MonitoringOperatorController extends Controller
             'absen_harian' => 'required|image|mimes:jpeg,jpg,png|max:4096',
             'rekap_norek_innas' => 'required|image|mimes:jpeg,jpg,png|max:4096',
         ]);
+
         // Menyimpan file dan mendapatkan path
         $kak_ttdPath = $request->file('kak_ttd')->store('uploads/file_operator', 'public');
         $surat_tugasPath = $request->file('surat_tugas')->store('uploads/file_operator', 'public');
@@ -56,6 +51,6 @@ class MonitoringOperatorController extends Controller
             'rekap_norek_innas' => $rekap_norek_innasPath,
         ]);
 
-        return redirect()->route('monitoring.operator.index')->with('success', 'File Operator berhasil diupload.');
+        return redirect()->route('upload.operator.index')->with('success', 'File Operator berhasil ditambahkan.');
     }
 }

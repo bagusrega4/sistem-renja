@@ -54,7 +54,6 @@
                                     <th>No.</th>
                                     <th>NIP Lama</th>
                                     <th>Username</th>
-                                    <th>Password</th>
                                     <th>Email</th>
                                     <th>Role</th>
                                 </tr>
@@ -63,13 +62,12 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $user->niplama }}</td>
+                                        <td>{{ $user->nip_lama }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $user->password }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
                                             <!-- Button untuk membuka modal -->
-                                            <button 
+                                            <button
                                                 class="btn btn-warning dropdown-toggle"
                                                 type="button"
                                                 data-bs-toggle="dropdown">

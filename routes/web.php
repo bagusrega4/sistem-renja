@@ -48,7 +48,7 @@ Route::get('/check-auth', function () {
 
 Route::resource('form', FormController::class);
 Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
-Route::resource('monitoring/operator', MonitoringOperatorController::class);
+// Route::resource('monitoring/operator', MonitoringOperatorController::class);
 Route::resource('download', DownloadController::class);
 Route::resource('manage/form', ManageFormController::class);
 Route::resource('manage/user', ManageUserController::class)->except(['show']);
@@ -87,8 +87,12 @@ Route::get('/formPengajuan', [FormController::class, 'index'])->name('form.index
 Route::get('/create', [FormController::class, 'create'])->name('form.create');
 Route::post('/store', [FormController::class, 'store'])->name('form.store');
 
-Route::get('/form/edit/{no_fp}}', [FormController::class, 'edit'])->name('form.edit');
+Route::get('/form/edit/{no_fp}', [FormController::class, 'edit'])->name('form.edit');
 Route::put('/form/update/{no_fp}', [FormController::class, 'update'])->name('form.update');
 
-Route::get('monitoring/operator', [MonitoringOperatorController::class,'index'])-> name('monitoring.operator');
+// Monitoring Operator
+Route::get('/monitoring/operator', [MonitoringOperatorController::class, 'index'])->name('monitoring.operator.index');
+Route::get('/monitoring/operator/upload/{no_fp}', [MonitoringOperatorController::class, 'uploadIndex'])->name('monitoring.operator.upload');
+Route::post('/monitoring/operator/store-file', [MonitoringOperatorController::class, 'storeFileOperator'])->name('monitoring.operator.storeFile');
+
 require __DIR__ . '/auth.php';

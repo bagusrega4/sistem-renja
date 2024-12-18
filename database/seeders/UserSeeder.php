@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             }
 
             User::create([
-                'niplama' => $row[0],
+                'nip_lama' => $row[0],
                 'username' => $row[1],
                 'password' => bcrypt('password123'),
                 'email' => $row[3],

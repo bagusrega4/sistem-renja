@@ -61,7 +61,7 @@ class FormController extends Controller
         $formPengajuan['no_sk'] = $request->no_sk;
         $formPengajuan['uraian'] = $request->uraian;
         $formPengajuan['nominal'] = $request->nominal;
-        $formPengajuan['nip_pengaju'] = auth()->user()->niplama;
+        $formPengajuan['nip_pengaju'] = auth()->user()->nip_lama;
         $formPengajuan -> save();
 
         return redirect()->route('monitoring.operator')->with('success', 'Form pengajuan berhasil disimpan.');
@@ -84,7 +84,7 @@ class FormController extends Controller
     {
 
         $request->validate([
-            
+
             'id_output' => 'required|exists:output,id',
             'kode_komponen' => 'required|exists:komponen,kode',
             'kode_subkomponen' => 'required|exists:sub_komponen,kode',
@@ -94,7 +94,7 @@ class FormController extends Controller
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
             'nominal' => 'required|numeric|min:0|max:100000000000',
-            
+
         ]);
 
         $formPengajuan=FormPengajuan::find($no_fp);
@@ -119,18 +119,18 @@ class FormController extends Controller
             ->with('success', 'Form pengajuan berhasil diperbarui.');
     }
 
-    //this method will delete a product 
-    public function destroy($id)
-    {
-        $product = Product::find($id);
+    //this method will delete a product
+    // public function destroy($id)
+    // {
+    //     $product = Product::find($id);
 
-        if (!$product) {
-            return redirect()->route('products.index')->with('error', 'Product not found');
-        }
+    //     if (!$product) {
+    //         return redirect()->route('products.index')->with('error', 'Product not found');
+    //     }
 
-        $product->delete();
+    //     $product->delete();
 
-        return redirect()->route('products.index')->with('message', 'Product deleted successfully');
-    }
+    //     return redirect()->route('products.index')->with('message', 'Product deleted successfully');
+    // }
 
     }

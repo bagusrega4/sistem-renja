@@ -53,4 +53,9 @@ class FormPengajuan extends Model
     {
         return $this->belongsTo(Pegawai::class, 'nip_pengaju', 'nip_lama');
     }
+
+    public function fileOperator()
+    {
+        return $this->hasOne(FileOperator::class, 'no_fp', 'no_fp');
+    }
 }
