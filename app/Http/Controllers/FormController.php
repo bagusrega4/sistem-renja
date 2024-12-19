@@ -64,7 +64,7 @@ class FormController extends Controller
         $formPengajuan['nip_pengaju'] = auth()->user()->nip_lama;
         $formPengajuan -> save();
 
-        return redirect()->route('monitoring.operator')->with('success', 'Form pengajuan berhasil disimpan.');
+        return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil disimpan.');
     }
 
     //this method will show edit product page

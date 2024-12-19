@@ -28,7 +28,7 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item active">
-                    <a href="/dashboard">
+                    <a href="{{ route('dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -40,7 +40,7 @@
                     <h4 class="text-section">Components</h4>
                 </li>
                 <li class="nav-item">
-                    <a href="/form">
+                    <a href="{{ route('form.index') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
@@ -54,12 +54,12 @@
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="/monitoring/operator">
+                                <a href="{{ route('monitoring.operator.index') }}">
                                     <span class="sub-item">Operator</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/monitoring/keuangan">
+                                <a href="{{ route('monitoring.keuangan.index') }}">
                                     <span class="sub-item">Keuangan</span>
                                 </a>
                             </li>
@@ -67,7 +67,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="/download">
+                    <a href="{{ route('download.index') }}">
                         <i class="fas fa-download"></i>
                         <p>Download</p>
                     </a>
@@ -79,7 +79,7 @@
                     <h4 class="text-section">Settings</h4>
                 </li>
                 <li class="nav-item">
-                    <a href="/manage/user">
+                    <a href="{{ route('manage.user.index') }}">
                         <i class="fas fa-users-cog"></i>
                         <p>Manage User</p>
                     </a>
@@ -93,22 +93,22 @@
                     <div class="collapse" id="flag">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="/manage/mak/akun">
+                                <a href="{{ route('manage.mak.akun') }}">
                                     <span class="sub-item">Akun</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/manage/mak/komponen">
+                                <a href="{{ route('manage.mak.komponen') }}">
                                     <span class="sub-item">Komponen</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/manage/mak/subkomponen">
+                                <a href="{{ route('manage.mak.subkomponen') }}">
                                     <span class="sub-item">Subkomponen</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/manage/mak/output">
+                                <a href="{{ route('manage.mak.output') }}">
                                     <span class="sub-item">Output</span>
                                 </a>
                             </li>
@@ -116,7 +116,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="/manage/form">
+                    <a href="{{ route('manage.form.index') }}">
                         <i class="fas fa-pen-square"></i>
                         <p>Manage Form</p>
                     </a>

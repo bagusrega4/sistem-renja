@@ -11,7 +11,7 @@
           <h6 class="op-7 mb-2">Monitoring Rincian Kegiatan</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-          <a href="/form" class="btn btn-primary btn-round">Tambah Pengajuan</a>
+          <a href="{{ route('form.index') }}" class="btn btn-primary btn-round">Tambah Pengajuan</a>
         </div>
       </div>
         <div class="col-md-12">
@@ -97,54 +97,53 @@
 
 @endsection
 
-                          <!-- Modal View -->
-                          @foreach($formPengajuan as $fp)
-                          <div class="modal fade" id="viewModalCenter{{ $fp->no_fp }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->no_fp }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="table-responsive">
-                                    <table class="table table-striped" style="width:100%">
-                                      <thead>
-                                        <tr>
-                                          <th>RO</th>
-                                          <th>Komponen</th>
-                                          <th>Sub Komponen</th>
-                                          <th>Akun</th>
-                                          <th>No. FP</th>
-                                          <th>Tanggal Kegiatan</th>
-                                          <th>Nama Permintaan</th>
-                                          <th>No. SK</th>
-                                          <th>Catatan</th>
-                                          <th>Bukti Transfer</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
-                                          <td class="text-end">{{$fp -> komponen -> komponen}}</td>
-                                          <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
-                                          <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
-                                          <td class="text-end">{{$fp -> no_fp}}</td>
-                                          <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
-                                          <td class="text-end">{{$fp -> uraian}}</td>
-                                          <td class="text-end">{{$fp -> no_sk}}</td>
-                                          <td class="text-end">-</td>
-                                          <td class="text-end">
-                                            <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
-                                              <i class="fas fa-eye"></i>
-                                            </button>
-                                          </td>
-                                        </tr>
+<!-- Modal View -->
+@foreach($formPengajuan as $fp)
+<div class="modal fade" id="viewModalCenter{{ $fp->no_fp }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->no_fp }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModalCenterTitle">View Pengajuan</h5>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>RO</th>
+                <th>Komponen</th>
+                <th>Sub Komponen</th>
+                <th>Akun</th>
+                <th>No. FP</th>
+                <th>Tanggal Kegiatan</th>
+                <th>Nama Permintaan</th>
+                <th>No. SK</th>
+                <th>Catatan</th>
+                <th>Bukti Transfer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <>
+                <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
+                <td class="text-end">{{$fp -> komponen -> komponen}}</td>
+                <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
+                <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
+                <td class="text-end">{{$fp -> no_fp}}</td>
+                <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
+                <td class="text-end">{{$fp -> uraian}}</td>
+                <td class="text-end">{{$fp -> no_sk}}</td>
+                <td class="text-end">-</td>
+                <td class="text-end">
+                  <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </td>
 
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
