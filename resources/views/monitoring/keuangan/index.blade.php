@@ -68,7 +68,7 @@
                                             <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn btn-info btn-sm me-2" action="{{ route('monitoring.keuangan.file', $id->id) }}">
+                                            <button class="btn btn-info btn-sm me-2" onclick="window.location.href = ' {{ route('monitoring.keuangan.file', $p->no_fp) }}'">
                                                 <i class="fas fa-desktop"></i>
                                             </button>
                                             <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
