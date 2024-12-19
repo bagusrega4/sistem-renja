@@ -96,9 +96,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('/assets/css/demo.css') }}" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
