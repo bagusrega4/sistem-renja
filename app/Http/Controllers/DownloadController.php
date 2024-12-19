@@ -58,19 +58,23 @@ class DownloadController extends Controller
             ->get();
 
         // Konversi data ke CSV
-        $csvHeader = ['No FP', 'Tanggal Kegiatan', 'Nama Permintaan', 'Kode Akun', 'Nominal', 'Output', 'Komponen', 'SubKomponen', 'Pegawai'];
+        $csvHeader = ['No FP', 'Nip Pengaju', 'Nama Pengaju', 'Tanggal Mulai','Tanggal Akhir', 'Nama Permintaan','No SK', 'Akun Belanja', 'Output', 'Komponen', 'Sub Komponen','Nominal'];
         $csvData = [];
         foreach ($data as $item) {
             $csvData[] = [
                 $item->no_fp,
-                $item->tanggal_mulai . ' - ' . $item->tanggal_akhir,
+                $item->pegawai->nip_lama,
+                $item->pegawai->nama,
+                $item->tanggal_mulai,
+                $item->tanggal_akhir,
                 $item->uraian,
-                $item->kode_akun,
-                $item->nominal,
-                $item->output->nama ?? '', // Pastikan data ini tidak null
-                $item->komponen->nama ?? '', // Pastikan data ini tidak null
-                $item->subKomponen->nama ?? '', // Pastikan data ini tidak null
-                $item->pegawai->nama ?? '' // Pastikan data ini tidak null
+                $item->no_sk,
+                $item->akunBelanja->akun_belanja,
+                $item->output->output, // Pastikan data ini tidak null
+                $item->komponen->komponen, // Pastikan data ini tidak null
+                $item->subKomponen->sub_komponen,
+                $item->nominal // Pastikan data ini tidak null
+                
             ];
         }
 
