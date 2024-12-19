@@ -16,8 +16,12 @@ class MonitoringKeuanganController extends Controller
         }
         return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
     }
-    public function viewFile(id)
+    public function viewFile($id)
     {
-        return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
+        $pengajuan = FormPengajuan::all();
+        foreach ($pengajuan as $p) {
+            $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+        }
+        return view('monitoring.keuangan.file', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
     }
 }

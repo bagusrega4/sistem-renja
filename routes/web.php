@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
+Route::post('/edit-profile', [ProfileController::class,'setPhotoProfile'])->name('edit.profile');
 
 Route::get('/check-auth', function () {
     if (Auth::check()) {
@@ -119,9 +119,10 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
 
     // Keuangan
     Route::name('keuangan.')->prefix('/keuangan')->group(function () {
-        Route::get('/file', [MonitoringKeuanganController::class, 'viewFile'])->name('monitoring.file.keuangan');
         Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
+        Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
     });
 });
+
 
 require __DIR__ . '/auth.php';

@@ -15,13 +15,13 @@ class MonitoringOperatorController extends Controller
         return view('monitoring.operator.index', compact('formPengajuan'));
     }
 
-    public function uploadIndex($no_fp)
+    public function upload($no_fp)
     {
         $form = FormPengajuan::find($no_fp);
         return view('monitoring.operator.upload', compact('form'));
     }
 
-    public function storeFileOperator(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'no_fp' => 'required|exists:form_pengajuan,no_fp|unique:file_operator,no_fp',
