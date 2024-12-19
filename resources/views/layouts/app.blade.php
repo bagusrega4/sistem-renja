@@ -95,6 +95,14 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('/assets/css/demo.css') }}" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+
+    <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script defer src="{{ asset('assets/js/dataTable.js') }}"></script>
 </head>
 
 <body class="antialiased">
@@ -107,6 +115,8 @@
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
             @yield('content')
+            @yield('modal-view')
+            @yield('modal-delete')
         </div>
     </div>
     <!-- Core JS Files -->

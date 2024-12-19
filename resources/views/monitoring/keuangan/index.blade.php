@@ -40,7 +40,6 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Projects table -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
@@ -68,11 +67,11 @@
                                             <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn btn-info btn-sm me-2" action="{{route('monitoring.file.keuangan')}}">
+                                            <button class="btn btn-info btn-sm me-2" action="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
                                                 <i class="fas fa-desktop"></i>
                                             </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" onclick="window.location.href='form_tim_keuangan.html'">
-                                                <i class="fas fa-upload"></i>
+                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" action="{{ route('monitoring.keuangan.file', $p->no_fp) }}>
+                                                <i class=" fas fa-upload"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -99,7 +98,7 @@
 </div>
 @endsection
 
-<!-- Modal View -->
+@section('modal-view')
 @foreach($pengajuan as $fp)
 <div class="modal fade" id="viewModalCenter{{ $fp->no_fp }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->no_fp }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -141,3 +140,4 @@
     </div>
 </div>
 @endforeach
+@endsection

@@ -18,7 +18,10 @@ class MonitoringKeuanganController extends Controller
     }
     public function viewFile($id)
     {
-        // = EventPdt::findOrFail($id);
-        return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
+        $pengajuan = FormPengajuan::all();
+        foreach ($pengajuan as $p) {
+            $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+        }
+        return view('monitoring.keuangan.file', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
     }
 }
