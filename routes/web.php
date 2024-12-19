@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/edit-profile', [ProfileController::class,'setPhotoProfile'])->name('edit.profile');
+Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
 
 Route::get('/check-auth', function () {
     if (Auth::check()) {
@@ -106,6 +106,12 @@ Route::name('form.')->prefix('/form')->group(function () {
     Route::get('/edit/{no_fp}', [FormController::class, 'edit'])->name('edit');
     Route::put('/update/{no_fp}', [FormController::class, 'update'])->name('update');
     Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
+});
+
+// Download 
+Route::prefix('download')->name('download.')->group(function () {
+    Route::get('/', [DownloadController::class, 'index'])->name('index');
+    Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
 });
 
 // Monitoring
