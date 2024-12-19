@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('uraian');
             $table->decimal('nominal', 15, 0);
             $table->string('nip_pengaju', 20);
+            
 
             // Foreign key constraints
             $table->foreign('kode_komponen')->references('kode')->on('komponen');

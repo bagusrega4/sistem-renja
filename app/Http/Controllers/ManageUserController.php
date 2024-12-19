@@ -10,11 +10,11 @@ class ManageUserController extends Controller
 {
     public function index()
     {
-       // Ambil semua data user
-    $users = User::all();
+        // Ambil semua data user
+        $users = User::all();
 
-    // Kirim data ke view 'manage.user.index'
-    return view('manage.user.index', compact('users'));
+        // Kirim data ke view 'manage.user.index'
+        return view('manage.user.index', compact('users'));
     }
 
     //Controller User
@@ -35,7 +35,7 @@ class ManageUserController extends Controller
     {
         // Validasi input dari form
         $request->validate([
-            'niplama' => 'required|string|max:255',
+            'nip_lama' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
             'email'    => 'required|string|max:255',
@@ -44,7 +44,7 @@ class ManageUserController extends Controller
 
         // Menambahkan data user baru ke database
         User::create([
-            'niplama' => $request->niplama,
+            'nip_lama' => $request->nip_lama,
             'username' => $request->username,
             'email'    => $request->email,
             'password' => $request->password,

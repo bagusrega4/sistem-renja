@@ -108,6 +108,12 @@ Route::name('form.')->prefix('/form')->group(function () {
     Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
 });
 
+// Download 
+Route::prefix('download')->name('download.')->group(function () {
+    Route::get('/', [DownloadController::class, 'index'])->name('index');
+    Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
+});
+
 // Monitoring
 Route::name('monitoring.')->prefix('/monitoring')->group(function () {
 
