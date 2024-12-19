@@ -11,7 +11,7 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="monitoring_admin.html" class="btn btn-label-info btn-round me-2">Monitoring</a>
-                <a href="form_admin.html" class="btn btn-primary btn-round">Add Pengajuan</a>
+                <a href="{{ route('form.index') }}" class="btn btn-primary btn-round">Add Pengajuan</a>
             </div>
         </div>
         <div class="row">

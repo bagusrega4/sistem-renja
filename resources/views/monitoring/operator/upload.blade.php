@@ -49,37 +49,58 @@
 
                     <div class="mb-3">
                         <label for="kak_ttd" class="form-label">KAK TTD</label>
-                        <input type="file" name="kak_ttd" class="form-control" id="kak_ttd" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="kak_ttd" class="form-control" id="kak_ttd" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('kak_ttd','btn_reset_kak_ttd')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_kak_ttd" style="display: none;" onclick="resetFileInput('kak_ttd','btn_reset_kak_ttd')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="surat_tugas" class="form-label">Surat Tugas</label>
-                        <input type="file" name="surat_tugas" class="form-control" id="surat_tugas" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="surat_tugas" class="form-control" id="surat_tugas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('surat_tugas','btn_reset_surat_tugas')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_surat_tugas" style="display: none;" onclick="resetFileInput('surat_tugas','btn_reset_surat_tugas')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="sk_kpa" class="form-label">SK KPA</label>
-                        <input type="file" name="sk_kpa" class="form-control" id="sk_kpa" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="sk_kpa" class="form-control" id="sk_kpa" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('sk_kpa','btn_reset_sk_kpa')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_sk_kpa" style="display: none;" onclick="resetFileInput('sk_kpa','btn_reset_sk_kpa')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="laporan_innas" class="form-label">Laporan Innas</label>
-                        <input type="file" name="laporan_innas" class="form-control" id="laporan_innas" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="laporan_innas" class="form-control" id="laporan_innas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('laporan_innas','btn_reset_laporan_innas')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_laporan_innas" style="display: none;" onclick="resetFileInput('laporan_innas','btn_reset_laporan_innas')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="daftar_hadir" class="form-label">Daftar Hadir</label>
-                        <input type="file" name="daftar_hadir" class="form-control" id="daftar_hadir" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="daftar_hadir" class="form-control" id="daftar_hadir" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('daftar_hadir','btn_reset_daftar_hadir')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_daftar_hadir" style="display: none;" onclick="resetFileInput('daftar_hadir','btn_reset_daftar_hadir')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="absen_harian" class="form-label">Absen Harian</label>
-                        <input type="file" name="absen_harian" class="form-control" id="absen_harian" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="absen_harian" class="form-control" id="absen_harian" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('absen_harian','btn_reset_absen_harian')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_absen_harian" style="display: none;" onclick="resetFileInput('absen_harian','btn_reset_absen_harian')">X</button>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="rekap_norek_innas" class="form-label">Rekap Norek Innas</label>
-                        <input type="file" name="rekap_norek_innas" class="form-control" id="rekap_norek_innas" accept="image/*" required>
+                        <div class="input-group">
+                            <input type="file" name="rekap_norek_innas" class="form-control" id="rekap_norek_innas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('rekap_norek_innas','btn_reset_rekap_norek_innas')">
+                            <button type="button" class="btn btn-outline-danger" id="btn_reset_rekap_norek_innas" style="display: none;" onclick="resetFileInput('rekap_norek_innas','btn_reset_rekap_norek_innas')">X</button>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -88,4 +109,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function resetFileInput(fileInputId, buttonId) {
+        var fileInput = document.getElementById(fileInputId);
+        fileInput.value = "";
+        document.getElementById(buttonId).style.display = "none";
+    }
+
+    function toggleResetButton(fileInputId, buttonId) {
+        var fileInput = document.getElementById(fileInputId);
+        var button = document.getElementById(buttonId);
+
+        if (fileInput.value) {
+            button.style.display = "inline-block";
+        } else {
+            button.style.display = "none";
+        }
+    }
+</script>
 @endsection

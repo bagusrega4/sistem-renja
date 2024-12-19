@@ -10,7 +10,6 @@ class MonitoringOperatorController extends Controller
 {
     public function index()
     {
-        // Mengambil data form pengajuan
         $formPengajuan = FormPengajuan::get();
         return view('monitoring.operator.index', compact('formPengajuan'));
     }
@@ -26,13 +25,13 @@ class MonitoringOperatorController extends Controller
         $request->validate([
             'no_fp' => 'required|exists:form_pengajuan,no_fp|unique:file_operator,no_fp',
             'nama_permintaan' => 'required|exists:form_pengajuan,uraian',
-            'kak_ttd' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'surat_tugas' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'sk_kpa' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'laporan_innas' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'daftar_hadir' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'absen_harian' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-            'rekap_norek_innas' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+            'kak_ttd' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'surat_tugas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'sk_kpa' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'laporan_innas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'daftar_hadir' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'absen_harian' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
+            'rekap_norek_innas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
         ]);
         // Menyimpan file dan mendapatkan path
         $kak_ttdPath = $request->file('kak_ttd')->store('uploads/file_operator', 'public');
