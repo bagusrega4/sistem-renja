@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -93,4 +93,8 @@ Route::get('/form/edit/{no_fp}', [FormController::class, 'edit'])->name('form.ed
 Route::put('/form/update/{no_fp}', [FormController::class, 'update'])->name('form.update');
 
 Route::get('monitoring/operator', [MonitoringOperatorController::class, 'index'])->name('monitoring.operator');
+
+Route::get('/notfound', function () {
+    return view('error.unauthorized');
+})->name('error.unauthorized');
 require __DIR__ . '/auth.php';

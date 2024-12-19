@@ -16,8 +16,9 @@ class MonitoringKeuanganController extends Controller
         }
         return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
     }
-    public function viewFile(id)
+    public function viewFile($id)
     {
+        // = EventPdt::findOrFail($id);
         return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
     }
 }
