@@ -81,7 +81,7 @@
                         </div>
                       </td>
                       <td class="text-end">
-                        <span class="badge badge-warning">Pengecekan Dokumen</span>
+                        <span class="badge badge-warning">{{ $fp -> status}}</span>
                       </td>
                     </tr>
                     @endforeach
@@ -162,7 +162,7 @@
                 Apakah Anda yakin ingin menghapus form pengajuan ini?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
                 <form action="{{ route('form.delete', $fp->no_fp) }}" method="POST">
                     @csrf
                     @method('DELETE')

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +12,8 @@ class FormPengajuan extends Model
 
     protected $table = 'form_pengajuan';
     protected $primaryKey = 'no_fp';
-    public $incrementing = true;
-    protected $keyType = 'int';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [
@@ -25,7 +26,12 @@ class FormPengajuan extends Model
         'no_sk',
         'uraian',
         'nominal',
-        'nip_pengaju'
+        'nip_pengaju',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => Status::class,
     ];
 
     public function output()
@@ -33,7 +39,6 @@ class FormPengajuan extends Model
         return $this->belongsTo(Output::class, 'id_output', 'id');
     }
 
-    // Relasi ke tabel Komponen, SubKomponen, AkunBelanja, Pegawai (many-to-one)
     public function komponen()
     {
         return $this->belongsTo(Komponen::class, 'kode_komponen', 'kode');

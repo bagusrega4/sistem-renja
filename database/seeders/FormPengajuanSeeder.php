@@ -37,6 +37,7 @@ class FormPengajuanSeeder extends Seeder
                 'uraian' => $row[8],
                 'nominal' => $row[9],
                 'nip_pengaju' => $row[10],
+                'status' => $row[11],
             ]);
         }
 
