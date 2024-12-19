@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/edit-profile', [ProfileController::class,'setPhotoProfile'])->name('edit.profile');
+Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
 
 Route::get('/check-auth', function () {
     if (Auth::check()) {
@@ -123,6 +123,5 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
         Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
     });
 });
-
 
 require __DIR__ . '/auth.php';
