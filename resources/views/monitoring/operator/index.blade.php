@@ -75,8 +75,8 @@
                           <button class="btn btn-info btn-sm me-2" onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->no_fp) }}'">
                             <i class="fas fa-desktop"></i>
                           </button>
-                          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter">
-                            <i class="fas fa-trash-alt"></i>
+                          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter-{{ $fp->no_fp }}">
+                              <i class="fas fa-trash-alt"></i>
                           </button>
                         </div>
                       </td>
@@ -145,5 +145,31 @@
       </div>
     </div>
   </div>
+</div>
+@endforeach
+
+<!-- Modal -->
+
+@foreach($formPengajuan as $fp)
+<div class="modal fade" id="deleteModalCenter-{{ $fp->no_fp }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $fp->no_fp }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ $fp->no_fp }}">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin menghapus form pengajuan ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="{{ route('form.delete', $fp->no_fp) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 @endforeach

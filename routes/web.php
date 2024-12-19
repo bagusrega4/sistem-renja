@@ -105,6 +105,7 @@ Route::name('form.')->prefix('/form')->group(function () {
     Route::post('/store', [FormController::class, 'store'])->name('store');
     Route::get('/edit/{no_fp}', [FormController::class, 'edit'])->name('edit');
     Route::put('/update/{no_fp}', [FormController::class, 'update'])->name('update');
+    Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
 });
 
 // Monitoring

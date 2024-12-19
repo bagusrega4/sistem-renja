@@ -115,22 +115,25 @@ class FormController extends Controller
 
         // Redirect ke halaman monitoring dengan pesan sukses
         return redirect()
-            ->route('monitoring.operator')
+            ->route('monitoring.operator.index')
             ->with('success', 'Form pengajuan berhasil diperbarui.');
     }
 
-    //this method will delete a product
-    // public function destroy($id)
-    // {
-    //     $product = Product::find($id);
+    public function destroy($no_fp)
+    {
+        // Find the form by its primary key (no_fp)
+        $formPengajuan = FormPengajuan::find($no_fp);
 
-    //     if (!$product) {
-    //         return redirect()->route('products.index')->with('error', 'Product not found');
-    //     }
+        // Check if the form exists
+        if (!$formPengajuan) {
+            return redirect()->route('monitoring.operator')->with('error', 'Form pengajuan tidak ditemukan.');
+        }
 
-    //     $product->delete();
+        // Delete the form
+        $formPengajuan->delete();
 
-    //     return redirect()->route('products.index')->with('message', 'Product deleted successfully');
-    // }
+        // Redirect back with a success message
+        return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil dihapus.');
+    }
 
     }
