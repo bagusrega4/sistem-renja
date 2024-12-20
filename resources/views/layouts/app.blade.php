@@ -55,6 +55,12 @@
             color: #666;
             margin: 0;
         }
+
+        .inner-page{
+            margin-top:70px;
+        }
+
+
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="icon" href="{{ asset('/assets/img/logo.png') }}" type="image/x-icon" />
@@ -99,11 +105,13 @@
 </head>
 
 <body class="antialiased">
+
     <div class="wrapper">
         @include('_sidebar')
 
         <div class="main-panel">
             @include('_navbar')
+
             @include('/modal/_notifAll')
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
@@ -116,6 +124,7 @@
 
             @yield('content')
         </div>
+
     </div>
     <!-- Core JS Files -->
     <script src="{{ asset('/assets/js/core/jquery-3.7.1.min.js') }}"></script>

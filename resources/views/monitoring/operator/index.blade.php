@@ -118,12 +118,13 @@
                 <th>Tanggal Kegiatan</th>
                 <th>Nama Permintaan</th>
                 <th>No. SK</th>
+                <th>Nominal</th>
                 <th>Catatan</th>
                 <th>Bukti Transfer</th>
               </tr>
             </thead>
             <tbody>
-              <>
+              
                 <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
                 <td class="text-end">{{$fp -> komponen -> komponen}}</td>
                 <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
@@ -132,6 +133,7 @@
                 <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
                 <td class="text-end">{{$fp -> uraian}}</td>
                 <td class="text-end">{{$fp -> no_sk}}</td>
+                <td class="text-end">{{$fp -> nominal}}</td>
                 <td class="text-end">-</td>
                 <td class="text-end">
                   <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
