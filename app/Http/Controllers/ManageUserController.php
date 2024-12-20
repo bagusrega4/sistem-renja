@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,7 @@ class ManageUserController extends Controller
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
             'email'    => 'required|string|max:255',
-            'role'     => 'required|string|max:255',
+            'role' => 'required|string|in:' . implode(',', Role::getAll()),
         ]);
 
         // Menambahkan data user baru ke database
@@ -48,7 +49,7 @@ class ManageUserController extends Controller
             'username' => $request->username,
             'email'    => $request->email,
             'password' => $request->password,
-            'role'     => $request->role,
+            'role' => Role::from($request->role),
         ]);
 
         // Redirect ke halaman index dengan pesan sukses
@@ -58,7 +59,7 @@ class ManageUserController extends Controller
     public function updateRoleUser(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->role = $request->role;
+        $user->role = Role::from($request->role);
         $user->save();
 
         return redirect()->back()->with('success', 'Role Users berhasil diperbarui.');

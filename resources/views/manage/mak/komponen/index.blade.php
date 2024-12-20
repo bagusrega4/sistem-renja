@@ -100,7 +100,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Akhir Tabel Komponen -->
                     </div>
                 </div>
             </div>
