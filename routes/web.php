@@ -128,6 +128,8 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
     Route::name('keuangan.')->prefix('/keuangan')->group(function () {
         Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
+        Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
+        Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
     });
 });
 

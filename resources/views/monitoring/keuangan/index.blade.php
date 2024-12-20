@@ -67,12 +67,12 @@
                                             <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn btn-info btn-sm me-2" action="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
+                                            <a class="btn btn-info btn-sm me-2" href="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
                                                 <i class="fas fa-desktop"></i>
-                                            </button>
-                                            <button class="btn btn-success btn-sm me-2" aria-label="upload file" action="{{ route('monitoring.keuangan.file', $p->no_fp) }}>
+                                            </a>
+                                            <a class="btn btn-success btn-sm me-2" aria-label="upload file" href="{{ route('monitoring.keuangan.upload', $p->no_fp) }}">
                                                 <i class=" fas fa-upload"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </td>
                                     <td class="text-end">

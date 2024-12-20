@@ -29,56 +29,78 @@
               <tbody>
                 <tr>
                   <th scope="row">1</th>
-                  <td>Dokumen Rencana Anggaran</td>
+                  <td>KAK TTD</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-success btn-sm me-2">
+                      <a href="{{ asset('/storage/'.$fileOperator->kak_ttd) }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
-                      </button>
+                      </a>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
-                  <td>Dokumen Kontrak Kerja</td>
+                  <td>Surat Tugas</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-success btn-sm me-2">
+                      <a href="{{ asset($fileOperator->surat_tugas) }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
-                      </button>
+                      </a>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">3</th>
-                  <td>Dokumen Laporan Keuangan</td>
+                  <td>SK KPA</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-success btn-sm me-2">
+                      <a href="{{ asset($fileOperator->	sk_kpa) }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
-                      </button>
+                      </a>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
-                  <td>Dokumen Pengadaan Barang</td>
+                  <td>Laporan Innas</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-success btn-sm me-2">
+                      <a href="{{ asset($fileOperator->laporan_innas) }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
-                      </button>
+                      </a>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">5</th>
-                  <td>Dokumen Sertifikat Pelatihan</td>
+                  <td>Daftar Hadir</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-success btn-sm me-2">
+                      <a href="{{ asset($fileOperator->daftar_hadir) }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
-                      </button>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>Absen Harian</td>
+                  <td>
+                    <div class="d-flex justify-content-end">
+                      <a href="{{ asset($fileOperator->absen_harian) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>Rekap Norek Innas</td>
+                  <td>
+                    <div class="d-flex justify-content-end">
+                      <a href="{{ asset($fileOperator->rekap_norek_innas) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                        <i class="fas fa-eye"></i>
+                      </a>
                     </div>
                   </td>
                 </tr>
