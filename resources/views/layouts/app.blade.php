@@ -57,6 +57,12 @@
             color: #666;
             margin: 0;
         }
+
+        .inner-page{
+            margin-top:70px;
+        }
+        
+        
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link
@@ -106,16 +112,42 @@
 </head>
 
 <body class="antialiased">
+    
     <div class="wrapper">
         @include('_sidebar')
 
         <div class="main-panel">
             @include('_navbar')
+
             @include('/modal/_notifAll')
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
-            @yield('content')
+            
+            <div class="inner-page">
+                @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session('message'))
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif    
+                @yield('content')
+            </div>
         </div>
+        
     </div>
     <!-- Core JS Files -->
     <script src="{{ asset('/assets/js/core/jquery-3.7.1.min.js') }}"></script>
@@ -167,12 +199,6 @@
         };
         const statisticsChart = new Chart(ctx, config);
     </script>
-
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
 
     @yield('script')
 </body>
