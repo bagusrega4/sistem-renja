@@ -38,13 +38,11 @@
         }
 
         .notif-success {
-            background-color: #28a745;
-            /* Green for success */
+            background-color: #28a745; /* Green for success */
         }
 
         .notif-danger {
-            background-color: #dc3545;
-            /* Red for danger */
+            background-color: #dc3545; /* Red for danger */
         }
 
         .notification-text strong {
@@ -59,10 +57,7 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link
-        rel="icon"
-        href="{{ asset('/assets/img/logo.png') }}"
-        type="image/x-icon" />
+    <link rel="icon" href="{{ asset('/assets/img/logo.png') }}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="{{ asset('/assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -97,11 +92,9 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/demo.css') }}" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
-
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script defer src="{{ asset('assets/js/dataTable.js') }}"></script>
 </head>
 
@@ -114,6 +107,13 @@
             @include('/modal/_notifAll')
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
     </div>
@@ -167,12 +167,6 @@
         };
         const statisticsChart = new Chart(ctx, config);
     </script>
-
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
 
     @yield('script')
 </body>

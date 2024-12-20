@@ -58,7 +58,7 @@ class FormController extends Controller
         $formPengajuan['uraian'] = $request->uraian;
         $formPengajuan['nominal'] = $request->nominal;
         $formPengajuan['nip_pengaju'] = auth()->user()->nip_lama;
-        $formPengajuan['status'] = Status::ENTRI_DOKUMEN; 
+        $formPengajuan['status'] = Status::ENTRI_DOKUMEN;
 
         $formPengajuan -> save();
 
@@ -90,7 +90,7 @@ class FormController extends Controller
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
             'nominal' => 'required|numeric|min:0|max:1000000000000',
-            'status' => 'required|string|in:' . implode(',', Status::getAll()),
+            // 'status' => 'required|string|in:' . implode(',', Status::getAll()),
         ]);
 
         $formPengajuan=FormPengajuan::find($no_fp);
@@ -104,7 +104,7 @@ class FormController extends Controller
             'no_sk' => $request->no_sk,
             'uraian' => $request->uraian,
             'nominal' => $request->nominal,
-            'status' => Status::from($request->status),
+            // 'status' => Status::from($request->status),
         ]);
 
 
