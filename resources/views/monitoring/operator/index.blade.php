@@ -45,8 +45,8 @@
                 <tr>
                   <th>No.</th>
                   <th>No. FP</th>
-                  <th>Tanggal Kegiatan</th>
                   <th>Nama Permintaan</th>
+                  <th>Tanggal Kegiatan</th>
                   <th>Aksi</th>
                   <th>Status</th>
                 </tr>
@@ -58,8 +58,8 @@
                     {{ $loop->iteration }}
                   </th>
                   <td class="text-end">{{ $fp -> no_fp }}</td>
-                  <td class="text-end">{{ $fp -> tanggal_mulai}} - {{$fp->tanggal_akhir}}</td>
                   <td class="text-end">{{ $fp -> uraian}}</td>
+                  <td class="text-end">{{ $fp -> tanggal_mulai}} s.d. {{$fp->tanggal_akhir}}</td>
                   <td class="text-end">
                     <div class="d-flex justify-content-end">
                       <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $fp->no_fp }}" data-bs-no-fp="{{ $fp -> no_fp}}">

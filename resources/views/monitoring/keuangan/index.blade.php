@@ -44,9 +44,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. FP</th>
-                                    <th>Tanggal Kegiatan</th>
                                     <th>Nama Permintaan</th>
-                                    <th>Nama Pengaju</th>
+                                    <th>Tanggal Kegiatan</th>
+                                    <th>PJ Berkas</th>
                                     <th>Aksi</th>
                                     <th>Status</th>
                                 </tr>
@@ -58,8 +58,8 @@
                                         {{ $loop->iteration }}
                                     </th>
                                     <td class="text-end">{{ $p->no_fp }}</td>
-                                    <td class="text-end">{{ $p->tanggal_mulai }}</td>
                                     <td class="text-end">{{ $p->uraian }}</td>
+                                    <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
                                     <td class="text-end">{{ $pegawai->nama }}</td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
