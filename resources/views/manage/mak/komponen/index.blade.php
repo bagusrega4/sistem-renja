@@ -6,7 +6,7 @@
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
-                <h6 class="op-7 mb-2">Mengelola Mata Anggaran Keuangan tabel Komponen</h6>
+                <h6 class="op-7 mb-2">Mengelola Mata Anggaran Keuangan Komponen Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('manage.mak.komponen.create') }}" class="btn btn-primary btn-round">Tambah Komponen</a>
@@ -16,7 +16,7 @@
             <div class="card card-round">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Tabel Komponen</div>
+                        <div class="card-title">Daftar Komponen</div>
                         <div class="card-tools">
                             <div class="dropdown">
                                 <button
@@ -59,51 +59,81 @@
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <button
-                                                    class="btn btn-warning dropdown-toggle"
+                                                    class="btn {{ $component->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
                                                     type="button"
-                                                    data-bs-toggle="dropdown">
-                                                    {{ $component -> flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                                    data-bs-toggle="dropdown"
+                                                    data-id="{{ $component->id }}"
+                                                    data-flag="{{ $component->flag }}"
+                                                    data-komponen="{{ $component->komponen }}">
+                                                    {{ $component->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="#">Tampilkan</a>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter{{ $loop->iteration }}" href="#">Jangan Tampilkan</a>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $component->id }}" data-flag="1" data-komponen="{{ $component->komponen }}">Tampilkan</button>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $component->id }}" data-flag="0" data-komponen="{{ $component->komponen }}">Jangan Ditampilkan</button>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
-
-                                    <!-- Modal Ubah Flag -->
-                                    <div class="modal fade" id="changeFlagModalCenter{{ $loop->iteration }}" tabindex="-1" aria-labelledby="changeFlagModalCenterLabel{{ $loop->iteration }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="changeFlagModalCenterLabel{{ $loop->iteration }}">Ubah Flag</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Konten Modal: Konfirmasi Ubah Flag -->
-                                                    Apakah Anda yakin ingin mengubah flag untuk komponen "{{ $component->komponen }}"?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                                                    <form action="{{ route('manage.mak.komponen.updateFlag', $component->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
+                        <!-- End Tabel Komponen -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Konfirmasi -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Ubah Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin <span id="modal-action-text"></span> komponen "<span id="modal-komponen"></span>"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                <form id="modalForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="flag" id="modal-flag">
+                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmModal = document.getElementById('confirmModal');
+        const modalForm = confirmModal.querySelector('#modalForm');
+        const modalActionText = confirmModal.querySelector('#modal-action-text');
+        const modalKomponen = confirmModal.querySelector('#modal-komponen');
+        const modalFlag = confirmModal.querySelector('#modal-flag');
+
+        const updateFlagRoutePattern = "{{ route('manage.mak.komponen.updateFlag', ':id') }}";
+
+        confirmModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const flag = button.getAttribute('data-flag');
+            const komponen = button.getAttribute('data-komponen');
+
+            const actionText = flag == "1" ? "menampilkan" : "tidak menampilkan";
+
+            modalActionText.textContent = actionText;
+            modalFlag.value = flag;
+            modalKomponen.textContent = komponen;
+            modalForm.action = updateFlagRoutePattern.replace(':id', id);
+        });
+    });
+</script>
 @endsection
