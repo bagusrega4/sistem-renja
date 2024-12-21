@@ -32,7 +32,7 @@
                   <td>KAK TTD</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset('/storage/'.$fileOperator->kak_ttd) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->kak_ttd ? asset('/storage/' . $fileOperator->kak_ttd) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -43,7 +43,7 @@
                   <td>Surat Tugas</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->surat_tugas) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->surat_tugas ?asset($fileOperator->surat_tugas)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -54,7 +54,7 @@
                   <td>SK KPA</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->	sk_kpa) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->sk_kpa ?asset($fileOperator->	sk_kpa)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -65,7 +65,7 @@
                   <td>Laporan Innas</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->laporan_innas) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->laporan_innas ?asset($fileOperator->laporan_innas) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -76,7 +76,7 @@
                   <td>Daftar Hadir</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->daftar_hadir) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->daftar_hadir ?asset($fileOperator->daftar_hadir)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -87,7 +87,7 @@
                   <td>Absen Harian</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->absen_harian) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->absen_harian ?asset($fileOperator->absen_harian) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
@@ -98,7 +98,7 @@
                   <td>Rekap Norek Innas</td>
                   <td>
                     <div class="d-flex justify-content-end">
-                      <a href="{{ asset($fileOperator->rekap_norek_innas) }}" target="_blank" class="btn btn-success btn-sm me-2">
+                      <a href="{{ optional($fileOperator)->rekap_norek_innas ?asset($fileOperator->rekap_norek_innas) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>
