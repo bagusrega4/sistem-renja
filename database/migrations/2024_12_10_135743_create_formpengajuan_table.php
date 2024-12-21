@@ -20,10 +20,10 @@ return new class extends Migration
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->string('no_sk', 50);
-            $table->text('uraian');
+            $table->text('uraian')->default('Entri Dokumen');
             $table->decimal('nominal', 15, 0);
             $table->string('nip_pengaju', 20);
-            
+
 
             // Foreign key constraints
             $table->foreign('kode_komponen')->references('kode')->on('komponen');

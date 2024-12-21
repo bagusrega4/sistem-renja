@@ -78,20 +78,20 @@
                                                     <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" name="role" value="User">
-                                                        <button type="submit" class="dropdown-item">User</button>
+                                                        <input type="hidden" name="role" value="user">
+                                                        <button type="submit" class="dropdown-item">user</button>
                                                     </form>
                                                     <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" name="role" value="Keuangan">
-                                                        <button type="submit" class="dropdown-item">Keuangan</button>
+                                                        <input type="hidden" name="role" value="keuangan">
+                                                        <button type="submit" class="dropdown-item">keuangan</button>
                                                     </form>
                                                     <form action="{{ route('manage.user.updateRole', $user->id) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" name="role" value="Admin">
-                                                        <button type="submit" class="dropdown-item">Admin</button>
+                                                        <input type="hidden" name="role" value="admin">
+                                                        <button type="submit" class="dropdown-item">admin</button>
                                                     </form>
                                                 </li>
                                             </ul>

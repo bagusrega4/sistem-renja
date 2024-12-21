@@ -44,7 +44,6 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Daftar Pertanyaan</th>
-                                    <th>Flag</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -54,7 +53,6 @@
                                         1
                                     </th>
                                     <td class="text-start">Rincian Output</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -77,7 +75,6 @@
                                         2
                                     </th>
                                     <td class="text-start">Komponen</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -100,7 +97,6 @@
                                         3
                                     </th>
                                     <td class="text-start">Sub Komponen</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -123,7 +119,6 @@
                                         4
                                     </th>
                                     <td class="text-start">Akun Belanja</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -146,7 +141,6 @@
                                         5
                                     </th>
                                     <td class="text-start">Nomor FP</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -169,7 +163,6 @@
                                         6
                                     </th>
                                     <td class="text-start">Tanggal Mulai Kegiatan</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -192,7 +185,6 @@
                                         7
                                     </th>
                                     <td class="text-start">Tanggal Kegiatan Berakhir</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -215,7 +207,6 @@
                                         8
                                     </th>
                                     <td class="text-start">Nomor SK/Surat Tugas</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -238,7 +229,6 @@
                                         9
                                     </th>
                                     <td class="text-start">Uraian</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -261,7 +251,6 @@
                                         10
                                     </th>
                                     <td class="text-start">Nominal</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
@@ -284,7 +273,6 @@
                                         11
                                     </th>
                                     <td class="text-start">PJ Berkas</td>
-                                    <td class="text-start">1</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button

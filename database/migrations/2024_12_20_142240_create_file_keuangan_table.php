@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('file_keuangan', function (Blueprint $table) {
             $table->id();
-            $table->integer('fileOperatorId');
+            $table->unsignedBigInteger('fileOperatorId');
             $table->string('noSPBy', 50);
             $table->string('noDRPP', 50);
             $table->string('noSPM', 50);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('form_pengajuan', function (Blueprint $table) {
             if (!Schema::hasColumn('form_pengajuan', 'status')) {
-                $table->string('status')->default('pending')->after('nip_pengaju');
+                $table->string('status')->default('Entri Dokumen')->after('nip_pengaju');
             }
         });
     }

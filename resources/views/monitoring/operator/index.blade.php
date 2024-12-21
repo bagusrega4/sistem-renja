@@ -79,7 +79,7 @@
                     </div>
                   </td>
                   <td class="text-end">
-                    <span class="badge badge-warning">Pengecekan Dokumen</span>
+                    <span class="badge badge-warning">{{ $fp -> status}}</span>
                   </td>
                 </tr>
                 @endforeach
@@ -117,11 +117,13 @@
                 <th>Tanggal Kegiatan</th>
                 <th>Nama Permintaan</th>
                 <th>No. SK</th>
+                <th>Nominal</th>
                 <th>Catatan</th>
                 <th>Bukti Transfer</th>
               </tr>
             </thead>
             <tbody>
+
               <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
               <td class="text-end">{{$fp -> komponen -> komponen}}</td>
               <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
@@ -130,12 +132,14 @@
               <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
               <td class="text-end">{{$fp -> uraian}}</td>
               <td class="text-end">{{$fp -> no_sk}}</td>
+              <td class="text-end">{{$fp -> nominal}}</td>
               <td class="text-end">-</td>
               <td class="text-end">
                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
                   <i class="fas fa-eye"></i>
                 </button>
               </td>
+
             </tbody>
           </table>
         </div>
@@ -160,7 +164,7 @@
         Apakah Anda yakin ingin menghapus form pengajuan ini?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
         <form action="{{ route('form.delete', $fp->no_fp) }}" method="POST">
           @csrf
           @method('DELETE')

@@ -27,9 +27,9 @@
                 <label for="akun" class="form-label">Akun</label>
                 <select class="form-select" name="akun" id="akun" style="max-width: 618px">
                     <option value="">Pilih Akun</option>
-                    @foreach($akunBelanja as $akun)
-                    <option value="{{ $akun->kode }}" {{ request('akun') == $akun->kode ? 'selected' : '' }}>
-                        {{ $akun->kode }} - {{ $akun->akun_belanja }}
+                    @foreach($akunBelanja as $itemAkun)
+                    <option value="{{ $itemAkun->kode }}" {{ request('akun') == $itemAkun->kode ? 'selected' : '' }}>
+                        {{ $itemAkun->kode }} - {{ $itemAkun->akun_belanja }}
                     </option>
                     @endforeach
                 </select>
@@ -66,7 +66,7 @@
                                         <td><input type="checkbox" name="selected_ids[]" value="{{ $item->no_fp }}" class="form-check-input" style="transform: scale(1.5);" /></td>
                                         <td>{{ $index + 1 }}</td>
                                         <td class="text-end">{{ $item->no_fp }}</td>
-                                        <td class="text-end">{{ $item->tanggal_mulai }} - {{ $item->tanggal_akhir }}</td>
+                                        <td class="text-end">{{ $item->tanggal_mulai }} s.d. {{ $item->tanggal_akhir }}</td>
                                         <td class="text-end">{{ $item->uraian }}</td>
                                         <td class="text-end">
                                             <span class="badge {{ $item->status == 'Pengecekan Dokumen' ? 'badge-warning' : ($item->status == 'Entri Operator' ? 'badge-secondary' : ($item->status == 'Proses Pembayaran' ? 'badge-primary' : 'badge-success')) }}">
@@ -81,8 +81,16 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-                <div class="ms-md-auto py-2 py-md-0">
+
+            <div class="d-flex justify-content-end align-items-center mt-3 flex-nowrap">
+                <div class="me-4 d-flex align-items-center flex-nowrap">
+                    <label for="format" class="form-label me-2 mb-0" style="white-space: nowrap;">Format File</label>
+                    <select class="form-select" name="format" id="format" style="max-width: 100px;">
+                        <option value="csv">CSV</option>
+                        <option value="xlsx">XLSX</option>
+                    </select>
+                </div>
+                <div>
                     <button type="submit" class="btn btn-primary btn-round">Download yang Dipilih</button>
                 </div>
             </div>

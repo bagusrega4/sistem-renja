@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\FormPengajuan;
 use App\Models\AkunBelanja;
 use Illuminate\Support\Facades\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FormPengajuanExport;
 
 class DownloadController extends Controller
 {
@@ -47,6 +49,7 @@ class DownloadController extends Controller
     public function download(Request $request)
     {
         $selectedIds = $request->input('selected_ids');
+        $format = $request->input('format', 'csv'); // default csv jika tidak dipilih
 
         if (!$selectedIds || empty($selectedIds)) {
             return back()->with('error', 'Pilih setidaknya satu data untuk diunduh.');
@@ -57,8 +60,11 @@ class DownloadController extends Controller
             ->whereIn('no_fp', $selectedIds)
             ->get();
 
-        // Konversi data ke CSV
-        $csvHeader = ['No FP', 'Nip Pengaju', 'Nama Pengaju', 'Tanggal Mulai','Tanggal Akhir', 'Nama Permintaan','No SK', 'Akun Belanja', 'Output', 'Komponen', 'Sub Komponen','Nominal'];
+        $csvHeader = [
+            'No FP', 'Nip Pengaju', 'Nama Pengaju', 'Tanggal Mulai', 'Tanggal Akhir',
+            'Nama Permintaan', 'No SK', 'Akun Belanja', 'Output', 'Komponen', 'Sub Komponen', 'Nominal'
+        ];
+
         $csvData = [];
         foreach ($data as $item) {
             $csvData[] = [
@@ -70,29 +76,36 @@ class DownloadController extends Controller
                 $item->uraian,
                 $item->no_sk,
                 $item->akunBelanja->akun_belanja,
-                $item->output->output, // Pastikan data ini tidak null
-                $item->komponen->komponen, // Pastikan data ini tidak null
-                $item->subKomponen->sub_komponen,
-                $item->nominal // Pastikan data ini tidak null
-                
+                $item->output ? $item->output->output : '',
+                $item->komponen ? $item->komponen->komponen : '',
+                $item->subKomponen ? $item->subKomponen->sub_komponen : '',
+                $item->nominal
             ];
         }
 
-        $filename = 'form_pengajuan_' . now()->format('YmdHis') . '.csv';
-        $handle = fopen('php://temp', 'w');
-        fputcsv($handle, $csvHeader);
+        $filenameBase = 'form_pengajuan_' . now()->format('YmdHis');
 
-        foreach ($csvData as $line) {
-            fputcsv($handle, $line);
+        if ($format === 'xlsx') {
+            // Download dalam format XLSX menggunakan Laravel Excel
+            return Excel::download(new FormPengajuanExport($csvData, $csvHeader), $filenameBase . '.xlsx');
+        } else {
+            // Download dalam format CSV (default)
+            $filename = $filenameBase . '.csv';
+            $handle = fopen('php://temp', 'w');
+            fputcsv($handle, $csvHeader);
+
+            foreach ($csvData as $line) {
+                fputcsv($handle, $line);
+            }
+
+            rewind($handle);
+            $content = stream_get_contents($handle);
+            fclose($handle);
+
+            return Response::make($content, 200, [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=$filename",
+            ]);
         }
-
-        rewind($handle);
-        $content = stream_get_contents($handle);
-        fclose($handle);
-
-        return Response::make($content, 200, [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=$filename",
-        ]);
     }
 }

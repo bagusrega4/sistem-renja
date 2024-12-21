@@ -13,7 +13,6 @@
                 <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
               </div> -->
         </div>
-        Tabel Monitoring
         <div class="col-md-12">
             <div class="card card-round">
                 <div class="card-header">

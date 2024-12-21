@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Models\FormPengajuan;
 use App\Models\Output;
 use App\Models\Komponen;
 use App\Models\SubKomponen;
 use App\Models\AkunBelanja;
-use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
 {
-    // Menampilkan daftar form pengajuan
     public function index()
     {
         $output = Output::all();
@@ -23,7 +22,6 @@ class FormController extends Controller
         return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 
-    // Menampilkan form untuk membuat pengajuan baru
     public function create()
     {
         $output = Output::all();
@@ -33,7 +31,6 @@ class FormController extends Controller
         return view('form.create', compact('output', 'komponen', 'subKomponen', 'akunBelanja'));
     }
 
-    // Menyimpan data pengajuan baru
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,7 +44,6 @@ class FormController extends Controller
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
             'nominal' => 'required|numeric| min:0|max:1000000000000',
-            // 'nip_pengaju' => 'required|exists:pegawai,nip_lama',
         ]);
 
         $formPengajuan = new FormPengajuan();
@@ -62,12 +58,13 @@ class FormController extends Controller
         $formPengajuan['uraian'] = $request->uraian;
         $formPengajuan['nominal'] = $request->nominal;
         $formPengajuan['nip_pengaju'] = auth()->user()->nip_lama;
+        $formPengajuan['status'] = Status::ENTRI_DOKUMEN;
+
         $formPengajuan -> save();
 
         return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil disimpan.');
     }
 
-    //this method will show edit product page
     public function edit($no_fp)
     {
 
@@ -79,7 +76,6 @@ class FormController extends Controller
         return view('form.edit', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 
-    //this method will update a product
     public function update(Request $request, $no_fp)
     {
 
@@ -93,8 +89,8 @@ class FormController extends Controller
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
-            'nominal' => 'required|numeric|min:0|max:100000000000',
-
+            'nominal' => 'required|numeric|min:0|max:1000000000000',
+            // 'status' => 'required|string|in:' . implode(',', Status::getAll()),
         ]);
 
         $formPengajuan=FormPengajuan::find($no_fp);
@@ -108,12 +104,12 @@ class FormController extends Controller
             'no_sk' => $request->no_sk,
             'uraian' => $request->uraian,
             'nominal' => $request->nominal,
+            // 'status' => Status::from($request->status),
         ]);
 
 
         $formPengajuan->save();
 
-        // Redirect ke halaman monitoring dengan pesan sukses
         return redirect()
             ->route('monitoring.operator.index')
             ->with('success', 'Form pengajuan berhasil diperbarui.');
@@ -121,18 +117,14 @@ class FormController extends Controller
 
     public function destroy($no_fp)
     {
-        // Find the form by its primary key (no_fp)
         $formPengajuan = FormPengajuan::find($no_fp);
 
-        // Check if the form exists
         if (!$formPengajuan) {
             return redirect()->route('monitoring.operator')->with('error', 'Form pengajuan tidak ditemukan.');
         }
 
-        // Delete the form
         $formPengajuan->delete();
 
-        // Redirect back with a success message
         return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil dihapus.');
     }
 

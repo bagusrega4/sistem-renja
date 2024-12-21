@@ -38,7 +38,6 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Projects table -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
@@ -57,47 +56,19 @@
                                         <td class="text-start">{{ $account->kode }}</td>
                                         <td class="text-start">{{ $account->akun_belanja }}</td>
                                         <td>
-                                            <!-- Aksi Column -->
                                             <div class="btn-group dropdown">
-                                                <button
-                                                    class="btn btn-warning dropdown-toggle"
-                                                    type="button"
-                                                    data-bs-toggle="dropdown">
+                                                <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                     {{ $account->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="#">Tampilkan</a>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changeFlagModalCenter{{ $loop->iteration }}" href="#">Jangan Ditampilkan</a>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="1">Tampilkan</button>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="0">Jangan Ditampilkan</button>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
-
-                                    <!-- Modal Ubah Flag -->
-                                    <div class="modal fade" id="changeFlagModalCenter{{ $loop->iteration }}" tabindex="-1" aria-labelledby="changeFlagModalCenterLabel{{ $loop->iteration }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="changeFlagModalCenterLabel{{ $loop->iteration }}">Ubah Flag</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Konten Modal: Konfirmasi Ubah Flag -->
-                                                    Apakah Anda yakin ingin mengubah flag untuk akun "{{ $account->akun_belanja }}"?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                                                    <form action="{{ route('manage.mak.akun.updateFlag', $account->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -107,4 +78,45 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Ubah Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin mengubah flag untuk <span id="modal-action-text"></span> akun "{{ $account->akun_belanja }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                <form id="modalForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="flag" id="modal-flag">
+                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const confirmModal = document.getElementById('confirmModal');
+    confirmModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const flag = button.getAttribute('data-flag');
+        const actionText = flag == "1" ? "menampilkan" : "tidak menampilkan";
+
+        const modalActionText = confirmModal.querySelector('#modal-action-text');
+        const modalFlag = confirmModal.querySelector('#modal-flag');
+        const modalForm = confirmModal.querySelector('#modalForm');
+
+        modalActionText.textContent = actionText;
+        modalFlag.value = flag;
+        modalForm.action = `/manage/mak/akun/${id}/update-flag`;
+    });
+</script>
 @endsection

@@ -31,14 +31,14 @@
                 <a href="{{ route('manage.user.index') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
-        
+
         <div class="card card-round">
             <div class="card-body">
                 <form action="{{ route('manage.user.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="niplama" class="form-label">NIP Lama</label>
-                        <input type="text" name="niplama" class="form-control" id="niplama" value="{{ old('niplama') }}" required>
+                        <label for="nip_lama" class="form-label">NIP Lama</label>
+                        <input type="text" name="nip_lama" class="form-control" id="nip_lama" value="{{ old('nip_lama') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" name="password" class="form-control" id="password" value="{{ old('password') }}" required>
+                        <input type="password" name="password" class="form-control" id="password" value="{{ old('password') }}" required>
                     </div>
 		            <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
