@@ -7,7 +7,7 @@
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
-                <h6 class="op-7 mb-2">Mengelola Mata Anggaran Keuangan Akun Belanja Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
+                <h6 class="op-7 mb-2">Pengelolaan Mata Anggaran Keuangan Akun Belanja Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('manage.mak.akun.create') }}" class="btn btn-primary btn-round">Tambah Akun Belanja</a>

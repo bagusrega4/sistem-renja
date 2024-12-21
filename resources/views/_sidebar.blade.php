@@ -27,7 +27,7 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item active">
+                <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
@@ -39,26 +39,26 @@
                     </span>
                     <h4 class="text-section">Components</h4>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('form.index') ? 'active' : '' }}">
                     <a href="{{ route('form.index') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-desktop"></i>
                         <p>Monitoring</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="base">
+                    <div class="collapse {{ request()->routeIs('monitoring.*') ? 'show' : '' }}" id="base">
                         <ul class="nav nav-collapse">
-                            <li>
+                            <li class="{{ request()->routeIs('monitoring.operator.index') ? 'active' : '' }}">
                                 <a href="{{ route('monitoring.operator.index') }}">
                                     <span class="sub-item">Operator</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs('monitoring.keuangan.index') ? 'active' : '' }}">
                                 <a href="{{ route('monitoring.keuangan.index') }}">
                                     <span class="sub-item">Keuangan</span>
                                 </a>
@@ -66,7 +66,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('download.index') ? 'active' : '' }}">
                     <a href="{{ route('download.index') }}">
                         <i class="fas fa-download"></i>
                         <p>Download</p>
@@ -78,36 +78,36 @@
                     </span>
                     <h4 class="text-section">Settings</h4>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('manage.user.index') || request()->routeIs('manage.user.create') ? 'active' : '' }}">
                     <a href="{{ route('manage.user.index') }}">
                         <i class="fas fa-users-cog"></i>
                         <p>Manage User</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#flag">
                         <i class="fas fa-flag"></i>
                         <p>Manage MAK</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="flag">
+                    <div class="collapse {{ request()->routeIs('manage.mak.*') ? 'show' : '' }}" id="flag">
                         <ul class="nav nav-collapse">
-                            <li>
+                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') ?  'active' : '' }}">
                                 <a href="{{ route('manage.mak.akun') }}">
                                     <span class="sub-item">Akun</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs('manage.mak.komponen') || request()->routeIs('manage.mak.komponen.create') ? 'active' : '' }}">
                                 <a href="{{ route('manage.mak.komponen') }}">
                                     <span class="sub-item">Komponen</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs('manage.mak.subkomponen') || request()->routeIs('manage.mak.subkomponen.create') ? 'active' : '' }}">
                                 <a href="{{ route('manage.mak.subkomponen') }}">
-                                    <span class="sub-item">Subkomponen</span>
+                                    <span class="sub-item">Sub Komponen</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs('manage.mak.output') || request()->routeIs('manage.mak.output.create') ? 'active' : '' }}">
                                 <a href="{{ route('manage.mak.output') }}">
                                     <span class="sub-item">Output</span>
                                 </a>
@@ -115,7 +115,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('manage.form.index') ? 'active' : '' }}">
                     <a href="{{ route('manage.form.index') }}">
                         <i class="fas fa-pen-square"></i>
                         <p>Manage Form</p>
@@ -124,12 +124,10 @@
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;
-                        /* Remove space on the right side of the first badge */
                     }
 
                     .nav-item a .badge-danger {
                         margin-left: 2px;
-                        /* Adjust this value to control the spacing between badges */
                     }
                 </style>
             </ul>
