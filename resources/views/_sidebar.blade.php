@@ -2,7 +2,7 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="/dashboard" class="logo d-flex align-items-center">
+            <a href="/" class="logo d-flex align-items-center">
                 <img
                     src="../../../assets/img/logo.png"
                     alt="navbar brand"

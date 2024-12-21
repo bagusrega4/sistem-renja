@@ -123,6 +123,8 @@
             @endif
 
             @yield('content')
+            @yield('modal-view')
+            @yield('modal-delete')
         </div>
 
     </div>

@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -128,8 +128,12 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
     Route::name('keuangan.')->prefix('/keuangan')->group(function () {
         Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
+        Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
+        Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
     });
 });
 
-
+Route::get('/notfound', function () {
+    return view('error.unauthorized');
+})->name('error.unauthorized');
 require __DIR__ . '/auth.php';

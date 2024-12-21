@@ -9,7 +9,7 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+    <link rel="icon" href="{{ asset('/assets/img/logo.png') }}" type="image/x-icon" />
     <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -62,6 +62,9 @@
                         </ul>
                     </li>
                     <li><a href="#contact">Contact</a></li>
+                    @if (auth()->user())
+                    <li><a href="/dashboard/">Dashboard</a></li>
+                    @endif
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -492,7 +495,7 @@
                 <!-- You can delete the links only if you've purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-            <a href="mailto:bps3100@bps.go.id">E-mail : bps3100@bps.go.id</a>
+                <a href="mailto:bps3100@bps.go.id">E-mail : bps3100@bps.go.id</a>
             </div>
         </div>
 
