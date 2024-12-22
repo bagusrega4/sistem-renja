@@ -154,32 +154,9 @@
     <!-- Kaiadmin JS -->
     <script src="{{ asset('/assets/js/kaiadmin.min.js') }}"></script>
 
-    <script>
-        const ctx = document.getElementById('statisticsChart').getContext('2d');
-        const data = {
-            labels: ['Jumlah Pengajuan', 'Approved', 'Rejected', 'Dalam Proses'],
-            datasets: [{
-                label: 'Statistik Pengajuan',
-                data: [594, 303, 45, 76],
-                backgroundColor: ['blue', 'green', 'red', 'orange'],
-            }]
-        };
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
-        const statisticsChart = new Chart(ctx, config);
-    </script>
 
     @yield('script')
+    @stack('scripts')
 </body>
 
 </html>
