@@ -8,7 +8,7 @@
                     alt="navbar brand"
                     class="navbar-brand"
                     height="30" />
-                <span class="ms-1 text-white fw-bold">DKI Jakarta</span> <!-- Tulisan DKI Jakarta -->
+                <span class="ms-1 text-white fw-bold">BPS wDKI Jakarta</span>
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">

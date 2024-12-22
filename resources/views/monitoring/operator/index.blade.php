@@ -79,11 +79,33 @@
                     </div>
                   </td>
                   <td class="text-end">
-                    <span class="badge badge-warning">{{ $fp -> status}}</span>
-                  </td>
+                    @switch($fp->status)
+                        @case(\App\Enums\Status::ENTRI_DOKUMEN)
+                            <span class="badge bg-light text-dark">Entri Dokumen</span>
+                            @break
+
+                        @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
+                            <span class="badge bg-warning">Pengecekan Dokumen</span>
+                            @break
+
+                        @case(\App\Enums\Status::DITOLAK)
+                            <span class="badge bg-danger">Ditolak</span>
+                            @break
+
+                        @case(\App\Enums\Status::DISETUJUI)
+                            <span class="badge bg-primary">Disetujui</span>
+                            @break
+
+                        @case(\App\Enums\Status::SELESAI)
+                            <span class="badge bg-success fw-bold">Selesai</span>
+                            @break
+
+                        @default
+                            <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                    @endswitch
+                </td>
                 </tr>
                 @endforeach
-
               </tbody>
             </table>
           </div>
@@ -129,7 +151,7 @@
               <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
               <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
               <td class="text-end">{{$fp -> no_fp}}</td>
-              <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
+              <td class="text-end">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
               <td class="text-end">{{$fp -> uraian}}</td>
               <td class="text-end">{{$fp -> no_sk}}</td>
               <td class="text-end">{{$fp -> nominal}}</td>

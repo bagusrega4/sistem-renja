@@ -9,9 +9,9 @@
                 <h6 class="op-7 mb-2">Monitoring pengajuan yang diajukan oleh Operator</h6>
             </div>
             <!-- <div class="ms-md-auto py-2 py-md-0">
-                <a href="monitoring_file_keuangan.html" class="btn btn-label-info btn-round me-2">Monitoring File</a>
+                <a href="{{ route('form.index') }}" class="btn btn-label-info btn-round me-2">Monitoring File</a>
                 <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
-              </div> -->
+            </div> -->
         </div>
         <div class="col-md-12">
             <div class="card card-round">
@@ -52,40 +52,66 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $counter = 1;
+                                @endphp
                                 @foreach ($pengajuan as $p)
-                                <tr>
-                                    <th scope="row">
-                                        {{ $loop->iteration }}
-                                    </th>
-                                    <td class="text-end">{{ $p->no_fp }}</td>
-                                    <td class="text-end">{{ $p->uraian }}</td>
-                                    <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
-                                    <td class="text-end">{{ $pegawai->nama }}</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <a class="btn btn-info btn-sm me-2" href="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
-                                                <i class="fas fa-desktop"></i>
-                                            </a>
-                                            <a class="btn btn-success btn-sm me-2" aria-label="upload file" href="{{ route('monitoring.keuangan.upload', $p->no_fp) }}">
-                                                <i class=" fas fa-upload"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <button class="btn btn-success dropdown-toggle btn-sm" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Approve
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    @if($p->status !== \App\Enums\Status::ENTRI_DOKUMEN)
+                                    <tr>
+                                        <th scope="row">
+                                            {{ $counter++ }}
+                                        </th>
+                                        <td class="text-end">{{ $p->no_fp }}</td>
+                                        <td class="text-end">{{ $p->uraian }}</td>
+                                        <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
+                                        <td class="text-end">{{ $pegawai->nama }}</td>
+                                        <td class="text-end">
+                                            <div class="d-flex justify-content-end">
+                                                <button type="button" class="btn btn-primary btn-sm me-2"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#viewModalCenter{{ $p->no_fp }}"
+                                                        data-bs-no-fp="{{ $p->no_fp }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <a class="btn btn-info btn-sm me-2"
+                                                   href="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
+                                                    <i class="fas fa-desktop"></i>
+                                                </a>
+                                                <a class="btn btn-success btn-sm me-2"
+                                                   aria-label="upload file"
+                                                   href="{{ route('monitoring.keuangan.upload', $p->no_fp) }}">
+                                                    <i class="fas fa-upload"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="text-end">
+                                            @switch($p->status)
+                                                @case(\App\Enums\Status::ENTRI_DOKUMEN)
+                                                    <span class="badge bg-light text-dark">Entri Dokumen</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
+                                                    <span class="badge bg-warning">Pengecekan Dokumen</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::DITOLAK)
+                                                    <span class="badge bg-danger">Ditolak</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::DISETUJUI)
+                                                    <span class="badge bg-primary">Disetujui</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::SELESAI)
+                                                    <span class="badge bg-success">Selesai</span>
+                                                    @break
+
+                                                @default
+                                                    <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                                            @endswitch
+                                        </td>
+                                    </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -127,7 +153,7 @@
                                 <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
                                 <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
                                 <td class="text-end">{{$fp -> no_fp}}</td>
-                                <td class="text-end">{{$fp -> tanggal_mulai}} - {{$fp -> tanggal_akhir}}</td>
+                                <td class="text-end">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
                                 <td class="text-end">{{$fp -> uraian}}</td>
                                 <td class="text-end">{{$fp -> no_sk}}</td>
                             </tr>

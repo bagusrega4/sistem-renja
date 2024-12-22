@@ -108,7 +108,7 @@ Route::name('form.')->prefix('/form')->group(function () {
     Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
 });
 
-// Download 
+// Download
 Route::prefix('download')->name('download.')->group(function () {
     Route::get('/', [DownloadController::class, 'index'])->name('index');
     Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
@@ -130,10 +130,13 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
         Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
         Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
+        Route::post('/approve/{id}', [MonitoringKeuanganController::class, 'approve'])->name('approve');
+        Route::post('/reject/{id}', [MonitoringKeuanganController::class, 'reject'])->name('reject');
     });
 });
 
 Route::get('/notfound', function () {
     return view('error.unauthorized');
 })->name('error.unauthorized');
+
 require __DIR__ . '/auth.php';

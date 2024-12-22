@@ -1,124 +1,150 @@
 @extends('layouts/app')
 @section('content')
 <div class="container">
-  <div class="page-inner">
-    <div
-      class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-      <div>
-        <a href="{{ route('monitoring.keuangan.index') }}" class="btn btn-dark mb-4">
-          <i class="fas fa-arrow-left"></i> Back
-        </a>
-        <h3 class="fw-bold mb-3">Monitoring File</h3>
-        <h6 class="op-7 mb-2">Monitoring pada berkas yang telah di upload operator dan beri pesetujuan untuk pengajuan</h6>
-      </div>
-    </div>
-    <!-- Tabel Monitoring-->
+    <div class="page-inner">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+          <div>
+            <a href="{{ route('monitoring.keuangan.index') }}" class="btn btn-danger mb-4">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <h3 class="fw-bold mb-3">Monitoring File</h3>
+            <h6 class="op-7 mb-2">Monitoring pada berkas yang telah di-upload operator dan beri persetujuan untuk pengajuan</h6>
+          </div>
+        </div>
+    <!-- Tabel Monitoring -->
     <div class="col-md-12">
       <div class="card card-round">
         <div class="card-header">
-          <div class="card-head-row card-tools-still-right">
-            <div class="card-title">Supervisi Survei Ekonomi Nasional</div>
-
-          </div>
+            <div class="card-head-row card-tools-still-right">
+                <div class="card-title">{{ $pengajuan->uraian }}</div>
+            </div>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <!-- Projects table -->
             <table id="example" class="table table-striped" style="width:100%">
-
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Nama Dokumen</th>
+                  <th>Lihat</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>KAK TTD</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->kak_ttd ? asset('/storage/' . $fileOperator->kak_ttd) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Surat Tugas</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->surat_tugas ?asset($fileOperator->surat_tugas)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>SK KPA</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->sk_kpa ?asset($fileOperator->	sk_kpa)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Laporan Innas</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->laporan_innas ?asset($fileOperator->laporan_innas) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Daftar Hadir</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->daftar_hadir ?asset($fileOperator->daftar_hadir)  : '#'}}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">6</th>
-                  <td>Absen Harian</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->absen_harian ?asset($fileOperator->absen_harian) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">7</th>
-                  <td>Rekap Norek Innas</td>
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <a href="{{ optional($fileOperator)->rekap_norek_innas ?asset($fileOperator->rekap_norek_innas) : '#' }}" target="_blank" class="btn btn-success btn-sm me-2">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
+                @php
+                $files = [
+                    ['name' => 'KAK TTD', 'file' => $fileOperator->kak_ttd ?? null],
+                    ['name' => 'Surat Tugas', 'file' => $fileOperator->surat_tugas ?? null],
+                    ['name' => 'SK KPA', 'file' => $fileOperator->sk_kpa ?? null],
+                    ['name' => 'Laporan Innas', 'file' => $fileOperator->laporan_innas ?? null],
+                    ['name' => 'Daftar Hadir', 'file' => $fileOperator->daftar_hadir ?? null],
+                    ['name' => 'Absen Harian', 'file' => $fileOperator->absen_harian ?? null],
+                    ['name' => 'Rekap Norek Innas', 'file' => $fileOperator->rekap_norek_innas ?? null],
+                ];
+                @endphp
+                @foreach ($files as $index => $file)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $file['name'] }}</td>
+                        <td>
+                            @if($file['file'])
+                                <!-- Tombol untuk membuka modal -->
+                                <button type="button"
+                                        class="btn btn-primary btn-sm me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalViewFile{{ $index }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="modalViewFile{{ $index }}" tabindex="-1"
+                                     aria-labelledby="modalViewFileLabel{{ $index }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modalViewFileLabel{{ $index }}">File {{ $file['name'] }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                @if (Str::endsWith($file['file'], '.pdf'))
+                                                    <iframe src="{{ asset('storage/' . $file['file']) }}"
+                                                            style="width:100%; height:600px;"
+                                                            frameborder="0">
+                                                    </iframe>
+                                                @elseif (in_array(Str::lower(pathinfo($file['file'], PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif']))
+                                                    <img src="{{ asset('storage/' . $file['file']) }}" alt="File" class="img-fluid" />
+                                                @else
+                                                    <p>Tidak dapat menampilkan pratinjau untuk jenis file ini.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <span class="text-danger">File belum diupload</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="ms-md-auto py-2 py-md-0 text-end">
-        <a href="#" class="btn btn-success btn-round">
-          <i class="fas fa-check"></i> Approve Pengajuan
-        </a>
-        <a href="#" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#catatanModalCenter">
-          <i class="fas fa-times"></i> Reject Pengajuan
-        </a>
-      </div>
+
+      <!-- Bagian Approve/Reject -->
+        @switch($pengajuan->status)
+            @case(\App\Enums\Status::ENTRI_DOKUMEN)
+            @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
+                <button type="button" class="btn btn-danger btn-round" data-bs-toggle="modal" data-bs-target="#catatanModalCenter">
+                    <i class="fas fa-times"></i> Reject Pengajuan
+                </button>
+                <form action="{{ route('monitoring.keuangan.approve', ['id' => $pengajuan->no_fp]) }}"
+                      method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-round me-2">
+                        <i class="fas fa-check"></i> Approve Pengajuan
+                    </button>
+                </form>
+                @break
+            @case(\App\Enums\Status::DITOLAK)
+                <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+                    <i class="fas fa-ban fa-2x me-2"></i>
+                    <div>
+                        <strong>Pengajuan telah Ditolak.</strong>
+                        Harap lakukan perbaikan dokumen.
+                    </div>
+                </div>
+                @break
+            @case(\App\Enums\Status::DISETUJUI)
+                <div class="alert alert-success d-flex align-items-center mt-2" role="alert">
+                    <i class="fas fa-check-circle fa-2x me-2"></i>
+                    <div>
+                        <strong>Pengajuan telah Disetujui.</strong>
+                        Mohon isi form keuangan.
+                    </div>
+                </div>
+                @break
+            @case(\App\Enums\Status::SELESAI)
+                <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
+                    <i class="fas fa-check-double fa-2x me-2"></i>
+                    <div>
+                        <strong>Pengajuan telah Selesai.</strong>
+                        Semua proses dan verifikasi sudah tuntas.
+                    </div>
+                </div>
+                @break
+            @default
+                <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
+                    <i class="fas fa-exclamation-circle fa-2x me-2"></i>
+                    <div>
+                        <strong>Tidak dapat diapprove maupun direject</strong>,
+                        karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
+                    </div>
+                </div>
+        @endswitch
     </div>
   </div>
+</div>
 
   <!-- Modal Catatan Penolakan -->
   <div class="modal fade" id="catatanModalCenter" tabindex="-1" role="dialog" aria-labelledby="catatanModalCenterTitle" aria-hidden="true">
@@ -126,30 +152,30 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="catatanModalCenterTitle">Tambahkan Catatan Penolakan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="rejectionForm">
+          <!-- Form untuk Menolak Pengajuan -->
+          <form id="rejectionForm" action="{{ route('monitoring.keuangan.reject', ['id' => $pengajuan->no_fp]) }}" method="POST">
+            @csrf
             <div class="form-group">
               <label for="rejectionNote">Alasan Penolakan</label>
-              <textarea class="form-control" id="rejectionNote" rows="5" placeholder="Masukkan alasan penolakan di sini..."></textarea>
+              <textarea class="form-control" id="rejectionNote" name="rejection_note" rows="5" placeholder="Masukkan alasan penolakan di sini..." required></textarea>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="batal">Batal</button>
-          <button type="button" class="btn btn-primary" onclick="saveRejectionNote()">Simpan</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-danger" form="rejectionForm">Reject Pengajuan</button>
         </div>
       </div>
-    </div>
-    <div class="ms-md-auto py-2 py-md-0 text-end">
-      <a href="#" class="btn btn-success btn-round">
-        <i class="fas fa-check"></i> Approve Pengajuan
-      </a>
-      <a href="#" class="btn btn-danger btn-round">
-        <i class="fas fa-times"></i> Reject Pengajuan
-      </a>
     </div>
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+  });
+</script>
 @endsection

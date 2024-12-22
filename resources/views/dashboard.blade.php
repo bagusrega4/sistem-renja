@@ -1,6 +1,5 @@
 @extends('layouts/app')
 @section('content')
-<!-- Isi content halaman -->
 <div class="container">
     <div class="page-inner">
         <div

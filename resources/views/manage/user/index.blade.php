@@ -68,7 +68,7 @@
                                         <td>
                                             <!-- Button untuk membuka modal -->
                                             <button
-                                                class="btn {{ $user->role == 'admin' ? 'btn-secondary' : ($user->role == 'keuangan' ? 'btn-primary' : 'btn-info') }} dropdown-toggle"
+                                                class="btn {{ $user->role == 'admin' ? 'btn-warning' : ($user->role == 'keuangan' ? 'btn-info' : 'btn-primary') }} dropdown-toggle"
                                                 type="button"
                                                 data-bs-toggle="dropdown"
                                                 data-id="{{ $user->id }}"
