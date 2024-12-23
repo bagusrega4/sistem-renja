@@ -5,7 +5,7 @@
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Manage Form</h2>
+                <h2 class="fw-bold mb-3">Kelola Form</h2>
                 <h6 class="op-7 mb-2">Pengelolaan Form Bukti Dukung Administrasi BPS Provinsi DKI Jakarta Tahun Anggaran 2024</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">

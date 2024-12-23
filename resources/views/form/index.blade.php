@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        
+
         <h2 class="fw-bold mb-3">Form</h2>
         <h6 class="op-7 mb-2">
             Form Registrasi Bukti Dukung Administrasi BPS Provinsi DKI Jakarta Tahun Anggaran 2024
@@ -44,7 +44,7 @@
                 <select class="form-select" id="kode_komponen" name="kode_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                    <option value="{{ $item->kode }}">{{ $item->komponen }}</option>
+                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->komponen }}</option>
                     @endforeach
                 </select>
             </div>
@@ -57,20 +57,20 @@
                 <select class="form-select" id="kode_subkomponen" name="kode_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                    <option value="{{ $item->kode }}">{{ $item->sub_komponen}}</option>
+                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->sub_komponen}}</option>
                     @endforeach
                 </select>
             </div>
 
             <!-- Dropdown Akun -->
             <div class="mb-3">
-                <label for="kode_akun" class="form-label">Akun
+                <label for="kode_akun" class="form-label">Akun Belanja
                     <span class="text-danger">*</span>
                 </label>
                 <select class="form-select" id="kode_akun" name="kode_akun" required>
-                    <option value="" disabled selected hidden>Pilih Akun</option>
+                    <option value="" disabled selected hidden>Pilih Akun Belanja</option>
                     @foreach ($akunBelanja as $item)
-                        <option value="{{ $item->kode }}">{{ $item->akun_belanja }}</option>
+                        <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->akun_belanja }}</option>
                     @endforeach
                 </select>
             </div>

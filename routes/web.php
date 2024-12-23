@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringKeuanganController;
 use App\Http\Controllers\MonitoringOperatorController;
@@ -26,9 +27,9 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:user'])
+    ->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -108,7 +109,7 @@ Route::name('form.')->prefix('/form')->group(function () {
     Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
 });
 
-// Download 
+// Download
 Route::prefix('download')->name('download.')->group(function () {
     Route::get('/', [DownloadController::class, 'index'])->name('index');
     Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
@@ -130,12 +131,13 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
         Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
         Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
-        Route::post('/accept-file', [MonitoringKeuanganController::class, 'accept'])->name('accept');
-        Route::post('/reject-file', [MonitoringKeuanganController::class, 'reject'])->name('reject');
+        Route::post('/approve/{id}', [MonitoringKeuanganController::class, 'approve'])->name('approve');
+        Route::post('/reject/{id}', [MonitoringKeuanganController::class, 'reject'])->name('reject');
     });
 });
 
 Route::get('/notfound', function () {
     return view('error.unauthorized');
 })->name('error.unauthorized');
+
 require __DIR__ . '/auth.php';

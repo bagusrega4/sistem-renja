@@ -15,7 +15,7 @@
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Pengguna</h2>
-                <h6 class="op-7 mb-2">Mengelola Daftar Pengguna Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
+                <h6 class="op-7 mb-2">Pengelolaan Daftar Pengguna Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('manage.user.create') }}" class="btn btn-primary btn-round">Tambah User</a>
@@ -68,7 +68,7 @@
                                         <td>
                                             <!-- Button untuk membuka modal -->
                                             <button
-                                                class="btn {{ $user->role == 'admin' ? 'btn-secondary' : ($user->role == 'keuangan' ? 'btn-primary' : 'btn-info') }} dropdown-toggle"
+                                                class="btn {{ $user->role == 'admin' ? 'btn-warning' : ($user->role == 'keuangan' ? 'btn-info' : 'btn-primary') }} dropdown-toggle"
                                                 type="button"
                                                 data-bs-toggle="dropdown"
                                                 data-id="{{ $user->id }}"

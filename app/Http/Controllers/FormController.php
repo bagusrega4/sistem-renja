@@ -14,20 +14,20 @@ class FormController extends Controller
 {
     public function index()
     {
-        $output = Output::all();
-        $komponen = Komponen::all();
-        $subKomponen = SubKomponen::all();
-        $akunBelanja = AkunBelanja::all();
+        $output = Output::visible()->get();
+        $komponen = Komponen::visible()->get();
+        $subKomponen = SubKomponen::visible()->get();;
+        $akunBelanja = AkunBelanja::visible()->get();
         $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'pegawai'])->get();
         return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 
     public function create()
     {
-        $output = Output::all();
-        $komponen = Komponen::all();
-        $subKomponen = SubKomponen::all();
-        $akunBelanja = AkunBelanja::all();
+        $output = Output::visible()->get();
+        $komponen = Komponen::visible()->get();
+        $subKomponen = SubKomponen::visible()->get();
+        $akunBelanja = AkunBelanja::visible()->get();
         return view('form.create', compact('output', 'komponen', 'subKomponen', 'akunBelanja'));
     }
 
@@ -69,10 +69,10 @@ class FormController extends Controller
     {
 
         $formPengajuan = FormPengajuan::find($no_fp);
-        $output = Output::all();
-        $komponen = Komponen::all();
-        $subKomponen = SubKomponen::all();
-        $akunBelanja = AkunBelanja::all();
+        $output = Output::visible()->get();
+        $komponen = Komponen::visible()->get();
+        $subKomponen = SubKomponen::visible()->get();
+        $akunBelanja = AkunBelanja::visible()->get();
         return view('form.edit', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 

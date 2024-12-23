@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('file_operator', function (Blueprint $table) {
-            $table->string('catatan', 100)->nullable()->after('status');
+            $table->string('catatan', 100)->nullable()->after('rekap_norek_innas');
             $table->string('bukti_transfer')->nullable()->after('catatan');
         });
     }

@@ -27,7 +27,8 @@ class FormPengajuan extends Model
         'uraian',
         'nominal',
         'nip_pengaju',
-        'status'
+        'status',
+        'rejection_note'
     ];
 
     protected $casts = [

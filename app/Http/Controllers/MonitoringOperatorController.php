@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Enums\Status;
 use App\Models\FormPengajuan;
 use App\Models\FileOperator;
 
@@ -33,7 +34,7 @@ class MonitoringOperatorController extends Controller
             'absen_harian' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
             'rekap_norek_innas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
         ]);
-        // Menyimpan file dan mendapatkan path
+
         $kak_ttdPath = $request->file('kak_ttd')->store('uploads/file_operator', 'public');
         $surat_tugasPath = $request->file('surat_tugas')->store('uploads/file_operator', 'public');
         $sk_kpaPath = $request->file('sk_kpa')->store('uploads/file_operator', 'public');
@@ -42,7 +43,6 @@ class MonitoringOperatorController extends Controller
         $absen_harianPath = $request->file('absen_harian')->store('uploads/file_operator', 'public');
         $rekap_norek_innasPath = $request->file('rekap_norek_innas')->store('uploads/file_operator', 'public');
 
-        // Membuat entri baru di tabel file_operator
         FileOperator::create([
             'no_fp' => $request->no_fp,
             'nama_permintaan' => $request->nama_permintaan,
@@ -54,6 +54,17 @@ class MonitoringOperatorController extends Controller
             'absen_harian' => $absen_harianPath,
             'rekap_norek_innas' => $rekap_norek_innasPath,
         ]);
+
+        $pengajuan = FormPengajuan::where('no_fp', $request->no_fp)->first();
+
+        if (!$pengajuan) {
+            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+        }
+
+        if ($pengajuan->status == Status::ENTRI_DOKUMEN) {
+            $pengajuan->status = Status::PENGECEKAN_DOKUMEN;
+            $pengajuan->save();
+        }
 
         return redirect()->route('monitoring.operator.index')->with('success', 'File Operator berhasil diupload.');
     }

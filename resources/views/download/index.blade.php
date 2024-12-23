@@ -69,9 +69,30 @@
                                         <td class="text-end">{{ $item->tanggal_mulai }} s.d. {{ $item->tanggal_akhir }}</td>
                                         <td class="text-end">{{ $item->uraian }}</td>
                                         <td class="text-end">
-                                            <span class="badge {{ $item->status == 'Pengecekan Dokumen' ? 'badge-warning' : ($item->status == 'Entri Operator' ? 'badge-secondary' : ($item->status == 'Proses Pembayaran' ? 'badge-primary' : 'badge-success')) }}">
-                                                {{ $item->status }}
-                                            </span>
+                                            @switch($item->status)
+                                                @case(\App\Enums\Status::ENTRI_DOKUMEN)
+                                                    <span class="badge bg-light text-dark">Entri Dokumen</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
+                                                    <span class="badge bg-warning">Pengecekan Dokumen</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::DITOLAK)
+                                                    <span class="badge bg-danger">Ditolak</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::DISETUJUI)
+                                                    <span class="badge bg-primary">Disetujui</span>
+                                                    @break
+
+                                                @case(\App\Enums\Status::SELESAI)
+                                                    <span class="badge bg-success fw-bold">Selesai</span>
+                                                    @break
+
+                                                @default
+                                                    <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                                            @endswitch
                                         </td>
                                     </tr>
                                     @endforeach

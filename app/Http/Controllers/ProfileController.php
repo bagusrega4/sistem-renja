@@ -18,8 +18,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $niplama = Auth::user()->niplama;
-        $pegawai = Pegawai::where('nip_lama', $niplama)->firstOrFail();
+        $nip_lama = Auth::user()->nip_lama;
+        $pegawai = Pegawai::where('nip_lama', $nip_lama)->firstOrFail();
         return view('profile.edit', [
             'user' => $request->user(),
             'pegawai' => $pegawai
