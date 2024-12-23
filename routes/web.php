@@ -130,6 +130,8 @@ Route::name('monitoring.')->prefix('/monitoring')->group(function () {
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
         Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
         Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
+        Route::post('/accept-file', [MonitoringKeuanganController::class, 'accept'])->name('accept');
+        Route::post('/reject-file', [MonitoringKeuanganController::class, 'reject'])->name('reject');
     });
 });
 

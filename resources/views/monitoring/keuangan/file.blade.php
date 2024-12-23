@@ -109,6 +109,36 @@
           </div>
         </div>
       </div>
+
+      <div class="modal fade" id="catatanModalCenter" tabindex="-1" role="dialog" aria-labelledby="catatanModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <!-- Header Modal -->
+            <div class="modal-header">
+              <h5 class="modal-title" id="catatanModalCenterTitle">Tambahkan Catatan Penolakan</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="rejectionForm" method="POST" action="{{route('monitoring.keuangan.reject')}}">
+              <!-- Body Modal -->
+              <div class="modal-body">
+                @csrf
+                <div class="form-group mb-3">
+                  <label for="rejectionNote" class="form-label">Alasan Penolakan</label>
+                  <textarea class="form-control" id="catatan" name="catatan" rows="5" placeholder="Masukkan alasan penolakan di sini..." required></textarea>
+                </div>
+              </div>
+
+              <!-- Footer Modal -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary" onclick="saveRejectionNote()">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <div class="ms-md-auto py-2 py-md-0 text-end">
         <a href="#" class="btn btn-success btn-round">
           <i class="fas fa-check"></i> Approve Pengajuan
@@ -117,37 +147,6 @@
           <i class="fas fa-times"></i> Reject Pengajuan
         </a>
       </div>
-    </div>
-  </div>
-
-  <!-- Modal Catatan Penolakan -->
-  <div class="modal fade" id="catatanModalCenter" tabindex="-1" role="dialog" aria-labelledby="catatanModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="catatanModalCenterTitle">Tambahkan Catatan Penolakan</h5>
-        </div>
-        <div class="modal-body">
-          <form id="rejectionForm">
-            <div class="form-group">
-              <label for="rejectionNote">Alasan Penolakan</label>
-              <textarea class="form-control" id="rejectionNote" rows="5" placeholder="Masukkan alasan penolakan di sini..."></textarea>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="batal">Batal</button>
-          <button type="button" class="btn btn-primary" onclick="saveRejectionNote()">Simpan</button>
-        </div>
-      </div>
-    </div>
-    <div class="ms-md-auto py-2 py-md-0 text-end">
-      <a href="#" class="btn btn-success btn-round">
-        <i class="fas fa-check"></i> Approve Pengajuan
-      </a>
-      <a href="#" class="btn btn-danger btn-round">
-        <i class="fas fa-times"></i> Reject Pengajuan
-      </a>
     </div>
   </div>
 </div>

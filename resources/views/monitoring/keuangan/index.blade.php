@@ -63,7 +63,7 @@
                                     <td class="text-end">{{ $pegawai->nama }}</td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
+                                            <button type="button" lass="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#viewModalCenter{{ $p->no_fp }}" data-bs-no-fp="{{ $p -> no_fp}}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             <a class="btn btn-info btn-sm me-2" href="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
@@ -80,8 +80,8 @@
                                                 Approve
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                <li><a class="dropdown-item" href="#">Approve Pengajuan</a></li>
-                                                <li><a class="dropdown-item" href="#">Rejected Pengajuan</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('monitoring.keuangan.accept') }}">Approve Pengajuan</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('monitoring.keuangan.reject') }}">Rejected Pengajuan</a></li>
                                             </ul>
                                         </div>
                                     </td>

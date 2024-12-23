@@ -7,6 +7,7 @@ use App\Models\FileKeuangan;
 use App\Models\FileOperator;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use function GuzzleHttp\Promise\is_rejected;
 
 class MonitoringKeuanganController extends Controller
 {
@@ -28,10 +29,23 @@ class MonitoringKeuanganController extends Controller
         return view('monitoring.keuangan.file', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai, 'fileOperator' => $fileOperator]);
     }
 
-    public function upload($no_fp)
+    public function accept()
     {
-        $fileOperator = FileOperator::where('no_fp', $no_fp)->first();
-        return view('monitoring.keuangan.upload', compact('fileOperator'));
+        return redirect()->route('monitoring.keuangan.file')->with('success', 'File Keuangan berhasil diupload.');
+    }
+    public function reject(Request $request)
+    {
+        $is_rejected = true;
+        $request->validate([
+            'catatan' => 'required|string|max:1000',
+            'pengajuan_id' => 'required|exists:pengajuan,id',
+        ]);
+
+        $fileOperator = FileOperator::findOrFail($request->no_fp);
+        $fileOperator->update([
+            'catatan' => $request->catatan,
+        ]);
+        return redirect()->route('monitoring.keuangan.file', ['isRejected' => $is_rejected])->with('success', 'File Keuangan berhasil diupload.');
     }
 
     public function store(Request $request)
