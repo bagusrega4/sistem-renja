@@ -86,14 +86,18 @@
                         href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
+                            @if (Auth::user())
                             <img
                                 src="{{!Auth::user()->photo? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/'.Auth::user()->photo) }}"
                                 alt="..."
                                 class="avatar-img rounded-circle" />
+                            @endif
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
+                            @if (Auth::user())
                             <span class="fw-bold">{{ Auth::user()->username }}</span>
+                            @endif
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -107,9 +111,11 @@
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
+                                        @if (Auth::user())
                                         <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
                                         <p class="text-muted text-capitalize">as {{ Auth::user()->role }}</p>
+                                        @endif
                                         <a href="{{route('profile.edit')}}" class="btn btn-xs btn-secondary btn-sm">
                                             {{ __('View Profile') }}
                                         </a>

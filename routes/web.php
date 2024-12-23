@@ -28,34 +28,18 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'role:user'])
+    ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
 });
-
-Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
-
-Route::get('/check-auth', function () {
-    if (Auth::check()) {
-        return 'User is authenticated: ' . Auth::user()->name;
-    } else {
-        return 'User is not authenticated.';
-    }
-});
-
-// Route::resource('form', FormController::class);
-// Route::resource('monitoring/keuangan', MonitoringKeuanganController::class);
-// Route::resource('monitoring/operator', MonitoringOperatorController::class);
-Route::resource('download', DownloadController::class);
-// Route::resource('manage/form', ManageFormController::class);
-Route::resource('manage/user', ManageUserController::class)->except(['show']);
 
 // Manage
-Route::name('manage.')->prefix('/manage')->group(function () {
+Route::name('manage.')->prefix('/manage')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
     // Mata Anggaran Keuangan
     Route::name('mak.')->prefix('/mak')->group(function () {
@@ -100,7 +84,7 @@ Route::name('manage.')->prefix('/manage')->group(function () {
 });
 
 // Form Pengajuan
-Route::name('form.')->prefix('/form')->group(function () {
+Route::name('form.')->prefix('/form')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [FormController::class, 'index'])->name('index');
     Route::get('/create', [FormController::class, 'create'])->name('create');
     Route::post('/store', [FormController::class, 'store'])->name('store');
@@ -110,23 +94,23 @@ Route::name('form.')->prefix('/form')->group(function () {
 });
 
 // Download
-Route::prefix('download')->name('download.')->group(function () {
+Route::prefix('download')->name('download.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DownloadController::class, 'index'])->name('index');
     Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
 });
 
 // Monitoring
-Route::name('monitoring.')->prefix('/monitoring')->group(function () {
+Route::name('monitoring.')->prefix('/monitoring')->middleware(['auth', 'verified'])->group(function () {
 
     // Operator
-    Route::name('operator.')->prefix('/operator')->group(function () {
+    Route::name('operator.')->middleware(['role:user,keuangan,admin'])->prefix('/operator')->group(function () {
         Route::get('/', [MonitoringOperatorController::class, 'index'])->name('index');
         Route::get('/upload/{no_fp}', [MonitoringOperatorController::class, 'upload'])->name('upload');
         Route::post('/store-file', [MonitoringOperatorController::class, 'store'])->name('storeFile');
     });
 
     // Keuangan
-    Route::name('keuangan.')->prefix('/keuangan')->group(function () {
+    Route::name('keuangan.')->prefix('/keuangan')->middleware(['role:keuangan,admin'])->group(function () {
         Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
         Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
         Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');

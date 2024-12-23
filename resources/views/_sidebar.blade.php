@@ -7,8 +7,13 @@
                     src="../../../assets/img/logo.png"
                     alt="navbar brand"
                     class="navbar-brand"
-                    height="30" />
-                <span class="ms-1 text-white fw-bold">BPS DKI Jakarta</span>
+                    height="25" />
+                <span
+                    style="font-family: Arial, sans-serif; font-size:11px; line-height:1.2;"
+                    class="fw-bold fst-italic text-uppercase text-white">
+                    Badan Pusat Statistik Provinsi Dki Jakarta
+                </span>
+
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -45,7 +50,15 @@
                         <p>Form</p>
                     </a>
                 </li>
+                @if(Auth::user()->role == 'user')
                 <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active' : '' }}">
+                    <a href="{{ route('monitoring.operator.index') }}">
+                        <i class="fas fa-desktop"></i>
+                        <p>Monitoring</p>
+                    </a>
+                </li>
+                @else
+                <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-desktop"></i>
                         <p>Monitoring</p>
@@ -66,12 +79,14 @@
                         </ul>
                     </div>
                 </li>
+                @endif
                 <li class="nav-item {{ request()->routeIs('download.index') ? 'active' : '' }}">
                     <a href="{{ route('download.index') }}">
                         <i class="fas fa-download"></i>
                         <p>Download</p>
                     </a>
                 </li>
+                @if(Auth::user()->role == 'admin')
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
@@ -84,7 +99,7 @@
                         <p>Manage User</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#flag">
                         <i class="fas fa-flag"></i>
                         <p>Manage MAK</p>
@@ -121,6 +136,7 @@
                         <p>Manage Form</p>
                     </a>
                 </li>
+                @endif
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;
