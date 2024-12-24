@@ -70,7 +70,7 @@
                 <select class="form-select" id="kode_akun" name="kode_akun" required>
                     <option value="" disabled selected hidden>Pilih Akun Belanja</option>
                     @foreach ($akunBelanja as $item)
-                        <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->akun_belanja }}</option>
+                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->akun_belanja }}</option>
                     @endforeach
                 </select>
             </div>
@@ -108,11 +108,24 @@
                 <label for="nominal" class="form-label">Nominal
                     <span class="text-danger">*</span>
                 </label>
-                <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" required>
+                <input type="text" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" required>
             </div>
 
             <button type="submit" class="btn btn-success">Kirim</button>
         </form>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    const input = document.getElementById("nominal");
+    const formatter = new Intl.NumberFormat("id-ID");
+
+    input.addEventListener("input", (e) => {
+        const rawValue = input.value.replace(/[^\d]/g, "");
+        input.value = rawValue ? formatter.format(rawValue) : "";
+        input.dataset.rawValue = rawValue;
+    });
+</script>
 @endsection
