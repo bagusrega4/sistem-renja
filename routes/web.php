@@ -76,11 +76,6 @@ Route::name('manage.')->prefix('/manage')->middleware(['auth', 'verified', 'role
         Route::post('/store', [ManageUserController::class, 'store'])->name('store');
         Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
     });
-
-    // Manage Form
-    Route::name('form.')->prefix('/form')->group(function () {
-        Route::get('/', [ManageFormController::class, 'index'])->name('index');
-    });
 });
 
 // Form Pengajuan

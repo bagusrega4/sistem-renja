@@ -130,12 +130,6 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ request()->routeIs('manage.form.index') ? 'active' : '' }}">
-                    <a href="{{ route('manage.form.index') }}">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Manage Form</p>
-                    </a>
-                </li>
                 @endif
                 <style>
                     .nav-item a .badge-success {
