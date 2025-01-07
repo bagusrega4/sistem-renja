@@ -10,6 +10,7 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$roles)
     {
+<<<<<<< HEAD
         if (!Auth::check()) {
             return redirect()->route('login');
         }
@@ -24,6 +25,9 @@ class RoleMiddleware
             ->toArray();
 
         if (in_array(Auth::user()->id_role, $allowedRoles)) {
+=======
+        if (Auth::check() && in_array(Auth::user()->role, $roles)) {
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
             return $next($request);
         }
 

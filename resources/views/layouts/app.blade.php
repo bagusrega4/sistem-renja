@@ -38,11 +38,13 @@
         }
 
         .notif-success {
-            background-color: #28a745; /* Green for success */
+            background-color: #28a745;
+            /* Green for success */
         }
 
         .notif-danger {
-            background-color: #dc3545; /* Red for danger */
+            background-color: #dc3545;
+            /* Red for danger */
         }
 
         .notification-text strong {
@@ -59,15 +61,16 @@
         .inner-page {
             margin-top: 70px;
         }
-
-
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/assets/img/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/assets/img/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/assets/img/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('/assets/img/site.webmanifest') }}">
+<<<<<<< HEAD
 
+=======
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
 
     <!-- Fonts and icons -->
     <script src="{{ asset('/assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -120,11 +123,19 @@
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
 
+<<<<<<< HEAD
             {{-- @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
             @endif --}}
+=======
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
 
             @yield('content')
             @yield('modal-view')

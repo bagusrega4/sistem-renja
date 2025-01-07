@@ -116,9 +116,15 @@
                                         @if (Auth::user())
                                         <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
+<<<<<<< HEAD
                                         <p class="text-muted text-capitalize">as {{ Auth::user()->role->role }}</p>
                                         @endif
                                         <a href="{{route('profile.edit')}}" class="btn btn-xs btn-primary btn-sm">
+=======
+                                        <p class="text-muted text-capitalize">as {{ Auth::user()->role }}</p>
+                                        @endif
+                                        <a href="{{route('profile.edit')}}" class="btn btn-xs btn-secondary btn-sm">
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
                                             {{ __('View Profile') }}
                                         </a>
                                     </div>

@@ -17,6 +17,7 @@ use App\Http\Controllers\ManageMAKController;
 // -------------------------------------------------------------------
 Route::get('/', function () {
     return view('home');
+<<<<<<< HEAD
 })->name('home');
 
 // -------------------------------------------------------------------
@@ -30,6 +31,97 @@ Route::get('/check-auth', function () {
         return 'User is not authenticated.';
     }
 })->name('check-auth');
+=======
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
+});
+
+// Manage
+Route::name('manage.')->prefix('/manage')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
+
+    // Mata Anggaran Keuangan
+    Route::name('mak.')->prefix('/mak')->group(function () {
+
+        // Manage MAK Akun
+        Route::get('/akun', [ManageMAKController::class, 'akun'])->name('akun');
+        Route::get('/akun/create', [ManageMAKController::class, 'createAkun'])->name('akun.create');
+        Route::post('/akun/store', [ManageMAKController::class, 'storeAkun'])->name('akun.store');
+        Route::put('/akun/{id}/update-flag', [ManageMAKController::class, 'updateFlagAkun'])->name('akun.updateFlag');
+
+        // Manage MAK Komponen
+        Route::get('/komponen', [ManageMAKController::class, 'komponen'])->name('komponen');
+        Route::get('/komponen/create', [ManageMAKController::class, 'createKomponen'])->name('komponen.create');
+        Route::post('/komponen/store', [ManageMAKController::class, 'storeKomponen'])->name('komponen.store');
+        Route::put('/komponen/{id}/update-flag', [ManageMAKController::class, 'updateFlagKomponen'])->name('komponen.updateFlag');
+
+        // Manage MAK Subkomponen
+        Route::get('/subkomponen', [ManageMAKController::class, 'subkomponen'])->name('subkomponen');
+        Route::get('/subkomponen/create', [ManageMAKController::class, 'createSubKomponen'])->name('subkomponen.create');
+        Route::post('/subkomponen/store', [ManageMAKController::class, 'storeSubKomponen'])->name('subkomponen.store');
+        Route::put('/subkomponen/{id}/update-flag', [ManageMAKController::class, 'updateFlagSubKomponen'])->name('subkomponen.updateFlag');
+
+        // Manage MAK Output
+        Route::get('/output', [ManageMAKController::class, 'output'])->name('output');
+        Route::get('/output/create', [ManageMAKController::class, 'createOutput'])->name('output.create');
+        Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
+        Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
+    });
+
+    // Manage User
+    Route::name('user.')->prefix('/user')->group(function () {
+        Route::get('/', [ManageUserController::class, 'index'])->name('index');
+        Route::get('/create', [ManageUserController::class, 'create'])->name('create');
+        Route::post('/store', [ManageUserController::class, 'store'])->name('store');
+        Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
+    });
+});
+
+// Form Pengajuan
+Route::name('form.')->prefix('/form')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [FormController::class, 'index'])->name('index');
+    Route::get('/create', [FormController::class, 'create'])->name('create');
+    Route::post('/store', [FormController::class, 'store'])->name('store');
+    Route::get('/edit/{no_fp}', [FormController::class, 'edit'])->name('edit');
+    Route::put('/update/{no_fp}', [FormController::class, 'update'])->name('update');
+    Route::delete('/delete/{no_fp}', [FormController::class, 'destroy'])->name('delete');
+});
+
+// Download
+Route::prefix('download')->name('download.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [DownloadController::class, 'index'])->name('index');
+    Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
+});
+
+// Monitoring
+Route::name('monitoring.')->prefix('/monitoring')->middleware(['auth', 'verified'])->group(function () {
+
+    // Operator
+    Route::name('operator.')->middleware(['role:user,keuangan,admin'])->prefix('/operator')->group(function () {
+        Route::get('/', [MonitoringOperatorController::class, 'index'])->name('index');
+        Route::get('/upload/{no_fp}', [MonitoringOperatorController::class, 'upload'])->name('upload');
+        Route::post('/store-file', [MonitoringOperatorController::class, 'store'])->name('storeFile');
+    });
+
+    // Keuangan
+    Route::name('keuangan.')->prefix('/keuangan')->middleware(['role:keuangan,admin'])->group(function () {
+        Route::get('/', [MonitoringKeuanganController::class, 'index'])->name('index');
+        Route::get('/file/{id}', [MonitoringKeuanganController::class, 'viewFile'])->name('file');
+        Route::get('/upload/{no_fp}', [MonitoringKeuanganController::class, 'upload'])->name('upload');
+        Route::post('/store-file', [MonitoringKeuanganController::class, 'store'])->name('storeFile');
+        Route::post('/approve/{id}', [MonitoringKeuanganController::class, 'approve'])->name('approve');
+        Route::post('/reject/{id}', [MonitoringKeuanganController::class, 'reject'])->name('reject');
+    });
+});
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
 
 // -------------------------------------------------------------------
 // Halaman error jika unauthorized

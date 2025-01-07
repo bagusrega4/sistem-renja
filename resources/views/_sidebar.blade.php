@@ -11,7 +11,11 @@
                 <span
                     style="font-family: Arial, sans-serif; font-size:11px; line-height:1.2;"
                     class="fw-bold fst-italic text-uppercase text-white">
+<<<<<<< HEAD
                     Badan Pusat Statistik Provinsi DKI Jakarta
+=======
+                    Badan Pusat Statistik Provinsi Dki Jakarta
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
                 </span>
 
             </a>
@@ -50,7 +54,11 @@
                         <p>Form</p>
                     </a>
                 </li>
+<<<<<<< HEAD
                 @if(Auth::user()->id_role == 1)
+=======
+                @if(Auth::user()->role == 'user')
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
                 <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active' : '' }}">
                     <a href="{{ route('monitoring.operator.index') }}">
                         <i class="fas fa-desktop"></i>
@@ -86,7 +94,11 @@
                         <p>Download</p>
                     </a>
                 </li>
+<<<<<<< HEAD
                 @if(Auth::user()->id_role == 3)
+=======
+                @if(Auth::user()->role == 'admin')
+>>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
