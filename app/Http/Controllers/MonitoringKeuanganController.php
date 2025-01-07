@@ -25,73 +25,7 @@ class MonitoringKeuanganController extends Controller
     }
     public function viewFile($id)
     {
-<<<<<<< HEAD
         $pengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])->find($id);
-=======
-        $pengajuan = FormPengajuan::where('no_fp', $id)->first();
-        $pegawai = Pegawai::where('nip_lama', $pengajuan->nip_pengaju)->first();
-        $fileOperator = FileOperator::where('no_fp', $id)->first();
-
-        return view('monitoring.keuangan.file', [
-            'pengajuan' => $pengajuan,
-            'pegawai' => $pegawai,
-            'fileOperator' => $fileOperator
-        ]);
-    }
-
-    public function accept()
-    {
-        return redirect()->route('monitoring.keuangan.file')->with('success', 'File Keuangan berhasil diupload.');
-    }
-    // public function reject(Request $request)
-    // {
-    //     $is_rejected = true;
-    //     $request->validate([
-    //         'catatan' => 'required|string|max:1000',
-    //         'pengajuan_id' => 'required|exists:pengajuan,id',
-    //     ]);
-
-    //     $fileOperator = FileOperator::findOrFail($request->no_fp);
-    //     $fileOperator->update([
-    //         'catatan' => $request->catatan,
-    //     ]);
-    //     return redirect()->route('monitoring.keuangan.file', ['isRejected' => $is_rejected])->with('success', 'File Keuangan berhasil diupload.');
-    // }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'buktiTransfer' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'spjHonorInnas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'sspHonorInnas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'fileLainya' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-        ]);
-
-        $buktiTransfer = $request->file('buktiTransfer')->store('uploads/file_keuangan', 'public');
-        $spjHonorInnas = $request->file('spjHonorInnas')->store('uploads/file_keuangan', 'public');
-        $sspHonorInnas = $request->file('sspHonorInnas')->store('uploads/file_keuangan', 'public');
-        $fileLainya = $request->file('fileLainya')->store('uploads/file_keuangan', 'public');
-
-        FileKeuangan::create([
-            'fileOperatorId' => $request->fileOperatorId,
-            'noSPBy' => $request->noSPBy,
-            'noDRPP' => $request->noDRPP,
-            'noSPM' => $request->noSPM,
-            'tanggal_SPM' => $request->tanggal_SPM,
-            'tanggal_DRPP' => $request->tanggal_DRPP,
-            'buktiTransfer' => $buktiTransfer,
-            'spjHonorInnas' => $spjHonorInnas,
-            'sspHonorInnas' => $sspHonorInnas,
-            'fileLainya' => $fileLainya,
-        ]);
-
-        return redirect()->route('monitoring.keuangan.index')->with('success', 'File Keuangan berhasil diupload.');
-    }
-
-    public function approve($id)
-    {
-        $pengajuan = FormPengajuan::where('no_fp', $id)->first();
->>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
 
         if (!$pengajuan) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
