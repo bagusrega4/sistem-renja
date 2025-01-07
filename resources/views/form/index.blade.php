@@ -70,11 +70,7 @@
                 <select class="form-select" id="id_akun_belanja" name="id_akun_belanja" required>
                     <option value="" disabled selected hidden>Pilih Akun Belanja</option>
                     @foreach ($akunBelanja as $item)
-<<<<<<< HEAD
                     <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->nama_akun }}</option>
-=======
-                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->akun_belanja }}</option>
->>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
                     @endforeach
                 </select>
             </div>
@@ -124,7 +120,6 @@
 @section('script')
 <script>
     const input = document.getElementById("nominal");
-<<<<<<< HEAD
     const formatter = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
@@ -146,14 +141,3 @@
 </script>
 @endsection
 
-=======
-    const formatter = new Intl.NumberFormat("id-ID");
-
-    input.addEventListener("input", (e) => {
-        const rawValue = input.value.replace(/[^\d]/g, "");
-        input.value = rawValue ? formatter.format(rawValue) : "";
-        input.dataset.rawValue = rawValue;
-    });
-</script>
-@endsection
->>>>>>> e801f44bb8043adf54c86d10e519d78cfea5ec56
