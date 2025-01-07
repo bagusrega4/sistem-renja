@@ -27,8 +27,8 @@ class OutputSeeder extends Seeder
         foreach ($data as $row) {
             DB::table('output')->insert([
                 'id' => $row[0],
-                'kode_kegiatan' => $row[1],
-                'kode_kro' => $row[2],
+                'id_kegiatan' => $row[1],
+                'id_kro' => $row[2],
                 'kode_ro' => $row[3],
                 'output' => $row[4],
                 'flag' => $row[5],

@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Form Tim Keuangan</h2>
@@ -15,98 +22,169 @@
 
         <div class="card card-round">
             <div class="card-body">
-                <form action="{{ route('monitoring.keuangan.storeFile') }}" method="POST" enctype="multipart/form-data">
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('monitoring.keuangan.store', $formPengajuan->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" role="form" name="fileOperatorId" value="{{$fileOperator->id}}">
+                    <!-- No FP (readonly) -->
                     <div class="mb-3">
-                        <label for="noSPBy" class="form-label">No. SPBy
+                        <label for="no_fp" class="form-label">No FP</label>
+                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{ $formPengajuan->no_fp }}" required readonly>
+                    </div>
+
+                    <!-- Nama Permintaan (readonly) -->
+                    <div class="mb-3">
+                        <label for="nama_permintaan" class="form-label">Nama Permintaan</label>
+                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{ $formPengajuan->uraian }}" required readonly>
+                    </div>
+
+                    <!-- Akun Belanja (readonly) -->
+                    <div class="mb-3">
+                        <label for="akun_belanja" class="form-label">Akun Belanja</label>
+                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ $formPengajuan->akunBelanja->nama_akun }}" required readonly>
+                    </div>
+
+                    <!-- PJ Berkas (readonly) -->
+                    <div class="mb-3">
+                        <label for="pj_berkas" class="form-label">PJ Berkas</label>
+                        <input type="text" name="pj_berkas" class="form-control" id="pj_berkas" value="{{ $formPengajuan->pegawai ? $formPengajuan->pegawai->nama : 'Data Pegawai Tidak Ditemukan' }}" required readonly>
+                    </div>
+
+                    <!-- Form Tim Keuangan -->
+                    <div class="mb-3">
+                        <label for="no_spby" class="form-label">No. SPBy
                             <span class="text-danger">*</span></label>
                         <input
                             type="text"
-                            class="form-control"
-                            id="noSPBy"
-                            name="noSPBy"
-                            placeholder="Your answer"
+                            class="form-control @error('no_spby') is-invalid @enderror"
+                            id="no_spby"
+                            name="no_spby"
+                            placeholder="Masukkan No. SPBy"
+                            value="{{ old('no_spby') }}"
                             required />
+                        @error('no_spby')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="noDRPP" class="form-label">No. DRPP
+                        <label for="no_drpp" class="form-label">No. DRPP
                             <span class="text-danger">*</span></label>
                         <input
                             type="text"
-                            class="form-control"
-                            id="noDRPP"
-                            name="noDRPP"
-                            placeholder="Your answer"
+                            class="form-control @error('no_drpp') is-invalid @enderror"
+                            id="no_drpp"
+                            name="no_drpp"
+                            placeholder="Masukkan No. DRPP"
+                            value="{{ old('no_drpp') }}"
                             required />
+                        @error('no_drpp')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="noSPM" class="form-label">No. SPM
+                        <label for="no_spm" class="form-label">No. SPM
                             <span class="text-danger">*</span></label>
                         <input
                             type="text"
-                            class="form-control"
-                            id="noSPM"
-                            name="noSPM"
-                            placeholder="Your answer"
+                            class="form-control @error('no_spm') is-invalid @enderror"
+                            id="no_spm"
+                            name="no_spm"
+                            placeholder="Masukkan No. SPM"
+                            value="{{ old('no_spm') }}"
                             required />
+                        @error('no_spm')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="tanggal_SPM" class="form-label">Tanggal SPM
+                        <label for="tanggal_spm" class="form-label">Tanggal SPM
                             <span class="text-danger">*</span></label>
                         <input
                             type="date"
-                            class="form-control"
-                            id="tanggalSPM"
-                            name="tanggal_SPM"
-                            placeholder="dd/mm/yyyy" />
+                            class="form-control @error('tanggal_spm') is-invalid @enderror"
+                            id="tanggal_spm"
+                            name="tanggal_spm"
+                            value="{{ old('tanggal_spm') }}"
+                            required />
+                        @error('tanggal_spm')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="tanggal_DRPP" class="form-label">Tanggal SP2D
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
                             <span class="text-danger">*</span></label>
                         <input
                             type="date"
-                            class="form-control"
-                            id="tanggalSP2D"
-                            name="tanggal_DRPP"
-                            placeholder="dd/mm/yyyy" />
+                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
+                            id="tanggal_drpp"
+                            name="tanggal_drpp"
+                            value="{{ old('tanggal_drpp') }}"
+                            required />
+                        @error('tanggal_drpp')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="buktiTransfer" class="form-label">Bukti Transfer</label>
-                        <div class="input-group">
-                            <input type="file" name="buktiTransfer" class="form-control" id="buktiTransfer" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('buktiTransfer','btn_reset_buktiTransfer')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_buktiTransfer" style="display: none;" onclick="resetFileInput('buktiTransfer','btn_reset_buktiTransfer')">X</button>
+                    <!-- Input File Dinamis -->
+                    @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
+                        @php
+                            $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                        @endphp
+                        <div class="mb-3">
+                            <label for="{{ $fileKey }}" class="form-label">
+                                {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <input
+                                    type="file"
+                                    name="{{ $fileKey }}"
+                                    class="form-control @error($fileKey) is-invalid @enderror"
+                                    id="{{ $fileKey }}"
+                                    accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                    required
+                                    onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
+                                >
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger"
+                                    id="btn_reset_{{ $fileKey }}"
+                                    style="display: none;"
+                                    onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
+                                >X</button>
+                            </div>
+                            @error($fileKey)
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                    </div>
+                    @endforeach
 
-                    <div class="mb-3">
-                        <label for="spjHonorInnas" class="form-label">SPJ Honor Innas</label>
-                        <div class="input-group">
-                            <input type="file" name="spjHonorInnas" class="form-control" id="spjHonorInnas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('spjHonorInnas','btn_reset_spjHonorInnas')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_spjHonorInnas" style="display: none;" onclick="resetFileInput('surat_tugas','btn_reset_spjHonorInnas')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="sspHonorInnas" class="form-label">SSP Honor Innas</label>
-                        <div class="input-group">
-                            <input type="file" name="sspHonorInnas" class="form-control" id="sspHonorInnas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('sspHonorInnas','btn_reset_sspHonorInnas')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_sspHonorInnas" style="display: none;" onclick="resetFileInput('sspHonorInnas','btn_reset_sspHonorInnas')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fileLainya" class="form-label">File Tim Keuangan lainnya</label>
-                        <div class="input-group">
-                            <input type="file" name="fileLainya" class="form-control" id="fileLainya" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('fileLainya','btn_reset_fileLainya')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_fileLainya" style="display: none;" onclick="resetFileInput('fileLainya','btn_reset_fileLainya')">X</button>
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
@@ -114,6 +192,7 @@
     </div>
 </div>
 @endsection
+
 @section('script')
 <script>
     function resetFileInput(fileInputId, buttonId) {

@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <form action="{{ route('form.update', $formPengajuan->no_fp) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('form.update', $formPengajuan->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -31,10 +31,10 @@
                 </label>
                 <select class="form-select" id="id_output" name="id_output" required>
                     <option value="" disabled selected hidden>Pilih Rincian Output</option>
-                    @foreach ($output as $output)
-                    <option value="{{ $output->id }}"
-                        {{$formPengajuan->id_output == $output -> id ? 'selected' : ''}}>
-                        {{ $output->output }}
+                    @foreach ($output as $item)
+                    <option value="{{ $item->id }}"
+                        {{$formPengajuan->id_output == $item -> id ? 'selected' : ''}}>
+                        {{ $item->output }}
                     </option>
                     @endforeach
                 </select>
@@ -45,14 +45,14 @@
 
             <!-- Dropdown Komponen -->
             <div class="mb-3">
-                <label for="kode_komponen" class="form-label">Komponen
+                <label for="id_komponen" class="form-label">Komponen
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_komponen" name="kode_komponen" required>
+                <select class="form-select" id="id_komponen" name="id_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                    <option value="{{ $item->kode }}"
-                    {{$formPengajuan->kode_komponen == $item -> kode ? 'selected' : ''}}>
+                    <option value="{{ $item->id }}"
+                    {{$formPengajuan->id_komponen == $item -> id ? 'selected' : ''}}>
                     {{ $item->komponen }}
                 </option>
                     @endforeach
@@ -64,11 +64,11 @@
                 <label for="kode_subkomponen" class="form-label">Sub Komponen
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_subkomponen" name="kode_subkomponen" required>
+                <select class="form-select" id="id_subkomponen" name="id_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                    <option value="{{ $item->kode }}"
-                    {{$formPengajuan->kode_subkomponen == $item -> kode ? 'selected' : ''}}>
+                    <option value="{{ $item->id }}"
+                    {{$formPengajuan->id_subkomponen == $item -> id ? 'selected' : ''}}>
                     {{ $item->sub_komponen}}
                 </option>
                     @endforeach
@@ -80,12 +80,12 @@
                 <label for="kode_akun" class="form-label">Akun
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_akun" name="kode_akun" required>
+                <select class="form-select" id="id_akun_belanja" name="id_akun_belanja" required>
                     <option value="" disabled selected hidden>Pilih Akun</option>
                     @foreach ($akunBelanja as $item)
-                        <option value="{{ $item->kode }}"
-                        {{$formPengajuan->kode_akun == $item -> kode ? 'selected' : ''}}>
-                        {{ $item->akun_belanja }}
+                        <option value="{{ $item->id }}"
+                        {{$formPengajuan->id_akun_belanja == $item -> id ? 'selected' : ''}}>
+                        {{ $item->nama_akun }}
                     </option>
                     @endforeach
                 </select>

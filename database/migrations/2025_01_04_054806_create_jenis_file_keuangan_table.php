@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ro', function (Blueprint $table) {
+        Schema::create('jenis_file_keuangan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 3)->unique();
-            $table->string('ro', 100);
+            $table->string('nama_file', 100);
             $table->boolean('flag')->default(1);
+            $table->timestamps();
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ro');
+        Schema::dropIfExists('jenis_file_keuangan');
     }
 };

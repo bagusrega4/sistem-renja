@@ -2,6 +2,13 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -56,62 +63,55 @@
                                     $counter = 1;
                                 @endphp
                                 @foreach ($pengajuan as $p)
-                                    @if($p->status !== \App\Enums\Status::ENTRI_DOKUMEN)
                                     <tr>
                                         <th scope="row">
                                             {{ $counter++ }}
                                         </th>
                                         <td class="text-end">{{ $p->no_fp }}</td>
-                                        <td class="text-end">{{ $p->uraian }}</td>
+                                        <td class="text-start">{{ $p->uraian }}</td>
                                         <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
-                                        <td class="text-end">{{ $pegawai->nama }}</td>
+                                        <td class="text-end">{{ $p->pegawai->nama }}</td>
                                         <td class="text-end">
                                             <div class="d-flex justify-content-end">
                                                 <button type="button" class="btn btn-primary btn-sm me-2"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#viewModalCenter{{ $p->no_fp }}"
-                                                        data-bs-no-fp="{{ $p->no_fp }}">
+                                                        data-bs-target="#viewModalCenter{{ $p->id }}"
+                                                        data-bs-id="{{ $p->id }}">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 <a class="btn btn-info btn-sm me-2"
-                                                   href="{{ route('monitoring.keuangan.file', $p->no_fp) }}">
+                                                   href="{{ route('monitoring.keuangan.file', $p->id) }}">
                                                     <i class="fas fa-desktop"></i>
                                                 </a>
                                                 <a class="btn btn-success btn-sm me-2"
                                                    aria-label="upload file"
-                                                   href="{{ route('monitoring.keuangan.upload', $p->no_fp) }}">
+                                                   href="{{ route('monitoring.keuangan.upload', $p->id) }}">
                                                     <i class="fas fa-upload"></i>
                                                 </a>
                                             </div>
                                         </td>
                                         <td class="text-end">
-                                            @switch($p->status)
-                                                @case(\App\Enums\Status::ENTRI_DOKUMEN)
-                                                    <span class="badge bg-light text-dark">Entri Dokumen</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
-                                                    <span class="badge bg-warning">Pengecekan Dokumen</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::DITOLAK)
-                                                    <span class="badge bg-danger">Ditolak</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::DISETUJUI)
-                                                    <span class="badge bg-primary">Disetujui</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::SELESAI)
-                                                    <span class="badge bg-success">Selesai</span>
-                                                    @break
-
-                                                @default
-                                                    <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                                            @switch($p->id_status)
+                                              @case(1)
+                                                <span class="badge bg-light text-dark">{{ $p->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(2)
+                                                <span class="badge bg-warning">{{ $p->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(3)
+                                                <span class="badge bg-danger">{{ $p->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(4)
+                                                <span class="badge bg-primary">{{ $p->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(5)
+                                                <span class="badge bg-success fw-bold">{{ $p->statusPengajuan->status }}</span>
+                                                @break
+                                              @default
+                                                <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
                                             @endswitch
-                                        </td>
+                                          </td>
                                     </tr>
-                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -125,7 +125,7 @@
 
 @section('modal-view')
 @foreach($pengajuan as $fp)
-<div class="modal fade" id="viewModalCenter{{ $fp->no_fp }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->no_fp }}" aria-hidden="true">
+<div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,36 +133,65 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>RO</th>
-                                <th>Komponen</th>
-                                <th>Sub Komponen</th>
-                                <th>Akun</th>
-                                <th>No. FP</th>
-                                <th>Tanggal Kegiatan</th>
-                                <th>Nama Permintaan</th>
-                                <th>No. SK</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-end">{{$fp -> output -> kode_kegiatan}}.{{$fp -> output -> kode_kro}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
-                                <td class="text-end">{{$fp -> komponen -> komponen}}</td>
-                                <td class="text-end">{{$fp -> subKomponen -> sub_komponen}}</td>
-                                <td class="text-end">{{$fp -> akunBelanja -> akun_belanja}}</td>
-                                <td class="text-end">{{$fp -> no_fp}}</td>
-                                <td class="text-end">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
-                                <td class="text-end">{{$fp -> uraian}}</td>
-                                <td class="text-end">{{$fp -> no_sk}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                  <table class="table table-striped" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Rincian Output</th>
+                        <th>Komponen</th>
+                        <th>Sub Komponen</th>
+                        <th>Akun</th>
+                        <th>No. FP</th>
+                        <th>Tanggal Kegiatan</th>
+                        <th>Nama Permintaan</th>
+                        <th>No. SK</th>
+                        <th>Nominal</th>
+                        <th>Catatan</th>
+                        <th>Bukti Transfer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <td class="text-start">{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
+                      <td class="text-start">{{$fp -> komponen -> komponen}}</td>
+                      <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
+                      <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
+                      <td class="text-start">{{$fp -> no_fp}}</td>
+                      <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
+                      <td class="text-start">{{$fp -> uraian}}</td>
+                      <td class="text-start">{{$fp -> no_sk}}</td>
+                      <td class="text-start nominal-currency">{{ $fp-> nominal }}</td>
+                      <td class="text-start">-</td>
+                      <td class="text-start">
+                        <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </td>
+                    </tbody>
+                  </table>
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 </div>
 @endforeach
 @endsection
+
+@push('scripts')
+<script>
+    function formatRupiah(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(number).replace(/\s+/g, "");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const nominalElements = document.querySelectorAll('.nominal-currency');
+        nominalElements.forEach(element => {
+            const rawValue = element.textContent;
+            element.textContent = formatRupiah(rawValue);
+        });
+    });
+</script>
+@endpush

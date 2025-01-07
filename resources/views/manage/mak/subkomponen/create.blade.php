@@ -47,8 +47,8 @@
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
                         <select name="flag" id="flag" class="form-select" required>
-                            <option value="1" {{ old('flag') == 1 ? 'selected' : '' }}>Tampilkan</option>
-                            <option value="0" {{ old('flag') == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
+                            <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
+                            <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>

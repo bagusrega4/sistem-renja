@@ -7,6 +7,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use App\Models\Pegawai;
 use App\Models\User;
@@ -28,7 +30,6 @@ class ProfileController extends Controller
 
     public function setPhotoProfile(Request $request): RedirectResponse
     {
-        // Validasi file gambar
         $request->validate([
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
@@ -38,11 +39,11 @@ class ProfileController extends Controller
 
             $imagePath = $request->file('image')->store('images', 'public');
 
-            if ($user->photo && \Storage::disk('public')->exists($user->photo)) {
-                \Storage::disk('public')->delete($user->photo);
+            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
             }
 
-            // Simpan path gambar baru ke database
+            $user = $request->user();
             $user->photo = $imagePath;
             $user->save();
 
@@ -67,6 +68,24 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Change the user's account password.
+     */
+    public function changePassword(Request $request)
+    {
+        $request->validateWithBag('updatePassword', [
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = $request->user();
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return back()->with('success', 'Password Anda berhasil diubah');
     }
 
     /**

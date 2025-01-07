@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('akun_belanja', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 6)->unique();
-            $table->string('akun_belanja', 255);
+            $table->string('kode', 6);
+            $table->string('nama_akun', 100);
             $table->boolean('flag')->default(1);
         });
     }

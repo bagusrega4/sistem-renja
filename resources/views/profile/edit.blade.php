@@ -64,6 +64,13 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-1"></div>
         <div class="row mt-2">
@@ -93,7 +100,7 @@
                         <h5 class="name">
                             {{$pegawai->nama}}
                         </h5>
-                        <h4 class="nip">{{ Auth::user()->niplama }}</h4>
+                        <h4 class="nip">{{ Auth::user()->nip_lama }}</h4>
                     </div>
                 </div>
             </div>
@@ -105,7 +112,7 @@
                             {{ __('Detail Profile') }}
                         </h4>
                         <h4 class="card-title mb-0 tab-link" id="password-tab" style="cursor: pointer;">
-                            {{ __('Update Password') }}
+                            {{ __('Change Password') }}
                         </h4>
                     </div>
 
@@ -154,7 +161,7 @@
                                     class="mb-3 d-flex align-items-center">
                                     <div class="label">{{__("Role")}}</div>
                                     <div class="value text-capitalize">
-                                        {{ Auth::user()->role }}
+                                        {{ Auth::user()->role->role }}
                                     </div>
                                 </div>
                                 <div
@@ -181,7 +188,7 @@
                     </div>
                     <div class="card-body" id="password-content">
                         <div class="container">
-                            <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                            <form method="post" action="{{ route('password.change') }}" class="mt-6 space-y-6">
                                 @csrf
                                 @method('put')
 
@@ -232,14 +239,6 @@
 
                                 <div class="d-flex align-items-center gap-4">
                                     <button type="sumbit" class="btn btn-primary btn-round">{{ __('Save') }}</button>
-                                    @if (session('status') === 'password-updated')
-                                    <p
-                                        x-data="{ show: true }"
-                                        x-show="show"
-                                        x-transition
-                                        x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
-                                    @endif
                                 </div>
                             </form>
                         </div>

@@ -25,8 +25,9 @@ class Pegawai extends Model
         'golongan',
     ];
 
-    public function formPengajuans()
+    public function user()
     {
-        return $this->hasMany(FormPengajuan::class, 'nip_pengaju', 'nip_lama');
+        return $this->hasMany(User::class, 'nip_lama', 'nip_lama');
     }
+
 }

@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -36,31 +36,116 @@
             <div class="card-body">
                 <form action="{{ route('manage.user.store') }}" method="POST">
                     @csrf
+
+                    <!-- NIP Lama -->
                     <div class="mb-3">
                         <label for="nip_lama" class="form-label">NIP Lama</label>
-                        <input type="text" name="nip_lama" class="form-control" id="nip_lama" value="{{ old('nip_lama') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" id="username" value="{{ old('username') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" value="{{ old('password') }}" required>
-                    </div>
-		            <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="text" name="email" class="form-control" id="email" value="{{ old('email') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select name="role" id="role" class="form-select">
-                            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                            <option value="keuangan" {{ old('role') == 'keuangan' ? 'selected' : '' }}>Keuangan</option>
-                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        </select>
+                        <input
+                            type="text"
+                            name="nip_lama"
+                            class="form-control @error('nip_lama') is-invalid @enderror"
+                            id="nip_lama"
+                            value="{{ old('nip_lama') }}"
+                            required
+                        >
+                        @error('nip_lama')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control @error('username') is-invalid @enderror"
+                            id="username"
+                            value="{{ old('username') }}"
+                            required
+                        >
+                        @error('username')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control @error('password') is-invalid @enderror"
+                            id="password"
+                            required
+                        >
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Konfirmasi Password -->
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                            id="password_confirmation"
+                            required
+                        >
+                        @error('password_confirmation')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            id="email"
+                            value="{{ old('email') }}"
+                            required
+                        >
+                        @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Role -->
+                    <div class="mb-3">
+                        <label for="id_role" class="form-label">Role</label>
+                        <select
+                            name="id_role"
+                            id="id_role"
+                            class="form-select @error('id_role') is-invalid @enderror"
+                            required
+                        >
+                            <option value="1" {{ old('id_role') == 1 ? 'selected' : '' }}>Operator</option>
+                            <option value="2" {{ old('id_role') == 2 ? 'selected' : '' }}>Keuangan</option>
+                            <option value="3" {{ old('id_role') == 3 ? 'selected' : '' }}>Admin</option>
+                        </select>
+                        @error('id_role')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Submit Button -->
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>

@@ -26,8 +26,8 @@ class Kegiatan extends Model
         return $query->where('flag', 1);
     }
 
-    public function outputs()
+    public function output()
     {
-        return $this->hasMany(Output::class, 'kegiatan', 'kode');
+        return $this->hasMany(Output::class, 'id_kegiatan', 'id');
     }
 }

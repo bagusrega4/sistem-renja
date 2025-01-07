@@ -22,7 +22,8 @@ class User extends Authenticatable
         'username',
         'password',
         'email',
-        'role'
+        'id_role',
+        'photo',
     ];
 
     /**
@@ -44,4 +45,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function nipLama()
+    {
+        return $this->belongsTo(Pegawai::class, 'nip_lama', 'nip_lama');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_role', 'id');
+    }
+
+    public function formPengajuan()
+    {
+        return $this->hasMany(FormPengajuan::class, 'nip_pengaju', 'nip_lama');
+    }
+
+    public function fileUploadOperator()
+    {
+        return $this->hasMany(FileUploadOperator::class, 'nip_pengaju', 'nip_lama');
+    }
+
+    public function fileUploadKeuangan()
+    {
+        return $this->hasMany(FileUploadKeuangan::class, 'nip_pengawas', 'nip_lama');
+    }
 }

@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nip_lama')->unique();
-            $table->string('username');
+            $table->string('nip_lama', 9)->unique();
+            $table->string('username')->unique();
             $table->string('password');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('role');
+            $table->unsignedBigInteger('id_role');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('nip_lama')->references('nip_lama')->on('pegawai');
+            $table->foreign('id_role')->references('id')->on('role');
         });
     }
 

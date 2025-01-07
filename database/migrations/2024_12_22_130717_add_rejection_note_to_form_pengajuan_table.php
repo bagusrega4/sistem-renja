@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('form_pengajuan', function (Blueprint $table) {
-            $table->text('rejection_note')->nullable()->after('status');
+            $table->text('rejection_note')->nullable()->after('id_status');
         });
     }
 

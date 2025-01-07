@@ -3,69 +3,128 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Enums\Status;
 use App\Models\FormPengajuan;
-use App\Models\FileOperator;
+use App\Models\FileUploadOperator;
+use App\Models\AkunFileOperator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class MonitoringOperatorController extends Controller
 {
     public function index()
     {
-        $formPengajuan = FormPengajuan::get();
+        $nipPengaju = auth()->user()->nip_lama;
+
+        $formPengajuan = FormPengajuan::with(['statusPengajuan'])
+            ->where('nip_pengaju', $nipPengaju)
+            ->get();
+
         return view('monitoring.operator.index', compact('formPengajuan'));
     }
 
-    public function upload($no_fp)
+    public function upload($id)
     {
-        $form = FormPengajuan::find($no_fp);
-        return view('monitoring.operator.upload', compact('form'));
-    }
+        $nipPengaju = auth()->user()->nip_lama;
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'no_fp' => 'required|exists:form_pengajuan,no_fp|unique:file_operator,no_fp',
-            'nama_permintaan' => 'required|exists:form_pengajuan,uraian',
-            'kak_ttd' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'surat_tugas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'sk_kpa' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'laporan_innas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'daftar_hadir' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'absen_harian' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'rekap_norek_innas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-        ]);
+        $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])
+            ->where('id', $id)
+            ->where('nip_pengaju', $nipPengaju)
+            ->first();
 
-        $kak_ttdPath = $request->file('kak_ttd')->store('uploads/file_operator', 'public');
-        $surat_tugasPath = $request->file('surat_tugas')->store('uploads/file_operator', 'public');
-        $sk_kpaPath = $request->file('sk_kpa')->store('uploads/file_operator', 'public');
-        $laporan_innasPath = $request->file('laporan_innas')->store('uploads/file_operator', 'public');
-        $daftar_hadirPath = $request->file('daftar_hadir')->store('uploads/file_operator', 'public');
-        $absen_harianPath = $request->file('absen_harian')->store('uploads/file_operator', 'public');
-        $rekap_norek_innasPath = $request->file('rekap_norek_innas')->store('uploads/file_operator', 'public');
-
-        FileOperator::create([
-            'no_fp' => $request->no_fp,
-            'nama_permintaan' => $request->nama_permintaan,
-            'kak_ttd' => $kak_ttdPath,
-            'surat_tugas' => $surat_tugasPath,
-            'sk_kpa' => $sk_kpaPath,
-            'laporan_innas' => $laporan_innasPath,
-            'daftar_hadir' => $daftar_hadirPath,
-            'absen_harian' => $absen_harianPath,
-            'rekap_norek_innas' => $rekap_norek_innasPath,
-        ]);
-
-        $pengajuan = FormPengajuan::where('no_fp', $request->no_fp)->first();
-
-        if (!$pengajuan) {
-            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+        if (!$formPengajuan) {
+            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan atau Anda tidak memiliki akses.');
         }
 
-        if ($pengajuan->status == Status::ENTRI_DOKUMEN) {
-            $pengajuan->status = Status::PENGECEKAN_DOKUMEN;
-            $pengajuan->save();
-        }
+        $jenisFilesOperator = $formPengajuan->akunBelanja->jenisFileOperator;
 
-        return redirect()->route('monitoring.operator.index')->with('success', 'File Operator berhasil diupload.');
+        return view('monitoring.operator.upload', compact('formPengajuan', 'jenisFilesOperator'));
     }
+
+    public function store(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])->find($id);
+
+            if (!$formPengajuan) {
+                return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+            }
+
+            $akunBelanja = $formPengajuan->akunBelanja;
+            $jenisFilesOperator = $akunBelanja->jenisFileOperator;
+
+            $rules = [];
+            $messages = [];
+
+            foreach ($jenisFilesOperator as $jenisFileOperator) {
+                $fileKey = str_replace(' ', '_', $jenisFileOperator->nama_file);
+                $rules[$fileKey] = 'required|file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096';
+                $messages["{$fileKey}.required"] = "File {$jenisFileOperator->nama_file} wajib diupload.";
+                $messages["{$fileKey}.mimes"] = "File {$jenisFileOperator->nama_file} harus berformat jpeg, jpg, png, pdf, doc, docx, xls, atau xlsx.";
+                $messages["{$fileKey}.max"] = "Ukuran file {$jenisFileOperator->nama_file} maksimal 4MB.";
+            }
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            foreach ($jenisFilesOperator as $jenisFileOperator) {
+                $fileKey = str_replace(' ', '_', $jenisFileOperator->nama_file);
+
+                try {
+                    if ($request->hasFile($fileKey)) {
+                        $akunFileOperator = AkunFileOperator::where('id_akun_belanja', $akunBelanja->id)
+                                            ->where('id_jenis_file_operator', $jenisFileOperator->id)
+                                            ->first();
+
+                        if (!$akunFileOperator) {
+                            return redirect()->back()->with('error', "Akun file untuk {$jenisFileOperator->nama_file} tidak ditemukan. Silakan hubungi admin.");
+                        }
+
+                        $file = $request->file($fileKey);
+
+                        if (!$file->isValid()) {
+                            throw new \Exception("File {$fileKey} upload failed: " . $file->getErrorMessage());
+                        }
+
+                        $path = $file->store('uploads/file_operator', 'public');
+
+                        if (!$path) {
+                            throw new \Exception("Failed to store file {$fileKey}");
+                        }
+
+                        FileUploadOperator::create([
+                            'id_form_pengajuan' => $formPengajuan->id,
+                            'id_akun_file_operator' => $akunFileOperator->id,
+                            'nip_pengaju' => auth()->user()->nip_lama,
+                            'file' => $path,
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', "Gagal mengupload file {$jenisFileOperator->nama_file}: " . $e->getMessage());
+                }
+            }
+
+            if ($formPengajuan->id_status == 1 || $formPengajuan->id_status == 3) {
+                $formPengajuan->id_status = 2;
+                $formPengajuan->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('monitoring.operator.index')->with('success', 'File operator berhasil diupload.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', "Gagal mengupload file: " . $e->getMessage());
+        }
+    }
+
 }

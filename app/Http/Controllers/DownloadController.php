@@ -11,19 +11,23 @@ use App\Exports\FormPengajuanExport;
 
 class DownloadController extends Controller
 {
-    // Menampilkan halaman filter & tabel
     public function index(Request $request)
     {
-        // Ambil daftar akun belanja untuk dropdown filter
+        $user = auth()->user();
+        $nipPengaju = $user->nip_lama;
+        $idRole = $user->id_role;
+
         $akunBelanja = AkunBelanja::visible()->get();
 
-        // Ambil filter dari request
         $tanggalMulai = $request->input('tanggal_mulai');
         $tanggalAkhir = $request->input('tanggal_akhir');
         $akun = $request->input('akun');
 
-        // Query dasar untuk tabel
         $query = FormPengajuan::query();
+
+        if ($idRole != 2 && $idRole != 3) {
+            $query->where('nip_pengaju', $nipPengaju);
+        }
 
         if ($tanggalMulai) {
             $query->where('tanggal_mulai', '>=', $tanggalMulai);
@@ -34,7 +38,7 @@ class DownloadController extends Controller
         }
 
         if ($akun) {
-            $query->where('kode_akun', $akun);
+            $query->where('id_akun_belanja', $akun);
         }
 
         $formPengajuan = $query->get();
@@ -45,51 +49,54 @@ class DownloadController extends Controller
         ]);
     }
 
-    // Proses download data yang dipilih
     public function download(Request $request)
     {
         $selectedIds = $request->input('selected_ids');
-        $format = $request->input('format', 'csv'); // default csv jika tidak dipilih
+        $format = $request->input('format', 'csv');
 
         if (!$selectedIds || empty($selectedIds)) {
             return back()->with('error', 'Pilih setidaknya satu data untuk diunduh.');
         }
 
-        // Ambil data berdasarkan ID yang dipilih dengan semua relasi
-        $data = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'pegawai'])
-            ->whereIn('no_fp', $selectedIds)
+        $data = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'formKeuangan'])
+            ->whereIn('id', $selectedIds)
             ->get();
 
         $csvHeader = [
-            'No FP', 'Nip Pengaju', 'Nama Pengaju', 'Tanggal Mulai', 'Tanggal Akhir',
-            'Nama Permintaan', 'No SK', 'Akun Belanja', 'Output', 'Komponen', 'Sub Komponen', 'Nominal'
+            'No. FP','Output','Komponen','Sub Komponen','Akun Belanja','Tanggal Mulai','Tanggal Akhir',
+            'No. SK','Nama Permintaan','Nominal','NIP Pengaju','NIP Pengawas','No. SPBy','No. DRPP',
+            'No. SPM', 'Tanggal SPM','Tanggal DRPP'
         ];
 
         $csvData = [];
         foreach ($data as $item) {
+            $formKeuangan = $item->formKeuangan;
             $csvData[] = [
                 $item->no_fp,
-                $item->pegawai->nip_lama,
-                $item->pegawai->nama,
+                $item->output?->output ?? '',
+                $item->komponen?->komponen ?? '',
+                $item->subKomponen?->sub_komponen ?? '',
+                $item->akunBelanja->nama_akun ?? '',
                 $item->tanggal_mulai,
                 $item->tanggal_akhir,
-                $item->uraian,
                 $item->no_sk,
-                $item->akunBelanja->akun_belanja,
-                $item->output ? $item->output->output : '',
-                $item->komponen ? $item->komponen->komponen : '',
-                $item->subKomponen ? $item->subKomponen->sub_komponen : '',
-                $item->nominal
+                $item->uraian,
+                $item->nominal,
+                $item->nip_pengaju,
+                $formKeuangan?->nip_pengawas ?? '',
+                $formKeuangan?->no_spby ?? '',
+                $formKeuangan?->no_drpp ?? '',
+                $formKeuangan?->no_spm ?? '',
+                $formKeuangan?->tanggal_spm ?? '',
+                $formKeuangan?->tanggal_drpp ?? '',
             ];
         }
 
         $filenameBase = 'form_pengajuan_' . now()->format('YmdHis');
 
         if ($format === 'xlsx') {
-            // Download dalam format XLSX menggunakan Laravel Excel
             return Excel::download(new FormPengajuanExport($csvData, $csvHeader), $filenameBase . '.xlsx');
         } else {
-            // Download dalam format CSV (default)
             $filename = $filenameBase . '.csv';
             $handle = fopen('php://temp', 'w');
             fputcsv($handle, $csvHeader);

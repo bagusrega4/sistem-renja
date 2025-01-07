@@ -86,14 +86,18 @@
                         href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
+                            @if (Auth::user())
                             <img
                                 src="{{!Auth::user()->photo? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/'.Auth::user()->photo) }}"
                                 alt="..."
                                 class="avatar-img rounded-circle" />
+                            @endif
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
+                            @if (Auth::user())
                             <span class="fw-bold">{{ Auth::user()->username }}</span>
+                            @endif
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -101,16 +105,20 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
+                                        @if (Auth::user())
                                         <img
-                                            src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
-                                            alt="image profile"
-                                            class="avatar-img rounded" />
+                                            src="{{!Auth::user()->photo? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/'.Auth::user()->photo) }}"
+                                            alt="..."
+                                            class="avatar-img rounded-circle" />
+                                        @endif
                                     </div>
                                     <div class="u-text">
+                                        @if (Auth::user())
                                         <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
-                                        <p class="text-muted text-capitalize">as {{ Auth::user()->role }}</p>
-                                        <a href="{{route('profile.edit')}}" class="btn btn-xs btn-secondary btn-sm">
+                                        <p class="text-muted text-capitalize">as {{ Auth::user()->role->role }}</p>
+                                        @endif
+                                        <a href="{{route('profile.edit')}}" class="btn btn-xs btn-primary btn-sm">
                                             {{ __('View Profile') }}
                                         </a>
                                     </div>
@@ -121,8 +129,7 @@
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-
-                                    <button class="dropdown-item cursor cursor-pointer" :href="route('logout')"
+                                    <button class="dropdown-item logout-btn cursor-pointer" :href="route('logout')"
                                         onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                         {{ __('Log Out') }}
@@ -136,3 +143,10 @@
         </div>
     </nav>
 </div>
+
+<style>
+    .logout-btn:hover {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
+</style>

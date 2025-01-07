@@ -26,8 +26,8 @@ class KRO extends Model
         return $query->where('flag', 1);
     }
 
-    public function outputs()
+    public function output()
     {
-        return $this->hasMany(Output::class, 'kro', 'kode');
+        return $this->hasMany(Output::class, 'kro', 'id');
     }
 }

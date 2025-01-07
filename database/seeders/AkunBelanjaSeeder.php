@@ -28,7 +28,7 @@ class AkunBelanjaSeeder extends Seeder
             DB::table('akun_belanja')->insert([
                 'id' => $row[0],
                 'kode' => $row[1],
-                'akun_belanja' => $row[2],
+                'nama_akun' => $row[2],
                 'flag' => $row[3],
             ]);
         }

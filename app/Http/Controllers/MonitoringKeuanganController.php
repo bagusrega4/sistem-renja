@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Status;
 use App\Models\FormPengajuan;
-use App\Models\FileKeuangan;
-use App\Models\FileOperator;
+use App\Models\AkunFileKeuangan;
+use App\Models\FileUploadOperator;
+use App\Models\FileUploadKeuangan;
+use App\Models\FormKeuangan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class MonitoringKeuanganController extends Controller
 {
@@ -22,66 +25,175 @@ class MonitoringKeuanganController extends Controller
     }
     public function viewFile($id)
     {
-        $pengajuan = FormPengajuan::where('no_fp', $id)->first();
-        $pegawai = Pegawai::where('nip_lama', $pengajuan->nip_pengaju)->first();
-        $fileOperator = FileOperator::where('no_fp', $id)->first();
-
-        return view('monitoring.keuangan.file', [
-            'pengajuan' => $pengajuan,
-            'pegawai' => $pegawai,
-            'fileOperator' => $fileOperator
-        ]);
-    }
-
-    public function upload($no_fp)
-    {
-        $fileOperator = FileOperator::where('no_fp', $no_fp)->first();
-        return view('monitoring.keuangan.upload', compact('fileOperator'));
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'buktiTransfer' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'spjHonorInnas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'sspHonorInnas' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-            'fileLainya' => 'required|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096',
-        ]);
-
-        $buktiTransfer = $request->file('buktiTransfer')->store('uploads/file_keuangan', 'public');
-        $spjHonorInnas = $request->file('spjHonorInnas')->store('uploads/file_keuangan', 'public');
-        $sspHonorInnas = $request->file('sspHonorInnas')->store('uploads/file_keuangan', 'public');
-        $fileLainya = $request->file('fileLainya')->store('uploads/file_keuangan', 'public');
-
-        FileKeuangan::create([
-            'fileOperatorId' => $request->fileOperatorId,
-            'noSPBy' => $request->noSPBy,
-            'noDRPP' => $request->noDRPP,
-            'noSPM' => $request->noSPM,
-            'tanggal_SPM' => $request->tanggal_SPM,
-            'tanggal_DRPP' => $request->tanggal_DRPP,
-            'buktiTransfer' => $buktiTransfer,
-            'spjHonorInnas' => $spjHonorInnas,
-            'sspHonorInnas' => $sspHonorInnas,
-            'fileLainya' => $fileLainya,
-        ]);
-
-        return redirect()->route('monitoring.keuangan.index')->with('success', 'File Keuangan berhasil diupload.');
-    }
-
-    public function approve($id)
-    {
-        $pengajuan = FormPengajuan::where('no_fp', $id)->first();
+        $pengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])->find($id);
 
         if (!$pengajuan) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
         }
 
-        if (!in_array($pengajuan->status, [Status::ENTRI_DOKUMEN, Status::PENGECEKAN_DOKUMEN])) {
+        $pegawai = Pegawai::where('nip_lama', $pengajuan->nip_pengaju)->first();
+
+        $fileUploadOperators = FileUploadOperator::where('id_form_pengajuan', $id)
+                                ->where('nip_pengaju', $pengajuan->nip_pengaju)
+                                ->with('akunFileOperator.jenisFileOperator')
+                                ->get();
+
+        $uploadedFiles = $fileUploadOperators->mapWithKeys(function($file) {
+            return [$file->akunFileOperator->jenisFileOperator->id => $file];
+        });
+
+        $jenisFileOperators = $pengajuan->akunBelanja->jenisFileOperator;
+
+        $uploadedJenisFiles = $jenisFileOperators->filter(function($jenisFile) use ($uploadedFiles) {
+            return $uploadedFiles->has($jenisFile->id);
+        });
+
+        return view('monitoring.keuangan.file', [
+            'pengajuan' => $pengajuan,
+            'pegawai' => $pegawai,
+            'uploadedJenisFiles' => $uploadedJenisFiles,
+            'uploadedFiles' => $uploadedFiles
+        ]);
+    }
+
+
+    public function upload($id)
+    {
+        $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+
+        if (!$formPengajuan) {
+            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+        }
+
+        $jenisFilesKeuangan = $formPengajuan->akunBelanja->jenisFileKeuangan;
+
+        return view('monitoring.keuangan.upload', compact('formPengajuan', 'jenisFilesKeuangan'));
+    }
+
+    public function store(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+
+            if (!$formPengajuan) {
+                return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+            }
+
+            $akunBelanja = $formPengajuan->akunBelanja;
+            $jenisFilesKeuangan = $akunBelanja->jenisFileKeuangan;
+
+            $rules = [
+                'no_spby' => 'required|string|max:50',
+                'no_drpp' => 'required|string|max:50',
+                'no_spm' => 'required|string|max:50',
+                'tanggal_drpp' => 'required|date',
+                'tanggal_spm' => 'required|date',
+            ];
+
+            $messages = [
+                'no_spby.required' => 'No. SPBy wajib diisi.',
+                'no_drpp.required' => 'No. DRPP wajib diisi.',
+                'no_spm.required' => 'No. SPM wajib diisi.',
+                'tanggal_drpp.required' => 'Tanggal DRPP wajib diisi.',
+                'tanggal_drpp.date' => 'Tanggal DRPP harus berupa tanggal yang valid.',
+                'tanggal_spm.required' => 'Tanggal SPM wajib diisi.',
+                'tanggal_spm.date' => 'Tanggal SPM harus berupa tanggal yang valid.',
+            ];
+
+            foreach ($jenisFilesKeuangan as $jenisFileKeuangan) {
+                $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                $rules[$fileKey] = 'required|file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096';
+                $messages["{$fileKey}.required"] = "File {$jenisFileKeuangan->nama_file} wajib diupload.";
+                $messages["{$fileKey}.mimes"] = "File {$jenisFileKeuangan->nama_file} harus berformat jpeg, jpg, png, pdf, doc, docx, xls, atau xlsx.";
+                $messages["{$fileKey}.max"] = "Ukuran file {$jenisFileKeuangan->nama_file} maksimal 4MB.";
+            }
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $formKeuangan = FormKeuangan::create([
+                'id_form_pengajuan' => $formPengajuan->id,
+                'nip_pengawas' => auth()->user()->nip_lama,
+                'no_spby' => $request->input('no_spby'),
+                'no_drpp' => $request->input('no_drpp'),
+                'no_spm' => $request->input('no_spm'),
+                'tanggal_drpp' => $request->input('tanggal_drpp'),
+                'tanggal_spm' => $request->input('tanggal_spm'),
+            ]);
+
+            foreach ($jenisFilesKeuangan as $jenisFileKeuangan) {
+                $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+
+                if ($request->hasFile($fileKey)) {
+                    $file = $request->file($fileKey);
+
+                    if (!$file->isValid()) {
+                        throw new \Exception("File {$fileKey} upload failed: " . $file->getErrorMessage());
+                    }
+
+                    $path = $file->store('uploads/file_keuangan', 'public');
+                    if (!$path) {
+                        throw new \Exception("Failed to store file {$fileKey}");
+                    }
+
+                    $akunFileKeuangan = AkunFileKeuangan::where('id_akun_belanja', $akunBelanja->id)
+                                            ->where('id_jenis_file_keuangan', $jenisFileKeuangan->id)
+                                            ->first();
+
+                    if (!$akunFileKeuangan) {
+                        throw new \Exception("Akun file untuk {$jenisFileKeuangan->nama_file} tidak ditemukan. Silakan hubungi admin.");
+                    }
+
+                    $existingFileUpload = FileUploadKeuangan::where('id_form_pengajuan', $formPengajuan->id)
+                                                ->where('id_akun_file_keuangan', $akunFileKeuangan->id)
+                                                ->where('nip_pengawas', auth()->user()->nip_lama)
+                                                ->first();
+
+                    if ($existingFileUpload) {
+                        throw new \Exception("File {$jenisFileKeuangan->nama_file} sudah pernah diupload sebelumnya.");
+                    }
+
+                    FileUploadKeuangan::create([
+                        'id_form_pengajuan' => $formPengajuan->id,
+                        'id_akun_file_keuangan' => $akunFileKeuangan->id,
+                        'nip_pengawas' => auth()->user()->nip_lama,
+                        'file' => $path,
+                    ]);
+                }
+            }
+
+            if ($formPengajuan->id_status == 4) {
+                $formPengajuan->id_status = 5;
+                $formPengajuan->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('monitoring.keuangan.index')->with('success', 'Form keuangan berhasil disimpan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', "Gagal mengupload file: " . $e->getMessage());
+        }
+    }
+
+    public function approve($id)
+    {
+        $pengajuan = FormPengajuan::find($id);
+
+        if (!$pengajuan) {
+            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+        }
+
+        if ($pengajuan->id_status != 1 && $pengajuan->id_status != 2) {
             return redirect()->back()->with('error', 'Form pengajuan tidak dapat diapprove pada status saat ini.');
         }
 
-        $pengajuan->status = Status::DISETUJUI;
+        $pengajuan->id_status = 4;
 
         $pengajuan->save();
 
@@ -94,17 +206,17 @@ class MonitoringKeuanganController extends Controller
             'rejection_note' => 'required|string|max:1000',
         ]);
 
-        $pengajuan = FormPengajuan::where('no_fp', $id)->first();
+        $pengajuan = FormPengajuan::find($id);
 
         if (!$pengajuan) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
         }
 
-        if (!in_array($pengajuan->status, [Status::ENTRI_DOKUMEN, Status::PENGECEKAN_DOKUMEN])) {
+        if ($pengajuan->id_status != 1 && $pengajuan->id_status != 2) {
             return redirect()->back()->with('error', 'Form pengajuan tidak dapat direject pada status saat ini.');
         }
 
-        $pengajuan->status = Status::DITOLAK;
+        $pengajuan->id_status = 3;
         $pengajuan->rejection_note = $request->rejection_note;
         $pengajuan->save();
 

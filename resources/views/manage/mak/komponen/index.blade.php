@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
@@ -54,7 +61,7 @@
                                         <th scope="row">
                                             {{ $loop->iteration }}
                                         </th>
-                                        <td class="text-start">{{ $component->kode }}</td>
+                                        <td class="text-end">{{ $component->kode }}</td>
                                         <td class="text-start">{{ $component->komponen }}</td>
                                         <td>
                                             <div class="btn-group dropdown">
@@ -96,7 +103,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin <span id="modal-action-text"></span> komponen "<span id="modal-komponen"></span>"?
+                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> komponen <b><span id="modal-komponen"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>

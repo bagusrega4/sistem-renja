@@ -1,10 +1,16 @@
-@extends('layouts/app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
                 <h6 class="op-7 mb-2">Pengelolaan Mata Anggaran Keuangan Akun Belanja Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
@@ -54,8 +60,8 @@
                                         <th scope="row">
                                             {{ $loop->iteration }}
                                         </th>
-                                        <td class="text-start">{{ $account->kode }}</td>
-                                        <td class="text-start">{{ $account->akun_belanja }}</td>
+                                        <td class="text-end">{{ $account->kode }}</td>
+                                        <td class="text-start">{{ $account->nama_akun }}</td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <button
@@ -64,14 +70,14 @@
                                                     data-bs-toggle="dropdown"
                                                     data-id="{{ $account->id }}"
                                                     data-flag="{{ $account->flag }}"
-                                                    data-akun="{{ $account->akun_belanja }}"
+                                                    data-akun="{{ $account->nama_akun }}"
                                                 >
                                                     {{ $account->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
-                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="1" data-akun="{{ $account->akun_belanja }}">Tampilkan</button>
-                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="0" data-akun="{{ $account->akun_belanja }}">Jangan Ditampilkan</button>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="1" data-akun="{{ $account->nama_akun }}">Tampilkan</button>
+                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="0" data-akun="{{ $account->nama_akun }}">Jangan Ditampilkan</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -96,7 +102,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin <span id="modal-action-text"></span> akun "<span id="modal-akun-belanja"></span>"?
+                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> akun <b><span id="modal-akun-belanja"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
@@ -112,23 +118,28 @@
 </div>
 
 <script>
-    const confirmModal = document.getElementById('confirmModal');
-    confirmModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const id = button.getAttribute('data-id');
-        const flag = button.getAttribute('data-flag');
-        const akunBelanja = button.getAttribute('data-akun');
-        const actionText = flag == "1" ? "menampilkan" : "tidak menampilkan";
-
-        const modalActionText = confirmModal.querySelector('#modal-action-text');
-        const modalFlag = confirmModal.querySelector('#modal-flag');
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmModal = document.getElementById('confirmModal');
         const modalForm = confirmModal.querySelector('#modalForm');
-        const modalAkunBelanja = confirmModal.querySelector('#modal-akun-belanja');
+        const modalActionText = confirmModal.querySelector('#modal-action-text');
+        const modalAkun = confirmModal.querySelector('#modal-akun-belanja');
+        const modalFlag = confirmModal.querySelector('#modal-flag');
 
-        modalActionText.textContent = actionText;
-        modalFlag.value = flag;
-        modalForm.action = `/manage/mak/akun/${id}/update-flag`;
-        modalAkunBelanja.textContent = akunBelanja;
+        const updateFlagRoutePattern = "{{ route('manage.mak.akun.updateFlag', ':id') }}";
+
+        confirmModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const flag = button.getAttribute('data-flag');
+            const akun = button.getAttribute('data-akun');
+
+            const actionText = flag == "1" ? "menampilkan" : "tidak menampilkan";
+
+            modalActionText.textContent = actionText;
+            modalFlag.value = flag;
+            modalAkun.textContent = akun;
+            modalForm.action = updateFlagRoutePattern.replace(':id', id);
+        });
     });
 </script>
 @endsection

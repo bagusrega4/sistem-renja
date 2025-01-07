@@ -2,33 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Status;
 use App\Models\FormPengajuan;
 use App\Models\Output;
 use App\Models\Komponen;
 use App\Models\SubKomponen;
 use App\Models\AkunBelanja;
+use App\Models\StatusPengajuan;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
 {
     public function index()
     {
-        $output = Output::visible()->get();
+        $output = Output::visible()
+        ->with(['kegiatan', 'kro'])
+        ->get();
         $komponen = Komponen::visible()->get();
         $subKomponen = SubKomponen::visible()->get();;
         $akunBelanja = AkunBelanja::visible()->get();
-        $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'pegawai'])->get();
+        $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'user'])->get();
         return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
-    }
-
-    public function create()
-    {
-        $output = Output::visible()->get();
-        $komponen = Komponen::visible()->get();
-        $subKomponen = SubKomponen::visible()->get();
-        $akunBelanja = AkunBelanja::visible()->get();
-        return view('form.create', compact('output', 'komponen', 'subKomponen', 'akunBelanja'));
     }
 
     public function store(Request $request)
@@ -36,39 +29,45 @@ class FormController extends Controller
         $validated = $request->validate([
             'no_fp' => 'required|string|max:255',
             'id_output' => 'required|exists:output,id',
-            'kode_komponen' => 'required|exists:komponen,kode',
-            'kode_subkomponen' => 'required|exists:sub_komponen,kode',
-            'kode_akun' => 'required|exists:akun_belanja,kode',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_akhir' => 'required|date',
+            'id_komponen' => 'required|exists:komponen,id',
+            'id_subkomponen' => 'required|exists:sub_komponen,id',
+            'id_akun_belanja' => 'required|exists:akun_belanja,id',
+            'tanggal_mulai' => 'required|date|before_or_equal:tanggal_akhir',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
-            'nominal' => 'required|numeric| min:0|max:1000000000000',
+            'nominal' => 'required|numeric|min:0|max:1000000000000',
         ]);
 
-        $formPengajuan = new FormPengajuan();
-        $formPengajuan['no_fp'] = $request->no_fp;
-        $formPengajuan['id_output'] = $request->id_output;
-        $formPengajuan['kode_komponen'] = $request->kode_komponen;
-        $formPengajuan['kode_subkomponen'] = $request->kode_subkomponen;
-        $formPengajuan['kode_akun'] = $request->kode_akun;
-        $formPengajuan['tanggal_mulai'] = $request->tanggal_mulai;
-        $formPengajuan['tanggal_akhir'] = $request->tanggal_akhir;
-        $formPengajuan['no_sk'] = $request->no_sk;
-        $formPengajuan['uraian'] = $request->uraian;
-        $formPengajuan['nominal'] = $request->nominal;
-        $formPengajuan['nip_pengaju'] = auth()->user()->nip_lama;
-        $formPengajuan['status'] = Status::ENTRI_DOKUMEN;
+        $formPengajuan = FormPengajuan::create([
+            'no_fp' => $request->no_fp,
+            'id_output' => $request->id_output,
+            'id_komponen' => $request->id_komponen,
+            'id_subkomponen' => $request->id_subkomponen,
+            'id_akun_belanja' => $request->id_akun_belanja,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_akhir' => $request->tanggal_akhir,
+            'no_sk' => $request->no_sk,
+            'uraian' => $request->uraian,
+            'nominal' => $request->nominal,
+            'nip_pengaju' => auth()->user()->nip_lama,
+            'id_status' => $request->id_status ?? 1
+        ]);
 
-        $formPengajuan -> save();
-
-        return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil disimpan.');
+        return redirect()->route('monitoring.operator.index')
+            ->with('success', 'Form pengajuan berhasil disimpan.');
     }
 
-    public function edit($no_fp)
+    public function edit($id)
     {
+        $nipPengaju = auth()->user()->nip_lama;
+        $formPengajuan = FormPengajuan::where('id', $id)
+            ->where('nip_pengaju', $nipPengaju)
+            ->first();
+        if (!$formPengajuan) {
+            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan atau Anda tidak memiliki akses.');
+        }
 
-        $formPengajuan = FormPengajuan::find($no_fp);
         $output = Output::visible()->get();
         $komponen = Komponen::visible()->get();
         $subKomponen = SubKomponen::visible()->get();
@@ -76,48 +75,40 @@ class FormController extends Controller
         return view('form.edit', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
     }
 
-    public function update(Request $request, $no_fp)
+    public function update(Request $request, $id)
     {
-
         $request->validate([
-
             'id_output' => 'required|exists:output,id',
-            'kode_komponen' => 'required|exists:komponen,kode',
-            'kode_subkomponen' => 'required|exists:sub_komponen,kode',
-            'kode_akun' => 'required|exists:akun_belanja,kode',
+            'id_komponen' => 'required|exists:komponen,id',
+            'id_subkomponen' => 'required|exists:sub_komponen,id',
+            'id_akun_belanja' => 'required|exists:akun_belanja,id',
             'tanggal_mulai' => 'required|date|before_or_equal:tanggal_akhir',
             'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
             'no_sk' => 'required|string|max:255',
             'uraian' => 'required|string|max:255',
             'nominal' => 'required|numeric|min:0|max:1000000000000',
-            // 'status' => 'required|string|in:' . implode(',', Status::getAll()),
         ]);
 
-        $formPengajuan=FormPengajuan::find($no_fp);
+        $formPengajuan = FormPengajuan::findOrFail($id);
         $formPengajuan->update([
             'id_output' => $request->id_output,
-            'kode_komponen' => $request->kode_komponen,
-            'kode_subkomponen' => $request->kode_subkomponen,
-            'kode_akun' => $request->kode_akun,
+            'id_komponen' => $request->id_komponen,
+            'id_subkomponen' => $request->id_subkomponen,
+            'id_akun_belanja' => $request->id_akun_belanja,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_akhir' => $request->tanggal_akhir,
             'no_sk' => $request->no_sk,
             'uraian' => $request->uraian,
             'nominal' => $request->nominal,
-            // 'status' => Status::from($request->status),
         ]);
 
-
-        $formPengajuan->save();
-
-        return redirect()
-            ->route('monitoring.operator.index')
+        return redirect()->route('monitoring.operator.index')
             ->with('success', 'Form pengajuan berhasil diperbarui.');
     }
 
-    public function destroy($no_fp)
+    public function destroy($id)
     {
-        $formPengajuan = FormPengajuan::find($no_fp);
+        $formPengajuan = FormPengajuan::findOrFail($id);
 
         if (!$formPengajuan) {
             return redirect()->route('monitoring.operator')->with('error', 'Form pengajuan tidak ditemukan.');

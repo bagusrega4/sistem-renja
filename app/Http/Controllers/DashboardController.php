@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\FormPengajuan;
 use App\Enums\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class DashboardController extends Controller
 {
@@ -12,24 +14,24 @@ class DashboardController extends Controller
     {
         $data = [
             'totalPengajuan' => FormPengajuan::count(),
-            'entriDokumen' => FormPengajuan::where('status', Status::ENTRI_DOKUMEN)->count(),
-            'pengecekanDokumen' => FormPengajuan::where('status', Status::PENGECEKAN_DOKUMEN)->count(),
-            'disetujui' => FormPengajuan::where('status', Status::DISETUJUI)->count(),
-            'ditolak' => FormPengajuan::where('status', Status::DITOLAK)->count(),
-            'selesai' => FormPengajuan::where('status', Status::SELESAI)->count()
+            'entriOperator' => FormPengajuan::where('id_status', 1)->count(),
+            'pengecekanDokumen' => FormPengajuan::where('id_status', 2)->count(),
+            'ditolak' => FormPengajuan::where('id_status', 3)->count(),
+            'disetujui' => FormPengajuan::where('id_status', 4)->count(),
+            'selesai' => FormPengajuan::where('id_status', 5)->count()
         ];
 
-        $monthlyStats = FormPengajuan::selectRaw('status, COUNT(*) as total')
-            ->groupBy('status')
+        $monthlyStats = FormPengajuan::selectRaw('id_status, COUNT(*) as total')
+            ->groupBy('id_status')
             ->get();
 
         $chartData = [
             'labels' => ['Status Pengajuan'],
-            'entriDokumen' => [$monthlyStats->where('status', Status::ENTRI_DOKUMEN)->first()?->total ?? 0],
-            'pengecekanDokumen' => [$monthlyStats->where('status', Status::PENGECEKAN_DOKUMEN)->first()?->total ?? 0],
-            'disetujui' => [$monthlyStats->where('status', Status::DISETUJUI)->first()?->total ?? 0],
-            'ditolak' => [$monthlyStats->where('status', Status::DITOLAK)->first()?->total ?? 0],
-            'selesai' => [$monthlyStats->where('status', Status::SELESAI)->first()?->total ?? 0]
+            'entriOperator' => [$monthlyStats->where('id_status', 1)->first()?->total ?? 0],
+            'pengecekanDokumen' => [$monthlyStats->where('id_status', 2)->first()?->total ?? 0],
+            'disetujui' => [$monthlyStats->where('id_status', 3)->first()?->total ?? 0],
+            'ditolak' => [$monthlyStats->where('id_status', 4)->first()?->total ?? 0],
+            'selesai' => [$monthlyStats->where('id_status', 5)->first()?->total ?? 0]
         ];
 
         return view('dashboard', compact('data', 'chartData'));

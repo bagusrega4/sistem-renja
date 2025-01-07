@@ -41,17 +41,16 @@
                         <input type="text" name="kode" class="form-control" id="kode" value="{{ old('kode') }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="akun_belanja" class="form-label">Nama Akun</label>
-                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ old('akun_belanja') }}" required>
+                        <label for="nama_akun" class="form-label">Nama Akun</label>
+                        <input type="text" name="nama_akun" class="form-control" id="nama_akun" value="{{ old('nama_akun') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
                         <select name="flag" id="flag" class="form-select">
-                            <option value="1" {{ old('flag') == 1 ? 'selected' : '' }}>Tampilkan</option>
-                            <option value="0" {{ old('flag') == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
+                            <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
+                            <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
                     </div>
-                    <!-- Tambahkan field lainnya jika diperlukan -->
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>

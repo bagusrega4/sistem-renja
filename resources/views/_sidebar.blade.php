@@ -7,8 +7,13 @@
                     src="../../../assets/img/logo.png"
                     alt="navbar brand"
                     class="navbar-brand"
-                    height="30" />
-                <span class="ms-1 text-white fw-bold">BPS DKI Jakarta</span>
+                    height="25" />
+                <span
+                    style="font-family: Arial, sans-serif; font-size:11px; line-height:1.2;"
+                    class="fw-bold fst-italic text-uppercase text-white">
+                    Badan Pusat Statistik Provinsi DKI Jakarta
+                </span>
+
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -39,13 +44,21 @@
                     </span>
                     <h4 class="text-section">Components</h4>
                 </li>
-                <li class="nav-item {{ request()->routeIs('form.index') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('form.*') ? 'active' : '' }}">
                     <a href="{{ route('form.index') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
                 </li>
+                @if(Auth::user()->id_role == 1)
                 <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active' : '' }}">
+                    <a href="{{ route('monitoring.operator.index') }}">
+                        <i class="fas fa-desktop"></i>
+                        <p>Monitoring</p>
+                    </a>
+                </li>
+                @else
+                <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#base">
                         <i class="fas fa-desktop"></i>
                         <p>Monitoring</p>
@@ -53,12 +66,12 @@
                     </a>
                     <div class="collapse {{ request()->routeIs('monitoring.*') ? 'show' : '' }}" id="base">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('monitoring.operator.index') ? 'active' : '' }}">
+                            <li class="{{ request()->routeIs('monitoring.operator.*') ? 'active' : '' }}">
                                 <a href="{{ route('monitoring.operator.index') }}">
                                     <span class="sub-item">Operator</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->routeIs('monitoring.keuangan.index') ? 'active' : '' }}">
+                            <li class="{{ request()->routeIs('monitoring.keuangan.*') ? 'active' : '' }}">
                                 <a href="{{ route('monitoring.keuangan.index') }}">
                                     <span class="sub-item">Keuangan</span>
                                 </a>
@@ -66,25 +79,27 @@
                         </ul>
                     </div>
                 </li>
+                @endif
                 <li class="nav-item {{ request()->routeIs('download.index') ? 'active' : '' }}">
                     <a href="{{ route('download.index') }}">
                         <i class="fas fa-download"></i>
                         <p>Download</p>
                     </a>
                 </li>
+                @if(Auth::user()->id_role == 3)
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
                     <h4 class="text-section">Settings</h4>
                 </li>
-                <li class="nav-item {{ request()->routeIs('manage.user.index') || request()->routeIs('manage.user.create') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('manage.user.*') || request()->routeIs('manage.user.create') || request()->routeIs('manage.user.edit') ? 'active' : '' }}">
                     <a href="{{ route('manage.user.index') }}">
                         <i class="fas fa-users-cog"></i>
                         <p>Manage User</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#flag">
                         <i class="fas fa-flag"></i>
                         <p>Manage MAK</p>
@@ -107,6 +122,16 @@
                                     <span class="sub-item">Sub Komponen</span>
                                 </a>
                             </li>
+                            <li class="{{ request()->routeIs('manage.mak.kegiatan') || request()->routeIs('manage.mak.kegiatan.create') ? 'active' : '' }}">
+                                <a href="{{ route('manage.mak.kegiatan') }}">
+                                    <span class="sub-item">Kegiatan</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('manage.mak.kro') || request()->routeIs('manage.mak.kro.create') ? 'active' : '' }}">
+                                <a href="{{ route('manage.mak.kro') }}">
+                                    <span class="sub-item">KRO</span>
+                                </a>
+                            </li>
                             <li class="{{ request()->routeIs('manage.mak.output') || request()->routeIs('manage.mak.output.create') ? 'active' : '' }}">
                                 <a href="{{ route('manage.mak.output') }}">
                                     <span class="sub-item">Output</span>
@@ -115,12 +140,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ request()->routeIs('manage.form.index') ? 'active' : '' }}">
-                    <a href="{{ route('manage.form.index') }}">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Manage Form</p>
-                    </a>
-                </li>
+                @endif
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;

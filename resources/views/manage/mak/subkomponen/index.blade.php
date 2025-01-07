@@ -104,7 +104,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin <span id="modal-action-text"></span> sub komponen "<span id="modal-subkomponen"></span>"?
+                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> sub komponen <b><span id="modal-subkomponen"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>

@@ -3,17 +3,23 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <!-- Notifikasi Error -->
+        <!-- Notifikasi Error Custom -->
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <!-- Notifikasi Validasi Error -->
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
+                <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
-
         <!-- Notifikasi Sukses -->
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -34,82 +40,148 @@
 
         <div class="card card-round">
             <div class="card-body">
-                <form action="{{ route('monitoring.operator.storeFile') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('monitoring.operator.store', $formPengajuan->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @switch($formPengajuan->id_status)
+                        @case(1)
+                            @break
+                        @case(2)
+                            <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
+                                <i class="fas fa-hourglass-half fa-2x me-2"></i>
+                                <div>
+                                    <strong>Dokumen Anda sedang dalam proses pemeriksaan oleh Tim Keuangan.</strong>
+                                    Proses pemeriksaan dilakukan secara mendetail, mohon bersabar.
+                                </div>
+                            </div>
+                            @break
+                        @case(3)
+                            <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+                                <i class="fas fa-ban fa-2x me-2"></i>
+                                <div>
+                                    <strong>Pengajuan telah Ditolak.</strong>
+                                    Harap lakukan perbaikan dokumen.
+                                </div>
+                            </div>
+                            @break
+                        @case(4)
+                            <div class="alert alert-success d-flex align-items-center mt-2" role="alert">
+                                <i class="fas fa-check-circle fa-2x me-2"></i>
+                                <div>
+                                    <strong>Pengajuan telah Disetujui.</strong>
+                                    Mohon tunggu Tim Keuangan mengisi form keuangan.
+                                </div>
+                            </div>
+                            @break
+                        @case(5)
+                            <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
+                                <i class="fas fa-check-double fa-2x me-2"></i>
+                                <div>
+                                    <strong>Pengajuan telah Selesai.</strong>
+                                    Semua proses dan verifikasi sudah tuntas.
+                                </div>
+                            </div>
+                            @break
+                        @default
+                            <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
+                                <i class="fas fa-exclamation-circle fa-2x me-2"></i>
+                                <div>
+                                    <strong>Dokumen gagal diperiksa</strong>,
+                                    karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
+                                </div>
+                            </div>
+                    @endswitch
 
+                    <!-- No FP (readonly) -->
                     <div class="mb-3">
                         <label for="no_fp" class="form-label">No FP</label>
-                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{$form -> no_fp}}" required readonly>
+                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{ $formPengajuan->no_fp }}" required readonly>
                     </div>
 
+                    <!-- Nama Permintaan (readonly) -->
                     <div class="mb-3">
                         <label for="nama_permintaan" class="form-label">Nama Permintaan</label>
-                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{$form -> uraian}}" required readonly>
+                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{ $formPengajuan->uraian }}" required readonly>
                     </div>
 
+                    <!-- Akun Belanja (readonly) -->
                     <div class="mb-3">
-                        <label for="kak_ttd" class="form-label">KAK TTD</label>
-                        <div class="input-group">
-                            <input type="file" name="kak_ttd" class="form-control" id="kak_ttd" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('kak_ttd','btn_reset_kak_ttd')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_kak_ttd" style="display: none;" onclick="resetFileInput('kak_ttd','btn_reset_kak_ttd')">X</button>
-                        </div>
+                        <label for="akun_belanja" class="form-label">Akun Belanja</label>
+                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ $formPengajuan->akunBelanja->nama_akun }}" required readonly>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="surat_tugas" class="form-label">Surat Tugas</label>
-                        <div class="input-group">
-                            <input type="file" name="surat_tugas" class="form-control" id="surat_tugas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('surat_tugas','btn_reset_surat_tugas')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_surat_tugas" style="display: none;" onclick="resetFileInput('surat_tugas','btn_reset_surat_tugas')">X</button>
+                    <!-- Input File Dinamis -->
+                    @foreach ($jenisFilesOperator as $jenisFileOperator)
+                        @php
+                            $fileKey = str_replace(' ', '_', $jenisFileOperator->nama_file);
+                        @endphp
+                        <div class="mb-3">
+                            <label for="{{ $fileKey }}" class="form-label">
+                                {{ ucfirst(str_replace('_', ' ', $jenisFileOperator->nama_file)) }}
+                            </label>
+                            @switch($formPengajuan->id_status)
+                                @case(1)
+                                @case(3)
+                                    <div class="input-group">
+                                        <input
+                                            type="file"
+                                            name="{{ $fileKey }}"
+                                            class="form-control @error($fileKey) is-invalid @enderror"
+                                            id="{{ $fileKey }}"
+                                            accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                            required
+                                            onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
+                                        >
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger"
+                                            id="btn_reset_{{ $fileKey }}"
+                                            style="display: none;"
+                                            onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
+                                        >X</button>
+                                    </div>
+                                    @break
+                                @default
+                                    <div class="input-group">
+                                        <input
+                                            type="file"
+                                            name="{{ $fileKey }}"
+                                            class="form-control @error($fileKey) is-invalid @enderror"
+                                            id="{{ $fileKey }}"
+                                            accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                            disabled
+                                        >
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger"
+                                            id="btn_reset_{{ $fileKey }}"
+                                            style="display: none;"
+                                            onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
+                                            disabled
+                                        >X</button>
+                                    </div>
+                                    <small class="text-muted">Pengajuan tidak dapat diubah pada status ini.</small>
+                            @endswitch
+                            @error($fileKey)
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="sk_kpa" class="form-label">SK KPA</label>
-                        <div class="input-group">
-                            <input type="file" name="sk_kpa" class="form-control" id="sk_kpa" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('sk_kpa','btn_reset_sk_kpa')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_sk_kpa" style="display: none;" onclick="resetFileInput('sk_kpa','btn_reset_sk_kpa')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="laporan_innas" class="form-label">Laporan Innas</label>
-                        <div class="input-group">
-                            <input type="file" name="laporan_innas" class="form-control" id="laporan_innas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('laporan_innas','btn_reset_laporan_innas')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_laporan_innas" style="display: none;" onclick="resetFileInput('laporan_innas','btn_reset_laporan_innas')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="daftar_hadir" class="form-label">Daftar Hadir</label>
-                        <div class="input-group">
-                            <input type="file" name="daftar_hadir" class="form-control" id="daftar_hadir" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('daftar_hadir','btn_reset_daftar_hadir')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_daftar_hadir" style="display: none;" onclick="resetFileInput('daftar_hadir','btn_reset_daftar_hadir')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="absen_harian" class="form-label">Absen Harian</label>
-                        <div class="input-group">
-                            <input type="file" name="absen_harian" class="form-control" id="absen_harian" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('absen_harian','btn_reset_absen_harian')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_absen_harian" style="display: none;" onclick="resetFileInput('absen_harian','btn_reset_absen_harian')">X</button>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="rekap_norek_innas" class="form-label">Rekap Norek Innas</label>
-                        <div class="input-group">
-                            <input type="file" name="rekap_norek_innas" class="form-control" id="rekap_norek_innas" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx" required onchange="toggleResetButton('rekap_norek_innas','btn_reset_rekap_norek_innas')">
-                            <button type="button" class="btn btn-outline-danger" id="btn_reset_rekap_norek_innas" style="display: none;" onclick="resetFileInput('rekap_norek_innas','btn_reset_rekap_norek_innas')">X</button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Simpan</button>
+                    @endforeach
+                    @switch($formPengajuan->id_status)
+                        @case(1)
+                        @case(3)
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            @break
+                        @default
+                    @endswitch
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Script untuk reset dan toggle tombol reset -->
 <script>
     function resetFileInput(fileInputId, buttonId) {
         var fileInput = document.getElementById(fileInputId);

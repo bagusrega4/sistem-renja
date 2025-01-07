@@ -5,29 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RO extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'ro';
+    protected $table = 'role';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     public $timestamps = false;
 
     protected $fillable = [
-        'kode',
-        'ro',
-        'flag',
+        'role',
     ];
 
-    public function scopeVisible($query)
+    public function user()
     {
-        return $query->where('flag', 1);
+        return $this->hasMany(User::class, 'id_role', 'id');
     }
 
-    public function outputs()
-    {
-        return $this->hasMany(Output::class, 'ro', 'kode');
-    }
 }

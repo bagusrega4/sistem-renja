@@ -27,8 +27,8 @@
                 </label>
                 <select class="form-select" id="id_output" name="id_output" required>
                     <option value="" disabled selected hidden>Pilih Rincian Output</option>
-                    @foreach ($output as $output)
-                    <option value="{{ $output->id }}">{{ $output->output }}</option>
+                    @foreach ($output as $item)
+                    <option value="{{ $item->id }}">[{{ $item->kegiatan->kode }}.{{ $item->kro->kode }}.{{ $item->kode_ro }}]     {{ $item->output }}</option>
                     @endforeach
                 </select>
                 @error('output')
@@ -38,39 +38,39 @@
 
             <!-- Dropdown Komponen -->
             <div class="mb-3">
-                <label for="kode_komponen" class="form-label">Komponen
+                <label for="id_komponen" class="form-label">Komponen
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_komponen" name="kode_komponen" required>
+                <select class="form-select" id="id_komponen" name="id_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->komponen }}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->komponen }}</option>
                     @endforeach
                 </select>
             </div>
 
             <!-- Dropdown Sub Komponen -->
             <div class="mb-3">
-                <label for="kode_subkomponen" class="form-label">Sub Komponen
+                <label for="id_subkomponen" class="form-label">Sub Komponen
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_subkomponen" name="kode_subkomponen" required>
+                <select class="form-select" id="id_subkomponen" name="id_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                    <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->sub_komponen}}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->sub_komponen}}</option>
                     @endforeach
                 </select>
             </div>
 
             <!-- Dropdown Akun -->
             <div class="mb-3">
-                <label for="kode_akun" class="form-label">Akun Belanja
+                <label for="id_akun_belanja" class="form-label">Akun Belanja
                     <span class="text-danger">*</span>
                 </label>
-                <select class="form-select" id="kode_akun" name="kode_akun" required>
+                <select class="form-select" id="id_akun_belanja" name="id_akun_belanja" required>
                     <option value="" disabled selected hidden>Pilih Akun Belanja</option>
                     @foreach ($akunBelanja as $item)
-                        <option value="{{ $item->kode }}">{{ $item->kode }} - {{ $item->akun_belanja }}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->nama_akun }}</option>
                     @endforeach
                 </select>
             </div>
@@ -108,7 +108,7 @@
                 <label for="nominal" class="form-label">Nominal
                     <span class="text-danger">*</span>
                 </label>
-                <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" required>
+                <input type="text" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" required>
             </div>
 
             <button type="submit" class="btn btn-success">Kirim</button>
@@ -116,3 +116,28 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+    const input = document.getElementById("nominal");
+    const formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+
+    input.addEventListener("input", (e) => {
+        const rawValue = input.value.replace(/[^\d]/g, "");
+
+        if (rawValue) {
+            input.value = formatter.format(rawValue).replace(/\s+/g, "");
+        } else {
+            input.value = "";
+        }
+
+        input.dataset.rawValue = rawValue;
+    });
+</script>
+@endsection
+

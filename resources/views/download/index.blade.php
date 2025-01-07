@@ -28,8 +28,8 @@
                 <select class="form-select" name="akun" id="akun" style="max-width: 618px">
                     <option value="">Pilih Akun</option>
                     @foreach($akunBelanja as $itemAkun)
-                    <option value="{{ $itemAkun->kode }}" {{ request('akun') == $itemAkun->kode ? 'selected' : '' }}>
-                        {{ $itemAkun->kode }} - {{ $itemAkun->akun_belanja }}
+                    <option value="{{ $itemAkun->id }}" {{ request('akun') == $itemAkun->id ? 'selected' : '' }}>
+                        {{ $itemAkun->kode }} - {{ $itemAkun->nama_akun }}
                     </option>
                     @endforeach
                 </select>
@@ -55,45 +55,40 @@
                                         <th><input type="checkbox" id="checkAll" style="transform: scale(1.5);" /></th>
                                         <th>No.</th>
                                         <th>No. FP</th>
-                                        <th>Tanggal Kegiatan</th>
                                         <th>Nama Permintaan</th>
+                                        <th>Tanggal Kegiatan</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($formPengajuan as $index => $item)
                                     <tr>
-                                        <td><input type="checkbox" name="selected_ids[]" value="{{ $item->no_fp }}" class="form-check-input" style="transform: scale(1.5);" /></td>
+                                        <td><input type="checkbox" name="selected_ids[]" value="{{ $item->id }}" class="form-check-input" style="transform: scale(1.5);" /></td>
                                         <td>{{ $index + 1 }}</td>
                                         <td class="text-end">{{ $item->no_fp }}</td>
+                                        <td class="text-start">{{ $item->uraian }}</td>
                                         <td class="text-end">{{ $item->tanggal_mulai }} s.d. {{ $item->tanggal_akhir }}</td>
-                                        <td class="text-end">{{ $item->uraian }}</td>
                                         <td class="text-end">
-                                            @switch($item->status)
-                                                @case(\App\Enums\Status::ENTRI_DOKUMEN)
-                                                    <span class="badge bg-light text-dark">Entri Dokumen</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::PENGECEKAN_DOKUMEN)
-                                                    <span class="badge bg-warning">Pengecekan Dokumen</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::DITOLAK)
-                                                    <span class="badge bg-danger">Ditolak</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::DISETUJUI)
-                                                    <span class="badge bg-primary">Disetujui</span>
-                                                    @break
-
-                                                @case(\App\Enums\Status::SELESAI)
-                                                    <span class="badge bg-success fw-bold">Selesai</span>
-                                                    @break
-
-                                                @default
-                                                    <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                                            @switch($item->id_status)
+                                              @case(1)
+                                                <span class="badge bg-light text-dark">{{ $item->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(2)
+                                                <span class="badge bg-warning">{{ $item->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(3)
+                                                <span class="badge bg-danger">{{ $item->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(4)
+                                                <span class="badge bg-primary">{{ $item->statusPengajuan->status }}</span>
+                                                @break
+                                              @case(5)
+                                                <span class="badge bg-success fw-bold">{{ $item->statusPengajuan->status }}</span>
+                                                @break
+                                              @default
+                                                <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
                                             @endswitch
-                                        </td>
+                                          </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -112,7 +107,7 @@
                     </select>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary btn-round">Download yang Dipilih</button>
+                    <button type="submit" class="btn btn-warning btn-round">Download yang dipilih</button>
                 </div>
             </div>
         </form>

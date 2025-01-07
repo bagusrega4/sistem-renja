@@ -43,8 +43,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Entri Dokumen</p>
-                                    <h4 class="card-title">{{ $data['entriDokumen'] }}</h4>
+                                    <p class="card-category">Entri Operator</p>
+                                    <h4 class="card-title">{{ $data['entriOperator'] }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -156,9 +156,9 @@
                 data: {
                     labels: ['Status Pengajuan'],
                     datasets: [{
-                        label: 'Entri Dokumen',
+                        label: 'Entri Operator',
                         backgroundColor: '#0dcaf0',
-                        data: [{{ $data['entriDokumen'] }}],
+                        data: [{{ $data['entriOperator'] }}],
                         barPercentage: 0.8
                     }, {
                         label: 'Pengecekan Dokumen',

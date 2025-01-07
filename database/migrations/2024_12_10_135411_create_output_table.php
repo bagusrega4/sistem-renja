@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('output', function (Blueprint $table) {
             $table->id();
-            $table->integer('kode_kegiatan');
-            $table->string('kode_kro', 3);
+            $table->unsignedBigInteger('id_kegiatan');
+            $table->unsignedBigInteger('id_kro');
             $table->string('kode_ro', 3);
             $table->string('output', 255);
             $table->boolean('flag')->default(1);
 
             // Foreign key constraints
-            $table->foreign('kode_kegiatan')->references('kode')->on('kegiatan');
-            $table->foreign('kode_kro')->references('kode')->on('kro');
-            $table->foreign('kode_ro')->references('kode')->on('ro');
+            $table->foreign('id_kegiatan')->references('id')->on('kegiatan');
+            $table->foreign('id_kro')->references('id')->on('kro');
         });
     }
 

@@ -11,28 +11,25 @@ class FormPengajuan extends Model
     use HasFactory;
 
     protected $table = 'form_pengajuan';
-    protected $primaryKey = 'no_fp';
-    public $incrementing = false;
-    protected $keyType = 'string';
-    public $timestamps = false;
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    public $timestamps = true;
 
     protected $fillable = [
+        'no_fp',
         'id_output',
-        'kode_komponen',
-        'kode_subkomponen',
-        'kode_akun',
+        'id_komponen',
+        'id_subkomponen',
+        'id_akun_belanja',
         'tanggal_mulai',
-        'tangga_akhir',
+        'tanggal_akhir',
         'no_sk',
         'uraian',
         'nominal',
         'nip_pengaju',
-        'status',
-        'rejection_note'
-    ];
-
-    protected $casts = [
-        'status' => Status::class,
+        'id_status',
+        'rejection_note',
     ];
 
     public function output()
@@ -42,26 +39,54 @@ class FormPengajuan extends Model
 
     public function komponen()
     {
-        return $this->belongsTo(Komponen::class, 'kode_komponen', 'kode');
+        return $this->belongsTo(Komponen::class, 'id_komponen', 'id');
     }
 
     public function subKomponen()
     {
-        return $this->belongsTo(SubKomponen::class, 'kode_subkomponen', 'kode');
+        return $this->belongsTo(SubKomponen::class, 'id_subkomponen', 'id');
     }
 
     public function akunBelanja()
     {
-        return $this->belongsTo(AkunBelanja::class, 'kode_akun', 'kode');
+        return $this->belongsTo(AkunBelanja::class, 'id_akun_belanja', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'nip_pengaju', 'nip_lama');
     }
 
     public function pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'nip_pengaju', 'nip_lama');
+        return $this->hasOneThrough(
+            Pegawai::class,   // Model akhir
+            User::class,      // Model perantara
+            'nip_lama',       // Foreign key di tabel users
+            'nip_lama',       // Foreign key di tabel pegawai
+            'nip_pengaju',    // Local key di tabel form_pengajuan
+            'nip_lama'        // Local key di tabel users
+        );
     }
 
-    public function fileOperator()
+    public function statusPengajuan()
     {
-        return $this->hasOne(FileOperator::class, 'no_fp', 'no_fp');
+        return $this->belongsTo(StatusPengajuan::class, 'id_status', 'id');
     }
+
+    public function fileUploadOperator()
+    {
+        return $this->hasMany(FileUploadOperator::class, 'id_form_pengajuan', 'id');
+    }
+
+    public function fileUploadKeuangan()
+    {
+        return $this->hasMany(FileUploadKeuangan::class, 'id_form_pengajuan', 'id');
+    }
+
+    public function formKeuangan()
+    {
+        return $this->hasOne(FormKeuangan::class, 'id_form_pengajuan', 'id');
+    }
+
 }

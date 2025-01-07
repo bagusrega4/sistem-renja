@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <!-- Notifikasi Sukses -->
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -11,8 +10,7 @@
             </div>
         @endif
 
-        <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Pengguna</h2>
                 <h6 class="op-7 mb-2">Pengelolaan Daftar Pengguna Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
@@ -26,28 +24,10 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Pengguna</div>
-                        <div class="card-tools">
-                            <div class="dropdown">
-                                <button
-                                    class="btn btn-icon btn-clean me-0"
-                                    type="button"
-                                    id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="fas fa-filter"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Range Tanggal</a>
-                                    <a class="dropdown-item" href="#">Akun Belanja</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Tabel Manage User -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
@@ -56,6 +36,7 @@
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,23 +47,39 @@
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            <!-- Button untuk membuka modal -->
                                             <button
-                                                class="btn {{ $user->role == 'admin' ? 'btn-warning' : ($user->role == 'keuangan' ? 'btn-info' : 'btn-primary') }} dropdown-toggle"
+                                                class="btn btn-{{ $user->role->role == 'admin' ? 'warning' : ($user->role->role == 'keuangan' ? 'secondary' : 'primary') }} dropdown-toggle"
                                                 type="button"
-                                                data-bs-toggle="dropdown"
-                                                data-id="{{ $user->id }}"
-                                                data-role="{{ $user->role }}"
-                                                data-username="{{ $user->username }}">
-                                                {{ ucfirst($user->role) }}
+                                                data-bs-toggle="dropdown">
+                                                {{ ucfirst($user->role->role) }}
                                             </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $user->id }}" data-role="user" data-username="{{ $user->username }}">User</button>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $user->id }}" data-role="keuangan" data-username="{{ $user->username }}">Keuangan</button>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $user->id }}" data-role="admin" data-username="{{ $user->username }}">Admin</button>
-                                                </li>
+                                            <ul class="dropdown-menu">
+                                                @foreach($roles as $role)
+                                                    <li>
+                                                        <button
+                                                            class="dropdown-item"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#confirmModal"
+                                                            data-id="{{ $user->id }}"
+                                                            data-role-id="{{ $role->id }}"
+                                                            data-role-name="{{ $role->role }}"
+                                                            data-username="{{ $user->username }}">
+                                                            {{ ucfirst($role->role) }}
+                                                        </button>
+                                                    </li>
+                                                @endforeach
                                             </ul>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a href="{{ route('manage.user.edit', $user->id) }}"
+                                                   class="btn btn-info btn-sm me-2">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalCenter-{{ $user->id }}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,23 +92,23 @@
     </div>
 </div>
 
-<!-- Modal Konfirmasi -->
-<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- Modal Konfirmasi Ubah Role -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Konfirmasi Ubah Role</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin mengubah role untuk user "<span id="modal-username"></span>" menjadi "<span id="modal-new-role"></span>"?
+                Apakah Anda yakin ingin mengubah role untuk user <b><span id="modal-username"></span></b> menjadi <b><span id="modal-new-role"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                <form id="modalForm" method="POST" style="display: inline;">
+                <form id="modalForm" method="POST">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="role" id="modal-role">
+                    <input type="hidden" name="id_role" id="modal-role-id">
                     <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                 </form>
             </div>
@@ -119,27 +116,56 @@
     </div>
 </div>
 
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const confirmModal = document.getElementById('confirmModal');
-        const modalForm = confirmModal.querySelector('#modalForm');
-        const modalUsername = confirmModal.querySelector('#modal-username');
-        const modalNewRole = confirmModal.querySelector('#modal-new-role');
-        const modalRole = confirmModal.querySelector('#modal-role');
+document.addEventListener('DOMContentLoaded', function () {
+    const confirmModal = document.getElementById('confirmModal');
+    const modalForm = confirmModal.querySelector('#modalForm');
+    const modalUsername = confirmModal.querySelector('#modal-username');
+    const modalNewRole = confirmModal.querySelector('#modal-new-role');
+    const modalRoleId = confirmModal.querySelector('#modal-role-id');
 
-        const updateRoleRoutePattern = "{{ route('manage.user.updateRole', ':id') }}";
+    const updateRoleRoutePattern = "{{ route('manage.user.updateRole', ':id') }}";
 
-        confirmModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const id = button.getAttribute('data-id');
-            const newRole = button.getAttribute('data-role');
-            const username = button.getAttribute('data-username');
+    confirmModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const roleId = button.getAttribute('data-role-id');
+        const roleName = button.getAttribute('data-role-name');
+        const username = button.getAttribute('data-username');
 
-            modalUsername.textContent = username;
-            modalNewRole.textContent = newRole.charAt(0).toUpperCase() + newRole.slice(1);
-            modalRole.value = newRole;
-            modalForm.action = updateRoleRoutePattern.replace(':id', id);
-        });
+        modalUsername.textContent = username;
+        modalNewRole.textContent = roleName.charAt(0).toUpperCase() + roleName.slice(1);
+        modalRoleId.value = roleId;
+        modalForm.action = updateRoleRoutePattern.replace(':id', id);
     });
+});
 </script>
+@endsection
+
+<!-- Modal Delete -->
+@section('modal-delete')
+@foreach($users as $user)
+<div class="modal fade" id="deleteModalCenter-{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $user->id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel-{{ $user->id }}">Konfirmasi Hapus User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin menghapus user <b>{{ $user->username }}</b>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+        <form action="{{ route('manage.user.destroy', $user->id) }}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
 @endsection

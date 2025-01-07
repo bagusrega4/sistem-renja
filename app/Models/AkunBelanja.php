@@ -17,7 +17,7 @@ class AkunBelanja extends Model
 
     protected $fillable = [
         'kode',
-        'akun_belanja',
+        'nama_akun',
         'flag',
     ];
 
@@ -26,8 +26,28 @@ class AkunBelanja extends Model
         return $query->where('flag', 1);
     }
 
-    public function formPengajuans()
+    public function formPengajuan()
     {
-        return $this->hasMany(FormPengajuan::class, 'kode_akun', 'kode');
+        return $this->hasMany(FormPengajuan::class, 'id_akun_belanja', 'id');
+    }
+
+    public function akunFileOperator()
+    {
+        return $this->hasMany(AkunFileOperator::class, 'id_akun_belanja', 'id');
+    }
+
+    public function akunFileKeuangan()
+    {
+        return $this->hasMany(AkunFileKeuangan::class, 'id_akun_belanja', 'id');
+    }
+
+    public function jenisFileOperator()
+    {
+        return $this->belongsToMany(JenisFileOperator::class, 'akun_file_operator', 'id_akun_belanja', 'id_jenis_file_operator');
+    }
+
+    public function jenisFileKeuangan()
+    {
+        return $this->belongsToMany(JenisFileKeuangan::class, 'akun_file_keuangan', 'id_akun_belanja', 'id_jenis_file_keuangan');
     }
 }

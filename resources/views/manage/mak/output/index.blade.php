@@ -52,8 +52,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Kode Kegiatan</th>
-                                    <th>KRO</th>
-                                    <th>RO</th>
+                                    <th>Kode KRO</th>
+                                    <th>Kode RO</th>
                                     <th>Output</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -64,9 +64,9 @@
                                         <th scope="row">
                                             {{ $loop->iteration }}
                                         </th>
-                                        <td class="text-start">{{ $output->kode_kegiatan }}</td>
-                                        <td class="text-start">{{ $output->kode_kro }}</td>
-                                        <td class="text-start">{{ $output->kode_ro }}</td>
+                                        <td class="text-end">{{ $output->kegiatan->kode }}</td>
+                                        <td class="text-start">{{ $output->kro->kode }}</td>
+                                        <td class="text-end">{{ $output->kode_ro }}</td>
                                         <td class="text-start">{{ $output->output }}</td>
                                         <td>
                                             <div class="btn-group dropdown">
@@ -108,7 +108,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin <span id="modal-action-text"></span> output "<span id="modal-output"></span>"?
+                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> output <b><span id="modal-output"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>

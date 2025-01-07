@@ -16,8 +16,8 @@ class Output extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'kode_kegiatan',
-        'kode_kro',
+        'id_kegiatan',
+        'id_kro',
         'kode_ro',
         'output',
         'flag'
@@ -31,21 +31,16 @@ class Output extends Model
     // Relasi ke Kegiatan, KRO, RO (many-to-one)
     public function kegiatan()
     {
-        return $this->belongsTo(Kegiatan::class, 'kode_kegiatan', 'kode');
+        return $this->belongsTo(Kegiatan::class, 'id_kegiatan', 'id');
     }
 
     public function kro()
     {
-        return $this->belongsTo(KRO::class, 'kode_kro', 'kode');
-    }
-
-    public function ro()
-    {
-        return $this->belongsTo(RO::class, 'kode_ro', 'kode');
+        return $this->belongsTo(KRO::class, 'id_kro', 'id');
     }
 
     // Relasi ke FormPengajuan (one-to-many)
-    public function formPengajuans()
+    public function formPengajuan()
     {
         return $this->hasMany(FormPengajuan::class, 'id_output', 'id');
     }

@@ -37,15 +37,29 @@
                 <form action="{{ route('manage.mak.output.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="kode_kegiatan" class="form-label">Kode Kegiatan</label>
-                        <input type="number" name="kode_kegiatan" class="form-control" id="kode_kegiatan" value="{{ old('kode_kegiatan') }}" required>
+                        <label for="id_kegiatan" class="form-label">Kegiatan</label>
+                        <select name="id_kegiatan" class="form-select" id="id_kegiatan" required>
+                            <option value="">Pilih Kode Kegiatan</option>
+                            @foreach($kegiatans as $kegiatan)
+                                <option value="{{ $kegiatan->id }}" {{ old('id_kegiatan') == $kegiatan->id ? 'selected' : '' }}>
+                                    [{{ $kegiatan->kode }}]     {{ $kegiatan->kegiatan }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="kode_kro" class="form-label">KRO</label>
-                        <input type="text" name="kode_kro" class="form-control" id="kode_kro" value="{{ old('kode_kro') }}" maxlength="3" required>
+                        <label for="id_kro" class="form-label">KRO</label>
+                        <select name="id_kro" class="form-select" id="id_kro" required>
+                            <option value="">Pilih KRO</option>
+                            @foreach($kros as $kro)
+                                <option value="{{ $kro->id }}" {{ old('id_kro') == $kro->id ? 'selected' : '' }}>
+                                    [{{ $kro->kode }}]      {{ $kro->kro }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="kode_ro" class="form-label">RO</label>
+                        <label for="kode_ro" class="form-label">Kode RO</label>
                         <input type="text" name="kode_ro" class="form-control" id="kode_ro" value="{{ old('kode_ro') }}" maxlength="3" required>
                     </div>
                     <div class="mb-3">
@@ -55,11 +69,10 @@
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
                         <select name="flag" id="flag" class="form-select" required>
-                            <option value="1" {{ old('flag') == 1 ? 'selected' : '' }}>Tampilkan</option>
-                            <option value="0" {{ old('flag') == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
+                            <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
+                            <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
                     </div>
-                    <!-- Tambahkan field lainnya jika diperlukan -->
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>

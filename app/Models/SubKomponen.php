@@ -26,8 +26,8 @@ class SubKomponen extends Model
         return $query->where('flag', 1);
     }
 
-    public function formPengajuans()
+    public function formPengajuan()
     {
-        return $this->hasMany(FormPengajuan::class, 'kode_subkomponen', 'kode');
+        return $this->hasMany(FormPengajuan::class, 'id_subkomponen', 'id');
     }
 }

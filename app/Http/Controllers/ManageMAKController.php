@@ -6,6 +6,8 @@ use App\Models\AkunBelanja;
 use App\Models\Komponen;
 use App\Models\SubKomponen;
 use App\Models\Output;
+use App\Models\Kegiatan;
+use App\Models\KRO;
 use Illuminate\Http\Request;
 
 class ManageMAKController extends Controller
@@ -28,12 +30,12 @@ class ManageMAKController extends Controller
     {
         $request->validate([
             'kode' => 'required|string|max:6',
-            'akun_belanja' => 'required|string|max:255',
+            'nama_akun' => 'required|string|max:100',
         ]);
 
         AkunBelanja::create([
             'kode' => $request->kode,
-            'akun_belanja' => $request->akun_belanja,
+            'nama_akun' => $request->nama_akun,
             'flag' => $request->flag ?? 1,
         ]);
 
@@ -100,6 +102,66 @@ class ManageMAKController extends Controller
         return redirect()->route('manage.mak.subkomponen')->with('success', 'SubKomponen berhasil ditambahkan.');
     }
 
+    // Controller Kegiatan
+    public function kegiatan()
+    {
+        $kegiatans = Kegiatan::all();
+        return view('manage.mak.kegiatan.index', [
+            'kegiatans' => $kegiatans
+        ]);
+    }
+
+    public function createKegiatan()
+    {
+        return view('manage.mak.kegiatan.create');
+    }
+
+    public function storeKegiatan(Request $request)
+    {
+        $request->validate([
+            'kode' => 'required|integer|digits:4|unique:kegiatan,kode',
+            'kegiatan' => 'required|string|max:255',
+        ]);
+
+        Kegiatan::create([
+            'kode' => $request->kode,
+            'kegiatan' => $request->kegiatan,
+            'flag' => $request->flag ?? 1,
+        ]);
+
+        return redirect()->route('manage.mak.kegiatan')->with('success', 'Kegiatan berhasil ditambahkan.');
+    }
+
+    // Controller KRO
+    public function kro()
+    {
+        $kros = KRO::all();
+        return view('manage.mak.kro.index', [
+            'kros' => $kros
+        ]);
+    }
+
+    public function createKro()
+    {
+        return view('manage.mak.kro.create');
+    }
+
+    public function storeKro(Request $request)
+    {
+        $request->validate([
+            'kode' => 'required|string|max:3',
+            'kro' => 'required|string|max:100',
+        ]);
+
+        KRO::create([
+            'kode' => $request->kode,
+            'kro' => $request->komponen,
+            'flag' => $request->flag ?? 1,
+        ]);
+
+        return redirect()->route('manage.mak.kro')->with('success', 'KRO berhasil ditambahkan.');
+    }
+
     // Controller Output
     public function output()
     {
@@ -111,21 +173,24 @@ class ManageMAKController extends Controller
 
     public function createOutput()
     {
-        return view('manage.mak.output.create');
+        $kegiatans = Kegiatan::where('flag', 1)->get();
+        $kros = Kro::where('flag', 1)->get();
+
+        return view('manage.mak.output.create', compact('kegiatans', 'kros'));
     }
 
     public function storeOutput(Request $request)
     {
         $request->validate([
-            'kode_kegiatan' => 'required|integer|exists:kegiatan,kode',
-            'kode_kro' => 'required|exists:kro,kode',
-            'kode_ro' => 'required|exists:ro,kode',
+            'id_kegiatan' => 'required|exists:kegiatan,id',
+            'id_kro' => 'required|exists:kro,id',
+            'kode_ro' => 'required|string|max:3',
             'output' => 'required|string|max:255',
         ]);
 
         Output::create([
-            'kode_kegiatan' => $request->kode_kegiatan,
-            'kode_kro' => $request->kode_kro,
+            'id_kegiatan' => $request->id_kegiatan,
+            'id_kro' => $request->id_kro,
             'kode_ro' => $request->kode_ro,
             'output' => $request->output,
             'flag' => $request ->flag ?? 1,
@@ -137,8 +202,12 @@ class ManageMAKController extends Controller
     // Controller Update Flag
     public function updateFlagAkun(Request $request, $id)
     {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
         $akun = AkunBelanja::findOrFail($id);
-        $akun->flag = !$akun->flag;
+        $akun->flag = $request->flag;
         $akun->save();
 
         return redirect()->back()->with('success', 'Flag Akun berhasil diperbarui.');
@@ -146,8 +215,12 @@ class ManageMAKController extends Controller
 
     public function updateFlagKomponen(Request $request, $id)
     {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
         $komponen = Komponen::findOrFail($id);
-        $komponen->flag = !$komponen->flag;
+        $komponen->flag = $request->flag;
         $komponen->save();
 
         return redirect()->back()->with('success', 'Flag Komponen berhasil diperbarui.');
@@ -155,17 +228,51 @@ class ManageMAKController extends Controller
 
     public function updateFlagSubKomponen(Request $request, $id)
     {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
         $subkomponen = SubKomponen::findOrFail($id);
-        $subkomponen->flag = !$subkomponen->flag;
+        $subkomponen->flag = $request->flag;
         $subkomponen->save();
 
         return redirect()->back()->with('success', 'Flag SubKomponen berhasil diperbarui.');
     }
 
+    public function updateFlagKegiatan(Request $request, $id)
+    {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
+        $kegiatan = Kegiatan::findOrFail($id);
+        $kegiatan->flag = $request->flag;
+        $kegiatan->save();
+
+        return redirect()->back()->with('success', 'Flag Kegiatan berhasil diperbarui.');
+    }
+
+    public function updateFlagKro(Request $request, $id)
+    {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
+        $kro = KRO::findOrFail($id);
+        $kro->flag = $request->flag;
+        $kro->save();
+
+        return redirect()->back()->with('success', 'Flag KRO berhasil diperbarui.');
+    }
+
     public function updateFlagOutput(Request $request, $id)
     {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
         $output = Output::findOrFail($id);
-        $output->flag = !$output->flag;
+        $output->flag = $request->flag;
         $output->save();
 
         return redirect()->back()->with('success', 'Flag Output berhasil diperbarui.');

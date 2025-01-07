@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::truncate();
+        DB::table('users')->delete();
 
         $csvFile = fopen(base_path("database/seeders/data/users.csv"), "r");
 
@@ -25,12 +27,14 @@ class UserSeeder extends Seeder
             }
 
             User::create([
-                'nip_lama' => $row[0],
-                'username' => $row[1],
+                'id' => $row[0],
+                'nip_lama' => $row[1],
+                'username' => $row[2],
                 'password' => bcrypt('password123'),
-                'email' => $row[3],
-                'role' => $row[4] ?? 'user',
+                'email' => $row[4],
+                'id_role' => $row[5],
                 'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 

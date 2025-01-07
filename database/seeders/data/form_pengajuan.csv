@@ -1,6 +1,6 @@
-"no_fp","id_output","kode_komponen","kode_subkomponen","kode_akun","tanggal_mulai","tanggal_akhir","no_sk","uraian","nominal","nip_pengaju","status",
-"144","001","001","B","521811","2024-01-01","2024-01-10","001/31510/VS.100/2024","Supervisi Sensus Ekonomi","1000000","320007100","Entri Dokumen"
-"175","001","001","B","521811","2024-01-15","2024-01-25","001/31510/VS.100/2024","Supervisi Sensus Penduduk","2000000","320007100","Entri Dokumen"
-"165","001","001","B","521811","2024-02-01","2024-02-10","001/31510/VS.100/2024","Supervisi Sensus Tani","3000000","320007100","Entri Dokumen"
-"180","001","001","B","521811","2024-02-15","2024-02-25","001/31510/VS.100/2024","Supervisi Survei Indeks Pembangunan Manusia","4000000","320007100","Entri Dokumen"
-"195","001","001","B","521811","2024-03-01","2024-03-10","001/31510/VS.100/2024","Supervisi Survei Angakatan Kerja Nasional","5000000","320007100","Entri Dokumen"
+"id","no_fp","id_output","id_komponen","id_subkomponen","id_akun_belanja","tanggal_mulai","tanggal_akhir","no_sk","uraian","nominal","nip_pengaju","id_status"
+"1","144","2","1","1","2","2024-01-01","2024-01-10","001/31510/VS.100/2024","Supervisi Sensus Ekonomi","1000000","320007100","1"
+"2","175","11","4","2","6","2024-01-15","2024-01-25","001/31510/VS.100/2024","Supervisi Sensus Penduduk","2000000","320007100","1"
+"3","165","9","2","1","24","2024-02-01","2024-02-10","001/31510/VS.100/2024","Supervisi Sensus Tani","3000000","320007100","5"
+"4","180","7","3","2","16","2024-02-15","2024-02-25","001/31510/VS.100/2024","Supervisi Survei Indeks Pembangunan Manusia","4000000","320007100","3"
+"5","195","3","5","1","7","2024-03-01","2024-03-10","001/31510/VS.100/2024","Supervisi Survei Angakatan Kerja Nasional","5000000","320007100","1"
