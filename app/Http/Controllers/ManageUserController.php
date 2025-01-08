@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,11 +26,25 @@ class ManageUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nama' => 'required|string|max:255',
             'nip_lama' => 'required|string|max:255|unique:users,nip_lama',
+            'nip_baru' => 'required|string|max:255|unique:pegawai,nip_baru',
+            'jabatan' => 'required',
+            'golongan' => 'required',
             'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
             'email'    => 'required|string|email|max:255|unique:users,email',
             'id_role' => 'required|exists:role,id',
+        ]);
+
+        Pegawai::create([
+            'nama' => $request->nama,
+            'nip_lama' => $request->nip_lama,
+            'nip_baru' => $request->nip_baru,
+            'jabatan' => $request->jabatan,
+            'kode_wilayah' => "3100",
+            'nama_wilayah' => "BPS Provinsi DKI Jakarta",
+            'golongan' => $request->golongan
         ]);
 
         User::create([
@@ -57,13 +72,13 @@ class ManageUserController extends Controller
 
         // Validasi input
         $rules = [
-            'username' => 'required|string|max:255|unique:users,username,'.$id,
-            'email'    => 'required|string|email|max:255|unique:users,email,'.$id,
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email'    => 'required|string|email|max:255|unique:users,email,' . $id,
             'id_role'  => 'required|exists:role,id',
         ];
 
         // Jika password diisi, tambahkan validasi password
-        if($request->filled('password')) {
+        if ($request->filled('password')) {
             $rules['password'] = 'required|string|min:6';
         }
 
@@ -77,7 +92,7 @@ class ManageUserController extends Controller
         ];
 
         // Update password jika diisi
-        if($request->filled('password')) {
+        if ($request->filled('password')) {
             $userData['password'] = Hash::make($request->password);
         }
 
