@@ -28,7 +28,7 @@
                 <select class="form-select" id="id_output" name="id_output" required>
                     <option value="" disabled selected hidden>Pilih Rincian Output</option>
                     @foreach ($output as $item)
-                    <option value="{{ $item->id }}">[{{ $item->kegiatan->kode }}.{{ $item->kro->kode }}.{{ $item->kode_ro }}]     {{ $item->output }}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kegiatan->kode }}.{{ $item->kro->kode }}.{{ $item->kode_ro }}] {{ $item->output }}</option>
                     @endforeach
                 </select>
                 @error('output')
@@ -44,7 +44,7 @@
                 <select class="form-select" id="id_komponen" name="id_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->komponen }}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}] {{ $item->komponen }}</option>
                     @endforeach
                 </select>
             </div>
@@ -57,7 +57,7 @@
                 <select class="form-select" id="id_subkomponen" name="id_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->sub_komponen}}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}] {{ $item->sub_komponen}}</option>
                     @endforeach
                 </select>
             </div>
@@ -70,7 +70,7 @@
                 <select class="form-select" id="id_akun_belanja" name="id_akun_belanja" required>
                     <option value="" disabled selected hidden>Pilih Akun Belanja</option>
                     @foreach ($akunBelanja as $item)
-                    <option value="{{ $item->id }}">[{{ $item->kode }}]   {{ $item->nama_akun }}</option>
+                    <option value="{{ $item->id }}">[{{ $item->kode }}] {{ $item->nama_akun }}</option>
                     @endforeach
                 </select>
             </div>
@@ -120,24 +120,12 @@
 @section('script')
 <script>
     const input = document.getElementById("nominal");
-    const formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
+    const formatter = new Intl.NumberFormat("id-ID");
 
     input.addEventListener("input", (e) => {
         const rawValue = input.value.replace(/[^\d]/g, "");
-
-        if (rawValue) {
-            input.value = formatter.format(rawValue).replace(/\s+/g, "");
-        } else {
-            input.value = "";
-        }
-
+        input.value = rawValue ? formatter.format(rawValue) : "";
         input.dataset.rawValue = rawValue;
     });
 </script>
 @endsection
-
