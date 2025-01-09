@@ -11,6 +11,7 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ManageFormController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\ManageMAKController;
+use App\Http\Controllers\PanduanController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -76,6 +77,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('download')->name('download.')->group(function () {
             Route::get('/', [DownloadController::class, 'index'])->name('index');
             Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
+        });
+
+        // Panduan
+        Route::prefix('panduan')->name('panduan.')->group(function () {
+            Route::get('/', [PanduanController::class, 'index'])->name('index');
+            Route::get('/upload', function () {return view('panduan.upload');})->name('upload.form');
+            Route::post('/upload', [PanduanController::class, 'upload'])->name('upload');
         });
     });
 
