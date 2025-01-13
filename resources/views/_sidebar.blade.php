@@ -42,7 +42,7 @@
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
-                    <h4 class="text-section">Components</h4>
+                    <h4 class="text-section">Menu</h4>
                 </li>
                 <li class="nav-item {{ request()->routeIs('form.*') ? 'active' : '' }}">
                     <a href="{{ route('form.index') }}">
@@ -141,6 +141,12 @@
                     </div>
                 </li>
                 @endif
+                <li class="nav-item {{ request()->routeIs('panduan.index') ? 'active' : '' }}">
+                    <a href="{{ route('panduan.index') }}">
+                        <i class="fas fa-book"></i>
+                        <p>Panduan</p>
+                    </a>
+                </li>
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;

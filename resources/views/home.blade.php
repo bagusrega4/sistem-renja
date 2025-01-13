@@ -42,26 +42,10 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="#hero" class="active">Home</a></li>
+                    
                     <li><a href="#about">About</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="#">Dropdown 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Dropdown 1</a></li>
-                                    <li><a href="#">Deep Dropdown 2</a></li>
-                                    <li><a href="#">Deep Dropdown 3</a></li>
-                                    <li><a href="#">Deep Dropdown 4</a></li>
-                                    <li><a href="#">Deep Dropdown 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Dropdown 2</a></li>
-                            <li><a href="#">Dropdown 3</a></li>
-                            <li><a href="#">Dropdown 4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#contact">Contact</a></li>
+                    
+                    
                     @if (auth()->user())
                     <li><a href="/dashboard/">Dashboard</a></li>
                     @endif
@@ -80,19 +64,16 @@
 
             <div class="container">
                 <div class="row gy-4 justify-content-between">
-                    <div class="col-lg-4 order-lg-last hero-img" data-aos="zoom-out" data-aos-delay="100">
-                        <img src="assets/img/icon-landing-page.png" class="img-fluid animated" alt="">
+                    <div class="col-lg-4 col-md-6 order-lg-last hero-img" data-aos="zoom-out" data-aos-delay="100">
+                        <img src="assets/img/icon-landing-page.png" class="img-fluid animated sm" alt="">
                     </div>
-
                     <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
                         <h1>Sistem Bukti Dukung <span>Administratif</span></h1>
                         <p>Sistem pengajuan bukti dukung administratif untuk pegawai BPS Provinsi DKI Jakarta</p>
                         <div class="d-flex">
                             <a href="/login" class="btn-get-started">Login</a>
-                            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Tutorial</span></a>
                         </div>
-                    </div>
-
+                    </div> 
                 </div>
             </div>
 
@@ -113,7 +94,8 @@
 
         </section><!-- /Hero Section -->
 
-        <!-- About Section -->
+
+               <!-- About Section -->
         <section id="about" class="about section">
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <div class="row align-items-center gy-4">
@@ -176,316 +158,32 @@
             </div> <!-- End Container -->
         </section> <!-- /About Section -->
 
-
-
-        <!-- Stats Section -->
-        <section id="stats" class="stats section light-background">
-
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-                <div class="row gy-4">
-
-                    <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-emoji-smile"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Jumlah Pengajuan</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                    <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-journal-richtext"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Pengajuan Disetujui</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                    <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-headset"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Pengajuan Ditolak</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                    <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-people"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Pengguna</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                </div>
-
-            </div>
-
-        </section><!-- /Stats Section -->
-
-
-        <!-- Team Section -->
-        <section id="team" class="team section">
-
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Team</h2>
-                <div><span>Check Our</span> <span class="description-title">Team</span></div>
-            </div><!-- End Section Title -->
-
-            <div class="container">
-
-                <div class="row gy-5">
-
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="member">
-                            <div class="pic"><img src="assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-                            <div class="member-info">
-                                <h4>Walter White</h4>
-                                <span>Chief Executive Officer</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-twitter-x"></i></a>
-                                    <a href=""><i class="bi bi-facebook"></i></a>
-                                    <a href=""><i class="bi bi-instagram"></i></a>
-                                    <a href=""><i class="bi bi-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- End Team Member -->
-
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="member">
-                            <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-                            <div class="member-info">
-                                <h4>Sarah Jhonson</h4>
-                                <span>Product Manager</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-twitter-x"></i></a>
-                                    <a href=""><i class="bi bi-facebook"></i></a>
-                                    <a href=""><i class="bi bi-instagram"></i></a>
-                                    <a href=""><i class="bi bi-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- End Team Member -->
-
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="member">
-                            <div class="pic"><img src="assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-                            <div class="member-info">
-                                <h4>William Anderson</h4>
-                                <span>CTO</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-twitter-x"></i></a>
-                                    <a href=""><i class="bi bi-facebook"></i></a>
-                                    <a href=""><i class="bi bi-instagram"></i></a>
-                                    <a href=""><i class="bi bi-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- End Team Member -->
-
-                </div>
-
-            </div>
-
-        </section><!-- /Team Section -->
-
-
-        <!-- Faq Section -->
-        <section id="faq" class="faq section light-background">
-
-            <div class="container-fluid">
-
-                <div class="row gy-4">
-
-                    <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
-
-                        <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
-                            <h3><span>Frequently Asked </span><strong>Questions</strong></h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                            </p>
-                        </div>
-
-                        <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
-
-                            <div class="faq-item faq-active">
-                                <i class="faq-icon bi bi-question-circle"></i>
-                                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                                <div class="faq-content">
-                                    <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                                </div>
-                                <i class="faq-toggle bi bi-chevron-right"></i>
-                            </div><!-- End Faq item-->
-
-                            <div class="faq-item">
-                                <i class="faq-icon bi bi-question-circle"></i>
-                                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
-                                <div class="faq-content">
-                                    <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                                </div>
-                                <i class="faq-toggle bi bi-chevron-right"></i>
-                            </div><!-- End Faq item-->
-
-                            <div class="faq-item">
-                                <i class="faq-icon bi bi-question-circle"></i>
-                                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                                <div class="faq-content">
-                                    <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                                </div>
-                                <i class="faq-toggle bi bi-chevron-right"></i>
-                            </div><!-- End Faq item-->
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-5 order-1 order-lg-2">
-                        <img src="assets/img/faq.jpg" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
-                    </div>
-                </div>
-
-            </div>
-
-        </section><!-- /Faq Section -->
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact section">
-
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Contact</h2>
-                <div><span>Check Our</span> <span class="description-title">Contact</span></div>
-            </div><!-- End Section Title -->
-
-            <div class="container" data-aos="fade" data-aos-delay="100">
-
-                <div class="row gy-4">
-
-                    <div class="col-lg-4">
-                        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-                            <i class="bi bi-geo-alt flex-shrink-0"></i>
-                            <div>
-                                <h3>Address</h3>
-                                <p>A108 Adam Street, New York, NY 535022</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-                            <i class="bi bi-telephone flex-shrink-0"></i>
-                            <div>
-                                <h3>Call Us</h3>
-                                <p>+1 5589 55488 55</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-                            <i class="bi bi-envelope flex-shrink-0"></i>
-                            <div>
-                                <h3>Email Us</h3>
-                                <p>info@example.com</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                    </div>
-
-                    <div class="col-lg-8">
-                        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-                            <div class="row gy-4">
-
-                                <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                                </div>
-
-                                <div class="col-md-6 ">
-                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                                </div>
-
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                                </div>
-
-                                <div class="col-md-12">
-                                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                                </div>
-
-                                <div class="col-md-12 text-center">
-                                    <div class="loading">Loading</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                                    <button type="submit">Send Message</button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div><!-- End Contact Form -->
-
-                </div>
-
-            </div>
-
-        </section><!-- /Contact Section -->
-
     </main>
 
-    <footer id="footer" class="footer dark-background">
+    <footer id="footer" class="mt-12 footer dark-background">
 
         <div class="container footer-top">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6 footer-about">
                     <a href="index.html" class="logo d-flex align-items-center">
-                        <span class="sitename">BPS Provinsi DKI Jakarta</span>
+                        <span class="sitename">Badan Pusat Statistik Provinsi DKI Jakarta</span>
                     </a>
                     <div class="footer-contact pt-3">
-                        <p>A108 Adam Street</p>
-                        <p>New York, NY 535022</p>
-                        <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                        <p><strong>Email:</strong> <span>info@example.com</span></p>
+                        <p>Jl. Salemba Tengah No. 36-38</p>
+                        <p>Paseban Senen Jakarta Pusat</p>
+                        <p class="mt-3"><strong>Phone </strong> <span>(021) 31928493</span></p>
+                        <p><strong>Fax </strong> <span>(021) 3152004</span></p>
+                        <p><strong>Email: </strong> <span>bps3100@bps.go.id</span></p>
                     </div>
                     <div class="social-links d-flex mt-4">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
+                        <a href="https://www.x.com/bpsdkijakarta"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://www.facebook.com/bpsdkijakarta"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.instagram.com/bpsdkijakarta"><i class="bi bi-instagram"></i></a>
+                        <a href="https://www.youtube.com/c/BPSDKI"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
 
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Product Management</a></li>
-                        <li><a href="#">Marketing</a></li>
-                        <li><a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 col-md-12 footer-newsletter">
-                    <h4>Our Newsletter</h4>
-                    <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-                    <form action="forms/newsletter.php" method="post" class="php-email-form">
-                        <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-                    </form>
-                </div>
-
-            </div>
+                
         </div>
 
         <div class="container copyright text-center mt-4">

@@ -89,7 +89,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/upload', function () {return view('panduan.upload');})->name('upload.form');
             Route::post('/upload', [PanduanController::class, 'upload'])->name('upload');
         });
-
     });
 
     // 2) Route khusus untuk Keuangan (role=2) dan Admin (role=3)
