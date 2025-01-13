@@ -144,3 +144,25 @@
     });
 </script>
 @endsection
+
+@push('scripts')
+<script>
+    function formatRupiah(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(number).replace(/\s+/g, "");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const nominalElements = document.querySelectorAll('.nominal-currency');
+        nominalElements.forEach(element => {
+            const rawValue = element.textContent;
+            element.textContent = formatRupiah(rawValue);
+        });
+    });
+</script>
+@endpush
+

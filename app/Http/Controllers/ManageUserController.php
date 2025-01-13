@@ -20,7 +20,9 @@ class ManageUserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('manage.user.create', compact('roles'));
+        $jabatans = Pegawai::select('jabatan')->distinct()->orderBy('jabatan')->pluck('jabatan');
+        $golongans = Pegawai::select('golongan')->distinct()->orderBy('golongan')->pluck('golongan');
+        return view('manage.user.create', compact('roles', 'jabatans', 'golongans'));
     }
 
     public function store(Request $request)
@@ -70,28 +72,24 @@ class ManageUserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Validasi input
         $rules = [
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'email'    => 'required|string|email|max:255|unique:users,email,' . $id,
             'id_role'  => 'required|exists:role,id',
         ];
 
-        // Jika password diisi, tambahkan validasi password
         if ($request->filled('password')) {
             $rules['password'] = 'required|string|min:6';
         }
 
         $request->validate($rules);
 
-        // Update data
         $userData = [
             'username' => $request->username,
             'email'    => $request->email,
             'id_role'  => $request->id_role,
         ];
 
-        // Update password jika diisi
         if ($request->filled('password')) {
             $userData['password'] = Hash::make($request->password);
         }
@@ -113,5 +111,24 @@ class ManageUserController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Role Users berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if (!$user) {
+            return redirect()->route('manage.user.index')->with('error', 'User tidak ditemukan.');
+        }
+
+        $user->delete();
+
+        $pegawai = Pegawai::where('nip_lama', $user->nip_lama)->first();
+
+        if ($pegawai) {
+            $pegawai->delete();
+        }
+
+        return redirect()->route('manage.user.index')->with('success', 'User berhasil dihapus.');
     }
 }

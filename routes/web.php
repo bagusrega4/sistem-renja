@@ -11,6 +11,8 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ManageFormController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\ManageMAKController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PanduanController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -56,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
         Route::put('/password/change', [ProfileController::class, 'changePassword'])->name('password.change');
 
+        // Notification
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
         // Form Pengajuan
         Route::name('form.')->prefix('/form')->group(function () {
             Route::get('/', [FormController::class, 'index'])->name('index');
@@ -77,6 +82,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [DownloadController::class, 'index'])->name('index');
             Route::post('/proses', [DownloadController::class, 'download'])->name('proses');
         });
+
+        // Panduan
+        Route::prefix('panduan')->name('panduan.')->group(function () {
+            Route::get('/', [PanduanController::class, 'index'])->name('index');
+            Route::get('/upload', function () {return view('panduan.upload');})->name('upload.form');
+            Route::post('/upload', [PanduanController::class, 'upload'])->name('upload');
+        });
+
     });
 
     // 2) Route khusus untuk Keuangan (role=2) dan Admin (role=3)

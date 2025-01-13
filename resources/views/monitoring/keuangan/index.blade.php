@@ -136,13 +136,13 @@
                   <table class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
+                        <th>No. FP</th>
+                        <th>Nama Permintaan</th>
                         <th>Rincian Output</th>
                         <th>Komponen</th>
                         <th>Sub Komponen</th>
                         <th>Akun</th>
-                        <th>No. FP</th>
                         <th>Tanggal Kegiatan</th>
-                        <th>Nama Permintaan</th>
                         <th>No. SK</th>
                         <th>Nominal</th>
                         <th>Catatan</th>
@@ -150,16 +150,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <td class="text-start">{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}} - {{$fp -> output -> output}}</td>
+                      <td class="text-start">{{$fp -> no_fp}}</td>
+                      <td class="text-start"><strong>{{ $fp->uraian }}</strong></td>
+                      <td class="text-start">[{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}}]      {{$fp -> output -> output}}</td>
                       <td class="text-start">{{$fp -> komponen -> komponen}}</td>
                       <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
                       <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
-                      <td class="text-start">{{$fp -> no_fp}}</td>
                       <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
-                      <td class="text-start">{{$fp -> uraian}}</td>
                       <td class="text-start">{{$fp -> no_sk}}</td>
                       <td class="text-start nominal-currency">{{ $fp-> nominal }}</td>
-                      <td class="text-start">-</td>
+                      <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
                       <td class="text-start">
                         <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
                           <i class="fas fa-eye"></i>

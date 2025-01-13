@@ -18,7 +18,7 @@ class FormController extends Controller
         ->with(['kegiatan', 'kro'])
         ->get();
         $komponen = Komponen::visible()->get();
-        $subKomponen = SubKomponen::visible()->get();;
+        $subKomponen = SubKomponen::visible()->get();
         $akunBelanja = AkunBelanja::visible()->get();
         $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'user'])->get();
         return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
@@ -26,37 +26,50 @@ class FormController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'no_fp' => 'required|string|max:255',
-            'id_output' => 'required|exists:output,id',
-            'id_komponen' => 'required|exists:komponen,id',
-            'id_subkomponen' => 'required|exists:sub_komponen,id',
-            'id_akun_belanja' => 'required|exists:akun_belanja,id',
-            'tanggal_mulai' => 'required|date|before_or_equal:tanggal_akhir',
-            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
-            'no_sk' => 'required|string|max:255',
-            'uraian' => 'required|string|max:255',
-            'nominal' => 'required|numeric|min:0|max:1000000000000',
-        ]);
+        try {
+            // dd($request->all());
+            $validated = $request->validate([
+                'no_fp' => 'required|string|max:10',
+                'id_output' => 'required|exists:output,id',
+                'id_komponen' => 'required|exists:komponen,id',
+                'id_subkomponen' => 'required|exists:sub_komponen,id',
+                'id_akun_belanja' => 'required|exists:akun_belanja,id',
+                'tanggal_mulai' => 'required|date|before_or_equal:tanggal_akhir',
+                'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
+                'no_sk' => 'required|string|max:255',
+                'uraian' => 'required|string|max:255',
+                'nominal' => 'required|numeric|min:0|max:1000000000000',
+            ]);
 
-        $formPengajuan = FormPengajuan::create([
-            'no_fp' => $request->no_fp,
-            'id_output' => $request->id_output,
-            'id_komponen' => $request->id_komponen,
-            'id_subkomponen' => $request->id_subkomponen,
-            'id_akun_belanja' => $request->id_akun_belanja,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_akhir' => $request->tanggal_akhir,
-            'no_sk' => $request->no_sk,
-            'uraian' => $request->uraian,
-            'nominal' => $request->nominal,
-            'nip_pengaju' => auth()->user()->nip_lama,
-            'id_status' => $request->id_status ?? 1
-        ]);
+            $formPengajuan = FormPengajuan::create([
+                'no_fp' => $request->no_fp,
+                'id_output' => $request->id_output,
+                'id_komponen' => $request->id_komponen,
+                'id_subkomponen' => $request->id_subkomponen,
+                'id_akun_belanja' => $request->id_akun_belanja,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_akhir' => $request->tanggal_akhir,
+                'no_sk' => $request->no_sk,
+                'uraian' => $request->uraian,
+                'nominal' => $request->nominal,
+                'nip_pengaju' => auth()->user()->nip_lama,
+                'id_status' => $request->id_status ?? 1
+            ]);
 
-        return redirect()->route('monitoring.operator.index')
-            ->with('success', 'Form pengajuan berhasil disimpan.');
+            return redirect()->route('monitoring.operator.index')
+                ->with('success', 'Form pengajuan berhasil disimpan.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.')
+                ->withInput();
+        }
     }
+
 
     public function edit($id)
     {
@@ -119,4 +132,4 @@ class FormController extends Controller
         return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil dihapus.');
     }
 
-    }
+}

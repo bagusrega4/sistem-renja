@@ -18,13 +18,18 @@
             @csrf
             @method('PUT')
 
+            <!-- Nomor Form Pengajuan -->
             <div class="mb-3">
                 <label for="no_fp" class="form-label">Nomor FP
                     <span class="text-danger">*</span>
                 </label>
                 <input type="text" class="form-control" id="no_fp" name="no_fp" placeholder="Masukkan nomor FP" value="{{$formPengajuan -> no_fp}}" disabled>
+                @error('no_fp')
+                    <small>{{ $message }}</small>
+                @enderror
             </div>
-            <!-- Dropdown Rincian Output -->
+
+            <!-- Rincian Output -->
             <div class="mb-3">
                 <label for="id_output" class="form-label">Rincian Output
                     <span class="text-danger">*</span>
@@ -32,18 +37,18 @@
                 <select class="form-select" id="id_output" name="id_output" required>
                     <option value="" disabled selected hidden>Pilih Rincian Output</option>
                     @foreach ($output as $item)
-                    <option value="{{ $item->id }}"
-                        {{$formPengajuan->id_output == $item -> id ? 'selected' : ''}}>
-                        {{ $item->output }}
-                    </option>
+                        <option value="{{ $item->id }}"
+                            {{$formPengajuan->id_output == $item -> id ? 'selected' : ''}}>
+                            {{ $item->output }}
+                        </option>
                     @endforeach
                 </select>
-                @error('output')
-                <small>{{ $message}}</small>
+                @error('id_output')
+                    <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
 
-            <!-- Dropdown Komponen -->
+            <!-- Komponen -->
             <div class="mb-3">
                 <label for="id_komponen" class="form-label">Komponen
                     <span class="text-danger">*</span>
@@ -51,15 +56,18 @@
                 <select class="form-select" id="id_komponen" name="id_komponen" required>
                     <option value="" disabled selected hidden>Pilih Komponen</option>
                     @foreach ($komponen as $item)
-                    <option value="{{ $item->id }}"
-                    {{$formPengajuan->id_komponen == $item -> id ? 'selected' : ''}}>
-                    {{ $item->komponen }}
-                </option>
+                        <option value="{{ $item->id }}"
+                            {{$formPengajuan->id_komponen == $item -> id ? 'selected' : ''}}>
+                            {{ $item->komponen }}
+                        </option>
                     @endforeach
                 </select>
+                @error('id_komponen')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
-            <!-- Dropdown Sub Komponen -->
+            <!-- Sub Komponen -->
             <div class="mb-3">
                 <label for="kode_subkomponen" class="form-label">Sub Komponen
                     <span class="text-danger">*</span>
@@ -67,15 +75,18 @@
                 <select class="form-select" id="id_subkomponen" name="id_subkomponen" required>
                     <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                     @foreach ($subKomponen as $item)
-                    <option value="{{ $item->id }}"
-                    {{$formPengajuan->id_subkomponen == $item -> id ? 'selected' : ''}}>
-                    {{ $item->sub_komponen}}
-                </option>
+                        <option value="{{ $item->id }}"
+                            {{$formPengajuan->id_subkomponen == $item -> id ? 'selected' : ''}}>
+                            {{ $item->sub_komponen}}
+                        </option>
                     @endforeach
                 </select>
+                @error('id_subkomponen')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
-            <!-- Dropdown Akun -->
+            <!-- Akun Belanja -->
             <div class="mb-3">
                 <label for="kode_akun" class="form-label">Akun
                     <span class="text-danger">*</span>
@@ -84,47 +95,74 @@
                     <option value="" disabled selected hidden>Pilih Akun</option>
                     @foreach ($akunBelanja as $item)
                         <option value="{{ $item->id }}"
-                        {{$formPengajuan->id_akun_belanja == $item -> id ? 'selected' : ''}}>
-                        {{ $item->nama_akun }}
-                    </option>
+                            {{$formPengajuan->id_akun_belanja == $item -> id ? 'selected' : ''}}>
+                            {{ $item->nama_akun }}
+                        </option>
                     @endforeach
                 </select>
+                @error('id_akun_belanja')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
-            <!-- Input Lainnya -->
+            <!-- Tanggal Mulai Kegiatan -->
             <div class="mb-3">
                 <label for="tanggal_mulai" class="form-label">Tanggal Mulai Kegiatan
                     <span class="text-danger">*</span>
                 </label>
                 <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{$formPengajuan->tanggal_mulai}}" required>
+                @error('tanggal_mulai')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Tanggal Akhir Kegiatan -->
             <div class="mb-3">
                 <label for="tanggal_akhir" class="form-label">Tanggal Akhir Kegiatan
                     <span class="text-danger">*</span>
                 </label>
                 <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" value="{{$formPengajuan->tanggal_akhir}}" required>
+                @error('tanggal_akhir')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Nomor SK/Surat Tugas -->
             <div class="mb-3">
                 <label for="no_sk" class="form-label">Nomor SK/Surat Tugas
                     <span class="text-danger">*</span>
                 </label>
                 <input type="text" class="form-control" id="no_sk" name="no_sk" placeholder="Masukkan nomor SK" value="{{$formPengajuan->no_sk}}" required>
+                @error('no_sk')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Uraian/Nama Permintaan -->
             <div class="mb-3">
                 <label for="uraian" class="form-label">Uraian
                     <span class="text-danger">*</span>
                 </label>
                 <input type="text" class="form-control" id="uraian" name="uraian" placeholder="Masukkan uraian" value="{{$formPengajuan->uraian}}" required>
+                @error('uraian')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Nominal -->
             <div class="mb-3">
                 <label for="nominal" class="form-label">Nominal
                     <span class="text-danger">*</span>
                 </label>
-                <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Masukkan nominal" value="{{$formPengajuan->nominal}}" required>
+                <div class="input-group">
+                    <span class="input-group-text">Rp</span>
+                    <input type="text" class="form-control" id="nominal" name="nominal"
+                        placeholder="Masukkan nominal" oninput="formatNumber(this)"
+                        value="{{$formPengajuan->nominal}}" required>
+                </div>
+                @error('nominal')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-success">Ubah</button>
@@ -132,3 +170,49 @@
     </div>
 </div>
 @endsection
+
+{{-- Convert Nominal to Numbers in Form --}}
+@section('script')
+    <script>
+        function formatNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            input.value = new Intl.NumberFormat('id-ID').format(value);
+        }
+
+        document.getElementById('nominal').addEventListener('input', function() {
+            formatNumber(this);
+        });
+
+        $('.btn-form-input').on('click', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+
+            let nominalInput = document.getElementById('nominal');
+            nominalInput.value = nominalInput.value.replace(/\D/g, '');
+            form.submit();
+        });
+    </script>
+@endsection
+
+{{-- Convert to Rupiah in Modal View --}}
+@push('scripts')
+<script>
+    function formatRupiah(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(number).replace(/\s+/g, "");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const nominalElements = document.querySelectorAll('.nominal-currency');
+        nominalElements.forEach(element => {
+            const rawValue = element.textContent;
+            element.textContent = formatRupiah(rawValue);
+        });
+    });
+</script>
+@endpush
+

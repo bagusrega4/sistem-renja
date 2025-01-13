@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta'),
 
     /*
     |--------------------------------------------------------------------------

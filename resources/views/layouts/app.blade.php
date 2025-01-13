@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
 
-    <title>{{ config('app.name', 'Sistem BDA') }}</title>
+    <title>{{ config('app.name', 'Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -105,6 +105,7 @@
     <script defer src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer src="{{ asset('assets/js/dataTable.js') }}"></script>
+
 </head>
 
 <body class="antialiased">
@@ -115,19 +116,14 @@
         <div class="main-panel">
             @include('_navbar')
 
-            @include('/modal/_notifAll')
+            @include('modal._notifAll')
             @include('/modal/_notifAcc')
             @include('/modal/_notifTolak')
-
-            {{-- @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif --}}
 
             @yield('content')
             @yield('modal-view')
             @yield('modal-delete')
+            @yield('css')
         </div>
 
     </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sistem BDA BPS DKI Jakarta</title>
+    <title>Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 

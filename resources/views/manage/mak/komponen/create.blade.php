@@ -27,22 +27,63 @@
             <div class="card-body">
                 <form action="{{ route('manage.mak.komponen.store') }}" method="POST">
                     @csrf
+
+                    <!-- Kode Komponen -->
                     <div class="mb-3">
                         <label for="kode" class="form-label">Kode Komponen</label>
-                        <input type="text" name="kode" class="form-control" id="kode" value="{{ old('kode') }}" required>
+                        <input
+                            type="text"
+                            name="kode"
+                            class="form-control @error('kode') is-invalid @enderror"
+                            id="kode"
+                            value="{{ old('kode') }}"
+                            placeholder="Masukkan kode komponen"
+                            required
+                        >
+                        @error('kode')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
+
+                    <!-- Nama Komponen -->
                     <div class="mb-3">
                         <label for="komponen" class="form-label">Nama Komponen</label>
-                        <input type="text" name="komponen" class="form-control" id="nama_komponen" value="{{ old('komponen') }}" required>
+                        <input
+                            type="text"
+                            name="komponen"
+                            class="form-control @error('komponen') is-invalid @enderror"
+                            id="nama_komponen"
+                            value="{{ old('komponen') }}"
+                            placeholder="Masukkan nama komponen"
+                            required
+                        >
+                        @error('komponen')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
+
+                    <!-- Tampilkan -->
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
-                        <select name="flag" id="flag" class="form-select">
+                        <select
+                            name="flag"
+                            id="flag"
+                            class="form-select @error('flag') is-invalid @enderror"
+                        >
                             <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
                             <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
+                        @error('flag')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
-                    <!-- Tambahkan field lainnya jika diperlukan -->
+
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
