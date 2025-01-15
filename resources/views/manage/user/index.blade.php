@@ -55,6 +55,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 @foreach($roles as $role)
+                                                @if ($role->role != $user->role->role)
                                                     <li>
                                                         <button
                                                             class="dropdown-item"
@@ -67,6 +68,7 @@
                                                             {{ ucfirst($role->role) }}
                                                         </button>
                                                     </li>
+                                                @endif
                                                 @endforeach
                                             </ul>
                                         </td>
