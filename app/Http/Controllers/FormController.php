@@ -73,6 +73,12 @@ class FormController extends Controller
 
     public function edit($id)
     {
+        $fp = FormPengajuan::find($id);
+        
+        if (!$fp || $fp->id_status != 1) {
+            return view('error.unauthorized');
+        }
+
         $nipPengaju = auth()->user()->nip_lama;
         $formPengajuan = FormPengajuan::where('id', $id)
             ->where('nip_pengaju', $nipPengaju)
@@ -90,6 +96,12 @@ class FormController extends Controller
 
     public function update(Request $request, $id)
     {
+        $fp = FormPengajuan::find($id);
+        
+        if (!$fp || $fp->id_status != 1) {
+            return view('error.unauthorized');
+        }
+
         $request->validate([
             'id_output' => 'required|exists:output,id',
             'id_komponen' => 'required|exists:komponen,id',

@@ -17,7 +17,7 @@ class MonitoringKeuanganController extends Controller
 {
     public function index()
     {
-        $pengajuan = FormPengajuan::all();
+        $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
         foreach ($pengajuan as $p) {
             $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
         }

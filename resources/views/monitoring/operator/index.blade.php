@@ -68,12 +68,12 @@
                                                         data-bs-no-fp="{{ $fp->id }}">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-
+                                                    @if($fp->id_status == 1)
                                                     <button class="btn btn-secondary btn-sm me-2"
                                                         onclick="window.location.href='{{ route('form.edit', $fp->id) }}'">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-
+                                                    @endif
                                                     <button class="btn btn-info btn-sm me-2"
                                                         onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->id) }}'">
                                                         <i class="fas fa-desktop"></i>
@@ -126,7 +126,7 @@
     </div>
 @endsection
 
-<!-- Modal View -->
+<!-- Modal View wkwk-->
 @section('modal-view')
     @foreach ($formPengajuan as $fp)
         <div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog"
@@ -169,10 +169,14 @@
                                     <td class="text-start nominal-currency">{{ $fp->nominal }}</td>
                                     <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
                                     <td class="text-start">
+                                        @if ($fp->id_fk != null)
                                         <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal"
                                             data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
                                             <i class="fas fa-eye"></i>
                                         </button>
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                 </tbody>
                             </table>
