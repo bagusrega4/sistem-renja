@@ -68,12 +68,12 @@
                                                         data-bs-no-fp="{{ $fp->id }}">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-
+                                                    @if($fp->id_status == 1)
                                                     <button class="btn btn-secondary btn-sm me-2"
                                                         onclick="window.location.href='{{ route('form.edit', $fp->id) }}'">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-
+                                                    @endif
                                                     <button class="btn btn-info btn-sm me-2"
                                                         onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->id) }}'">
                                                         <i class="fas fa-desktop"></i>
