@@ -71,6 +71,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-1"></div>
         <div class="row mt-2">
@@ -108,7 +109,7 @@
             <div class="col-md-8">
                 <div class="card h-100 ">
                     <div class="card-header d-flex align-items-center">
-                        <h4 class="card-title mb-0 me-4 tab-link active" id="profile-tab" style="cursor: pointer;">
+                        <h4 class="card-title mb-0 me-4 tab-link" id="profile-tab" style="cursor: pointer;">
                             {{ __('Detail Profile') }}
                         </h4>
                         <h4 class="card-title mb-0 tab-link" id="password-tab" style="cursor: pointer;">
@@ -199,11 +200,16 @@
                                     <div class="col-sm-9">
                                         <input
                                             type="password"
-                                            class="form-control"
+                                            class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
                                             id="update_password_current_password"
                                             name="current_password"
-                                            autocomplete="current-password" />
-                                        <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
+                                            autocomplete="current-password"
+                                        />
+                                        @error('current_password', 'updatePassword')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -214,11 +220,16 @@
                                     <div class="col-sm-9">
                                         <input
                                             type="password"
-                                            class="form-control"
+                                            class="form-control @error('password', 'updatePassword') is-invalid @enderror"
                                             id="update_password_password"
                                             name="password"
-                                            autocomplete="new-password" />
-                                        <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
+                                            autocomplete="new-password"
+                                        />
+                                        @error('password', 'updatePassword')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -229,16 +240,21 @@
                                     <div class="col-sm-9">
                                         <input
                                             type="password"
-                                            class="form-control"
+                                            class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror"
                                             id="update_password_password_confirmation"
                                             name="password_confirmation"
-                                            autocomplete="new-password" />
-                                        <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
+                                            autocomplete="new-password"
+                                        />
+                                        @error('password_confirmation', 'updatePassword')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
-                                <div class="d-flex align-items-center gap-4">
-                                    <button type="sumbit" class="btn btn-primary btn-round">{{ __('Save') }}</button>
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-primary btn-round">{{ __('Save') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -253,31 +269,42 @@
 
 @section('script')
 <script>
-    const profileTab = document.getElementById('profile-tab');
-    const passwordTab = document.getElementById('password-tab');
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.tab-link');
+        const contents = document.querySelectorAll('.card-body');
 
-    const profileContent = document.getElementById('profile-content');
-    const passwordContent = document.getElementById('password-content');
-    passwordContent.style.display = 'none';
+        // Menonaktifkan semua tab dan konten
+        function resetTabs() {
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.style.display = 'none');
+        }
 
-    profileTab.addEventListener('click', () => {
-        profileContent.style.display = 'block';
-        passwordContent.style.display = 'none';
-    });
+        // Mengaktifkan tab berdasarkan ID
+        function activateTab(tabId) {
+            resetTabs();
+            const activeTabElement = document.querySelector(`#${tabId}-tab`);
+            const activeContent = document.querySelector(`#${tabId}-content`);
+            if (activeTabElement && activeContent) {
+                activeTabElement.classList.add('active');
+                activeContent.style.display = 'block';
+            }
+        }
 
-    passwordTab.addEventListener('click', () => {
-        passwordContent.style.display = 'block';
-        profileContent.style.display = 'none';
-    });
-</script>
-<script>
-    const tabs = document.querySelectorAll('.tab-link');
+        // Meng-handle flash session untuk tab aktif
+        const activeTab = "{{ session('activeTab', 'profile') }}";
+        activateTab(activeTab);
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+        // Menambahkan event listener untuk setiap tab
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                const targetTabId = this.id.replace('-tab', '');
+                activateTab(targetTabId);
+            });
         });
     });
 </script>
 @endsection
+
+
+
+

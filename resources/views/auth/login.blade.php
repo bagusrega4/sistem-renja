@@ -16,13 +16,13 @@
                     name="email"
                     :value="old('email')"
                     required autofocus autocomplete="username">
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 <input
                     id=""
                     type="password"
                     placeholder="Password"
                     name="password"
                     required autocomplete="current-password">
+                <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
 
                 <div class="d-flex ">
                     <a href="#">Forget Your Password?</a>

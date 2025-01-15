@@ -127,7 +127,7 @@
                         <i class="fas fa-check-circle fa-2x me-2"></i>
                         <div>
                             <strong>Pengajuan telah Disetujui.</strong>
-                            Mohon isi form keuangan.
+                            Mohon isi form keuangan!
                         </div>
                     </div>
                     @break

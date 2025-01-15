@@ -75,17 +75,22 @@ class ProfileController extends Controller
      */
     public function changePassword(Request $request)
     {
-        $request->validateWithBag('updatePassword', [
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        try {
+            $request->validateWithBag('updatePassword', [
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
 
-        $user = $request->user();
+            $user = $request->user();
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return back()->with('success', 'Password Anda berhasil diubah');
+            return back()->with('success', 'Password Anda berhasil diubah')->with('activeTab', 'password');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->validator, 'updatePassword')
+                         ->withInput()
+                         ->with('activeTab', 'password');
+        }
     }
 
     /**

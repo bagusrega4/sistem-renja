@@ -3,6 +3,16 @@
     <div class="container">
         <div class="page-inner">
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <h2 class="fw-bold mb-3">Form</h2>
             <h6 class="op-7 mb-2">
                 Form Registrasi Bukti Dukung Administrasi BPS Provinsi DKI Jakarta Tahun Anggaran 2024
@@ -19,7 +29,7 @@
                     <input type="text" class="form-control" id="no_fp" name="no_fp" placeholder="Masukkan nomor FP"
                         required>
                     @error('no_fp')
-                        <small>{{ $message }}</small>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
 
@@ -149,15 +159,6 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
 
 
                 <button type="submit" class="btn btn-success btn-form-input">Kirim</button>
