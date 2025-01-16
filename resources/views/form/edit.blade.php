@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('form.update', $formPengajuan->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('form.update', $fp->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -33,7 +33,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="no_fp" name="no_fp" placeholder="Masukkan nomor FP"
-                        value="{{ $formPengajuan->no_fp }}" disabled>
+                        value="{{ $fp->no_fp }}" disabled>
                     @error('no_fp')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -48,7 +48,7 @@
                         <option value="" disabled selected hidden>Pilih Rincian Output</option>
                         @foreach ($output as $item)
                             <option value="{{ $item->id }}"
-                                {{ $formPengajuan->id_output == $item->id ? 'selected' : '' }}>
+                                {{ $fp->id_output == $item->id ? 'selected' : '' }}>
                                 {{ $item->output }}
                             </option>
                         @endforeach
@@ -67,7 +67,7 @@
                         <option value="" disabled selected hidden>Pilih Komponen</option>
                         @foreach ($komponen as $item)
                             <option value="{{ $item->id }}"
-                                {{ $formPengajuan->id_komponen == $item->id ? 'selected' : '' }}>
+                                {{ $fp->id_komponen == $item->id ? 'selected' : '' }}>
                                 {{ $item->komponen }}
                             </option>
                         @endforeach
@@ -86,7 +86,7 @@
                         <option value="" disabled selected hidden>Pilih Sub Komponen</option>
                         @foreach ($subKomponen as $item)
                             <option value="{{ $item->id }}"
-                                {{ $formPengajuan->id_subkomponen == $item->id ? 'selected' : '' }}>
+                                {{ $fp->id_subkomponen == $item->id ? 'selected' : '' }}>
                                 {{ $item->sub_komponen }}
                             </option>
                         @endforeach
@@ -105,7 +105,7 @@
                         <option value="" disabled selected hidden>Pilih Akun</option>
                         @foreach ($akunBelanja as $item)
                             <option value="{{ $item->id }}"
-                                {{ $formPengajuan->id_akun_belanja == $item->id ? 'selected' : '' }}>
+                                {{ $fp->id_akun_belanja == $item->id ? 'selected' : '' }}>
                                 {{ $item->nama_akun }}
                             </option>
                         @endforeach
@@ -121,7 +121,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
-                        value="{{ $formPengajuan->tanggal_mulai }}" required>
+                        value="{{ $fp->tanggal_mulai }}" required>
                     @error('tanggal_mulai')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -133,7 +133,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir"
-                        value="{{ $formPengajuan->tanggal_akhir }}" required>
+                        value="{{ $fp->tanggal_akhir }}" required>
                     @error('tanggal_akhir')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -145,7 +145,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="no_sk" name="no_sk" placeholder="Masukkan nomor SK"
-                        value="{{ $formPengajuan->no_sk }}" required>
+                        value="{{ $fp->no_sk }}" required>
                     @error('no_sk')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -157,7 +157,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="uraian" name="uraian" placeholder="Masukkan uraian"
-                        value="{{ $formPengajuan->uraian }}" required>
+                        value="{{ $fp->uraian }}" required>
                     @error('uraian')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -171,7 +171,7 @@
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="text" class="form-control" id="nominal" name="nominal"
-                            placeholder="Masukkan nominal" value="{{ old('nominal', $formPengajuan->nominal) }}"
+                            placeholder="Masukkan nominal" value="{{ old('nominal', $fp->nominal) }}"
                             oninput="formatNumber(this)" required>
                     </div>
                     @error('nominal')

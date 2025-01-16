@@ -5,10 +5,10 @@
     <div class="page-inner">
         <!-- Notifikasi Sukses -->
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -23,41 +23,41 @@
         <div class="card card-round">
             <div class="card-body">
                 @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
                 @endif
 
                 @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
                 @endif
 
-                <form action="{{ route('monitoring.keuangan.store', $formPengajuan->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('monitoring.keuangan.store', $fp->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- No FP (readonly) -->
                     <div class="mb-3">
                         <label for="no_fp" class="form-label">No FP</label>
-                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{ $formPengajuan->no_fp }}" required readonly>
+                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{ $fp->no_fp }}" required readonly>
                     </div>
 
                     <!-- Nama Permintaan (readonly) -->
                     <div class="mb-3">
                         <label for="nama_permintaan" class="form-label">Nama Permintaan</label>
-                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{ $formPengajuan->uraian }}" required readonly>
+                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{ $fp->uraian }}" required readonly>
                     </div>
 
                     <!-- Akun Belanja (readonly) -->
                     <div class="mb-3">
                         <label for="akun_belanja" class="form-label">Akun Belanja</label>
-                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ $formPengajuan->akunBelanja->nama_akun }}" required readonly>
+                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ $fp->akunBelanja->nama_akun }}" required readonly>
                     </div>
 
                     <!-- PJ Berkas (readonly) -->
                     <div class="mb-3">
                         <label for="pj_berkas" class="form-label">PJ Berkas</label>
-                        <input type="text" name="pj_berkas" class="form-control" id="pj_berkas" value="{{ $formPengajuan->pegawai ? $formPengajuan->pegawai->nama : 'Data Pegawai Tidak Ditemukan' }}" required readonly>
+                        <input type="text" name="pj_berkas" class="form-control" id="pj_berkas" value="{{ $fp->pegawai ? $fp->pegawai->nama : 'Data Pegawai Tidak Ditemukan' }}" required readonly>
                     </div>
 
                     <!-- Form Tim Keuangan -->
@@ -73,9 +73,9 @@
                             value="{{ old('no_spby') }}"
                             required />
                         @error('no_spby')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
@@ -91,9 +91,9 @@
                             value="{{ old('no_drpp') }}"
                             required />
                         @error('no_drpp')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
@@ -109,9 +109,9 @@
                             value="{{ old('no_spm') }}"
                             required />
                         @error('no_spm')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
@@ -126,9 +126,9 @@
                             value="{{ old('tanggal_spm') }}"
                             required />
                         @error('tanggal_spm')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
@@ -143,46 +143,44 @@
                             value="{{ old('tanggal_drpp') }}"
                             required />
                         @error('tanggal_drpp')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
                     <!-- Input File Dinamis -->
                     @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
-                        @php
-                            $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
-                        @endphp
-                        <div class="mb-3">
-                            <label for="{{ $fileKey }}" class="form-label">
-                                {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
-                                <span class="text-danger">*</span>
-                            </label>
-                            <div class="input-group">
-                                <input
-                                    type="file"
-                                    name="{{ $fileKey }}"
-                                    class="form-control @error($fileKey) is-invalid @enderror"
-                                    id="{{ $fileKey }}"
-                                    accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
-                                    required
-                                    onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
-                                >
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-danger"
-                                    id="btn_reset_{{ $fileKey }}"
-                                    style="display: none;"
-                                    onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
-                                >X</button>
-                            </div>
-                            @error($fileKey)
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                    @php
+                    $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                    @endphp
+                    <div class="mb-3">
+                        <label for="{{ $fileKey }}" class="form-label">
+                            {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input
+                                type="file"
+                                name="{{ $fileKey }}"
+                                class="form-control @error($fileKey) is-invalid @enderror"
+                                id="{{ $fileKey }}"
+                                accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                required
+                                onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                id="btn_reset_{{ $fileKey }}"
+                                style="display: none;"
+                                onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
                         </div>
+                        @error($fileKey)
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
                     @endforeach
 
                     <button type="submit" class="btn btn-success">Simpan</button>
