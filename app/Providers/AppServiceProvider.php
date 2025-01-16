@@ -24,9 +24,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer(['_navbar', 'modal._notifAll'], function ($view) {
-            Log::info('View Composer executed for modal._notifAll');
-            $pengajuanSelesai = FormPengajuan::where('id_status', 5)->get();
-            $pengajuanDitolak = FormPengajuan::where('id_status', 3)->get();
+            $user = auth()->user();
+            $nipPengaju = $user->nip_lama;
+
+            $pengajuanSelesai = FormPengajuan::where('id_status', 5)
+                ->where('nip_pengaju', $nipPengaju)
+                ->get();
+
+            $pengajuanDitolak = FormPengajuan::where('id_status', 3)
+                ->where('nip_pengaju', $nipPengaju)
+                ->get();
 
             $view->with([
                 'pengajuanSelesai' => $pengajuanSelesai,
@@ -34,4 +41,5 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
     }
+
 }
