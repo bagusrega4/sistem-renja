@@ -26,6 +26,46 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+
+    <!-- <style>
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 200px;
+            /* Tinggi konsisten */
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .icon-box h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #051c48;
+            /* Warna teks */
+        }
+
+        .icon-box p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .icon-box:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Atur spacing antar box */
+        .row .col-md-6 {
+            margin-bottom: 20px;
+        }
+    </style> -->
 </head>
 
 <body class="index-page">
@@ -49,7 +89,7 @@
                         <div class="d-flex">
                             <a href="/login" class="btn-get-started">Login</a>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
@@ -71,7 +111,7 @@
         </section><!-- /Hero Section -->
 
 
-               <!-- About Section -->
+        <!-- About Section -->
         <section id="about" class="about section">
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <div class="row align-items-center gy-4">
@@ -83,14 +123,12 @@
                                 <!--<h3>About Us</h3>-->
                                 <h2>Sistem Bukti Dukung Administrasi</h2>
                                 <p>Merupakan alat bantu untuk mempermudah pegawai BPS Provinsi DKI Jakarta dalam mengajukan bukti dukung administrasi pada kegiatan yang telah mereka lakukan.</p>
-                                <a href="#" class="read-more"><span>Baca SOP Pengajuan Bukti Dukung Administrasi</span><i class="bi bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Icon Boxes -->
                     <div class="row gy-4">
-
                         <!-- Icon Box 1 -->
                         <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                             <div class="icon-box">
@@ -105,7 +143,7 @@
                             <div class="icon-box">
                                 <i class="bi bi-clipboard-pulse"></i>
                                 <h3>Monitoring Pengajuan</h3>
-                                <p>Monitoring pengajuan yang lebih efektif dengan adanya fitur notifikasi</p>
+                                <p>Peningkatan efektivitas dalam memonitor pengajuan melalui penerapan fitur notifikasi yang memberikan informasi secara real-time</p>
                             </div>
                         </div>
 
@@ -114,7 +152,7 @@
                             <div class="icon-box">
                                 <i class="bi bi-command"></i>
                                 <h3>Kolaborasi</h3>
-                                <p>Mendukung proses kolaborasi pegawai BPS Provinsi DKI Jakarta</p>
+                                <p>Memberikan dukungan untuk meningkatkan proses kolaborasi antar pegawai di BPS Provinsi DKI Jakarta</p>
                             </div>
                         </div>
 
@@ -123,10 +161,9 @@
                             <div class="icon-box">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 <h3>Efektivitas Kerja</h3>
-                                <p>Sistem bukti dukung administrasi keuangan yang lebih baik akan meningkatkan efektivitas dalam setiap proses pengajuan dan persetujuannya</p>
+                                <p>Sistem administrasi keuangan yang lebih baik akan meningkatkan efektivitas pengajuan dan persetujuannya</p>
                             </div>
                         </div>
-
                     </div> <!-- End Icon Boxes Row -->
 
 
@@ -154,6 +191,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
 
 
 </body>
