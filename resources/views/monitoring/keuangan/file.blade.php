@@ -118,7 +118,7 @@
                         <i class="fas fa-ban fa-2x me-2"></i>
                         <div>
                             <strong>Pengajuan telah Ditolak.</strong>
-                            Harap lakukan perbaikan dokumen.
+                            Mohon tunggu operator melakukan perbaikan dokumen.
                         </div>
                     </div>
                     @break
