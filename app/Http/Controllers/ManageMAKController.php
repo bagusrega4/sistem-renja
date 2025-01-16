@@ -6,6 +6,7 @@ use App\Models\FormPengajuan;
 use App\Models\AkunBelanja;
 use App\Models\Komponen;
 use App\Models\JenisFileOperator;
+use App\Models\JenisFileKeuangan;
 use App\Models\SubKomponen;
 use App\Models\Output;
 use App\Models\Kegiatan;
@@ -28,11 +29,9 @@ class ManageMAKController extends Controller
     public function createAkun()
     {
         $formPengajuan = FormPengajuan::all();
-        return view('manage.mak.akun.create', [
-            'formPengajuan' => $formPengajuan
-        ]);
         $jenisFileOperator = JenisFileOperator::all();
-        return view('manage.mak.akun.create', ['jenisFileOperator' => $jenisFileOperator]);
+        $jenisFileKeuangan = JenisFileKeuangan::all();
+        return view('manage.mak.akun.create', ['jenisFileOperator' => $jenisFileOperator, 'formPengajuan' => $formPengajuan, 'jenisFileKeuangan' => $jenisFileKeuangan]);
     }
 
     public function storeAkun(Request $request)
@@ -48,10 +47,10 @@ class ManageMAKController extends Controller
             'flag' => $request->flag ?? 1,
         ]);
 
-        $jenisfile = $request->input('jenisFile');
-
-        $akunBelanja->jenisFileOperator()->attach($jenisfile);
-
+        $jenisFileOperator = $request->input('jenisFileOp');
+        $jenisFileKeuangan = $request->input('jenisFileKeu');
+        $akunBelanja->jenisFileOperator()->attach($jenisFileOperator);
+        $akunBelanja->jenisFileKeuangan()->attach($jenisFileKeuangan);
         return redirect()->route('manage.mak.akun')->with('success', 'Akun berhasil ditambahkan.');
     }
 

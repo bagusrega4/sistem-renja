@@ -81,13 +81,25 @@
                         @enderror
                     </div>
 
-                    <!-- Jenis File -->
+                    <!-- Jenis File Operator-->
                     <div class="mb-3">
                         <div>
-                            <label for="id_output" class="form-label">Jenis File</label>
+                            <label for="id_output" class="form-label">Jenis File Operator</label>
                         </div>
-                        <select class="form-select" name="jenisFile[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" id="jenis_file" required>
+                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" id="jenis_file" required>
                             @foreach ($jenisFileOperator as $namaFile)
+                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Jenis File Keuangan-->
+                    <div class="mb-3">
+                        <div>
+                            <label for="id_output" class="form-label">Jenis File Keuangan</label>
+                        </div>
+                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" id="jenis_file" required>
+                            @foreach ($jenisFileKeuangan as $namaFile)
                             <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
                             @endforeach
                         </select>
@@ -125,6 +137,16 @@
 @push('scripts')
 <script>
     $('#multiple-select-clear-field').select2({
+        theme: "bootstrap",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+        allowClear: true,
+    });
+</script>
+
+<script>
+    $('#multiple-select-clear-field2').select2({
         theme: "bootstrap",
         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
         placeholder: $(this).data('placeholder'),
