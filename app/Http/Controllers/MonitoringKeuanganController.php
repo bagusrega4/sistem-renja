@@ -222,4 +222,24 @@ class MonitoringKeuanganController extends Controller
 
         return redirect()->route('monitoring.keuangan.file', ['id' => $id])->with('success', 'Form pengajuan berhasil ditolak.');
     }
+
+    public function getBuktiTransfer($idFormPengajuan)
+    {
+        $buktiTransfer = FileUploadKeuangan::where('id_form_pengajuan', $idFormPengajuan)
+            ->whereHas('akunFileKeuangan.jenisFileKeuangan', function ($query) {
+                $query->where('id', 12); // ID 12 untuk jenis file "bukti transfer"
+            })
+            ->first();
+
+        if (!$buktiTransfer) {
+            return response()->json(['error' => 'Bukti transfer tidak ditemukan'], 404);
+        }
+
+        $filePath = $buktiTransfer->file;
+
+        return response()->json([
+            'file_path' => $filePath,
+            'file_name' => basename($filePath),
+        ]);
+    }
 }

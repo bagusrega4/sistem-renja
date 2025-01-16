@@ -239,14 +239,3 @@
     });
 </script>
 @endpush
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#golongan').select2({
-            allowClear: false,
-            theme: 'bootstrap'
-        });
-    });
-</script>
-@endpush

@@ -126,7 +126,6 @@
     </div>
 @endsection
 
-<!-- Modal View wkwk-->
 @section('modal-view')
     @foreach ($formPengajuan as $fp)
         <div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog"
@@ -169,11 +168,11 @@
                                     <td class="text-start nominal-currency">{{ $fp->nominal }}</td>
                                     <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
                                     <td class="text-start">
-                                        @if ($fp->id_fk != null)
-                                        <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal"
-                                            data-bs-target="#previewModal" title="Preview Bukti Pengajuan">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                        @if ($fp->fileUploadKeuangan->where('akunFileKeuangan.jenisFileKeuangan.id', 12)->first())
+                                            <button type="button" class="btn btn-primary btn-sm me-2" onclick="previewBuktiTransfer({{ $fp->id }})"
+                                                title="Preview Bukti Transfer">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
                                         @else
                                             -
                                         @endif
@@ -186,6 +185,22 @@
             </div>
         </div>
     @endforeach
+@endsection
+
+@section('modal-preview')
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Preview Bukti Transfer</h5>
+            </div>
+            <div class="modal-body">
+                <iframe id="previewFileFrame" src="" style="width: 100%; height: 600px;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -206,6 +221,30 @@
                 element.textContent = formatRupiah(rawValue);
             });
         });
+
+        function previewBuktiTransfer(idFormPengajuan) {
+            fetch(`/monitoring/operator/get-bukti-transfer/${idFormPengajuan}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Bukti transfer tidak ditemukan');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const fileFrame = document.getElementById('previewFileFrame');
+                    if (!fileFrame) {
+                        console.error("Elemen 'previewFileFrame' tidak ditemukan di DOM.");
+                        return;
+                    }
+
+                    fileFrame.src = `/storage/${data.file_path}`;
+                    const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+                    previewModal.show();
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
     </script>
 @endpush
 

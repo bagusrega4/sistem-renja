@@ -122,6 +122,7 @@
 
             @yield('content')
             @yield('modal-view')
+            @yield('modal-preview')
             @yield('modal-delete')
             @yield('css')
         </div>

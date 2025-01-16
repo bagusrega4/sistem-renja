@@ -75,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [MonitoringOperatorController::class, 'index'])->name('index');
             Route::get('/upload/{id}', [MonitoringOperatorController::class, 'upload'])->name('upload');
             Route::post('/upload/{id}', [MonitoringOperatorController::class, 'store'])->name('store');
+            Route::get('/get-bukti-transfer/{id}', [MonitoringOperatorController::class, 'getBuktiTransfer'])->name('get.bukti.transfer');
         });
 
         // Download
@@ -101,6 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/upload/{id}', [MonitoringKeuanganController::class, 'store'])->name('store');
             Route::post('/approve/{id}', [MonitoringKeuanganController::class, 'approve'])->name('approve');
             Route::post('/reject/{id}', [MonitoringKeuanganController::class, 'reject'])->name('reject');
+            Route::get('/get-bukti-transfer/{id}', [MonitoringKeuanganController::class, 'getBuktiTransfer'])->name('get.bukti.transfer');
         });
     });
 

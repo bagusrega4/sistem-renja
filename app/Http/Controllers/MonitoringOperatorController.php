@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FormPengajuan;
 use App\Models\FileUploadOperator;
+use App\Models\FileUploadKeuangan;
 use App\Models\AkunFileOperator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -125,6 +126,26 @@ class MonitoringOperatorController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', "Gagal mengupload file: " . $e->getMessage());
         }
+    }
+
+    public function getBuktiTransfer($idFormPengajuan)
+    {
+        $buktiTransfer = FileUploadKeuangan::where('id_form_pengajuan', $idFormPengajuan)
+            ->whereHas('akunFileKeuangan.jenisFileKeuangan', function ($query) {
+                $query->where('id', 12); // ID 12 untuk jenis file "bukti transfer"
+            })
+            ->first();
+
+        if (!$buktiTransfer) {
+            return response()->json(['error' => 'Bukti transfer tidak ditemukan'], 404);
+        }
+
+        $filePath = $buktiTransfer->file;
+
+        return response()->json([
+            'file_path' => $filePath,
+            'file_name' => basename($filePath),
+        ]);
     }
 
 }
