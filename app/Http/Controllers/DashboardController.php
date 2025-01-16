@@ -12,6 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $formPengajuan = FormPengajuan::all();
+
         $data = [
             'totalPengajuan' => FormPengajuan::count(),
             'entriOperator' => FormPengajuan::where('id_status', 1)->count(),
@@ -34,6 +36,6 @@ class DashboardController extends Controller
             'selesai' => [$monthlyStats->where('id_status', 5)->first()?->total ?? 0]
         ];
 
-        return view('dashboard', compact('data', 'chartData'));
+        return view('dashboard', compact('data', 'chartData', 'formPengajuan'));
     }
 }

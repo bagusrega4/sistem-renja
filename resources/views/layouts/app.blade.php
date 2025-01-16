@@ -117,8 +117,6 @@
             @include('_navbar')
 
             @include('modal._notifAll')
-            @include('/modal/_notifAcc')
-            @include('/modal/_notifTolak')
 
             @yield('content')
             @yield('modal-view')

@@ -17,11 +17,12 @@ class MonitoringKeuanganController extends Controller
 {
     public function index()
     {
+        $formPengajuan = FormPengajuan::all();
         $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
         foreach ($pengajuan as $p) {
             $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
         }
-        return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai]);
+        return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai, 'formPengajuan' => $formPengajuan]);
     }
     public function viewFile($id)
     {
@@ -34,17 +35,17 @@ class MonitoringKeuanganController extends Controller
         $pegawai = Pegawai::where('nip_lama', $pengajuan->nip_pengaju)->first();
 
         $fileUploadOperators = FileUploadOperator::where('id_form_pengajuan', $id)
-                                ->where('nip_pengaju', $pengajuan->nip_pengaju)
-                                ->with('akunFileOperator.jenisFileOperator')
-                                ->get();
+            ->where('nip_pengaju', $pengajuan->nip_pengaju)
+            ->with('akunFileOperator.jenisFileOperator')
+            ->get();
 
-        $uploadedFiles = $fileUploadOperators->mapWithKeys(function($file) {
+        $uploadedFiles = $fileUploadOperators->mapWithKeys(function ($file) {
             return [$file->akunFileOperator->jenisFileOperator->id => $file];
         });
 
         $jenisFileOperators = $pengajuan->akunBelanja->jenisFileOperator;
 
-        $uploadedJenisFiles = $jenisFileOperators->filter(function($jenisFile) use ($uploadedFiles) {
+        $uploadedJenisFiles = $jenisFileOperators->filter(function ($jenisFile) use ($uploadedFiles) {
             return $uploadedFiles->has($jenisFile->id);
         });
 
@@ -142,17 +143,17 @@ class MonitoringKeuanganController extends Controller
                     }
 
                     $akunFileKeuangan = AkunFileKeuangan::where('id_akun_belanja', $akunBelanja->id)
-                                            ->where('id_jenis_file_keuangan', $jenisFileKeuangan->id)
-                                            ->first();
+                        ->where('id_jenis_file_keuangan', $jenisFileKeuangan->id)
+                        ->first();
 
                     if (!$akunFileKeuangan) {
                         throw new \Exception("Akun file untuk {$jenisFileKeuangan->nama_file} tidak ditemukan. Silakan hubungi admin.");
                     }
 
                     $existingFileUpload = FileUploadKeuangan::where('id_form_pengajuan', $formPengajuan->id)
-                                                ->where('id_akun_file_keuangan', $akunFileKeuangan->id)
-                                                ->where('nip_pengawas', auth()->user()->nip_lama)
-                                                ->first();
+                        ->where('id_akun_file_keuangan', $akunFileKeuangan->id)
+                        ->where('nip_pengawas', auth()->user()->nip_lama)
+                        ->first();
 
                     if ($existingFileUpload) {
                         throw new \Exception("File {$jenisFileKeuangan->nama_file} sudah pernah diupload sebelumnya.");

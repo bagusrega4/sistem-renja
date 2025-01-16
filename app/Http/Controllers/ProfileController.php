@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FormPengajuan;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,11 +21,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $formPengajuan = FormPengajuan::all();
+
         $nip_lama = Auth::user()->nip_lama;
         $pegawai = Pegawai::where('nip_lama', $nip_lama)->firstOrFail();
         return view('profile.edit', [
             'user' => $request->user(),
-            'pegawai' => $pegawai
+            'pegawai' => $pegawai,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
@@ -88,8 +92,8 @@ class ProfileController extends Controller
             return back()->with('success', 'Password Anda berhasil diubah')->with('activeTab', 'password');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->validator, 'updatePassword')
-                         ->withInput()
-                         ->with('activeTab', 'password');
+                ->withInput()
+                ->with('activeTab', 'password');
         }
     }
 
