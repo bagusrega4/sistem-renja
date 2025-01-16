@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AkunBelanja;
 use App\Models\Komponen;
+use App\Models\JenisFileOperator;
 use App\Models\SubKomponen;
 use App\Models\Output;
 use App\Models\Kegiatan;
@@ -23,7 +24,8 @@ class ManageMAKController extends Controller
 
     public function createAkun()
     {
-        return view('manage.mak.akun.create');
+        $jenisFileOperator = JenisFileOperator::all();
+        return view('manage.mak.akun.create', ['jenisFileOperator' => $jenisFileOperator]);
     }
 
     public function storeAkun(Request $request)
@@ -33,11 +35,15 @@ class ManageMAKController extends Controller
             'nama_akun' => 'required|string|max:100',
         ]);
 
-        AkunBelanja::create([
+        $akunBelanja = AkunBelanja::create([
             'kode' => $request->kode,
             'nama_akun' => $request->nama_akun,
             'flag' => $request->flag ?? 1,
         ]);
+
+        $jenisfile = $request->input('jenisFile');
+
+        $akunBelanja->jenisFileOperator()->attach($jenisfile);
 
         return redirect()->route('manage.mak.akun')->with('success', 'Akun berhasil ditambahkan.');
     }
@@ -193,7 +199,7 @@ class ManageMAKController extends Controller
             'id_kro' => $request->id_kro,
             'kode_ro' => $request->kode_ro,
             'output' => $request->output,
-            'flag' => $request ->flag ?? 1,
+            'flag' => $request->flag ?? 1,
         ]);
 
         return redirect()->route('manage.mak.output')->with('success', 'Output berhasil ditambahkan.');
