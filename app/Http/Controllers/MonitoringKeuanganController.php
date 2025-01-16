@@ -60,6 +60,12 @@ class MonitoringKeuanganController extends Controller
 
     public function upload($id)
     {
+        $fp = FormPengajuan::find($id);
+
+        if (!$fp || $fp->id_status == 1 || $fp->id_status == 2 || $fp->id_status == 3) {
+            return view('error.unauthorized');
+        }
+
         $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
 
         if (!$formPengajuan) {
@@ -73,6 +79,12 @@ class MonitoringKeuanganController extends Controller
 
     public function store(Request $request, $id)
     {
+        $fp = FormPengajuan::find($id);
+
+        if (!$fp || $fp->id_status != 1 || $fp->id_status == 2 || $fp->id_status == 3) {
+            return view('error.unauthorized');
+        }
+
         DB::beginTransaction();
 
         try {

@@ -4,10 +4,10 @@
     <div class="page-inner">
         <!-- Notifikasi Sukses -->
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
         <div
             class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
@@ -60,58 +60,60 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $counter = 1;
+                                $counter = 1;
                                 @endphp
                                 @foreach ($pengajuan as $p)
-                                    <tr>
-                                        <th scope="row">
-                                            {{ $counter++ }}
-                                        </th>
-                                        <td class="text-end">{{ $p->no_fp }}</td>
-                                        <td class="text-start">{{ $p->uraian }}</td>
-                                        <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
-                                        <td class="text-end">{{ $p->pegawai->nama }}</td>
-                                        <td class="text-end">
-                                            <div class="d-flex justify-content-end">
-                                                <button type="button" class="btn btn-primary btn-sm me-2"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#viewModalCenter{{ $p->id }}"
-                                                        data-bs-id="{{ $p->id }}">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <a class="btn btn-info btn-sm me-2"
-                                                   href="{{ route('monitoring.keuangan.file', $p->id) }}">
-                                                    <i class="fas fa-desktop"></i>
-                                                </a>
-                                                <a class="btn btn-success btn-sm me-2"
-                                                   aria-label="upload file"
-                                                   href="{{ route('monitoring.keuangan.upload', $p->id) }}">
-                                                    <i class="fas fa-upload"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">
-                                            @switch($p->id_status)
-                                              @case(1)
-                                                <span class="badge bg-light text-dark">{{ $p->statusPengajuan->status }}</span>
-                                                @break
-                                              @case(2)
-                                                <span class="badge bg-warning">{{ $p->statusPengajuan->status }}</span>
-                                                @break
-                                              @case(3)
-                                                <span class="badge bg-danger">{{ $p->statusPengajuan->status }}</span>
-                                                @break
-                                              @case(4)
-                                                <span class="badge bg-primary">{{ $p->statusPengajuan->status }}</span>
-                                                @break
-                                              @case(5)
-                                                <span class="badge bg-success fw-bold">{{ $p->statusPengajuan->status }}</span>
-                                                @break
-                                              @default
-                                                <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
-                                            @endswitch
-                                          </td>
-                                    </tr>
+                                <tr>
+                                    <th scope="row">
+                                        {{ $counter++ }}
+                                    </th>
+                                    <td class="text-end">{{ $p->no_fp }}</td>
+                                    <td class="text-start">{{ $p->uraian }}</td>
+                                    <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
+                                    <td class="text-end">{{ $p->pegawai->nama }}</td>
+                                    <td class="text-end">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary btn-sm me-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#viewModalCenter{{ $p->id }}"
+                                                data-bs-id="{{ $p->id }}">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a class="btn btn-info btn-sm me-2"
+                                                href="{{ route('monitoring.keuangan.file', $p->id) }}">
+                                                <i class="fas fa-desktop"></i>
+                                            </a>
+                                            @if (in_array($p->id_status, [4, 5]))
+                                            <a class="btn btn-success btn-sm me-2"
+                                                aria-label="upload file"
+                                                href="{{ route('monitoring.keuangan.upload', $p->id) }}">
+                                                <i class="fas fa-upload"></i>
+                                            </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        @switch($p->id_status)
+                                        @case(1)
+                                        <span class="badge bg-light text-dark">{{ $p->statusPengajuan->status }}</span>
+                                        @break
+                                        @case(2)
+                                        <span class="badge bg-warning">{{ $p->statusPengajuan->status }}</span>
+                                        @break
+                                        @case(3)
+                                        <span class="badge bg-danger">{{ $p->statusPengajuan->status }}</span>
+                                        @break
+                                        @case(4)
+                                        <span class="badge bg-primary">{{ $p->statusPengajuan->status }}</span>
+                                        @break
+                                        @case(5)
+                                        <span class="badge bg-success fw-bold">{{ $p->statusPengajuan->status }}</span>
+                                        @break
+                                        @default
+                                        <span class="badge bg-warning text-dark">Status Tidak Dikenal</span>
+                                        @endswitch
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -133,47 +135,47 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                  <table class="table table-striped" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>No. FP</th>
-                        <th>Nama Permintaan</th>
-                        <th>Rincian Output</th>
-                        <th>Komponen</th>
-                        <th>Sub Komponen</th>
-                        <th>Akun</th>
-                        <th>Tanggal Kegiatan</th>
-                        <th>No. SK</th>
-                        <th>Nominal</th>
-                        <th>Catatan</th>
-                        <th>Bukti Transfer</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <td class="text-start">{{$fp -> no_fp}}</td>
-                      <td class="text-start"><strong>{{ $fp->uraian }}</strong></td>
-                      <td class="text-start">[{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}}]      {{$fp -> output -> output}}</td>
-                      <td class="text-start">{{$fp -> komponen -> komponen}}</td>
-                      <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
-                      <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
-                      <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
-                      <td class="text-start">{{$fp -> no_sk}}</td>
-                      <td class="text-start nominal-currency">{{ $fp-> nominal }}</td>
-                      <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
-                      <td class="text-start">
-                        @if ($fp->fileUploadKeuangan->where('akunFileKeuangan.jenisFileKeuangan.id', 12)->first())
-                            <button type="button" class="btn btn-primary btn-sm me-2" onclick="previewBuktiTransfer({{ $fp->id }})"
-                                title="Preview Bukti Transfer">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        @else
-                            -
-                        @endif
-                    </td>
-                    </tbody>
-                  </table>
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No. FP</th>
+                                <th>Nama Permintaan</th>
+                                <th>Rincian Output</th>
+                                <th>Komponen</th>
+                                <th>Sub Komponen</th>
+                                <th>Akun</th>
+                                <th>Tanggal Kegiatan</th>
+                                <th>No. SK</th>
+                                <th>Nominal</th>
+                                <th>Catatan</th>
+                                <th>Bukti Transfer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td class="text-start">{{$fp -> no_fp}}</td>
+                            <td class="text-start"><strong>{{ $fp->uraian }}</strong></td>
+                            <td class="text-start">[{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}}] {{$fp -> output -> output}}</td>
+                            <td class="text-start">{{$fp -> komponen -> komponen}}</td>
+                            <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
+                            <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
+                            <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
+                            <td class="text-start">{{$fp -> no_sk}}</td>
+                            <td class="text-start nominal-currency">{{ $fp-> nominal }}</td>
+                            <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
+                            <td class="text-start">
+                                @if ($fp->fileUploadKeuangan->where('akunFileKeuangan.jenisFileKeuangan.id', 12)->first())
+                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="previewBuktiTransfer({{ $fp->id }})"
+                                    title="Preview Bukti Transfer">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tbody>
+                    </table>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 </div>
