@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FormPengajuan;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Pegawai;
@@ -14,7 +15,8 @@ class ManageUserController extends Controller
     {
         $users = User::with('role')->get();
         $roles = Role::all();
-        return view('manage.user.index', compact('users', 'roles'));
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.user.index', compact('users', 'roles', 'formPengajuan'));
     }
 
     public function create()

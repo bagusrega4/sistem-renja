@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FormPengajuan;
 use App\Models\AkunBelanja;
 use App\Models\Komponen;
+use App\Models\JenisFileOperator;
+use App\Models\JenisFileKeuangan;
 use App\Models\SubKomponen;
 use App\Models\Output;
 use App\Models\Kegiatan;
@@ -15,15 +18,20 @@ class ManageMAKController extends Controller
     // Controller Akun Belanja
     public function akun()
     {
+        $formPengajuan = FormPengajuan::all();
         $accounts = AkunBelanja::all();
         return view('manage.mak.akun.index', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createAkun()
     {
-        return view('manage.mak.akun.create');
+        $formPengajuan = FormPengajuan::all();
+        $jenisFileOperator = JenisFileOperator::all();
+        $jenisFileKeuangan = JenisFileKeuangan::all();
+        return view('manage.mak.akun.create', ['jenisFileOperator' => $jenisFileOperator, 'formPengajuan' => $formPengajuan, 'jenisFileKeuangan' => $jenisFileKeuangan]);
     }
 
     public function storeAkun(Request $request)
@@ -33,27 +41,36 @@ class ManageMAKController extends Controller
             'nama_akun' => 'required|string|max:100',
         ]);
 
-        AkunBelanja::create([
+        $akunBelanja = AkunBelanja::create([
             'kode' => $request->kode,
             'nama_akun' => $request->nama_akun,
             'flag' => $request->flag ?? 1,
         ]);
 
+        $jenisFileOperator = $request->input('jenisFileOp');
+        $jenisFileKeuangan = $request->input('jenisFileKeu');
+        $akunBelanja->jenisFileOperator()->attach($jenisFileOperator);
+        $akunBelanja->jenisFileKeuangan()->attach($jenisFileKeuangan);
         return redirect()->route('manage.mak.akun')->with('success', 'Akun berhasil ditambahkan.');
     }
 
     // Controller Komponen
     public function komponen()
     {
+        $formPengajuan = FormPengajuan::all();
         $components = Komponen::all();
         return view('manage.mak.komponen.index', [
-            'components' => $components
+            'components' => $components,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createKomponen()
     {
-        return view('manage.mak.komponen.create');
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.komponen.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
     }
 
     public function storeKomponen(Request $request)
@@ -75,15 +92,20 @@ class ManageMAKController extends Controller
     // Controller Sub Komponen
     public function subkomponen()
     {
+        $formPengajuan = FormPengajuan::all();
         $subcomponents = SubKomponen::all();
         return view('manage.mak.subkomponen.index', [
-            'subcomponents' => $subcomponents
+            'subcomponents' => $subcomponents,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createSubKomponen()
     {
-        return view('manage.mak.subkomponen.create');
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.subkomponen.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
     }
 
     public function storeSubKomponen(Request $request)
@@ -105,15 +127,20 @@ class ManageMAKController extends Controller
     // Controller Kegiatan
     public function kegiatan()
     {
+        $formPengajuan = FormPengajuan::all();
         $kegiatans = Kegiatan::all();
         return view('manage.mak.kegiatan.index', [
-            'kegiatans' => $kegiatans
+            'kegiatans' => $kegiatans,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createKegiatan()
     {
-        return view('manage.mak.kegiatan.create');
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.kegiatan.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
     }
 
     public function storeKegiatan(Request $request)
@@ -135,15 +162,20 @@ class ManageMAKController extends Controller
     // Controller KRO
     public function kro()
     {
+        $formPengajuan = FormPengajuan::all();
         $kros = KRO::all();
         return view('manage.mak.kro.index', [
-            'kros' => $kros
+            'kros' => $kros,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createKro()
     {
-        return view('manage.mak.kro.create');
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.kro.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
     }
 
     public function storeKro(Request $request)
@@ -165,18 +197,21 @@ class ManageMAKController extends Controller
     // Controller Output
     public function output()
     {
+        $formPengajuan = FormPengajuan::all();
         $outputs = Output::all();
         return view('manage.mak.output.index', [
-            'outputs' => $outputs
+            'outputs' => $outputs,
+            'formPengajuan' => $formPengajuan
         ]);
     }
 
     public function createOutput()
     {
+        $formPengajuan = FormPengajuan::all();
         $kegiatans = Kegiatan::where('flag', 1)->get();
         $kros = Kro::where('flag', 1)->get();
 
-        return view('manage.mak.output.create', compact('kegiatans', 'kros'));
+        return view('manage.mak.output.create', compact('kegiatans', 'kros', 'formPengajuan'));
     }
 
     public function storeOutput(Request $request)
@@ -193,7 +228,7 @@ class ManageMAKController extends Controller
             'id_kro' => $request->id_kro,
             'kode_ro' => $request->kode_ro,
             'output' => $request->output,
-            'flag' => $request ->flag ?? 1,
+            'flag' => $request->flag ?? 1,
         ]);
 
         return redirect()->route('manage.mak.output')->with('success', 'Output berhasil ditambahkan.');

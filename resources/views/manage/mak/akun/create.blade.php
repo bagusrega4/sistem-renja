@@ -1,25 +1,33 @@
 @extends('layouts/app')
+@section('stylecss')
+<!-- Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+<!-- Or for RTL support -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+@endsection
 
 @section('content')
 <div class="container">
     <div class="page-inner">
         <!-- Notifikasi Error -->
         @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
         <!-- Notifikasi Sukses -->
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
 
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
@@ -47,12 +55,11 @@
                             id="kode"
                             value="{{ old('kode') }}"
                             placeholder="Masukkan Kode Akun"
-                            required
-                        >
+                            required>
                         @error('kode')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
 
@@ -66,13 +73,36 @@
                             id="nama_akun"
                             value="{{ old('nama_akun') }}"
                             placeholder="Masukkan Nama Akun"
-                            required
-                        >
+                            required>
                         @error('nama_akun')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
+                    </div>
+
+                    <!-- Jenis File Operator-->
+                    <div class="mb-3">
+                        <div>
+                            <label for="id_output" class="form-label">Jenis File Operator</label>
+                        </div>
+                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" id="jenis_file" required>
+                            @foreach ($jenisFileOperator as $namaFile)
+                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Jenis File Keuangan-->
+                    <div class="mb-3">
+                        <div>
+                            <label for="id_output" class="form-label">Jenis File Keuangan</label>
+                        </div>
+                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" id="jenis_file" required>
+                            @foreach ($jenisFileKeuangan as $namaFile)
+                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Tampilkan -->
@@ -81,18 +111,17 @@
                         <select
                             name="flag"
                             id="flag"
-                            class="form-select @error('flag') is-invalid @enderror"
-                        >
+                            class="form-select @error('flag') is-invalid @enderror">
                             <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
                             <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
                         </select>
                         @error('flag')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                         @enderror
                     </div>
-                    
+
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
@@ -100,3 +129,29 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+@endpush
+
+@push('scripts')
+<script>
+    $('#multiple-select-clear-field').select2({
+        theme: "bootstrap",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+        allowClear: true,
+    });
+</script>
+
+<script>
+    $('#multiple-select-clear-field2').select2({
+        theme: "bootstrap",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+        allowClear: true,
+    });
+</script>
+@endpush

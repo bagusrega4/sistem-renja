@@ -9,7 +9,7 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('monitoring.operator.index') }}" class="btn btn-label-info btn-round me-2">Monitoring</a>
-                <a href="{{ route('form.index') }}" class="btn btn-primary btn-round">Add Pengajuan</a>
+                <a href="{{ route('form.index') }}" class="btn btn-primary btn-round">Tambah Pengajuan</a>
             </div>
         </div>
         <div class="row">
@@ -148,71 +148,91 @@
 
         @push('scripts')
         <script>
-        $(document).ready(function() {
-            var ctx = document.getElementById('statisticsChart').getContext('2d');
+            $(document).ready(function() {
+                var ctx = document.getElementById('statisticsChart').getContext('2d');
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Status Pengajuan'],
-                    datasets: [{
-                        label: 'Entri Operator',
-                        backgroundColor: '#0dcaf0',
-                        data: [{{ $data['entriOperator'] }}],
-                        barPercentage: 0.8
-                    }, {
-                        label: 'Pengecekan Dokumen',
-                        backgroundColor: '#ffc107',
-                        data: [{{ $data['pengecekanDokumen'] }}],
-                        barPercentage: 0.8
-                    }, {
-                        label: 'Disetujui',
-                        backgroundColor: '#0d6efd',
-                        data: [{{ $data['disetujui'] }}],
-                        barPercentage: 0.8
-                    }, {
-                        label: 'Ditolak',
-                        backgroundColor: '#dc3545',
-                        data: [{{ $data['ditolak'] }}],
-                        barPercentage: 0.8
-                    }, {
-                        label: 'Selesai',
-                        backgroundColor: '#198754',
-                        data: [{{ $data['selesai'] }}],
-                        barPercentage: 0.8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Status Pengajuan'],
+                        datasets: [{
+                            label: 'Entri Operator',
+                            backgroundColor: '#0dcaf0',
+                            data: [{
+                                {
+                                    $data['entriOperator']
+                                }
+                            }],
+                            barPercentage: 0.8
+                        }, {
+                            label: 'Pengecekan Dokumen',
+                            backgroundColor: '#ffc107',
+                            data: [{
+                                {
+                                    $data['pengecekanDokumen']
+                                }
+                            }],
+                            barPercentage: 0.8
+                        }, {
+                            label: 'Disetujui',
+                            backgroundColor: '#0d6efd',
+                            data: [{
+                                {
+                                    $data['disetujui']
+                                }
+                            }],
+                            barPercentage: 0.8
+                        }, {
+                            label: 'Ditolak',
+                            backgroundColor: '#dc3545',
+                            data: [{
+                                {
+                                    $data['ditolak']
+                                }
+                            }],
+                            barPercentage: 0.8
+                        }, {
+                            label: 'Selesai',
+                            backgroundColor: '#198754',
+                            data: [{
+                                {
+                                    $data['selesai']
+                                }
+                            }],
+                            barPercentage: 0.8
+                        }]
                     },
-                    scales: {
-                        y: {
-                            min: 0,
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 0,
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
                             }
                         }
                     }
-                }
+                });
             });
-        });
         </script>
 
         <style>
-        .dot {
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
+            .dot {
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 5px;
+            }
         </style>
         @endpush
     </div>
@@ -239,4 +259,3 @@
     });
 </script>
 @endpush
-
