@@ -4,7 +4,7 @@
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h3 class="fw-bold mb-3">Dashboard Admin</h3>
+                <h3 class="fw-bold mb-3">Dashboard Pengajuan</h3>
                 <h6 class="op-7 mb-2">Lihat statistik pengajuan yang telah dilakukan</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
@@ -158,47 +158,27 @@
                         datasets: [{
                             label: 'Entri Operator',
                             backgroundColor: '#0dcaf0',
-                            data: [{
-                                {
-                                    $data['entriOperator']
-                                }
-                            }],
+                            data: [{{ $data['entriOperator'] }}],
                             barPercentage: 0.8
                         }, {
                             label: 'Pengecekan Dokumen',
                             backgroundColor: '#ffc107',
-                            data: [{
-                                {
-                                    $data['pengecekanDokumen']
-                                }
-                            }],
+                            data: [{{ $data['pengecekanDokumen'] }}],
                             barPercentage: 0.8
                         }, {
                             label: 'Disetujui',
                             backgroundColor: '#0d6efd',
-                            data: [{
-                                {
-                                    $data['disetujui']
-                                }
-                            }],
+                            data: [{{ $data['disetujui'] }}],
                             barPercentage: 0.8
                         }, {
                             label: 'Ditolak',
                             backgroundColor: '#dc3545',
-                            data: [{
-                                {
-                                    $data['ditolak']
-                                }
-                            }],
+                            data: [{{ $data['ditolak'] }}],
                             barPercentage: 0.8
                         }, {
                             label: 'Selesai',
-                            backgroundColor: '#198754',
-                            data: [{
-                                {
-                                    $data['selesai']
-                                }
-                            }],
+                            backgroundColor: 'rgb(40, 167, 69)',
+                            data: [{{ $data['selesai'] }}],
                             barPercentage: 0.8
                         }]
                     },
