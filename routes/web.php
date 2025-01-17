@@ -40,6 +40,8 @@ Route::get('/notfound', function () {
     return view('error.unauthorized');
 })->name('error.unauthorized');
 
+Route::get('/short', [MonitoringKeuanganController::class, 'index'])->name('short');
+
 // -------------------------------------------------------------------
 // Lolos 'auth' dan 'verified'
 // -------------------------------------------------------------------
@@ -87,7 +89,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Panduan
         Route::prefix('panduan')->name('panduan.')->group(function () {
             Route::get('/', [PanduanController::class, 'index'])->name('index');
-            Route::get('/upload', function () {return view('panduan.upload');})->name('upload.form');
+            Route::get('/upload', function () {
+                return view('panduan.upload');
+            })->name('upload.form');
             Route::post('/upload', [PanduanController::class, 'upload'])->name('upload');
         });
     });
@@ -150,7 +154,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/output/create', [ManageMAKController::class, 'createOutput'])->name('output.create');
                 Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
                 Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
-
             });
 
             // Manage User
@@ -163,8 +166,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::put('/{id}', [ManageUserController::class, 'update'])->name('update');
                 Route::delete('/{id}', [ManageUserController::class, 'destroy'])->name('destroy');
             });
-
         });
-
     });
 });

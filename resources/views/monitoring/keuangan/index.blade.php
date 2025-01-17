@@ -28,25 +28,31 @@
                         <div class="card-tools">
                             <div class="dropdown">
                                 <button
-                                    class="btn btn-icon btn-clean me-0"
+                                    class="btn btn-clean me-0"
                                     type="button"
                                     id="dropdownMenuButton"
                                     data-bs-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
                                     <i class="fas fa-filter"></i>
+                                    Filter akun
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Range Tanggal</a>
-                                    <a class="dropdown-item" href="#">Akun Belanja</a>
-                                </div>
+                                <ul id="filterakun" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @foreach($akunBelanja as $ab)
+                                    <li class="dropdown-item">
+                                        <input type="checkbox" class="filter-checkbox" value="{{ $ab->id }}" />
+                                        [{{ $ab->kode }}] - {{ $ab->nama_akun }}
+                                    </li>
+                                    @endforeach
+                                </ul>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped" style="width:100%">
+                        <table id="table-monitoring" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -58,7 +64,7 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody-monitoring">
                                 @php
                                 $counter = 1;
                                 @endphp
@@ -197,6 +203,60 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@endpush
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        function get_filter() {
+            var filter = [];
+            $('#filterakun input.filter-checkbox:checked').each(function() {
+                filter.push($(this).val());
+            });
+            return filter;
+        }
+
+        function filter_data() {
+            var selectedFilters = get_filter(); // Fungsi untuk mendapatkan nilai filter (checkbox yang dicentang)
+
+            // Sembunyikan tabel sebelum memuat data baru
+            $('#table-monitoring').hide(); // Ganti #table-monitoring dengan ID tabel Anda
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/short', // Endpoint untuk filter data
+                type: 'GET',
+                data: {
+                    filters: selectedFilters
+                },
+                success: function(response) {
+                    // Perbarui isi <tbody> dengan data yang dikembalikan
+                    $('#tbody-monitoring').html(response.html);
+
+                    // Tampilkan tabel setelah data dimuat
+                    $('#table-monitoring').show();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+
+                    // Tampilkan tabel meskipun terjadi error untuk debugging
+                    $('#table-monitoring').show();
+                }
+            });
+        }
+
+        // Event listener untuk checkbox
+        $('input[type="checkbox"]').on('change', function() {
+            filter_data(); // Panggil fungsi filter_data() setiap kali checkbox diubah
+        });
+    });
+</script>
+@endpush
 
 @push('scripts')
 <script>

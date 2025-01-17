@@ -7,6 +7,7 @@ use App\Models\AkunFileKeuangan;
 use App\Models\FileUploadOperator;
 use App\Models\FileUploadKeuangan;
 use App\Models\FormKeuangan;
+use App\Models\AkunBelanja;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,15 +16,42 @@ use Illuminate\Support\Facades\DB;
 
 class MonitoringKeuanganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $formPengajuan = FormPengajuan::all();
-        $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
-        foreach ($pengajuan as $p) {
-            $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+        if ($request->ajax()) {
+            $filters = $request->input('filters');
+
+            if ($filters) {
+                $pengajuan = FormPengajuan::whereIn('id_akun_belanja', $filters)->get();
+            } else {
+                $pengajuan = FormPengajuan::all();
+            }
+            $formPengajuan = FormPengajuan::all();
+            $akunBelanja = AkunBelanja::all();
+
+            $pegawaiData = [];
+            foreach ($pengajuan as $p) {
+                $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+                $pegawaiData[$p->id] = $pegawai;
+            }
+            $counter = 1;
+
+            $data = view('partials._tbody_pengajuan_with_status', compact('pengajuan', 'counter'))->render();
+
+            return response()->json([
+                'html' => $data,
+            ]);
+        } else {
+            $formPengajuan = FormPengajuan::all();
+            $akunBelanja = AkunBelanja::all();
+            $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
+            foreach ($pengajuan as $p) {
+                $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+            }
+            return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai, 'formPengajuan' => $formPengajuan, 'akunBelanja' => $akunBelanja]);
         }
-        return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai, 'formPengajuan' => $formPengajuan]);
     }
+
     public function viewFile($id)
     {
         $pengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])->find($id);
