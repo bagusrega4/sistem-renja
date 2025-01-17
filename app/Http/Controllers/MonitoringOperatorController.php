@@ -29,20 +29,22 @@ class MonitoringOperatorController extends Controller
 
     public function upload($id)
     {
+        $formPengajuan = FormPengajuan::all();
+
         $nipPengaju = auth()->user()->nip_lama;
 
-        $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])
+        $fp = FormPengajuan::with(['akunBelanja.jenisFileOperator'])
             ->where('id', $id)
             ->where('nip_pengaju', $nipPengaju)
             ->first();
 
-        if (!$formPengajuan) {
+        if (!$fp) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan atau Anda tidak memiliki akses.');
         }
 
-        $jenisFilesOperator = $formPengajuan->akunBelanja->jenisFileOperator;
+        $jenisFilesOperator = $fp->akunBelanja->jenisFileOperator;
 
-        return view('monitoring.operator.upload', compact('formPengajuan', 'jenisFilesOperator'));
+        return view('monitoring.operator.upload', compact('fp', 'jenisFilesOperator', 'formPengajuan'));
     }
 
     public function store(Request $request, $id)
@@ -82,8 +84,8 @@ class MonitoringOperatorController extends Controller
                 try {
                     if ($request->hasFile($fileKey)) {
                         $akunFileOperator = AkunFileOperator::where('id_akun_belanja', $akunBelanja->id)
-                                            ->where('id_jenis_file_operator', $jenisFileOperator->id)
-                                            ->first();
+                            ->where('id_jenis_file_operator', $jenisFileOperator->id)
+                            ->first();
 
                         if (!$akunFileOperator) {
                             return redirect()->back()->with('error', "Akun file untuk {$jenisFileOperator->nama_file} tidak ditemukan. Silakan hubungi admin.");
@@ -147,5 +149,4 @@ class MonitoringOperatorController extends Controller
             'file_name' => basename($filePath),
         ]);
     }
-
 }

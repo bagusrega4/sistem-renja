@@ -12,30 +12,35 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $formPengajuan = FormPengajuan::all();
+        $user = auth()->user();
+        $nipPengaju = $user->nip_lama;
+        $idRole = $user->id_role;
+
+        if ($idRole == 1) {
+            $formPengajuan = FormPengajuan::where('nip_pengaju', $nipPengaju)->get();
+        } else {
+            $formPengajuan = FormPengajuan::all();
+        }
 
         $data = [
-            'totalPengajuan' => FormPengajuan::count(),
-            'entriOperator' => FormPengajuan::where('id_status', 1)->count(),
-            'pengecekanDokumen' => FormPengajuan::where('id_status', 2)->count(),
-            'ditolak' => FormPengajuan::where('id_status', 3)->count(),
-            'disetujui' => FormPengajuan::where('id_status', 4)->count(),
-            'selesai' => FormPengajuan::where('id_status', 5)->count()
+            'totalPengajuan' => $formPengajuan->count(),
+            'entriOperator' => $formPengajuan->where('id_status', 1)->count(),
+            'pengecekanDokumen' => $formPengajuan->where('id_status', 2)->count(),
+            'ditolak' => $formPengajuan->where('id_status', 3)->count(),
+            'disetujui' => $formPengajuan->where('id_status', 4)->count(),
+            'selesai' => $formPengajuan->where('id_status', 5)->count()
         ];
-
-        $monthlyStats = FormPengajuan::selectRaw('id_status, COUNT(*) as total')
-            ->groupBy('id_status')
-            ->get();
 
         $chartData = [
             'labels' => ['Status Pengajuan'],
-            'entriOperator' => [$monthlyStats->where('id_status', 1)->first()?->total ?? 0],
-            'pengecekanDokumen' => [$monthlyStats->where('id_status', 2)->first()?->total ?? 0],
-            'disetujui' => [$monthlyStats->where('id_status', 3)->first()?->total ?? 0],
-            'ditolak' => [$monthlyStats->where('id_status', 4)->first()?->total ?? 0],
-            'selesai' => [$monthlyStats->where('id_status', 5)->first()?->total ?? 0]
+            'entriOperator' => [$formPengajuan->where('id_status', 1)->count()],
+            'pengecekanDokumen' => [$formPengajuan->where('id_status', 2)->count()],
+            'disetujui' => [$formPengajuan->where('id_status', 4)->count()],
+            'ditolak' => [$formPengajuan->where('id_status', 3)->count()],
+            'selesai' => [$formPengajuan->where('id_status', 5)->count()]
         ];
 
         return view('dashboard', compact('data', 'chartData', 'formPengajuan'));
     }
+
 }

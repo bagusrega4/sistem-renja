@@ -54,6 +54,8 @@ class MonitoringKeuanganController extends Controller
 
     public function viewFile($id)
     {
+        $formPengajuan = FormPengajuan::all();
+
         $pengajuan = FormPengajuan::with(['akunBelanja.jenisFileOperator'])->find($id);
 
         if (!$pengajuan) {
@@ -81,35 +83,36 @@ class MonitoringKeuanganController extends Controller
             'pengajuan' => $pengajuan,
             'pegawai' => $pegawai,
             'uploadedJenisFiles' => $uploadedJenisFiles,
-            'uploadedFiles' => $uploadedFiles
+            'uploadedFiles' => $uploadedFiles,
+            'formPengajuan' => $formPengajuan
         ]);
     }
-
 
     public function upload($id)
     {
         $fp = FormPengajuan::find($id);
+        $formPengajuan = FormPengajuan::all();
 
         if (!$fp || $fp->id_status == 1 || $fp->id_status == 2 || $fp->id_status == 3) {
             return view('error.unauthorized');
         }
 
-        $formPengajuan = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+        $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
 
-        if (!$formPengajuan) {
+        if (!$fp) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
         }
 
-        $jenisFilesKeuangan = $formPengajuan->akunBelanja->jenisFileKeuangan;
+        $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan;
 
-        return view('monitoring.keuangan.upload', compact('formPengajuan', 'jenisFilesKeuangan'));
+        return view('monitoring.keuangan.upload', compact('fp', 'jenisFilesKeuangan', 'formPengajuan'));
     }
 
     public function store(Request $request, $id)
     {
-        $fp = FormPengajuan::find($id);
+        $formPengajuan = FormPengajuan::find($id);
 
-        if (!$fp || $fp->id_status != 1 || $fp->id_status == 2 || $fp->id_status == 3) {
+        if (!$formPengajuan || $formPengajuan->id_status == 1 || $formPengajuan->id_status == 2 || $formPengajuan->id_status == 3) {
             return view('error.unauthorized');
         }
 

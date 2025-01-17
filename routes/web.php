@@ -89,10 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Panduan
         Route::prefix('panduan')->name('panduan.')->group(function () {
             Route::get('/', [PanduanController::class, 'index'])->name('index');
-            Route::get('/upload', function () {
-                return view('panduan.upload');
-            })->name('upload.form');
-            Route::post('/upload', [PanduanController::class, 'upload'])->name('upload');
+            Route::get('/upload', [PanduanController::class, 'uploadPanduan'])->name('upload.form');
+            Route::post('/upload', [PanduanController::class, 'storePanduan'])->name('upload');
         });
     });
 

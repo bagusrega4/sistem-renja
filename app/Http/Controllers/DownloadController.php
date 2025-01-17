@@ -29,6 +29,8 @@ class DownloadController extends Controller
             $query->where('nip_pengaju', $nipPengaju);
         }
 
+        $query->where('id_status', '!=', 1);
+
         if ($tanggalMulai) {
             $query->where('tanggal_mulai', '>=', $tanggalMulai);
         }

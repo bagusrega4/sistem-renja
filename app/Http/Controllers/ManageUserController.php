@@ -21,10 +21,11 @@ class ManageUserController extends Controller
 
     public function create()
     {
+        $formPengajuan = FormPengajuan::all();
         $roles = Role::all();
         $jabatans = Pegawai::select('jabatan')->distinct()->orderBy('jabatan')->pluck('jabatan');
         $golongans = Pegawai::select('golongan')->distinct()->orderBy('golongan')->pluck('golongan');
-        return view('manage.user.create', compact('roles', 'jabatans', 'golongans'));
+        return view('manage.user.create', compact('roles', 'jabatans', 'golongans', 'formPengajuan'));
     }
 
     public function store(Request $request)
@@ -65,9 +66,10 @@ class ManageUserController extends Controller
 
     public function edit($id)
     {
+        $formPengajuan = FormPengajuan::all();
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('manage.user.edit', compact('user', 'roles'));
+        return view('manage.user.edit', compact('user', 'roles', 'formPengajuan'));
     }
 
     public function update(Request $request, $id)

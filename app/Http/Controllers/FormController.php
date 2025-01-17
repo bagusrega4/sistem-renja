@@ -8,8 +8,6 @@ use App\Models\Komponen;
 use App\Models\SubKomponen;
 use App\Models\AkunBelanja;
 use App\Models\StatusPengajuan;
-use App\Models\FileUploadKeuangan;
-
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -17,13 +15,13 @@ class FormController extends Controller
     public function index()
     {
         $output = Output::visible()
-        ->with(['kegiatan', 'kro'])
-        ->get();
+            ->with(['kegiatan', 'kro'])
+            ->get();
         $komponen = Komponen::visible()->get();
         $subKomponen = SubKomponen::visible()->get();
         $akunBelanja = AkunBelanja::visible()->get();
         $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'user'])->get();
-        return view('form.index', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
+        return view('form.index', compact('formPengajuan', 'output', 'komponen', 'subKomponen', 'akunBelanja'));
     }
 
     public function store(Request $request)
@@ -60,7 +58,6 @@ class FormController extends Controller
 
             return redirect()->route('monitoring.operator.index')
                 ->with('success', 'Form pengajuan berhasil disimpan.');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
@@ -75,6 +72,8 @@ class FormController extends Controller
 
     public function edit($id)
     {
+        $formPengajuan = FormPengajuan::all();
+
         $fp = FormPengajuan::find($id);
 
         if (!$fp || $fp->id_status != 1) {
@@ -82,10 +81,10 @@ class FormController extends Controller
         }
 
         $nipPengaju = auth()->user()->nip_lama;
-        $formPengajuan = FormPengajuan::where('id', $id)
+        $fp = FormPengajuan::where('id', $id)
             ->where('nip_pengaju', $nipPengaju)
             ->first();
-        if (!$formPengajuan) {
+        if (!$fp) {
             return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan atau Anda tidak memiliki akses.');
         }
 
@@ -93,7 +92,7 @@ class FormController extends Controller
         $komponen = Komponen::visible()->get();
         $subKomponen = SubKomponen::visible()->get();
         $akunBelanja = AkunBelanja::visible()->get();
-        return view('form.edit', compact('formPengajuan','output','komponen','subKomponen','akunBelanja'));
+        return view('form.edit', compact('fp', 'output', 'komponen', 'subKomponen', 'akunBelanja', 'formPengajuan'));
     }
 
     public function update(Request $request, $id)
@@ -145,5 +144,4 @@ class FormController extends Controller
 
         return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil dihapus.');
     }
-
 }

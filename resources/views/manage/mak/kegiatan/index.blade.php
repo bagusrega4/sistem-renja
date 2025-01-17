@@ -5,10 +5,10 @@
     <div class="page-inner">
         <!-- Notifikasi Sukses -->
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -24,23 +24,6 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Kegiatan</div>
-                        <div class="card-tools">
-                            <div class="dropdown">
-                                <button
-                                    class="btn btn-icon btn-clean me-0"
-                                    type="button"
-                                    id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="fas fa-filter"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Range Tanggal</a>
-                                    <a class="dropdown-item" href="#">Akun Belanja</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -57,32 +40,32 @@
                             </thead>
                             <tbody>
                                 @foreach ($kegiatans as $kegiatan)
-                                    <tr>
-                                        <th scope="row">
-                                            {{ $loop->iteration }}
-                                        </th>
-                                        <td class="text-end">{{ $kegiatan->kode }}</td>
-                                        <td class="text-start">{{ $kegiatan->kegiatan }}</td>
-                                        <td>
-                                            <div class="btn-group dropdown">
-                                                <button
-                                                    class="btn {{ $kegiatan->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
-                                                    type="button"
-                                                    data-bs-toggle="dropdown"
-                                                    data-id="{{ $kegiatan->id }}"
-                                                    data-flag="{{ $kegiatan->flag }}"
-                                                    data-kegiatan="{{ $kegiatan->kegiatan }}">
-                                                    {{ $kegiatan->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li>
-                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kegiatan->id }}" data-flag="1" data-kegiatan="{{ $kegiatan->kegiatan }}">Tampilkan</button>
-                                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kegiatan->id }}" data-flag="0" data-kegiatan="{{ $kegiatan->kegiatan }}">Jangan Ditampilkan</button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <th scope="row">
+                                        {{ $loop->iteration }}
+                                    </th>
+                                    <td class="text-end">{{ $kegiatan->kode }}</td>
+                                    <td class="text-start">{{ $kegiatan->kegiatan }}</td>
+                                    <td>
+                                        <div class="btn-group dropdown">
+                                            <button
+                                                class="btn {{ $kegiatan->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
+                                                type="button"
+                                                data-bs-toggle="dropdown"
+                                                data-id="{{ $kegiatan->id }}"
+                                                data-flag="{{ $kegiatan->flag }}"
+                                                data-kegiatan="{{ $kegiatan->kegiatan }}">
+                                                {{ $kegiatan->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kegiatan->id }}" data-flag="1" data-kegiatan="{{ $kegiatan->kegiatan }}">Tampilkan</button>
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kegiatan->id }}" data-flag="0" data-kegiatan="{{ $kegiatan->kegiatan }}">Jangan Ditampilkan</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -119,7 +102,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const confirmModal = document.getElementById('confirmModal');
         const modalForm = confirmModal.querySelector('#modalForm');
         const modalActionText = confirmModal.querySelector('#modal-action-text');
@@ -128,7 +111,7 @@
 
         const updateFlagRoutePattern = "{{ route('manage.mak.kegiatan.updateFlag', ':id') }}";
 
-        confirmModal.addEventListener('show.bs.modal', function (event) {
+        confirmModal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id');
             const flag = button.getAttribute('data-flag');
@@ -165,4 +148,3 @@
     });
 </script>
 @endpush
-

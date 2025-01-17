@@ -19,8 +19,15 @@ class PanduanController extends Controller
         return view('panduan.index', compact('bukuPanduanTerakhir', 'formPengajuan'));
     }
 
+    public function uploadPanduan()
+    {
+        $formPengajuan = FormPengajuan::all();
+        return view('panduan.upload', [
+            'formPengajuan' => $formPengajuan
+        ]);
+    }
 
-    public function upload(Request $request)
+    public function storePanduan(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:pdf|max:21000',
