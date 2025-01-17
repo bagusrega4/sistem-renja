@@ -41,7 +41,7 @@ Route::get('/notfound', function () {
 })->name('error.unauthorized');
 
 Route::get('/short', [MonitoringKeuanganController::class, 'index'])->name('short');
-
+Route::get('/short2', [MonitoringOperatorController::class, 'index'])->name('short2');
 // -------------------------------------------------------------------
 // Lolos 'auth' dan 'verified'
 // -------------------------------------------------------------------

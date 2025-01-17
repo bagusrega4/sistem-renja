@@ -52,7 +52,7 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table id="table-monitoring" class="table table-striped" style="width:100%">
+                        <table id="example" id="table-monitoring" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" style="width:100%">
+                    <table id="table-monitoring" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>No. FP</th>
@@ -220,39 +220,28 @@
         }
 
         function filter_data() {
-            var selectedFilters = get_filter(); // Fungsi untuk mendapatkan nilai filter (checkbox yang dicentang)
-
-            // Sembunyikan tabel sebelum memuat data baru
-            $('#table-monitoring').hide(); // Ganti #table-monitoring dengan ID tabel Anda
+            var selectedFilters = get_filter();
+            $('#table-monitoring').hide();
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/short', // Endpoint untuk filter data
+                url: '/short',
                 type: 'GET',
                 data: {
                     filters: selectedFilters
                 },
                 success: function(response) {
-                    // Perbarui isi <tbody> dengan data yang dikembalikan
                     $('#tbody-monitoring').html(response.html);
-
-                    // Tampilkan tabel setelah data dimuat
-                    $('#table-monitoring').show();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
-
-                    // Tampilkan tabel meskipun terjadi error untuk debugging
-                    $('#table-monitoring').show();
                 }
             });
         }
-
-        // Event listener untuk checkbox
         $('input[type="checkbox"]').on('change', function() {
-            filter_data(); // Panggil fungsi filter_data() setiap kali checkbox diubah
+            filter_data();
         });
     });
 </script>

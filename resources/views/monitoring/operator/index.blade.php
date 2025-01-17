@@ -25,14 +25,19 @@
                         <div class="card-title">Tabel Monitoring</div>
                         <div class="card-tools">
                             <div class="dropdown">
-                                <button class="btn btn-icon btn-clean me-0" type="button" id="dropdownMenuButton"
+                                <button class="btn btn-clean me-0" type="button" id="dropdownMenuButton"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-filter"></i>
+                                    Filter akun
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Range Tanggal</a>
-                                    <a class="dropdown-item" href="#">Akun Belanja</a>
-                                </div>
+                                <ul id="filterakun" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @foreach($akunBelanja as $ab)
+                                    <li class="dropdown-item">
+                                        <input type="checkbox" class="filter-checkbox" value="{{ $ab->id }}" />
+                                        [{{ $ab->kode }}] - {{ $ab->nama_akun }}
+                                    </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -40,7 +45,7 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table id="example" class="table table-striped" style="width:100%">
+                        <table id="example" id="table-monitoring" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -51,8 +56,8 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($formPengajuan as $fp)
+                            <tbody id="tbody-monitoring">
+                                @foreach ($pengajuan as $fp)
                                 <tr>
                                     <th scope="row">
                                         {{ $loop->iteration }}
@@ -127,7 +132,7 @@
 @endsection
 
 @section('modal-view')
-@foreach ($formPengajuan as $fp)
+@foreach ($pengajuan as $fp)
 <div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog"
     aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->id }}"
     aria-hidden="true">
@@ -251,7 +256,7 @@
 
 <!-- Modal Delete -->
 @section('modal-delete')
-@foreach ($formPengajuan as $fp)
+@foreach ($pengajuan as $fp)
 <div class="modal fade" id="deleteModalCenter-{{ $fp->id }}" tabindex="-1"
     aria-labelledby="deleteModalLabel-{{ $fp->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -276,3 +281,46 @@
 </div>
 @endforeach
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@endpush
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        function get_filter() {
+            var filter = [];
+            $('#filterakun input.filter-checkbox:checked').each(function() {
+                filter.push($(this).val());
+            });
+            return filter;
+        }
+
+        function filter_data() {
+            var selectedFilters = get_filter();
+            $('#table-monitoring').hide();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/short2',
+                type: 'GET',
+                data: {
+                    filters: selectedFilters
+                },
+                success: function(response) {
+                    $('#tbody-monitoring').html(response.html);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+        $('input[type="checkbox"]').on('change', function() {
+            filter_data();
+        });
+    });
+</script>
+@endpush

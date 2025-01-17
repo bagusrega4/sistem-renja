@@ -22,9 +22,9 @@ class MonitoringKeuanganController extends Controller
             $filters = $request->input('filters');
 
             if ($filters) {
-                $pengajuan = FormPengajuan::whereIn('id_akun_belanja', $filters)->get();
+                $pengajuan = FormPengajuan::whereIn('id_akun_belanja', $filters)->where('id_status', '!=', 1)->get();
             } else {
-                $pengajuan = FormPengajuan::all();
+                $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
             }
             $formPengajuan = FormPengajuan::all();
             $akunBelanja = AkunBelanja::all();
