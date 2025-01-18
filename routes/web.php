@@ -152,6 +152,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/output/create', [ManageMAKController::class, 'createOutput'])->name('output.create');
                 Route::post('/output/store', [ManageMAKController::class, 'storeOutput'])->name('output.store');
                 Route::put('/output/{id}/update-flag', [ManageMAKController::class, 'updateFlagOutput'])->name('output.updateFlag');
+
+                // Jenis File Operator
+                Route::get('/jenis_file_operator', [ManageMAKController::class, 'JenisFileOperator'])->name('jenis_file_operator');
+                Route::get('/jenis_file_operator/create', [ManageMAKController::class, 'createJenisFileOperator'])->name('jenis_file_operator.create');
+                Route::post('/jenis_file_operator/store', [ManageMAKController::class, 'storeJenisFileOperator'])->name('jenis_file_operator.store');
+                Route::put('/jenis_file_operator/{id}/update-flag', [ManageMAKController::class, 'updateFlagJenisFileOperator'])->name('jenis_file_operator.updateFlag');
+
+                // Jenis File Operator
+                Route::get('/jenis_file_keuangan', [ManageMAKController::class, 'JenisFileKeuangan'])->name('jenis_file_keuangan');
+                Route::get('/jenis_file_keuangan/create', [ManageMAKController::class, 'createJenisFileKeuangan'])->name('jenis_file_keuangan.create');
+                Route::post('/jenis_file_keuangan/store', [ManageMAKController::class, 'storeJenisFileKeuangan'])->name('jenis_file_keuangan.store');
+                Route::put('/jenis_file_keuangan/{id}/update-flag', [ManageMAKController::class, 'updateFlagJenisFileKeuangan'])->name('jenis_file_keuangan.updateFlag');
+
             });
 
             // Manage User

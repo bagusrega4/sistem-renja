@@ -98,6 +98,23 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
+                            id="tanggal_drpp"
+                            name="tanggal_drpp"
+                            value="{{ old('tanggal_drpp') }}"
+                            required />
+                        @error('tanggal_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
                         <label for="no_spm" class="form-label">No. SPM
                             <span class="text-danger">*</span></label>
                         <input
@@ -132,22 +149,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
-                            <span class="text-danger">*</span></label>
-                        <input
-                            type="date"
-                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
-                            id="tanggal_drpp"
-                            name="tanggal_drpp"
-                            value="{{ old('tanggal_drpp') }}"
-                            required />
-                        @error('tanggal_drpp')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
+                    
 
                     <!-- Input File Dinamis -->
                     @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
