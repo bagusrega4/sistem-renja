@@ -84,8 +84,8 @@
                         <img src="assets/img/icon-landing-page.png" class="img-fluid animated sm" alt="">
                     </div>
                     <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
-                        <h1>Sistem Bukti Dukung <span>Administratif</span></h1>
-                        <p>Sistem pengajuan bukti dukung administratif untuk pegawai BPS Provinsi DKI Jakarta</p>
+                        <h1>Sistem Bukti Dukung <span>Administrasi</span></h1>
+                        <p>Sistem pengajuan bukti dukung administrasi untuk pegawai BPS Provinsi DKI Jakarta</p>
                         <div class="d-flex">
                             <a href="/login" class="btn-get-started">Login</a>
                         </div>
