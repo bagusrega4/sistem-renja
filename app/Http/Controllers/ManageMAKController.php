@@ -57,17 +57,19 @@ class ManageMAKController extends Controller
     public function editAkun($id)
     {
         $formPengajuan = FormPengajuan::all();
-        $accounts = AkunBelanja::find($id);
+        $accounts = AkunBelanja::findOrFail($id);
+        $jenisFileOperator = JenisFileOperator::visible()->get();
+        $jenisFileKeuangan = JenisFileKeuangan::visible()->get();
     
-        $jenisFileOperator = $accounts->jenisFileOperator()
-                                      ->select('jenis_file_operator.id as id', 'nama_file')
-                                      ->get()
-                                      ->toArray();
+        // $jenisFileOperator = $accounts->jenisFileOperator()
+        //                               ->select('jenis_file_operator.id as id', 'nama_file')
+        //                               ->get()
+        //                               ->toArray();
     
-        $jenisFileKeuangan = $accounts->jenisFileKeuangan()
-                                      ->select('jenis_file_keuangan.id as id', 'nama_file')
-                                      ->get()
-                                      ->toArray();
+        // $jenisFileKeuangan = $accounts->jenisFileKeuangan()
+        //                               ->select('jenis_file_keuangan.id as id', 'nama_file')
+        //                               ->get()
+        //                               ->toArray();
     
         $jenisFileOperatorSelected = $accounts->jenisFileOperator()->pluck('jenis_file_operator.id as id')->toArray();
         $jenisFileKeuanganSelected = $accounts->jenisFileKeuangan()->pluck('jenis_file_keuangan.id as id')->toArray();
