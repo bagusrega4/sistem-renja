@@ -59,8 +59,11 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
+                                                @if($kro->flag != 1)
                                                     <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kro->id }}" data-flag="1" data-kro="{{ $kro->kro }}">Tampilkan</button>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kro->id }}" data-flag="0" data-kro="{{ $kro->kro }}">Jangan Ditampilkan</button>
+                                                @else
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kro->id }}" data-flag="0" data-kro="{{ $kro->kro }}">Jangan Tampilkan</button>
+                                                @endif
                                                 </li>
                                             </ul>
                                         </div>
