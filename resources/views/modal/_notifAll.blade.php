@@ -65,7 +65,7 @@
     </div>
 </div>
 
-@section('modal-view')
+{{-- @section('modal-view')
 @foreach ($formPengajuan as $fp)
 <div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog"
     aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->id }}"
@@ -125,6 +125,22 @@
     </div>
 </div>
 @endforeach
+@endsection --}}
+
+@section('modal-preview')
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Preview Bukti Transfer</h5>
+            </div>
+            <div class="modal-body">
+                <iframe id="previewFileFrame" src="" style="width: 100%; height: 600px;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 <script>
@@ -138,6 +154,30 @@
             });
         });
     });
+
+    function previewBuktiTransfer(idFormPengajuan) {
+        fetch(`/monitoring/operator/get-bukti-transfer/${idFormPengajuan}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Bukti transfer tidak ditemukan');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const fileFrame = document.getElementById('previewFileFrame');
+                if (!fileFrame) {
+                    console.error("Elemen 'previewFileFrame' tidak ditemukan di DOM.");
+                    return;
+                }
+
+                fileFrame.src = `/storage/${data.file_path}`;
+                const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+                previewModal.show();
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
 </script>
 
 @section('css')

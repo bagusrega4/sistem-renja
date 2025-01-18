@@ -60,8 +60,31 @@
                         <input type="text" name="pj_berkas" class="form-control" id="pj_berkas" value="{{ $fp->pegawai ? $fp->pegawai->nama : 'Data Pegawai Tidak Ditemukan' }}" required readonly>
                     </div>
 
-                    <!-- Form Tim Keuangan -->
+                    <!-- Jenis Pembayaran -->
                     <div class="mb-3">
+                        <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
+                            <span class="text-danger">*</span></label>
+                        <select
+                            class="form-select @error('jenis_pembayaran') is-invalid @enderror"
+                            id="jenis_pembayaran"
+                            name="jenis_pembayaran"
+                            required>
+                            <option value="" disabled selected>Pilih Jenis Pembayaran</option>
+                            <option value="GUP Tunai" {{ old('jenis_pembayaran') == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
+                            <option value="GUP KKP" {{ old('jenis_pembayaran') == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
+                            <option value="TUP" {{ old('jenis_pembayaran') == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
+                            <option value="LS" {{ old('jenis_pembayaran') == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
+                        </select>
+                        @error('jenis_pembayaran')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Form Tim Keuangan -->
+                    <!-- No. SPBy -->
+                    <div class="mb-3 spby-field">
                         <label for="no_spby" class="form-label">No. SPBy
                             <span class="text-danger">*</span></label>
                         <input
@@ -79,7 +102,8 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <!-- No. DRPP -->
+                    <div class="mb-3 drpp-field">
                         <label for="no_drpp" class="form-label">No. DRPP
                             <span class="text-danger">*</span></label>
                         <input
@@ -91,6 +115,24 @@
                             value="{{ old('no_drpp') }}"
                             required />
                         @error('no_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Tanggal DRPP -->
+                    <div class="mb-3 drpp-date-field">
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
+                            id="tanggal_drpp"
+                            name="tanggal_drpp"
+                            value="{{ old('tanggal_drpp') }}"
+                            required />
+                        @error('tanggal_drpp')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -126,23 +168,6 @@
                             value="{{ old('tanggal_spm') }}"
                             required />
                         @error('tanggal_spm')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
-                            <span class="text-danger">*</span></label>
-                        <input
-                            type="date"
-                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
-                            id="tanggal_drpp"
-                            name="tanggal_drpp"
-                            value="{{ old('tanggal_drpp') }}"
-                            required />
-                        @error('tanggal_drpp')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -211,3 +236,56 @@
     }
 </script>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenisPembayaran = document.getElementById('jenis_pembayaran');
+        const spbyField = document.querySelector('.spby-field');
+        const drppField = document.querySelector('.drpp-field');
+        const drppDateField = document.querySelector('.drpp-date-field');
+        const spbyInput = document.getElementById('no_spby');
+        const drppInput = document.getElementById('no_drpp');
+        const drppDateInput = document.getElementById('tanggal_drpp');
+
+        // Fungsi untuk mengatur visibilitas field berdasarkan pilihan
+        function toggleFields() {
+            if (jenisPembayaran.value === 'LS') {
+                spbyField.style.display = 'none';
+                drppField.style.display = 'none';
+                drppDateField.style.display = 'none';
+
+                // Set nilai default untuk field yang disembunyikan
+                spbyInput.value = '-';
+                drppInput.value = '-';
+                drppDateInput.value = '1970-01-01';
+
+                // Hapus atribut required jika disembunyikan
+                spbyInput.removeAttribute('required');
+                drppInput.removeAttribute('required');
+                drppDateInput.removeAttribute('required');
+            } else {
+                spbyField.style.display = 'block';
+                drppField.style.display = 'block';
+                drppDateField.style.display = 'block';
+
+                // Kosongkan nilai default jika ditampilkan
+                if (spbyInput.value === '-') spbyInput.value = '';
+                if (drppInput.value === '-') drppInput.value = '';
+                if (drppDateInput.value === '1970-01-01') drppDateInput.value = '';
+
+                // Tambahkan atribut required jika ditampilkan
+                spbyInput.setAttribute('required', 'required');
+                drppInput.setAttribute('required', 'required');
+                drppDateInput.setAttribute('required', 'required');
+            }
+        }
+
+        // Event listener untuk dropdown
+        jenisPembayaran.addEventListener('change', toggleFields);
+
+        // Inisialisasi pada saat halaman dimuat
+        toggleFields();
+    });
+</script>
+@endpush

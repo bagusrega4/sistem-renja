@@ -90,23 +90,47 @@ class MonitoringKeuanganController extends Controller
 
     public function upload($id)
     {
-        $fp = FormPengajuan::find($id);
-        $formPengajuan = FormPengajuan::all();
+        // Cari form pengajuan berdasarkan ID
+        $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
 
-        if (!$fp || $fp->id_status == 1 || $fp->id_status == 2 || $fp->id_status == 3) {
+        // Validasi jika form pengajuan tidak ditemukan atau memiliki status tertentu
+        if (!$fp || in_array($fp->id_status, [1, 2, 3])) {
             return view('error.unauthorized');
         }
 
-        $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+        // Ambil jenis file keuangan terkait akun belanja
+        $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan ?? [];
 
-        if (!$fp) {
-            return redirect()->back()->with('error', 'Form pengajuan tidak ditemukan.');
+        // Validasi berdasarkan jenis pembayaran
+        if (request()->isMethod('post')) {
+            $data = request()->validate([
+                'jenis_pembayaran' => 'required|string',
+                'no_spby' => request('jenis_pembayaran') !== 'LS' ? 'required|string' : 'nullable',
+                'no_drpp' => request('jenis_pembayaran') !== 'LS' ? 'required|string' : 'nullable',
+                'tanggal_drpp' => request('jenis_pembayaran') !== 'LS' ? 'required|date' : 'nullable',
+                'no_spm' => 'required|string',
+                'tanggal_spm' => 'required|date',
+                // Tambahkan validasi file dinamis
+                // ...
+            ]);
+
+            // Set nilai default untuk field yang tidak relevan (jika jenis pembayaran LS)
+            if ($data['jenis_pembayaran'] === 'LS') {
+                $data['no_spby'] = '-';
+                $data['no_drpp'] = '-';
+                $data['tanggal_drpp'] = '1970-01-01';
+            }
+
+            // Simpan data ke database atau lakukan tindakan lain yang diperlukan
+            // ...
+            return redirect()->route('monitoring.keuangan.index')->with('success', 'Data berhasil disimpan.');
         }
 
-        $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan;
-
+        // Tampilkan view upload dengan data yang relevan
+        $formPengajuan = FormPengajuan::all();
         return view('monitoring.keuangan.upload', compact('fp', 'jenisFilesKeuangan', 'formPengajuan'));
     }
+
 
     public function store(Request $request, $id)
     {
