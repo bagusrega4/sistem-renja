@@ -244,6 +244,9 @@
         const spbyField = document.querySelector('.spby-field');
         const drppField = document.querySelector('.drpp-field');
         const drppDateField = document.querySelector('.drpp-date-field');
+        const spbyInput = document.getElementById('no_spby');
+        const drppInput = document.getElementById('no_drpp');
+        const drppDateInput = document.getElementById('tanggal_drpp');
 
         // Fungsi untuk mengatur visibilitas field berdasarkan pilihan
         function toggleFields() {
@@ -252,19 +255,29 @@
                 drppField.style.display = 'none';
                 drppDateField.style.display = 'none';
 
-                // Set field menjadi tidak required jika disembunyikan
-                spbyField.querySelector('input').removeAttribute('required');
-                drppField.querySelector('input').removeAttribute('required');
-                drppDateField.querySelector('input').removeAttribute('required');
+                // Set nilai default untuk field yang disembunyikan
+                spbyInput.value = '-';
+                drppInput.value = '-';
+                drppDateInput.value = '1970-01-01';
+
+                // Hapus atribut required jika disembunyikan
+                spbyInput.removeAttribute('required');
+                drppInput.removeAttribute('required');
+                drppDateInput.removeAttribute('required');
             } else {
                 spbyField.style.display = 'block';
                 drppField.style.display = 'block';
                 drppDateField.style.display = 'block';
 
-                // Set field menjadi required jika ditampilkan
-                spbyField.querySelector('input').setAttribute('required', 'required');
-                drppField.querySelector('input').setAttribute('required', 'required');
-                drppDateField.querySelector('input').setAttribute('required', 'required');
+                // Kosongkan nilai default jika ditampilkan
+                if (spbyInput.value === '-') spbyInput.value = '';
+                if (drppInput.value === '-') drppInput.value = '';
+                if (drppDateInput.value === '1970-01-01') drppDateInput.value = '';
+
+                // Tambahkan atribut required jika ditampilkan
+                spbyInput.setAttribute('required', 'required');
+                drppInput.setAttribute('required', 'required');
+                drppDateInput.setAttribute('required', 'required');
             }
         }
 
