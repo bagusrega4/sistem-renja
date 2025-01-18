@@ -32,17 +32,17 @@
 
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Tambah Akun Belanja</h2>
-                <h6 class="op-7 mb-2">Menambahkan Akun Belanja Baru</h6>
+                <h2 class="fw-bold mb-3">Tambah Jenis File Keuangan</h2>
+                <h6 class="op-7 mb-2">Menambahkan Jenis File Keuangan Baru</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('manage.mak.akun') }}" class="btn btn-danger btn-round">Kembali</a>
+                <a href="{{ route('manage.mak.jenis_file_keuangan') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
 
         <div class="card card-round">
             <div class="card-body">
-                <form action="{{ route('manage.mak.akun.store') }}" method="POST">
+                <form action="{{ route('manage.mak.jenis_file_keuangan.store') }}" method="POST">
                     @csrf
 
                     <!-- Kode Akun-->
@@ -104,7 +104,6 @@
                             @endforeach
                         </select>
                     </div>
-
 
                     <!-- Tampilkan -->
                     <div class="mb-3">
