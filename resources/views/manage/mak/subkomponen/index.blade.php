@@ -60,8 +60,11 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
+                                                @if($subcomponent->flag != 1)
                                                     <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $subcomponent->id }}" data-flag="1" data-subkomponen="{{ $subcomponent->sub_komponen }}">Tampilkan</button>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $subcomponent->id }}" data-flag="0" data-subkomponen="{{ $subcomponent->sub_komponen }}">Jangan Ditampilkan</button>
+                                                @else
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $subcomponent->id }}" data-flag="0" data-subkomponen="{{ $subcomponent->sub_komponen }}">Jangan Tampilkan</button>
+                                                @endif
                                                 </li>
                                             </ul>
                                         </div>

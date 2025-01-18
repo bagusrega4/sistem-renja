@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FormPengajuan;
+use App\Models\AkunBelanja;
+use App\Models\Pegawai;
 use App\Models\FileUploadOperator;
 use App\Models\FileUploadKeuangan;
 use App\Models\AkunFileOperator;
@@ -16,15 +18,49 @@ use Illuminate\Support\Facades\Log;
 
 class MonitoringOperatorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $nipPengaju = auth()->user()->nip_lama;
+        if ($request->ajax()) {
+            $filters = $request->input('filters');
+            $nipPengaju = auth()->user()->nip_lama;
 
-        $formPengajuan = FormPengajuan::with(['statusPengajuan'])
-            ->where('nip_pengaju', $nipPengaju)
-            ->get();
+            if ($filters) {
+                $pengajuan = FormPengajuan::with(['statusPengajuan'])
+                    ->whereIn('id_akun_belanja', $filters)->where('nip_pengaju', $nipPengaju)
+                    ->get();
+            } else {
+                $pengajuan = FormPengajuan::with(['statusPengajuan'])
+                    ->where('nip_pengaju', $nipPengaju)
+                    ->get();
+                foreach ($pengajuan as $p) {
+                    $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+                }
+            }
 
-        return view('monitoring.operator.index', compact('formPengajuan'));
+            $formPengajuan = FormPengajuan::all();
+            $akunBelanja = AkunBelanja::all();
+
+            $counter = 1;
+
+            $data = view('partials._tbody_monitoring_operator', compact('pengajuan', 'counter'))->render();
+
+            return response()->json([
+                'html' => $data,
+            ]);
+        } else {
+            $nipPengaju = auth()->user()->nip_lama;
+            $akunBelanja = AkunBelanja::all();
+            $formPengajuan = FormPengajuan::all();
+
+            $pengajuan = FormPengajuan::with(['statusPengajuan'])
+                ->where('nip_pengaju', $nipPengaju)
+                ->get();
+            foreach ($pengajuan as $p) {
+                $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+            }
+
+            return view('monitoring.operator.index', compact('formPengajuan', 'akunBelanja', 'pengajuan'));
+        }
     }
 
     public function upload($id)

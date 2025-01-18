@@ -54,6 +54,59 @@ class ManageMAKController extends Controller
         return redirect()->route('manage.mak.akun')->with('success', 'Akun berhasil ditambahkan.');
     }
 
+    public function editAkun($id)
+    {
+        $formPengajuan = FormPengajuan::all();
+        $accounts = AkunBelanja::find($id);
+    
+        $jenisFileOperator = $accounts->jenisFileOperator()
+                                      ->select('jenis_file_operator.id as id', 'nama_file')
+                                      ->get()
+                                      ->toArray();
+    
+        $jenisFileKeuangan = $accounts->jenisFileKeuangan()
+                                      ->select('jenis_file_keuangan.id as id', 'nama_file')
+                                      ->get()
+                                      ->toArray();
+    
+        $jenisFileOperatorSelected = $accounts->jenisFileOperator()->pluck('jenis_file_operator.id as id')->toArray();
+        $jenisFileKeuanganSelected = $accounts->jenisFileKeuangan()->pluck('jenis_file_keuangan.id as id')->toArray();
+    
+        return view('manage.mak.akun.edit', [
+            'account' => $accounts,
+            'jenisFileOperator' => $jenisFileOperator,
+            'jenisFileKeuangan' => $jenisFileKeuangan,
+            'formPengajuan' => $formPengajuan,
+            'jenisFileOperatorSelected' => $jenisFileOperatorSelected,
+            'jenisFileKeuanganSelected' => $jenisFileKeuanganSelected
+        ]);
+    }
+    
+
+    public function update(Request $request, $id)
+    {
+        $akunBelanja = AkunBelanja::findOrFail($id);
+
+        $request->validate([
+            'kode' => 'required|string|max:6',
+            'nama_akun' => 'required|string|max:100',
+        ]);
+
+        $data = [
+            'kode' => $request->kode,
+            'nama_akun' => $request->nama_akun,
+            'flag' => $request->flag ?? 1,
+        ];
+
+        $akunBelanja ->update($data);
+
+        $jenisFileOperator = $request->input('jenisFileOp');
+        $jenisFileKeuangan = $request->input('jenisFileKeu');
+        $akunBelanja->jenisFileOperator()->sync($jenisFileOperator); // Sync otomatis menambahkan dan menghapus
+        $akunBelanja->jenisFileKeuangan()->sync($jenisFileKeuangan);
+        return redirect()->route('manage.mak.akun')->with('success', 'Akun belanja berhasil diedit.');
+    }
+
     // Controller Komponen
     public function komponen()
     {

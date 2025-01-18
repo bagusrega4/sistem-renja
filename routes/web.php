@@ -41,7 +41,7 @@ Route::get('/notfound', function () {
 })->name('error.unauthorized');
 
 Route::get('/short', [MonitoringKeuanganController::class, 'index'])->name('short');
-
+Route::get('/short2', [MonitoringOperatorController::class, 'index'])->name('short2');
 // -------------------------------------------------------------------
 // Lolos 'auth' dan 'verified'
 // -------------------------------------------------------------------
@@ -120,6 +120,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 // Akun
                 Route::get('/akun', [ManageMAKController::class, 'akun'])->name('akun');
                 Route::get('/akun/create', [ManageMAKController::class, 'createAkun'])->name('akun.create');
+                Route::get('/akun/edit/{id}', [ManageMAKController::class, 'editAkun'])->name('akun.edit');
+                Route::put('/akun/{id}', [ManageMAKController::class, 'update'])->name('akun.update');
                 Route::post('/akun/store', [ManageMAKController::class, 'storeAkun'])->name('akun.store');
                 Route::put('/akun/{id}/update-flag', [ManageMAKController::class, 'updateFlagAkun'])->name('akun.updateFlag');
 

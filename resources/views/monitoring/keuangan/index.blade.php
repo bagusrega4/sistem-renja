@@ -52,7 +52,7 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table id="table-monitoring" class="table table-striped" style="width:100%">
+                        <table id="example" id="table-monitoring" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" style="width:100%">
+                    <table id="table-monitoring" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>No. FP</th>
@@ -211,6 +211,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        // Fungsi untuk mendapatkan filter yang dipilih
         function get_filter() {
             var filter = [];
             $('#filterakun input.filter-checkbox:checked').each(function() {
@@ -219,40 +220,58 @@
             return filter;
         }
 
-        function filter_data() {
-            var selectedFilters = get_filter(); // Fungsi untuk mendapatkan nilai filter (checkbox yang dicentang)
+        // Fungsi untuk menambahkan scroll jika jumlah item melebihi batas
+        function add_scroll_to_dropdown() {
+            var dropdownMenu = $('#filterakun');
+            var itemCount = dropdownMenu.find('li').length;
+            var maxItems = 40;
 
-            // Sembunyikan tabel sebelum memuat data baru
-            $('#table-monitoring').hide(); // Ganti #table-monitoring dengan ID tabel Anda
+            if (itemCount > maxItems) {
+                dropdownMenu.css({
+                    'max-height': '300px',
+                    'overflow-y': 'auto'
+                });
+            } else {
+                dropdownMenu.css({
+                    'max-height': '',
+                    'overflow-y': ''
+                });
+            }
+        }
+
+        // Fungsi untuk melakukan filter data
+        function filter_data() {
+            var selectedFilters = get_filter();
+            $('#table-monitoring').hide();
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/short', // Endpoint untuk filter data
+                url: '/short',
                 type: 'GET',
                 data: {
                     filters: selectedFilters
                 },
                 success: function(response) {
-                    // Perbarui isi <tbody> dengan data yang dikembalikan
                     $('#tbody-monitoring').html(response.html);
-
-                    // Tampilkan tabel setelah data dimuat
-                    $('#table-monitoring').show();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
-
-                    // Tampilkan tabel meskipun terjadi error untuk debugging
-                    $('#table-monitoring').show();
                 }
             });
         }
 
-        // Event listener untuk checkbox
+        // Menambahkan scroll setelah dropdown ditampilkan
+        $('#dropdownMenuButton').on('click', function() {
+            setTimeout(function() {
+                add_scroll_to_dropdown();
+            }, 100);
+        });
+
+        // Menjalankan filter data saat checkbox diubah
         $('input[type="checkbox"]').on('change', function() {
-            filter_data(); // Panggil fungsi filter_data() setiap kali checkbox diubah
+            filter_data();
         });
     });
 </script>
