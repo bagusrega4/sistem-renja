@@ -63,7 +63,8 @@
                     <!-- Jenis Pembayaran -->
                     <div class="mb-3">
                         <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
-                            <span class="text-danger">*</span></label>
+                            <span class="text-danger">*</span>
+                        </label>
                         <select
                             class="form-select @error('jenis_pembayaran') is-invalid @enderror"
                             id="jenis_pembayaran"

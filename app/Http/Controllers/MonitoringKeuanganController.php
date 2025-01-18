@@ -20,35 +20,48 @@ class MonitoringKeuanganController extends Controller
     {
         if ($request->ajax()) {
             $filters = $request->input('filters');
+            $jenisPembayaran = $request->input('jenis_pembayaran');
+
+            // Query pengajuan berdasarkan filter dan jenis pembayaran
+            $query = FormPengajuan::query()->where('id_status', '!=', 1);
 
             if ($filters) {
-                $pengajuan = FormPengajuan::whereIn('id_akun_belanja', $filters)->where('id_status', '!=', 1)->get();
-            } else {
-                $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
+                $query->whereIn('id_akun_belanja', $filters);
             }
-            $formPengajuan = FormPengajuan::all();
-            $akunBelanja = AkunBelanja::all();
 
+            if ($jenisPembayaran) {
+                $query->where('jenis_pembayaran', $jenisPembayaran);
+            }
+
+            $pengajuan = $query->get();
             $pegawaiData = [];
+
             foreach ($pengajuan as $p) {
                 $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
                 $pegawaiData[$p->id] = $pegawai;
             }
+
             $counter = 1;
 
+            // Render ulang partial untuk update data
             $data = view('partials._tbody_pengajuan_with_status', compact('pengajuan', 'counter'))->render();
 
             return response()->json([
                 'html' => $data,
             ]);
         } else {
+            // Load data untuk tampilan awal
             $formPengajuan = FormPengajuan::all();
             $akunBelanja = AkunBelanja::all();
             $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
+            $pegawaiData = [];
+
             foreach ($pengajuan as $p) {
                 $pegawai = Pegawai::where('nip_lama', $p->nip_pengaju)->first();
+                $pegawaiData[$p->id] = $pegawai;
             }
-            return view('monitoring.keuangan.index', ['pengajuan' => $pengajuan, 'pegawai' => $pegawai, 'formPengajuan' => $formPengajuan, 'akunBelanja' => $akunBelanja]);
+
+            return view('monitoring.keuangan.index', compact('pengajuan', 'pegawaiData', 'formPengajuan', 'akunBelanja'));
         }
     }
 
@@ -153,6 +166,7 @@ class MonitoringKeuanganController extends Controller
             $jenisFilesKeuangan = $akunBelanja->jenisFileKeuangan;
 
             $rules = [
+                'jenis_pembayaran' => 'required|string|max:50',
                 'no_spby' => 'required|string|max:50',
                 'no_drpp' => 'required|string|max:50',
                 'no_spm' => 'required|string|max:50',
@@ -161,6 +175,7 @@ class MonitoringKeuanganController extends Controller
             ];
 
             $messages = [
+                'jenis_pembayaran.required' => 'Jenis Pembayaran wajib diisi.',
                 'no_spby.required' => 'No. SPBy wajib diisi.',
                 'no_drpp.required' => 'No. DRPP wajib diisi.',
                 'no_spm.required' => 'No. SPM wajib diisi.',
@@ -187,6 +202,7 @@ class MonitoringKeuanganController extends Controller
             $formKeuangan = FormKeuangan::create([
                 'id_form_pengajuan' => $formPengajuan->id,
                 'nip_pengawas' => auth()->user()->nip_lama,
+                'jenis_pembayaran' => $request->input('jenis_pembayaran'),
                 'no_spby' => $request->input('no_spby'),
                 'no_drpp' => $request->input('no_drpp'),
                 'no_spm' => $request->input('no_spm'),
