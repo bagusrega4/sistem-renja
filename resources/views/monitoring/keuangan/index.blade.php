@@ -211,6 +211,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        // Fungsi untuk mendapatkan filter yang dipilih
         function get_filter() {
             var filter = [];
             $('#filterakun input.filter-checkbox:checked').each(function() {
@@ -219,6 +220,26 @@
             return filter;
         }
 
+        // Fungsi untuk menambahkan scroll jika jumlah item melebihi batas
+        function add_scroll_to_dropdown() {
+            var dropdownMenu = $('#filterakun');
+            var itemCount = dropdownMenu.find('li').length;
+            var maxItems = 40;
+
+            if (itemCount > maxItems) {
+                dropdownMenu.css({
+                    'max-height': '300px',
+                    'overflow-y': 'auto'
+                });
+            } else {
+                dropdownMenu.css({
+                    'max-height': '',
+                    'overflow-y': ''
+                });
+            }
+        }
+
+        // Fungsi untuk melakukan filter data
         function filter_data() {
             var selectedFilters = get_filter();
             $('#table-monitoring').hide();
@@ -240,6 +261,15 @@
                 }
             });
         }
+
+        // Menambahkan scroll setelah dropdown ditampilkan
+        $('#dropdownMenuButton').on('click', function() {
+            setTimeout(function() {
+                add_scroll_to_dropdown();
+            }, 100);
+        });
+
+        // Menjalankan filter data saat checkbox diubah
         $('input[type="checkbox"]').on('change', function() {
             filter_data();
         });
