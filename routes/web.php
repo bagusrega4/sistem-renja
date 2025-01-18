@@ -120,6 +120,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 // Akun
                 Route::get('/akun', [ManageMAKController::class, 'akun'])->name('akun');
                 Route::get('/akun/create', [ManageMAKController::class, 'createAkun'])->name('akun.create');
+                Route::get('/akun/edit/{id}', [ManageMAKController::class, 'editAkun'])->name('akun.edit');
+                Route::put('/akun/{id}', [ManageMAKController::class, 'update'])->name('akun.update');
                 Route::post('/akun/store', [ManageMAKController::class, 'storeAkun'])->name('akun.store');
                 Route::put('/akun/{id}/update-flag', [ManageMAKController::class, 'updateFlagAkun'])->name('akun.updateFlag');
 

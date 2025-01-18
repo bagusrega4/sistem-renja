@@ -46,23 +46,39 @@
                                     <td class="text-end">{{ $account->kode }}</td>
                                     <td class="text-start">{{ $account->nama_akun }}</td>
                                     <td>
-                                        <div class="btn-group dropdown">
-                                            <button
-                                                class="btn {{ $account->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown"
-                                                data-id="{{ $account->id }}"
-                                                data-flag="{{ $account->flag }}"
-                                                data-akun="{{ $account->nama_akun }}">
-                                                {{ $account->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li>
+                                    <div class="grid">
+                                    <div class="d-flex">
+                                    <div class="btn-group dropdown me-2">
+                                        <button
+                                            class="btn {{ $account->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            data-id="{{ $account->id }}"
+                                            data-flag="{{ $account->flag }}"
+                                            data-akun="{{ $account->nama_akun }}">
+                                            {{ $account->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                @if($account->flag != 1)
                                                     <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="1" data-akun="{{ $account->nama_akun }}">Tampilkan</button>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="0" data-akun="{{ $account->nama_akun }}">Jangan Ditampilkan</button>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                @else
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $account->id }}" data-flag="0" data-akun="{{ $account->nama_akun }}">Jangan Tampilkan</button>
+                                                @endif
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a href="{{ route('manage.mak.akun.edit', $account->id) }}" class="btn btn-info btn-sm " 
+                                            style="display: flex;
+                                            align-items: center; 
+                                            justify-content: center;  
+                                            height: auto;
+                                            margin-top: 3px;
+                                            margin-bottom: 3px;  
+                                            padding: 5px 10px;">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
                                     </td>
                                 </tr>
                                 @endforeach

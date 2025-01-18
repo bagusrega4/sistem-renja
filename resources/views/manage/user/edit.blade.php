@@ -39,7 +39,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('manage.user.update', $user->id) }}" method="POST">
+                    <form action="{{ route('manage.user.update', $user->id) }}">
                         @csrf
                         @method('PUT')
 

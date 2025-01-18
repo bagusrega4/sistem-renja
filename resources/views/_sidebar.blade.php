@@ -107,7 +107,7 @@
                     </a>
                     <div class="collapse {{ request()->routeIs('manage.mak.*') ? 'show' : '' }}" id="flag">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') ?  'active' : '' }}">
+                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') || request()->routeIs('manage.mak.akun.edit') ?  'active' : '' }}">
                                 <a href="{{ route('manage.mak.akun') }}">
                                     <span class="sub-item">Akun</span>
                                 </a>

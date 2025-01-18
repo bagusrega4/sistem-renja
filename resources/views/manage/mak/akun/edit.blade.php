@@ -1,0 +1,188 @@
+@extends('layouts/app')
+@section('stylecss')
+<!-- Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+<!-- Or for RTL support -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+@endsection
+
+@section('content')
+<div class="container">
+    <div class="page-inner">
+        <!-- Notifikasi Error -->
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <!-- Notifikasi Sukses -->
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div>
+            <h2 class="fw-bold mb-3">Kelola Akun Belanja - Edit Akun Belanja</h2>
+                <h6 class="op-7 mb-2">
+                    Pengelolaan Daftar Akun Belanja Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta
+                </h6>
+            </div>
+            <div class="ms-md-auto py-2 py-md-0">
+                <a href="{{ route('manage.mak.akun') }}" class="btn btn-danger btn-round">Kembali</a>
+            </div>
+        </div>
+        <div class="col-md-12">
+        <div class="card card-round">
+        <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Form Edit Akun Belanja</div>
+                    </div>
+                </div>
+            <div class="card-body p-4">
+            @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Periksa kembali form anda!</strong>
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                <form action="{{ route('manage.mak.akun.update', $account->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <!-- Kode Akun-->
+                    <div class="mb-3">
+                        <label for="kode" class="form-label">Kode Akun</label>
+                        <input
+                            type="text"
+                            name="kode"
+                            class="form-control @error('kode') is-invalid @enderror"
+                            id="kode"
+                            value="{{ old('kode', $account->kode) }}"
+                            placeholder="Masukkan Kode Akun"
+                            required readonly>
+                        @error('kode')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Nama Akun -->
+                    <div class="mb-3">
+                        <label for="nama_akun" class="form-label">Nama Akun</label>
+                        <input
+                            type="text"
+                            name="nama_akun"
+                            class="form-control @error('nama_akun') is-invalid @enderror"
+                            id="nama_akun"
+                            value="{{ old('nama_akun', $account->nama_akun) }}"
+                            placeholder="Masukkan Nama Akun"
+                            required>
+                        @error('nama_akun')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <!-- Jenis File Operator -->
+                    <div class="mb-3">
+                        <div>
+                            <label for="id_output" class="form-label">Jenis File Operator</label>
+                        </div>
+                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" required>
+                            @foreach ($jenisFileOperator as $namaFile)
+                                <option value="{{ $namaFile['id'] }}"
+                                    {{ in_array($namaFile['id'], $jenisFileOperatorSelected) ? 'selected' : '' }}>
+                                    {{ $namaFile['nama_file'] }}
+                                </option>
+                            @endforeach
+                        </select>     
+                    </div>
+                    <!-- Jenis File Keuangan -->
+                    <div class="mb-3">
+                        <div>
+                            <label for="id_output" class="form-label">Jenis File Keuangan</label>
+                        </div>
+                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" required>
+                            @foreach ($jenisFileKeuangan as $namaFile)
+                                <option value="{{ $namaFile['id'] }}"
+                                    {{ in_array($namaFile['id'], $jenisFileKeuanganSelected) ? 'selected' : '' }}>
+                                    {{ $namaFile['nama_file'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- Tampilkan -->
+                    <div class="mb-3">
+                        <label for="flag" class="form-label">Flag</label>
+                        <select name="flag" id="flag" class="form-select @error('flag') is-invalid @enderror">
+                            <option value="1" {{ old('flag', $account->flag) == 1 ? 'selected' : '' }}>
+                                Tampilkan
+                            </option>
+                            <option value="0" {{ old('flag', $account->flag) == 0 ? 'selected' : '' }}>
+                                Jangan Tampilkan
+                            </option>
+                        </select>
+                        @error('flag')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+@endpush
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // Inisialisasi select2 untuk multiple select field
+        $('#multiple-select-clear-field').select2({
+            theme: "bootstrap",
+            width: '100%',
+            placeholder: "Choose anything",
+            closeOnSelect: false,
+            allowClear: true,
+        }).on('change', function() {
+            // Mengupdate nilai form setelah perubahan pilihan
+            $(this).valid(); // Validasi form jika diperlukan
+        });
+
+        // Inisialisasi select2 untuk multiple select field kedua
+        $('#multiple-select-clear-field2').select2({
+            theme: "bootstrap",
+            width: '100%',
+            placeholder: "Choose anything",
+            closeOnSelect: false,
+            allowClear: true,
+        }).on('change', function() {
+            // Mengupdate nilai form setelah perubahan pilihan
+            $(this).valid(); // Validasi form jika diperlukan
+        });
+    });
+</script>
+@endpush
