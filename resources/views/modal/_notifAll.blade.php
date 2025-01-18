@@ -65,11 +65,9 @@
     </div>
 </div>
 
-{{-- @section('modal-view')
-@foreach ($formPengajuan as $fp)
-<div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog"
-    aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->id }}"
-    aria-hidden="true">
+@section('modal-view')
+@foreach($formPengajuan as $fp)
+<div class="modal fade" id="viewModalCenter{{ $fp->id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalCenterTitle" aria-labelledby="viewModalCenterTitle{{ $fp->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,7 +75,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" style="width:100%">
+                    <table id="table-monitoring" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>No. FP</th>
@@ -88,25 +86,38 @@
                                 <th>Akun</th>
                                 <th>Tanggal Kegiatan</th>
                                 <th>No. SK</th>
+                                @if($fp->id_status === 5 && (Auth::user()->id_role == 2 || Auth::user()->id_role == 3))
+                                <th>Jenis Pembayaran</th>
+                                <th>No. SPBy</th>
+                                <th>No. DRPP</th>
+                                <th>Tanggal DRPP</th>
+                                <th>No. SPM</th>
+                                <th>Tanggal SPM</th>
+                                @endif
                                 <th>Nominal</th>
                                 <th>Catatan</th>
                                 <th>Bukti Transfer</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <td class="text-start">{{ $fp->no_fp }}</td>
+                            <td class="text-start">{{$fp -> no_fp}}</td>
                             <td class="text-start"><strong>{{ $fp->uraian }}</strong></td>
-                            <td class="text-start">
-                                [{{ $fp->output->kegiatan->kode }}.{{ $fp->output->kro->kode }}.{{ $fp->output->kode_ro }}]
-                                {{ $fp->output->output }}
-                            </td>
-                            <td class="text-start">{{ $fp->komponen->komponen }}</td>
-                            <td class="text-start">{{ $fp->subKomponen->sub_komponen }}</td>
-                            <td class="text-start">{{ $fp->akunBelanja->nama_akun }}</td>
-                            <td class="text-start">{{ $fp->tanggal_mulai }} s.d. {{ $fp->tanggal_akhir }}</td>
-                            <td class="text-start">{{ $fp->no_sk }}</td>
-                            <td class="text-start nominal-currency">{{ $fp->nominal }}</td>
-                            <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
+                            <td class="text-start">[{{$fp -> output -> kegiatan -> kode}}.{{$fp -> output -> kro -> kode}}.{{$fp -> output -> kode_ro}}] {{$fp -> output -> output}}</td>
+                            <td class="text-start">{{$fp -> komponen -> komponen}}</td>
+                            <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
+                            <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
+                            <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
+                            <td class="text-start">{{$fp -> no_sk}}</td>
+                            @if($fp->id_status === 5 && (Auth::user()->id_role == 2 || Auth::user()->id_role == 3))
+                            <td class="text-start">{{ $fp -> formKeuangan -> jenis_pembayaran }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_spby }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_drpp }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> tanggal_drpp }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_spm }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> tanggal_spm }}</td>
+                            @endif
+                            <td class="text-start nominal-currency">{{ $fp -> nominal }}</td>
+                            <td class="text-center">{{ $fp -> rejection_note ?? '-' }}</td>
                             <td class="text-start">
                                 @if ($fp->fileUploadKeuangan->where('akunFileKeuangan.jenisFileKeuangan.id', 12)->first())
                                 <button type="button" class="btn btn-primary btn-sm me-2" onclick="previewBuktiTransfer({{ $fp->id }})"
@@ -125,7 +136,7 @@
     </div>
 </div>
 @endforeach
-@endsection --}}
+@endsection
 
 @section('modal-preview')
 <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
@@ -144,10 +155,10 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('exampleModalCenter');
 
-        modal.addEventListener('hidden.bs.modal', function () {
+        modal.addEventListener('hidden.bs.modal', function() {
             const openDropdowns = modal.querySelectorAll('.collapse.show');
             openDropdowns.forEach((dropdown) => {
                 bootstrap.Collapse.getInstance(dropdown).hide();
@@ -187,7 +198,8 @@
         transition: color 0.3s ease, text-decoration 0.3s ease;
     }
 
-    .clickable:hover, .clickable:focus {
+    .clickable:hover,
+    .clickable:focus {
         color: #007bff;
         text-decoration: underline;
     }
@@ -196,11 +208,10 @@
         transition: color 0.3s ease, text-decoration 0.3s ease;
     }
 
-    .notification-item a:hover, .notification-item a:focus {
+    .notification-item a:hover,
+    .notification-item a:focus {
         color: #007bff;
         text-decoration: underline;
     }
 </style>
 @endsection
-
-

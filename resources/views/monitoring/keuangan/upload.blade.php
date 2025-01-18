@@ -63,8 +63,7 @@
                     <!-- Jenis Pembayaran -->
                     <div class="mb-3">
                         <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
-                            <span class="text-danger">*</span>
-                        </label>
+                            <span class="text-danger">*</span></label>
                         <select
                             class="form-select @error('jenis_pembayaran') is-invalid @enderror"
                             id="jenis_pembayaran"
@@ -84,7 +83,8 @@
                     </div>
 
                     <!-- Form Tim Keuangan -->
-                    <div class="mb-3">
+                    <!-- No. SPBy -->
+                    <div class="mb-3 spby-field">
                         <label for="no_spby" class="form-label">No. SPBy
                             <span class="text-danger">*</span></label>
                         <input
@@ -102,7 +102,8 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <!-- No. DRPP -->
+                    <div class="mb-3 drpp-field">
                         <label for="no_drpp" class="form-label">No. DRPP
                             <span class="text-danger">*</span></label>
                         <input
@@ -120,7 +121,8 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <!-- Tanggal DRPP -->
+                    <div class="mb-3 drpp-date-field">
                         <label for="tanggal_drpp" class="form-label">Tanggal DRPP
                             <span class="text-danger">*</span></label>
                         <input
@@ -136,7 +138,7 @@
                         </div>
                         @enderror
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="no_spm" class="form-label">No. SPM
                             <span class="text-danger">*</span></label>
@@ -171,8 +173,6 @@
                         </div>
                         @enderror
                     </div>
-
-                    
 
                     <!-- Input File Dinamis -->
                     @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
@@ -236,3 +236,56 @@
     }
 </script>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenisPembayaran = document.getElementById('jenis_pembayaran');
+        const spbyField = document.querySelector('.spby-field');
+        const drppField = document.querySelector('.drpp-field');
+        const drppDateField = document.querySelector('.drpp-date-field');
+        const spbyInput = document.getElementById('no_spby');
+        const drppInput = document.getElementById('no_drpp');
+        const drppDateInput = document.getElementById('tanggal_drpp');
+
+        // Fungsi untuk mengatur visibilitas field berdasarkan pilihan
+        function toggleFields() {
+            if (jenisPembayaran.value === 'LS') {
+                spbyField.style.display = 'none';
+                drppField.style.display = 'none';
+                drppDateField.style.display = 'none';
+
+                // Set nilai default untuk field yang disembunyikan
+                spbyInput.value = '-';
+                drppInput.value = '-';
+                drppDateInput.value = '1970-01-01';
+
+                // Hapus atribut required jika disembunyikan
+                spbyInput.removeAttribute('required');
+                drppInput.removeAttribute('required');
+                drppDateInput.removeAttribute('required');
+            } else {
+                spbyField.style.display = 'block';
+                drppField.style.display = 'block';
+                drppDateField.style.display = 'block';
+
+                // Kosongkan nilai default jika ditampilkan
+                if (spbyInput.value === '-') spbyInput.value = '';
+                if (drppInput.value === '-') drppInput.value = '';
+                if (drppDateInput.value === '1970-01-01') drppDateInput.value = '';
+
+                // Tambahkan atribut required jika ditampilkan
+                spbyInput.setAttribute('required', 'required');
+                drppInput.setAttribute('required', 'required');
+                drppDateInput.setAttribute('required', 'required');
+            }
+        }
+
+        // Event listener untuk dropdown
+        jenisPembayaran.addEventListener('change', toggleFields);
+
+        // Inisialisasi pada saat halaman dimuat
+        toggleFields();
+    });
+</script>
+@endpush

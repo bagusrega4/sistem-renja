@@ -42,7 +42,7 @@
                                 <div class="notif-center">
                                     <!-- Pengajuan Selesai -->
                                     @foreach ($pengajuanSelesai as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" data-bs-toggle="modal"
+                                        <a class="d-flex align-items-center mb-2 clickable" style="cursor: pointer;" data-bs-toggle="modal"
                                             data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
                                             <div class="notif-icon rounded-circle bg-success d-flex justify-content-center align-items-center flex-shrink-0"
                                                 style="width: 36px; height: 36px;">
@@ -58,7 +58,7 @@
 
                                     <!-- Pengajuan Ditolak -->
                                     @foreach ($pengajuanDitolak as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" data-bs-toggle="modal"
+                                        <a class="d-flex align-items-center mb-2 clickable" style="cursor: pointer;" data-bs-toggle="modal"
                                             data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
                                             <div class="notif-icon rounded-circle bg-danger d-flex justify-content-center align-items-center flex-shrink-0"
                                                 style="width: 36px; height: 36px;">

@@ -116,7 +116,14 @@
         <div class="main-panel">
             @include('_navbar')
 
+            @if(request()->routeIs('monitoring.operator.*'))
+            @include('modal._notifOperator')
+            @endif
+
+            @if(!request()->routeIs('monitoring.operator.*'))
             @include('modal._notifAll')
+            @endif
+
 
             @yield('content')
             @yield('modal-view')
