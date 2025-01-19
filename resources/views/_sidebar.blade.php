@@ -107,7 +107,7 @@
                     </a>
                     <div class="collapse {{ request()->routeIs('manage.mak.*') ? 'show' : '' }}" id="flag">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') ?  'active' : '' }}">
+                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') || request()->routeIs('manage.mak.akun.edit') ?  'active' : '' }}">
                                 <a href="{{ route('manage.mak.akun') }}">
                                     <span class="sub-item">Akun</span>
                                 </a>
@@ -135,6 +135,16 @@
                             <li class="{{ request()->routeIs('manage.mak.output') || request()->routeIs('manage.mak.output.create') ? 'active' : '' }}">
                                 <a href="{{ route('manage.mak.output') }}">
                                     <span class="sub-item">Output</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('manage.mak.jenis_file_operator') || request()->routeIs('manage.mak.jenis_file_operator.create') ? 'active' : '' }}">
+                                <a href="{{ route('manage.mak.jenis_file_operator') }}">
+                                    <span class="sub-item">Jenis File Operator</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('manage.mak.jenis_file_keuangan') || request()->routeIs('manage.mak.jenis_file_keuangan.create') ? 'active' : '' }}">
+                                <a href="{{ route('manage.mak.jenis_file_keuangan') }}">
+                                    <span class="sub-item">Jenis File Keuangan</span>
                                 </a>
                             </li>
                         </ul>

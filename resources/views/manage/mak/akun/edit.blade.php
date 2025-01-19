@@ -32,19 +32,37 @@
 
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Tambah Akun Belanja</h2>
-                <h6 class="op-7 mb-2">Menambahkan Akun Belanja Baru</h6>
+            <h2 class="fw-bold mb-3">Kelola Akun Belanja - Edit Akun Belanja</h2>
+                <h6 class="op-7 mb-2">
+                    Pengelolaan Daftar Akun Belanja Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta
+                </h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('manage.mak.akun') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
-
+        <div class="col-md-12">
         <div class="card card-round">
-            <div class="card-body">
-                <form action="{{ route('manage.mak.akun.store') }}" method="POST">
+        <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Form Edit Akun Belanja</div>
+                    </div>
+                </div>
+            <div class="card-body p-4">
+            @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Periksa kembali form anda!</strong>
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                <form action="{{ route('manage.mak.akun.update', $account->id) }}" method="POST">
                     @csrf
-
+                    @method('PUT')
                     <!-- Kode Akun-->
                     <div class="mb-3">
                         <label for="kode" class="form-label">Kode Akun</label>
@@ -53,9 +71,9 @@
                             name="kode"
                             class="form-control @error('kode') is-invalid @enderror"
                             id="kode"
-                            value="{{ old('kode') }}"
+                            value="{{ old('kode', $account->kode) }}"
                             placeholder="Masukkan Kode Akun"
-                            required>
+                            required readonly>
                         @error('kode')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -71,7 +89,7 @@
                             name="nama_akun"
                             class="form-control @error('nama_akun') is-invalid @enderror"
                             id="nama_akun"
-                            value="{{ old('nama_akun') }}"
+                            value="{{ old('nama_akun', $account->nama_akun) }}"
                             placeholder="Masukkan Nama Akun"
                             required>
                         @error('nama_akun')
@@ -80,41 +98,44 @@
                         </div>
                         @enderror
                     </div>
-
-                    <!-- Jenis File Operator-->
+                    <!-- Jenis File Operator -->
                     <div class="mb-3">
                         <div>
                             <label for="id_output" class="form-label">Jenis File Operator</label>
                         </div>
                         <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" required>
                             @foreach ($jenisFileOperator as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
+                                <option value="{{ $namaFile['id'] }}"
+                                    {{ in_array($namaFile['id'], $jenisFileOperatorSelected) ? 'selected' : '' }}>
+                                    {{ $namaFile['nama_file'] }}
+                                </option>
                             @endforeach
-                        </select>
+                        </select>     
                     </div>
-
-                    <!-- Jenis File Keuangan-->
+                    <!-- Jenis File Keuangan -->
                     <div class="mb-3">
                         <div>
                             <label for="id_output" class="form-label">Jenis File Keuangan</label>
                         </div>
                         <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" required>
                             @foreach ($jenisFileKeuangan as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
+                                <option value="{{ $namaFile['id'] }}"
+                                    {{ in_array($namaFile['id'], $jenisFileKeuanganSelected) ? 'selected' : '' }}>
+                                    {{ $namaFile['nama_file'] }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-
-
                     <!-- Tampilkan -->
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
-                        <select
-                            name="flag"
-                            id="flag"
-                            class="form-select @error('flag') is-invalid @enderror">
-                            <option value="1" {{ old('flag', 1) == 1 ? 'selected' : '' }}>Tampilkan</option>
-                            <option value="0" {{ old('flag', 1) == 0 ? 'selected' : '' }}>Jangan Tampilkan</option>
+                        <select name="flag" id="flag" class="form-select @error('flag') is-invalid @enderror">
+                            <option value="1" {{ old('flag', $account->flag) == 1 ? 'selected' : '' }}>
+                                Tampilkan
+                            </option>
+                            <option value="0" {{ old('flag', $account->flag) == 0 ? 'selected' : '' }}>
+                                Jangan Tampilkan
+                            </option>
                         </select>
                         @error('flag')
                         <div class="invalid-feedback">
@@ -127,6 +148,7 @@
                 </form>
             </div>
         </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -137,22 +159,30 @@
 
 @push('scripts')
 <script>
-    $('#multiple-select-clear-field').select2({
-        theme: "bootstrap",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-        closeOnSelect: false,
-        allowClear: true,
-    });
-</script>
+    $(document).ready(function() {
+        // Inisialisasi select2 untuk multiple select field
+        $('#multiple-select-clear-field').select2({
+            theme: "bootstrap",
+            width: '100%',
+            placeholder: "Choose anything",
+            closeOnSelect: false,
+            allowClear: true,
+        }).on('change', function() {
+            // Mengupdate nilai form setelah perubahan pilihan
+            $(this).valid(); // Validasi form jika diperlukan
+        });
 
-<script>
-    $('#multiple-select-clear-field2').select2({
-        theme: "bootstrap",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-        placeholder: $(this).data('placeholder'),
-        closeOnSelect: false,
-        allowClear: true,
+        // Inisialisasi select2 untuk multiple select field kedua
+        $('#multiple-select-clear-field2').select2({
+            theme: "bootstrap",
+            width: '100%',
+            placeholder: "Choose anything",
+            closeOnSelect: false,
+            allowClear: true,
+        }).on('change', function() {
+            // Mengupdate nilai form setelah perubahan pilihan
+            $(this).valid(); // Validasi form jika diperlukan
+        });
     });
 </script>
 @endpush

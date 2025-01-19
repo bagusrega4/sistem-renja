@@ -32,79 +32,35 @@
 
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h2 class="fw-bold mb-3">Tambah Akun Belanja</h2>
-                <h6 class="op-7 mb-2">Menambahkan Akun Belanja Baru</h6>
+                <h2 class="fw-bold mb-3">Tambah Jenis File Operator</h2>
+                <h6 class="op-7 mb-2">Menambahkan Jenis File Operator Baru</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('manage.mak.akun') }}" class="btn btn-danger btn-round">Kembali</a>
+                <a href="{{ route('manage.mak.jenis_file_operator') }}" class="btn btn-danger btn-round">Kembali</a>
             </div>
         </div>
 
         <div class="card card-round">
             <div class="card-body">
-                <form action="{{ route('manage.mak.akun.store') }}" method="POST">
+                <form action="{{ route('manage.mak.jenis_file_operator.store') }}" method="POST">
                     @csrf
 
-                    <!-- Kode Akun-->
+                    <!-- Nama File Operator -->
                     <div class="mb-3">
-                        <label for="kode" class="form-label">Kode Akun</label>
+                        <label for="nama_file_operator" class="form-label">Nama File Operator</label>
                         <input
                             type="text"
-                            name="kode"
-                            class="form-control @error('kode') is-invalid @enderror"
-                            id="kode"
-                            value="{{ old('kode') }}"
-                            placeholder="Masukkan Kode Akun"
-                            required>
-                        @error('kode')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-
-                    <!-- Nama Akun -->
-                    <div class="mb-3">
-                        <label for="nama_akun" class="form-label">Nama Akun</label>
-                        <input
-                            type="text"
-                            name="nama_akun"
-                            class="form-control @error('nama_akun') is-invalid @enderror"
-                            id="nama_akun"
-                            value="{{ old('nama_akun') }}"
+                            name="nama_file_operator"
+                            class="form-control @error('nama_file_operator') is-invalid @enderror"
+                            id="nama_file_operator"
                             placeholder="Masukkan Nama Akun"
                             required>
-                        @error('nama_akun')
+                        @error('nama_file_operator')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
                     </div>
-
-                    <!-- Jenis File Operator-->
-                    <div class="mb-3">
-                        <div>
-                            <label for="id_output" class="form-label">Jenis File Operator</label>
-                        </div>
-                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" required>
-                            @foreach ($jenisFileOperator as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Jenis File Keuangan-->
-                    <div class="mb-3">
-                        <div>
-                            <label for="id_output" class="form-label">Jenis File Keuangan</label>
-                        </div>
-                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" required>
-                            @foreach ($jenisFileKeuangan as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
 
                     <!-- Tampilkan -->
                     <div class="mb-3">

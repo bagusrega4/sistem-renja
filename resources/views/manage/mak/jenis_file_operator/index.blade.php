@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -13,57 +13,57 @@
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h2 class="fw-bold mb-3">Kelola Mata Anggaran Keuangan</h2>
-                <h6 class="op-7 mb-2">Pengelolaan Mata Anggaran Keuangan KRO Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
+                <h6 class="op-7 mb-2">Pengelolaan Mata Anggaran Keuangan Jenis File Operator Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('manage.mak.kro.create') }}" class="btn btn-primary btn-round">Tambah KRO</a>
+                <a href="{{ route('manage.mak.jenis_file_operator.create') }}" class="btn btn-primary btn-round">Tambah Jenis File Operator</a>
             </div>
         </div>
         <div class="col-md-12">
             <div class="card card-round">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Daftar KRO</div>
+                        <div class="card-title">Daftar Jenis File Operator</div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <!-- Tabel KRO -->
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Kode</th>
-                                    <th>Nama KRO</th>
+                                    <th>Nama Jenis File Operator</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kros as $kro)
+                                @foreach ($jenis_file_operators as $jenis_file_operator)
                                 <tr>
                                     <th scope="row">
                                         {{ $loop->iteration }}
                                     </th>
-                                    <td class="text-start">{{ $kro->kode }}</td>
-                                    <td class="text-start">{{ $kro->kro }}</td>
+                                    <td class="text-start">{{ $jenis_file_operator->nama_file }}</td>
                                     <td>
                                         <div class="btn-group dropdown">
                                             <button
-                                                class="btn {{ $kro->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
+                                                class="btn {{ $jenis_file_operator->flag == 1 ? 'btn-outline-success' : 'btn-outline-danger' }} dropdown-toggle"
                                                 type="button"
                                                 data-bs-toggle="dropdown"
-                                                data-id="{{ $kro->id }}"
-                                                data-flag="{{ $kro->flag }}"
-                                                data-kro="{{ $kro->kro }}">
-                                                {{ $kro->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
+                                                data-id="{{ $jenis_file_operator->id }}"
+                                                data-flag="{{ $jenis_file_operator->flag }}"
+                                                data-nama="{{ $jenis_file_operator->nama_file }}">
+                                                {{ $jenis_file_operator->flag == 1 ? 'Tampilkan' : 'Jangan Tampilkan' }}
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
-                                                @if($kro->flag != 1)
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kro->id }}" data-flag="1" data-kro="{{ $kro->kro }}">Tampilkan</button>
-                                                @else
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-id="{{ $kro->id }}" data-flag="0" data-kro="{{ $kro->kro }}">Jangan Tampilkan</button>
-                                                @endif
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" 
+                                                            data-id="{{ $jenis_file_operator->id }}" 
+                                                            data-flag="1" 
+                                                            data-nama="{{ $jenis_file_operator->nama_file }}">Tampilkan</button>
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" 
+                                                            data-id="{{ $jenis_file_operator->id }}" 
+                                                            data-flag="0" 
+                                                            data-nama="{{ $jenis_file_operator->nama_file }}">Jangan Ditampilkan</button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -72,7 +72,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- End Tabel KRO -->
                     </div>
                 </div>
             </div>
@@ -89,7 +88,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> kro <b><span id="modal-kro"></span></b>?
+                Apakah Anda yakin ingin <b><span id="modal-action-text"></span></b> jenis file operator <b><span id="modal-jenis-file-operator"></span></b>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
@@ -109,22 +108,22 @@
         const confirmModal = document.getElementById('confirmModal');
         const modalForm = confirmModal.querySelector('#modalForm');
         const modalActionText = confirmModal.querySelector('#modal-action-text');
-        const modalKro = confirmModal.querySelector('#modal-kro');
+        const modalJenisFileOperator = confirmModal.querySelector('#modal-jenis-file-operator');
         const modalFlag = confirmModal.querySelector('#modal-flag');
 
-        const updateFlagRoutePattern = "{{ route('manage.mak.kro.updateFlag', ':id') }}";
+        const updateFlagRoutePattern = "{{ route('manage.mak.jenis_file_operator.updateFlag', ':id') }}";
 
         confirmModal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id');
             const flag = button.getAttribute('data-flag');
-            const kro = button.getAttribute('data-kro');
+            const nama = button.getAttribute('data-nama');
 
             const actionText = flag == "1" ? "menampilkan" : "tidak menampilkan";
 
             modalActionText.textContent = actionText;
             modalFlag.value = flag;
-            modalKro.textContent = kro;
+            modalJenisFileOperator.textContent = nama;
             modalForm.action = updateFlagRoutePattern.replace(':id', id);
         });
     });

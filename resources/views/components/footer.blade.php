@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-2 col-md-2">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24970.48008569393!2d106.83452985837138!3d-6.198441324402522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f44329ef4425%3A0xa230b346572fa767!2sBadan%20Pusat%20Statistik%20(BPS)%20-%20Provinsi%20DKI%20Jakarta!5e0!3m2!1sen!2sid!4v1737006893760!5m2!1sen!2sid" width="500" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24970.48008569393!2d106.83452985837138!3d-6.198441324402522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f44329ef4425%3A0xa230b346572fa767!2sBadan%20Pusat%20Statistik%20(BPS)%20-%20Provinsi%20DKI%20Jakarta!5e0!3m2!1sen!2sid!4v1737006893760!5m2!1sen!2sid" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
 

@@ -29,8 +29,8 @@ class ManageMAKController extends Controller
     public function createAkun()
     {
         $formPengajuan = FormPengajuan::all();
-        $jenisFileOperator = JenisFileOperator::all();
-        $jenisFileKeuangan = JenisFileKeuangan::all();
+        $jenisFileOperator = JenisFileOperator::visible()->get();
+        $jenisFileKeuangan = JenisFileKeuangan::visible()->get();
         return view('manage.mak.akun.create', ['jenisFileOperator' => $jenisFileOperator, 'formPengajuan' => $formPengajuan, 'jenisFileKeuangan' => $jenisFileKeuangan]);
     }
 
@@ -52,6 +52,61 @@ class ManageMAKController extends Controller
         $akunBelanja->jenisFileOperator()->attach($jenisFileOperator);
         $akunBelanja->jenisFileKeuangan()->attach($jenisFileKeuangan);
         return redirect()->route('manage.mak.akun')->with('success', 'Akun berhasil ditambahkan.');
+    }
+
+    public function editAkun($id)
+    {
+        $formPengajuan = FormPengajuan::all();
+        $accounts = AkunBelanja::findOrFail($id);
+        $jenisFileOperator = JenisFileOperator::visible()->get();
+        $jenisFileKeuangan = JenisFileKeuangan::visible()->get();
+    
+        // $jenisFileOperator = $accounts->jenisFileOperator()
+        //                               ->select('jenis_file_operator.id as id', 'nama_file')
+        //                               ->get()
+        //                               ->toArray();
+    
+        // $jenisFileKeuangan = $accounts->jenisFileKeuangan()
+        //                               ->select('jenis_file_keuangan.id as id', 'nama_file')
+        //                               ->get()
+        //                               ->toArray();
+    
+        $jenisFileOperatorSelected = $accounts->jenisFileOperator()->pluck('jenis_file_operator.id as id')->toArray();
+        $jenisFileKeuanganSelected = $accounts->jenisFileKeuangan()->pluck('jenis_file_keuangan.id as id')->toArray();
+    
+        return view('manage.mak.akun.edit', [
+            'account' => $accounts,
+            'jenisFileOperator' => $jenisFileOperator,
+            'jenisFileKeuangan' => $jenisFileKeuangan,
+            'formPengajuan' => $formPengajuan,
+            'jenisFileOperatorSelected' => $jenisFileOperatorSelected,
+            'jenisFileKeuanganSelected' => $jenisFileKeuanganSelected
+        ]);
+    }
+    
+
+    public function update(Request $request, $id)
+    {
+        $akunBelanja = AkunBelanja::findOrFail($id);
+
+        $request->validate([
+            'kode' => 'required|string|max:6',
+            'nama_akun' => 'required|string|max:100',
+        ]);
+
+        $data = [
+            'kode' => $request->kode,
+            'nama_akun' => $request->nama_akun,
+            'flag' => $request->flag ?? 1,
+        ];
+
+        $akunBelanja ->update($data);
+
+        $jenisFileOperator = $request->input('jenisFileOp');
+        $jenisFileKeuangan = $request->input('jenisFileKeu');
+        $akunBelanja->jenisFileOperator()->sync($jenisFileOperator); // Sync otomatis menambahkan dan menghapus
+        $akunBelanja->jenisFileKeuangan()->sync($jenisFileKeuangan);
+        return redirect()->route('manage.mak.akun')->with('success', 'Akun belanja berhasil diedit.');
     }
 
     // Controller Komponen
@@ -234,6 +289,72 @@ class ManageMAKController extends Controller
         return redirect()->route('manage.mak.output')->with('success', 'Output berhasil ditambahkan.');
     }
 
+    // Controller Jenis file operator
+    public function JenisFileOperator()
+    {
+        $formPengajuan = FormPengajuan::all();
+        $jenis_file_operators = JenisFileOperator::all();
+        return view('manage.mak.jenis_file_operator.index', [
+            'jenis_file_operators' => $jenis_file_operators,
+            'formPengajuan' => $formPengajuan
+        ]);
+    }
+
+    public function createJenisFileOperator()
+    {
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.jenis_file_operator.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
+    }
+    
+    public function storeJenisFileOperator(Request $request)
+    {
+        $request->validate([
+            'jenis_file_operator' => 'required|string|max:255',
+        ]);
+
+        JenisFileOperator::create([
+            'jenis_file_operator' => $request->jenis_file_operator,
+            'flag' => $request->flag ?? 1,
+        ]);
+
+        return redirect()->route('manage.mak.jenis_file_operator')->with('success', 'Jenis file operator berhasil ditambahkan.');
+    }
+
+    // Controller Jenis file keuangan
+    public function JenisFileKeuangan()
+    {
+        $formPengajuan = FormPengajuan::all();
+        $jenis_file_keuangans = JenisFileKeuangan::all();
+        return view('manage.mak.jenis_file_keuangan.index', [
+            'jenis_file_keuangans' => $jenis_file_keuangans,
+            'formPengajuan' => $formPengajuan
+        ]);
+    }
+
+    public function createJenisFileKeuangan()
+    {
+        $formPengajuan = FormPengajuan::all();
+        return view('manage.mak.jenis_file_keuangan.create', [
+            'formPengajuan' => $formPengajuan
+        ]);
+    }
+    
+    public function storeJenisFileKeuangan(Request $request)
+    {
+        $request->validate([
+            'jenis_file_keuangan' => 'required|string|max:255',
+        ]);
+
+        JenisFileKeuangan::create([
+            'jenis_file_keuangan' => $request->jenis_file_keuangan,
+            'flag' => $request->flag ?? 1,
+        ]);
+
+        return redirect()->route('manage.mak.jenis_file_keuangan')->with('success', 'Jenis file keuangan berhasil ditambahkan.');
+    }
+
     // Controller Update Flag
     public function updateFlagAkun(Request $request, $id)
     {
@@ -312,4 +433,32 @@ class ManageMAKController extends Controller
 
         return redirect()->back()->with('success', 'Flag Output berhasil diperbarui.');
     }
+
+    public function updateFlagJenisFileOperator(Request $request, $id)
+    {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
+        $jenis_file_operator = JenisFileOperator::findOrFail($id);
+        $jenis_file_operator->flag = $request->flag;
+        $jenis_file_operator->save();
+
+        return redirect()->back()->with('success', 'Flag Jenis File Operator berhasil diperbarui.');
+    }
+
+    public function updateFlagJenisFileKeuangan(Request $request, $id)
+    {
+        $request->validate([
+            'flag' => 'required|boolean',
+        ]);
+
+        $jenis_file_keuangan = JenisFileKeuangan::findOrFail($id);
+        $jenis_file_keuangan->flag = $request->flag;
+        $jenis_file_keuangan->save();
+
+        return redirect()->back()->with('success', 'Flag Jenis File Keuangan berhasil diperbarui.');
+    }
+
+
 }

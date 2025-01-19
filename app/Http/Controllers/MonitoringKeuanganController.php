@@ -42,12 +42,14 @@ class MonitoringKeuanganController extends Controller
 
             $counter = 1;
 
+            // Render ulang partial untuk update data
             $data = view('partials._tbody_pengajuan_with_status', compact('pengajuan', 'counter'))->render();
 
             return response()->json([
                 'html' => $data,
             ]);
         } else {
+            // Load data untuk tampilan awal
             $formPengajuan = FormPengajuan::all();
             $akunBelanja = AkunBelanja::all();
             $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
