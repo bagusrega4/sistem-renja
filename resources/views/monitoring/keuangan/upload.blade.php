@@ -37,50 +37,50 @@
                 <form action="{{ route('monitoring.keuangan.store', $fp->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @switch($fp->id_status)
-                        @case(1)
-                        @break
+                    @case(1)
+                    @break
 
-                        @case(2)
-                            <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
-                                <i class="fas fa-hourglass-half fa-2x me-2"></i>
-                                <div>
-                                    <strong>Segera Lakukan Pemeriksaan Dokumen.</strong>
-                                    Mohon periksa form pengajuan dan file yang diupload operator terlebih dahulu.
-                                </div>
-                            </div>
-                        @break
+                    @case(2)
+                    <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
+                        <i class="fas fa-hourglass-half fa-2x me-2"></i>
+                        <div>
+                            <strong>Segera Lakukan Pemeriksaan Dokumen.</strong>
+                            Mohon periksa form pengajuan dan file yang diupload operator terlebih dahulu.
+                        </div>
+                    </div>
+                    @break
 
-                        @case(3)
-                            <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
-                                <i class="fas fa-ban fa-2x me-2"></i>
-                                <div>
-                                    <strong>Pengajuan telah Ditolak.</strong>
-                                    Mohon tunggu operator melakukan perbaikan dokumen.
-                                </div>
-                            </div>
-                        @break
+                    @case(3)
+                    <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+                        <i class="fas fa-ban fa-2x me-2"></i>
+                        <div>
+                            <strong>Pengajuan telah Ditolak.</strong>
+                            Mohon tunggu operator melakukan perbaikan dokumen.
+                        </div>
+                    </div>
+                    @break
 
-                        @case(4)
-                        @break
+                    @case(4)
+                    @break
 
-                        @case(5)
-                            <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
-                                <i class="fas fa-check-double fa-2x me-2"></i>
-                                <div>
-                                    <strong>Pengajuan telah Selesai.</strong>
-                                    Semua proses dan verifikasi sudah tuntas.
-                                </div>
-                            </div>
-                        @break
+                    @case(5)
+                    <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
+                        <i class="fas fa-check-double fa-2x me-2"></i>
+                        <div>
+                            <strong>Pengajuan telah Selesai.</strong>
+                            Semua proses dan verifikasi sudah tuntas.
+                        </div>
+                    </div>
+                    @break
 
-                        @default
-                            <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
-                                <i class="fas fa-exclamation-circle fa-2x me-2"></i>
-                                <div>
-                                    <strong>Dokumen gagal diperiksa</strong>,
-                                    karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
-                                </div>
-                            </div>
+                    @default
+                    <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
+                        <i class="fas fa-exclamation-circle fa-2x me-2"></i>
+                        <div>
+                            <strong>Dokumen gagal diperiksa</strong>,
+                            karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
+                        </div>
+                    </div>
                     @endswitch
                     <!-- No FP (readonly) -->
                     <div class="mb-3">
@@ -108,343 +108,318 @@
 
                     <!-- Form Tim Keuangan -->
                     @switch($fp->id_status)
-                        @case(4)
-                        <!-- Status 4: Bisa diinput -->
+                    @case(4)
+                    <!-- Status 4: Bisa diinput -->
 
-                            <!-- Jenis Pembayaran -->
-                            <div class="mb-3">
-                                <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
-                                    <span class="text-danger">*</span></label>
-                                <select
-                                    class="form-select @error('jenis_pembayaran') is-invalid @enderror"
-                                    id="jenis_pembayaran"
-                                    name="jenis_pembayaran"
-                                    required>
-                                    <option value="" disabled selected>Pilih Jenis Pembayaran</option>
-                                    <option value="GUP Tunai" {{ old('jenis_pembayaran') == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
-                                    <option value="GUP KKP" {{ old('jenis_pembayaran') == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
-                                    <option value="TUP" {{ old('jenis_pembayaran') == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
-                                    <option value="LS" {{ old('jenis_pembayaran') == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
-                                </select>
-                                @error('jenis_pembayaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- Jenis Pembayaran -->
+                    <div class="mb-3">
+                        <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
+                            <span class="text-danger">*</span></label>
+                        <select
+                            class="form-select @error('jenis_pembayaran') is-invalid @enderror"
+                            id="jenis_pembayaran"
+                            name="jenis_pembayaran"
+                            required>
+                            <option value="" disabled selected>Pilih Jenis Pembayaran</option>
+                            <option value="GUP Tunai" {{ old('jenis_pembayaran') == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
+                            <option value="GUP KKP" {{ old('jenis_pembayaran') == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
+                            <option value="TUP" {{ old('jenis_pembayaran') == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
+                            <option value="LS" {{ old('jenis_pembayaran') == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
+                        </select>
+                        @error('jenis_pembayaran')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- No.SPBy -->
-                            <div class="mb-3 spby-field">
-                                <label for="no_spby" class="form-label">No. SPBy
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_spby') is-invalid @enderror"
-                                    id="no_spby"
-                                    name="no_spby"
-                                    placeholder="Masukkan No. SPBy"
-                                    value="{{ old('no_spby') }}"
-                                    required />
-                                @error('no_spby')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- No.SPBy -->
+                    <div class="mb-3 spby-field">
+                        <label for="no_spby" class="form-label">No. SPBy
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_spby') is-invalid @enderror"
+                            id="no_spby"
+                            name="no_spby"
+                            placeholder="Masukkan No. SPBy"
+                            value="{{ old('no_spby') }}"
+                            required />
+                        @error('no_spby')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- No.DRPP -->
-                            <div class="mb-3 drpp-field">
-                                <label for="no_drpp" class="form-label">No. DRPP
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_drpp') is-invalid @enderror"
-                                    id="no_drpp"
-                                    name="no_drpp"
-                                    placeholder="Masukkan No. DRPP"
-                                    value="{{ old('no_drpp') }}"
-                                    required />
-                                @error('no_drpp')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- No.DRPP -->
+                    <div class="mb-3 drpp-field">
+                        <label for="no_drpp" class="form-label">No. DRPP
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_drpp') is-invalid @enderror"
+                            id="no_drpp"
+                            name="no_drpp"
+                            placeholder="Masukkan No. DRPP"
+                            value="{{ old('no_drpp') }}"
+                            required />
+                        @error('no_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- Tanggal DRPP -->
-                            <div class="mb-3 drpp-date-field">
-                                <label for="tanggal_drpp" class="form-label">Tanggal DRPP
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="date"
-                                    class="form-control @error('tanggal_drpp') is-invalid @enderror"
-                                    id="tanggal_drpp"
-                                    name="tanggal_drpp"
-                                    value="{{ old('tanggal_drpp') }}"
-                                    required />
-                                @error('tanggal_drpp')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- Tanggal DRPP -->
+                    <div class="mb-3 drpp-date-field">
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
+                            id="tanggal_drpp"
+                            name="tanggal_drpp"
+                            value="{{ old('tanggal_drpp') }}"
+                            required />
+                        @error('tanggal_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- No.SPM -->
-                            <div class="mb-3">
-                                <label for="no_spm" class="form-label">No. SPM
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_spm') is-invalid @enderror"
-                                    id="no_spm"
-                                    name="no_spm"
-                                    placeholder="Masukkan No. SPM"
-                                    value="{{ old('no_spm') }}"
-                                    required />
-                                @error('no_spm')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- No.SPM -->
+                    <div class="mb-3">
+                        <label for="no_spm" class="form-label">No. SPM
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_spm') is-invalid @enderror"
+                            id="no_spm"
+                            name="no_spm"
+                            placeholder="Masukkan No. SPM"
+                            value="{{ old('no_spm') }}"
+                            required />
+                        @error('no_spm')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- Tanggal SPM -->
-                            <div class="mb-3">
-                                <label for="tanggal_spm" class="form-label">Tanggal SPM
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="date"
-                                    class="form-control @error('tanggal_spm') is-invalid @enderror"
-                                    id="tanggal_spm"
-                                    name="tanggal_spm"
-                                    value="{{ old('tanggal_spm') }}"
-                                    required />
-                                @error('tanggal_spm')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                    <!-- Tanggal SPM -->
+                    <div class="mb-3">
+                        <label for="tanggal_spm" class="form-label">Tanggal SPM
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_spm') is-invalid @enderror"
+                            id="tanggal_spm"
+                            name="tanggal_spm"
+                            value="{{ old('tanggal_spm') }}"
+                            required />
+                        @error('tanggal_spm')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
 
-                            <!-- Upload File Keuangan -->
-                            @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
-                            @php
-                            $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
-                            @endphp
-                            <div class="mb-3">
-                                <label for="{{ $fileKey }}" class="form-label">
-                                    {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input
-                                        type="file"
-                                        name="{{ $fileKey }}"
-                                        class="form-control @error($fileKey) is-invalid @enderror"
-                                        id="{{ $fileKey }}"
-                                        accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
-                                        required
-                                        onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-danger"
-                                        id="btn_reset_{{ $fileKey }}"
-                                        style="display: none;"
-                                        onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
-                                </div>
-                                @error($fileKey)
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            @endforeach
-                            <button type="submit" class="btn btn-success">Simpan</button>
-                        @break
-
-                        @case(5)
-                        <!-- Status 5 (Selesai): Tidak bisa diinput -->
-
-                            <!-- Jenis Pembayaran -->
-                            {{-- <div class="mb-3">
-                                <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
-                                    <span class="text-danger">*</span></label>
-                                <select
-                                    class="form-select @error('jenis_pembayaran') is-invalid @enderror"
-                                    id="jenis_pembayaran"
-                                    name="jenis_pembayaran"
-                                    required>
-                                    <option value=""disabled>Pilih Jenis Pembayaran</option>
-                                    <option value="GUP Tunai" {{ old('jenis_pembayaran') == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
-                                    <option value="GUP KKP" {{ old('jenis_pembayaran') == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
-                                    <option value="TUP" {{ old('jenis_pembayaran') == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
-                                    <option value="LS" {{ old('jenis_pembayaran') == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
-                                </select>
-                                @error('jenis_pembayaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div> --}}
-
-                            <!-- Jenis Pembayaran -->
-                            <div class="mb-3">
-                                <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="jenis_pembayaran"
-                                    name="jenis_pembayaran"
-                                    value="{{ $fk->jenis_pembayaran }}"
-                                    readonly />
-                                @error('jenis_pembayaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- No.SPBy -->
-                            <div class="mb-3">
-                                <label for="no_spby" class="form-label">No. SPBy
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_spby') is-invalid @enderror"
-                                    id="no_spby"
-                                    name="no_spby"
-                                    placeholder="Masukkan No. SPBy"
-                                    value="{{ old('no_spby', $fk->no_spby ?? '') }}"
-                                    required
-                                    readonly />
-                                @error('no_spby')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- No.DRPP -->
-                            <div class="mb-3">
-                                <label for="no_drpp" class="form-label">No. DRPP
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_drpp') is-invalid @enderror"
-                                    id="no_drpp"
-                                    name="no_drpp"
-                                    placeholder="Masukkan No. DRPP"
-                                    value="{{ old('no_drpp', $fk->no_drpp ?? '') }}"
-                                    required
-                                    readonly />
-                                @error('no_drpp')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- Tanggal DRPP -->
-                            <div class="mb-3">
-                                <label for="tanggal_drpp" class="form-label">Tanggal DRPP
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="date"
-                                    class="form-control @error('tanggal_drpp') is-invalid @enderror"
-                                    id="tanggal_drpp"
-                                    name="tanggal_drpp"
-                                    value="{{ old('tanggal_drpp', $fk->tanggal_drpp ?? '') }}"
-                                    required
-                                    readonly />
-                                @error('tanggal_drpp')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- No.SPM -->
-                            <div class="mb-3">
-                                <label for="no_spm" class="form-label">No. SPM
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('no_spm') is-invalid @enderror"
-                                    id="no_spm"
-                                    name="no_spm"
-                                    placeholder="Masukkan No. SPM"
-                                    value="{{ old('no_spm', $fk->no_spm ?? '') }}"
-                                    required
-                                    readonly />
-                                @error('no_spm')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- Tanggal SPM -->
-                            <div class="mb-3">
-                                <label for="tanggal_spm" class="form-label">Tanggal SPM
-                                    <span class="text-danger">*</span></label>
-                                <input
-                                    type="date"
-                                    class="form-control @error('tanggal_spm') is-invalid @enderror"
-                                    id="tanggal_spm"
-                                    name="tanggal_spm"
-                                    value="{{ old('tanggal_spm', $fk->tanggal_spm ?? '') }}"
-                                    required
-                                    readonly />
-                                @error('tanggal_spm')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            <!-- Upload File Keuangan -->
-                            @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
-                            @php
-                            $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
-                            @endphp
-                            <div class="mb-3">
-                                <label for="{{ $fileKey }}" class="form-label">
-                                    {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input
-                                        type="file"
-                                        name="{{ $fileKey }}"
-                                        class="form-control @error($fileKey) is-invalid @enderror"
-                                        id="{{ $fileKey }}"
-                                        accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
-                                        disabled />
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-danger"
-                                        id="btn_reset_{{ $fileKey }}"
-                                        style="display: none;"
-                                        onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
-                                </div>
-                                @error($fileKey)
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-
-                            @endforeach
+                    <!-- Upload File Keuangan -->
+                    @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
+                    @php
+                    $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                    @endphp
+                    <div class="mb-3">
+                        <label for="{{ $fileKey }}" class="form-label">
+                            {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input
+                                type="file"
+                                name="{{ $fileKey }}"
+                                class="form-control @error($fileKey) is-invalid @enderror"
+                                id="{{ $fileKey }}"
+                                accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                required
+                                onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">
                             <button
                                 type="button"
-                                class="btn btn-primary"
-                                onclick="window.location.href='{{ route('monitoring.keuangan.edit', $fp->id) }}'">
-                                Edit Form Keuangan
-                            </button>
-                        @break
-                        @default
+                                class="btn btn-outline-danger"
+                                id="btn_reset_{{ $fileKey }}"
+                                style="display: none;"
+                                onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
+                        </div>
+                        @error($fileKey)
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    @endforeach
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    @break
+
+                    @case(5)
+                    <!-- Status 5 (Selesai): Tidak bisa diinput -->
+
+                    <!-- Jenis Pembayaran -->
+                    <div class="mb-3">
+                        <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="jenis_pembayaran"
+                            name="jenis_pembayaran"
+                            value="{{ $fk->jenis_pembayaran }}"
+                            readonly />
+                        @error('jenis_pembayaran')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- No. SPBy -->
+                    <div class="mb-3 spby-field" style="display: none;">
+                        <label for="no_spby" class="form-label">No. SPBy
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_spby') is-invalid @enderror"
+                            id="no_spby"
+                            name="no_spby"
+                            placeholder="Masukkan No. SPBy"
+                            value="{{ old('no_spby', $fk->no_spby ?? '') }}" />
+                        @error('no_spby')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- No. DRPP -->
+                    <div class="mb-3 drpp-field" style="display: none;">
+                        <label for="no_drpp" class="form-label">No. DRPP
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_drpp') is-invalid @enderror"
+                            id="no_drpp"
+                            name="no_drpp"
+                            placeholder="Masukkan No. DRPP"
+                            value="{{ old('no_drpp', $fk->no_drpp ?? '') }}" />
+                        @error('no_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Tanggal DRPP -->
+                    <div class="mb-3 drpp-date-field" style="display: none;">
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
+                            id="tanggal_drpp"
+                            name="tanggal_drpp"
+                            value="{{ old('tanggal_drpp', $fk->tanggal_drpp ?? '') }}" />
+                        @error('tanggal_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- No.SPM -->
+                    <div class="mb-3">
+                        <label for="no_spm" class="form-label">No. SPM
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control @error('no_spm') is-invalid @enderror"
+                            id="no_spm"
+                            name="no_spm"
+                            placeholder="Masukkan No. SPM"
+                            value="{{ old('no_spm', $fk->no_spm ?? '') }}"
+                            required
+                            readonly />
+                        @error('no_spm')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Tanggal SPM -->
+                    <div class="mb-3">
+                        <label for="tanggal_spm" class="form-label">Tanggal SPM
+                            <span class="text-danger">*</span></label>
+                        <input
+                            type="date"
+                            class="form-control @error('tanggal_spm') is-invalid @enderror"
+                            id="tanggal_spm"
+                            name="tanggal_spm"
+                            value="{{ old('tanggal_spm', $fk->tanggal_spm ?? '') }}"
+                            required
+                            readonly />
+                        @error('tanggal_spm')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <!-- Upload File Keuangan -->
+                    @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
+                    @php
+                    $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                    @endphp
+                    <div class="mb-3">
+                        <label for="{{ $fileKey }}" class="form-label">
+                            {{ ucfirst(str_replace('_', ' ', $jenisFileKeuangan->nama_file)) }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input
+                                type="file"
+                                name="{{ $fileKey }}"
+                                class="form-control @error($fileKey) is-invalid @enderror"
+                                id="{{ $fileKey }}"
+                                accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+                                disabled />
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                id="btn_reset_{{ $fileKey }}"
+                                style="display: none;"
+                                onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
+                        </div>
+                        @error($fileKey)
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    @endforeach
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="window.location.href='{{ route('monitoring.keuangan.edit', $fp->id) }}'">
+                        Edit Form Keuangan
+                    </button>
+                    @break
+                    @default
                     @endswitch
                 </form>
             </div>
@@ -487,7 +462,7 @@
 
         // Fungsi untuk mengatur visibilitas field berdasarkan pilihan
         function toggleFields() {
-            if (jenisPembayaran.value === 'LS') {
+            if (jenisPembayaran.value == 'LS') {
                 spbyField.style.display = 'none';
                 drppField.style.display = 'none';
                 drppDateField.style.display = 'none';
@@ -517,3 +492,24 @@
 </script>
 @endpush
 
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenisPembayaran = document.getElementById('jenis_pembayaran');
+        const spbyField = document.querySelector('.spby-field');
+        const drppField = document.querySelector('.drpp-field');
+        const drppDateField = document.querySelector('.drpp-date-field');
+
+        // Fungsi untuk menyembunyikan atau menampilkan field
+        function toggleFields() {
+            // Menyembunyikan semua field
+            spbyField.style.display = 'none';
+            drppField.style.display = 'none';
+            drppDateField.style.display = 'none';
+        }
+
+        // Inisialisasi pada saat halaman dimuat
+        toggleFields();
+    });
+</script>
+@endpush
