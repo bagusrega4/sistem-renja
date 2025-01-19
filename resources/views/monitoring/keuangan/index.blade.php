@@ -91,7 +91,7 @@
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             @endif
-                                            @if (in_array($p->id_status, [4, 5]))
+                                            @if($p->id_status == 4)
                                             <a class="btn btn-success btn-sm me-2"
                                                 aria-label="upload file"
                                                 href="{{ route('monitoring.keuangan.upload', $p->id) }}">
