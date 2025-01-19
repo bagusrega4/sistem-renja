@@ -40,24 +40,23 @@
                         <li>
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
-
                                     @if ($unreadPengajuan->isNotEmpty())
-                                        @foreach ($unreadPengajuan as $pengajuan)
-                                            <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
-                                                data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
-                                                <div class="notif-icon rounded-circle d-flex justify-content-center align-items-center 
+                                    @foreach ($unreadPengajuan as $pengajuan)
+                                    <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
+                                        data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
+                                        <div style="width: 21%" class="notif-icon rounded-circle d-flex justify-content-center align-items-center 
                                                     @if ($pengajuan->id_status == 5) bg-success @elseif ($pengajuan->id_status == 3) bg-danger @endif">
-                                                    <i class="fa 
+                                            <i class="fa 
                                                         @if ($pengajuan->id_status == 5) fa-check @elseif ($pengajuan->id_status == 3) fa-times @endif"></i>
-                                                </div>
-                                                <div class="notif-content ms-3 flex-grow-1">
-                                                    <span class="block fw-bold text-truncate">{{ $pengajuan->uraian }}</span>
-                                                    <span class="time text-muted">No. FP: {{ $pengajuan->no_fp }}</span>
-                                                </div>
-                                            </a>
-                                        @endforeach
+                                        </div>
+                                        <div style="width: 79%" class="notif-content ms-3 flex-grow-1">
+                                            <span class="block fw-bold text-truncate">{{ $pengajuan->uraian }}</span>
+                                            <span class="time text-muted">No. FP: {{ $pengajuan->no_fp }}</span>
+                                        </div>
+                                    </a>
+                                    @endforeach
                                     @else
-                                        <div class="notif-content text-center text-muted">No new notifications.</div>
+                                    <div class="notif-content text-center text-muted">No new notifications.</div>
                                     @endif
 
                                 </div>
@@ -74,14 +73,14 @@
                         aria-expanded="false">
                         <div class="avatar-sm">
                             @if (Auth::user())
-                                <img src="{{ !Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/' . Auth::user()->photo) }}"
-                                    alt="..." class="avatar-img rounded-circle" />
+                            <img src="{{ !Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/' . Auth::user()->photo) }}"
+                                alt="..." class="avatar-img rounded-circle" />
                             @endif
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
                             @if (Auth::user())
-                                <span class="fw-bold">{{ Auth::user()->username }}</span>
+                            <span class="fw-bold">{{ Auth::user()->username }}</span>
                             @endif
                         </span>
                     </a>
@@ -91,15 +90,15 @@
                                 <div class="user-box">
                                     <div class="avatar-lg">
                                         @if (Auth::user())
-                                            <img src="{{ !Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/' . Auth::user()->photo) }}"
-                                                alt="..." class="avatar-img rounded-circle" />
+                                        <img src="{{ !Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y' : asset('/storage/' . Auth::user()->photo) }}"
+                                            alt="..." class="avatar-img rounded-circle" />
                                         @endif
                                     </div>
                                     <div class="u-text">
                                         @if (Auth::user())
-                                            <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
-                                            <p class="text-muted">{{ Auth::user()->email }}</p>
-                                            <p class="text-muted text-capitalize">as {{ Auth::user()->role->role }}</p>
+                                        <h4 class="text-capitalize">{{ Auth::user()->username }}</h4>
+                                        <p class="text-muted">{{ Auth::user()->email }}</p>
+                                        <p class="text-muted text-capitalize">as {{ Auth::user()->role->role }}</p>
                                         @endif
                                         <a href="{{ route('profile.edit') }}" class="btn btn-xs btn-primary btn-sm">
                                             {{ __('View Profile') }}
@@ -135,7 +134,7 @@
 </style>
 
 <script>
-    $(document).on('click', '.dropdown-menu .clickable', function () {
+    $(document).on('click', '.dropdown-menu .clickable', function() {
         const formId = $(this).data('id');
         if (formId) {
             $.ajax({
@@ -144,14 +143,14 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response.success) {
                         console.log(response.message);
                         $('#notifCount').text(response.newNotifCount); // Update jumlah notifikasi
                         $(`a[data-id="${formId}"]`).remove(); // Hapus notifikasi dari dropdown
                     }
                 },
-                error: function (error) {
+                error: function(error) {
                     console.error('Error updating status:', error);
                 }
             });
