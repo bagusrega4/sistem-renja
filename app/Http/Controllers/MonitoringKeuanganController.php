@@ -42,14 +42,14 @@ class MonitoringKeuanganController extends Controller
 
             $counter = 1;
 
-            // Render ulang partial untuk update data
+
             $data = view('partials._tbody_pengajuan_with_status', compact('pengajuan', 'counter'))->render();
 
             return response()->json([
                 'html' => $data,
             ]);
+            $formPengajuan = FormPengajuan::all();
         } else {
-            // Load data untuk tampilan awal
             $formPengajuan = FormPengajuan::all();
             $akunBelanja = AkunBelanja::all();
             $pengajuan = FormPengajuan::where('id_status', '!=', 1)->get();
@@ -154,10 +154,10 @@ class MonitoringKeuanganController extends Controller
 
             $rules = [
                 'jenis_pembayaran' => 'required|string|max:50',
-                'no_spby' => 'required|string|max:50',
-                'no_drpp' => 'required|string|max:50',
+                'no_spby' => request('jenis_pembayaran') !== 'LS' ? 'required|string' : 'nullable',
+                'no_drpp' => request('jenis_pembayaran') !== 'LS' ? 'required|string' : 'nullable',
+                'tanggal_drpp' => request('jenis_pembayaran') !== 'LS' ? 'required|date' : 'nullable',
                 'no_spm' => 'required|string|max:50',
-                'tanggal_drpp' => 'required|date',
                 'tanggal_spm' => 'required|date',
             ];
 
@@ -255,6 +255,7 @@ class MonitoringKeuanganController extends Controller
     public function edit($id)
     {
         $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+        $formPengajuan = FormPengajuan::all();
 
         if (!$fp || in_array($fp->id_status, [1, 2, 3])) {
             return view('error.unauthorized');
@@ -268,7 +269,7 @@ class MonitoringKeuanganController extends Controller
 
         $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan ?? [];
 
-        return view('monitoring.keuangan.edit', compact('fp', 'fk', 'jenisFilesKeuangan'));
+        return view('monitoring.keuangan.edit', compact('fp', 'fk', 'jenisFilesKeuangan', 'formPengajuan'));
     }
 
     public function update(Request $request, $id)

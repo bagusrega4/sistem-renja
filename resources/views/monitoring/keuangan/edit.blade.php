@@ -64,39 +64,56 @@
 
                     <!-- Form Tim Keuangan -->
                     <div class="mb-3">
-                        <label for="no_spby" class="form-label">No. SPBy
+                        <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
                             <span class="text-danger">*</span></label>
-                        <input
-                            type="text"
-                            class="form-control @error('no_spby') is-invalid @enderror"
-                            id="no_spby"
-                            name="no_spby"
-                            placeholder="Masukkan No. SPBy"
-                            value="{{ old('no_spby', $fk->no_spby ?? '') }}"
-                            required />
+                        <select
+                            class="form-select @error('jenis_pembayaran') is-invalid @enderror"
+                            id="jenis_pembayaran"
+                            name="jenis_pembayaran"
+                            required>
+                            <option value="" disabled selected>Pilih Jenis Pembayaran</option>
+                            <option value="GUP Tunai" {{ old('jenis_pembayaran', $fk->jenis_pembayaran) == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
+                            <option value="GUP KKP" {{ old('jenis_pembayaran', $fk->jenis_pembayaran) == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
+                            <option value="TUP" {{ old('jenis_pembayaran', $fk->jenis_pembayaran) == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
+                            <option value="LS" {{ old('jenis_pembayaran', $fk->jenis_pembayaran) == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
+                        </select>
+                        @error('jenis_pembayaran')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 spby-field">
+                        <label for="no_spby" class="form-label">No. SPBy <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('no_spby') is-invalid @enderror" id="no_spby" name="no_spby" placeholder="Masukkan No. SPBy" value="{{ old('no_spby', $fk->no_spby ?? '') }}" />
                         @error('no_spby')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="no_drpp" class="form-label">No. DRPP
-                            <span class="text-danger">*</span></label>
-                        <input
-                            type="text"
-                            class="form-control @error('no_drpp') is-invalid @enderror"
-                            id="no_drpp"
-                            name="no_drpp"
-                            placeholder="Masukkan No. DRPP"
-                            value="{{ old('no_drpp', $fk->no_drpp ?? '') }}"
-                            required />
+
+                    <div class="mb-3 drpp-field">
+                        <label for="no_drpp" class="form-label">No. DRPP <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('no_drpp') is-invalid @enderror" id="no_drpp" name="no_drpp" placeholder="Masukkan No. DRPP" value="{{ old('no_drpp', $fk->no_drpp ?? '') }}" />
                         @error('no_drpp')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
                     </div>
+
+                    <div class="mb-3 drpp-date-field">
+                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control @error('tanggal_drpp') is-invalid @enderror" id="tanggal_drpp" name="tanggal_drpp" value="{{ old('tanggal_drpp', $fk->tanggal_drpp ?? '') }}" />
+                        @error('tanggal_drpp')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="no_spm" class="form-label">No. SPM
                             <span class="text-danger">*</span></label>
@@ -114,6 +131,7 @@
                         </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="tanggal_spm" class="form-label">Tanggal SPM
                             <span class="text-danger">*</span></label>
@@ -130,22 +148,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="tanggal_drpp" class="form-label">Tanggal DRPP
-                            <span class="text-danger">*</span></label>
-                        <input
-                            type="date"
-                            class="form-control @error('tanggal_drpp') is-invalid @enderror"
-                            id="tanggal_drpp"
-                            name="tanggal_drpp"
-                            value="{{ old('tanggal_drpp', $fk->tanggal_drpp ?? '') }}"
-                            required />
-                        @error('tanggal_drpp')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
+
                     @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
                     @php
                     $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
@@ -206,3 +209,33 @@
     }
 </script>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenisPembayaran = document.getElementById('jenis_pembayaran');
+        const spbyField = document.querySelector('.spby-field');
+        const drppField = document.querySelector('.drpp-field');
+        const drppDateField = document.querySelector('.drpp-date-field');
+
+        // Fungsi untuk mengatur visibilitas field berdasarkan pilihan
+        function toggleFields() {
+            if (jenisPembayaran.value === 'LS') {
+                spbyField.style.display = 'none';
+                drppField.style.display = 'none';
+                drppDateField.style.display = 'none';
+            } else {
+                spbyField.style.display = 'block';
+                drppField.style.display = 'block';
+                drppDateField.style.display = 'block';
+            }
+        }
+
+        // Event listener untuk dropdown
+        jenisPembayaran.addEventListener('change', toggleFields);
+
+        // Inisialisasi pada saat halaman dimuat
+        toggleFields();
+    });
+</script>
+@endpush
