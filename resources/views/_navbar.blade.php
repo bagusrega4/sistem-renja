@@ -28,49 +28,38 @@
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="notification" id="notifCount"></span>
+                        <span class="notification" id="notifCount">{{ $unreadNotifCount }}</span>
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
                         style="width: 350px; overflow-y: auto; overflow-x: hidden; max-height: 400px;">
                         <li>
-                            <div class="dropdown-title">
-                                You have <span id="notifCount"></span> new notifications
+                            <div id="notifCount" class="dropdown-title">
+                                You have {{ $unreadNotifCount }} new notifications
                             </div>
                         </li>
                         <li>
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
-                                    <!-- Pengajuan Selesai -->
-                                    @foreach ($pengajuanSelesai as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
-                                            data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
-                                            <div class="notif-icon rounded-circle bg-success d-flex justify-content-center align-items-center flex-shrink-0"
-                                                style="width: 36px; height: 36px;">
-                                                <i class="fa fa-check"></i>
-                                            </div>
-                                            <div class="notif-content ms-3 flex-grow-1">
-                                                <span class="block fw-bold text-truncate"
-                                                    style="max-width: 260px;">{{ $pengajuan->uraian }}</span>
-                                                <span class="time text-muted">No. FP: {{ $pengajuan->no_fp }}</span>
-                                            </div>
-                                        </a>
-                                    @endforeach
 
-                                    <!-- Pengajuan Ditolak -->
-                                    @foreach ($pengajuanDitolak as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
-                                            data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
-                                            <div class="notif-icon rounded-circle bg-danger d-flex justify-content-center align-items-center flex-shrink-0"
-                                                style="width: 36px; height: 36px;">
-                                                <i class="fa fa-times"></i>
-                                            </div>
-                                            <div class="notif-content ms-3 flex-grow-1">
-                                                <span class="block fw-bold text-truncate"
-                                                    style="max-width: 260px;">{{ $pengajuan->uraian }}</span>
-                                                <span class="time text-muted">No. FP: {{ $pengajuan->no_fp }}</span>
-                                            </div>
-                                        </a>
-                                    @endforeach
+                                    @if ($unreadPengajuan->isNotEmpty())
+                                        @foreach ($unreadPengajuan as $pengajuan)
+                                            <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
+                                                data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
+                                                <div class="notif-icon rounded-circle d-flex justify-content-center align-items-center 
+                                                    @if ($pengajuan->id_status == 5) bg-success @elseif ($pengajuan->id_status == 3) bg-danger @endif">
+                                                    <i class="fa 
+                                                        @if ($pengajuan->id_status == 5) fa-check @elseif ($pengajuan->id_status == 3) fa-times @endif"></i>
+                                                </div>
+                                                <div class="notif-content ms-3 flex-grow-1">
+                                                    <span class="block fw-bold text-truncate">{{ $pengajuan->uraian }}</span>
+                                                    <span class="time text-muted">No. FP: {{ $pengajuan->no_fp }}</span>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <div class="notif-content text-center text-muted">No new notifications.</div>
+                                    @endif
+
                                 </div>
                             </div>
                         </li>
@@ -147,11 +136,10 @@
 
 <script>
     $(document).on('click', '.dropdown-menu .clickable', function () {
-        const formId = $(this).data('id'); // Ambil ID form pengajuan dari elemen dropdown
-        
+        const formId = $(this).data('id');
         if (formId) {
             $.ajax({
-                url: /form/${formId}/mark-as-read, // Menggunakan route yang baru dibuat
+                url: `/notifications/${formId}/mark-as-read`,
                 method: 'PATCH',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -160,6 +148,7 @@
                     if (response.success) {
                         console.log(response.message);
                         $('#notifCount').text(response.newNotifCount); // Update jumlah notifikasi
+                        $(`a[data-id="${formId}"]`).remove(); // Hapus notifikasi dari dropdown
                     }
                 },
                 error: function (error) {
