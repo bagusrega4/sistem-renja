@@ -267,20 +267,38 @@
                         <!-- Status 5 (Selesai): Tidak bisa diinput -->
 
                             <!-- Jenis Pembayaran -->
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
                                     <span class="text-danger">*</span></label>
                                 <select
                                     class="form-select @error('jenis_pembayaran') is-invalid @enderror"
                                     id="jenis_pembayaran"
                                     name="jenis_pembayaran"
-                                    disabled>
-                                    <option value="" disabled>Pilih Jenis Pembayaran</option>
-                                    <option value="GUP Tunai" {{ old('jenis_pembayaran', $fp->jenis_pembayaran) == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
-                                    <option value="GUP KKP" {{ old('jenis_pembayaran', $fp->jenis_pembayaran) == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
-                                    <option value="TUP" {{ old('jenis_pembayaran', $fp->jenis_pembayaran) == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
-                                    <option value="LS" {{ old('jenis_pembayaran', $fp->jenis_pembayaran) == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
+                                    required>
+                                    <option value=""disabled>Pilih Jenis Pembayaran</option>
+                                    <option value="GUP Tunai" {{ old('jenis_pembayaran') == 'GUP Tunai' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) Tunai</option>
+                                    <option value="GUP KKP" {{ old('jenis_pembayaran') == 'GUP KKP' ? 'selected' : '' }}>Ganti Uang Persediaan (GUP) KKP</option>
+                                    <option value="TUP" {{ old('jenis_pembayaran') == 'TUP' ? 'selected' : '' }}>Tambahan Uang Persediaan (TUP)</option>
+                                    <option value="LS" {{ old('jenis_pembayaran') == 'LS' ? 'selected' : '' }}>Transaksi Langsung (LS)</option>
                                 </select>
+                                @error('jenis_pembayaran')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div> --}}
+
+                            <!-- Jenis Pembayaran -->
+                            <div class="mb-3">
+                                <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
+                                    <span class="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="jenis_pembayaran"
+                                    name="jenis_pembayaran"
+                                    value="{{ $fk->jenis_pembayaran }}"
+                                    readonly />
                                 @error('jenis_pembayaran')
                                 <div class="invalid-feedback">
                                     {{ $message }}

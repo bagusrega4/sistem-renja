@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_form_pengajuan');
             $table->string('nip_pengawas', 9);
-            $table->string('no_spby', 50);
-            $table->string('no_drpp', 50);
+            $table->string('no_spby', 50)->nullable();
+            $table->string('no_drpp', 50)->nullable();
+            $table->date('tanggal_drpp')->nullable();
             $table->string('no_spm', 50);
-            $table->date('tanggal_drpp');
             $table->date('tanggal_spm');
             $table->timestamps();
 
