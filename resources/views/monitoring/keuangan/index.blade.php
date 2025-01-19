@@ -15,10 +15,6 @@
                 <h2 class="fw-bold mb-3">Monitoring Keuangan</h2>
                 <h6 class="op-7 mb-2">Monitoring pengajuan yang diajukan oleh Operator</h6>
             </div>
-            <!-- <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('form.index') }}" class="btn btn-label-info btn-round me-2">Monitoring File</a>
-                <a href="form_keuangan.html" class="btn btn-primary btn-round">Tambah Pengajuan</a>
-            </div> -->
         </div>
         <div class="col-md-12">
             <div class="card card-round">
@@ -89,6 +85,12 @@
                                                 href="{{ route('monitoring.keuangan.file', $p->id) }}">
                                                 <i class="fas fa-desktop"></i>
                                             </a>
+                                            @if($p->id_status == 5)
+                                            <button class="btn btn-secondary btn-sm me-2"
+                                                onclick="window.location.href='{{ route('monitoring.keuangan.edit', $p->id) }}'">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            @endif
                                             @if (in_array($p->id_status, [4, 5]))
                                             <a class="btn btn-success btn-sm me-2"
                                                 aria-label="upload file"
@@ -98,7 +100,7 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-start">
                                         @switch($p->id_status)
                                         @case(1)
                                         <span class="badge bg-light text-dark">{{ $p->statusPengajuan->status }}</span>
@@ -152,6 +154,14 @@
                                 <th>Akun</th>
                                 <th>Tanggal Kegiatan</th>
                                 <th>No. SK</th>
+                                @if($fp->id_status === 5)
+                                <th>Jenis Pembayaran</th>
+                                <th>No. SPBy</th>
+                                <th>No. DRPP</th>
+                                <th>Tanggal DRPP</th>
+                                <th>No. SPM</th>
+                                <th>Tanggal SPM</th>
+                                @endif
                                 <th>Nominal</th>
                                 <th>Catatan</th>
                                 <th>Bukti Transfer</th>
@@ -166,8 +176,16 @@
                             <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
                             <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
                             <td class="text-start">{{$fp -> no_sk}}</td>
-                            <td class="text-start nominal-currency">{{ $fp-> nominal }}</td>
-                            <td class="text-center">{{ $fp->rejection_note ?? '-' }}</td>
+                            @if($fp->id_status === 5)
+                            <td class="text-start">{{ $fp -> formKeuangan -> jenis_pembayaran }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_spby }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_drpp }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> tanggal_drpp }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> no_spm }}</td>
+                            <td class="text-start">{{ $fp -> formKeuangan -> tanggal_spm }}</td>
+                            @endif
+                            <td class="text-start nominal-currency">{{ $fp -> nominal }}</td>
+                            <td class="text-center">{{ $fp -> rejection_note ?? '-' }}</td>
                             <td class="text-start">
                                 @if ($fp->fileUploadKeuangan->where('akunFileKeuangan.jenisFileKeuangan.id', 12)->first())
                                 <button type="button" class="btn btn-primary btn-sm me-2" onclick="previewBuktiTransfer({{ $fp->id }})"

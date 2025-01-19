@@ -19,6 +19,7 @@ class FormKeuangan extends Model
     protected $fillable = [
         'id_form_pengajuan',
         'nip_pengawas',
+        'jenis_pembayaran',
         'no_spby',
         'no_drpp',
         'no_spm',
