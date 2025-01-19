@@ -19,7 +19,7 @@ class FormController extends Controller
             ->get();
         $komponen = Komponen::visible()->get();
         $subKomponen = SubKomponen::visible()->get();
-        $akunBelanja = AkunBelanja::visible()->get();
+        $akunBelanja = AkunBelanja::visible()->orderBy('kode', 'asc')->get();
         $formPengajuan = FormPengajuan::with(['output', 'komponen', 'subKomponen', 'akunBelanja', 'user'])->get();
         return view('form.index', compact('formPengajuan', 'output', 'komponen', 'subKomponen', 'akunBelanja'));
     }

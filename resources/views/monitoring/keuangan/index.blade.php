@@ -85,6 +85,12 @@
                                                 href="{{ route('monitoring.keuangan.file', $p->id) }}">
                                                 <i class="fas fa-desktop"></i>
                                             </a>
+                                            @if($p->id_status == 5)
+                                            <button class="btn btn-secondary btn-sm me-2"
+                                                onclick="window.location.href='{{ route('monitoring.keuangan.edit', $p->id) }}'">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            @endif
                                             @if (in_array($p->id_status, [4, 5]))
                                             <a class="btn btn-success btn-sm me-2"
                                                 aria-label="upload file"
@@ -94,7 +100,7 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-start">
                                         @switch($p->id_status)
                                         @case(1)
                                         <span class="badge bg-light text-dark">{{ $p->statusPengajuan->status }}</span>

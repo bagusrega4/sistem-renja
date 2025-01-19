@@ -127,7 +127,7 @@
                         <i class="fas fa-check-circle fa-2x me-2"></i>
                         <div>
                             <strong>Pengajuan telah Disetujui.</strong>
-                            Mohon isi form keuangan!
+                            Mohon isi <a href="{{ route('monitoring.keuangan.upload', $pengajuan->id) }}"><strong>form keuangan</strong></a>.
                         </div>
                     </div>
                     @break

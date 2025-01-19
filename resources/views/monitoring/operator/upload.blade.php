@@ -46,49 +46,49 @@
                     @case(1)
                     @break
                     @case(2)
-                    <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
-                        <i class="fas fa-hourglass-half fa-2x me-2"></i>
-                        <div>
-                            <strong>Dokumen Anda sedang dalam proses pemeriksaan oleh Tim Keuangan.</strong>
-                            Proses pemeriksaan dilakukan secara mendetail, mohon bersabar.
+                        <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
+                            <i class="fas fa-hourglass-half fa-2x me-2"></i>
+                            <div>
+                                <strong>Dokumen Anda sedang dalam proses pemeriksaan oleh Tim Keuangan.</strong>
+                                Proses pemeriksaan dilakukan secara mendetail, mohon bersabar.
+                            </div>
                         </div>
-                    </div>
                     @break
                     @case(3)
-                    <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
-                        <i class="fas fa-ban fa-2x me-2"></i>
-                        <div>
-                            <strong>Pengajuan telah Ditolak.</strong>
-                            Harap lakukan perbaikan dokumen.
+                        <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
+                            <i class="fas fa-ban fa-2x me-2"></i>
+                            <div>
+                                <strong>Pengajuan telah Ditolak.</strong>
+                                Harap lakukan perbaikan dokumen.
+                            </div>
                         </div>
-                    </div>
                     @break
                     @case(4)
-                    <div class="alert alert-success d-flex align-items-center mt-2" role="alert">
-                        <i class="fas fa-check-circle fa-2x me-2"></i>
-                        <div>
-                            <strong>Pengajuan telah Disetujui.</strong>
-                            Mohon tunggu Tim Keuangan mengisi form keuangan.
+                        <div class="alert alert-success d-flex align-items-center mt-2" role="alert">
+                            <i class="fas fa-check-circle fa-2x me-2"></i>
+                            <div>
+                                <strong>Pengajuan telah Disetujui.</strong>
+                                Mohon tunggu Tim Keuangan mengisi form keuangan.
+                            </div>
                         </div>
-                    </div>
                     @break
                     @case(5)
-                    <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
-                        <i class="fas fa-check-double fa-2x me-2"></i>
-                        <div>
-                            <strong>Pengajuan telah Selesai.</strong>
-                            Semua proses dan verifikasi sudah tuntas.
+                        <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
+                            <i class="fas fa-check-double fa-2x me-2"></i>
+                            <div>
+                                <strong>Pengajuan telah Selesai.</strong>
+                                Semua proses dan verifikasi sudah tuntas.
+                            </div>
                         </div>
-                    </div>
                     @break
                     @default
-                    <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
-                        <i class="fas fa-exclamation-circle fa-2x me-2"></i>
-                        <div>
-                            <strong>Dokumen gagal diperiksa</strong>,
-                            karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
+                        <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
+                            <i class="fas fa-exclamation-circle fa-2x me-2"></i>
+                            <div>
+                                <strong>Dokumen gagal diperiksa</strong>,
+                                karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
+                            </div>
                         </div>
-                    </div>
                     @endswitch
 
                     <!-- No FP (readonly) -->

@@ -76,8 +76,8 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td class="text-end">{{ $item->no_fp }}</td>
                                         <td class="text-start">{{ $item->uraian }}</td>
-                                        <td class="text-end">{{ $item->tanggal_mulai }} s.d. {{ $item->tanggal_akhir }}</td>
-                                        <td class="text-end">
+                                        <td class="text-start">{{ $item->tanggal_mulai }} s.d. {{ $item->tanggal_akhir }}</td>
+                                        <td class="text-start">
                                             @switch($item->id_status)
                                               @case(1)
                                                 <span class="badge bg-light text-dark">{{ $item->statusPengajuan->status }}</span>

@@ -86,7 +86,7 @@
                         <div>
                             <label for="id_output" class="form-label">Jenis File Operator</label>
                         </div>
-                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" required>
+                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Pilih Jenis File Operator" multiple="multiple" required>
                             @foreach ($jenisFileOperator as $namaFile)
                             <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
                             @endforeach
@@ -98,7 +98,7 @@
                         <div>
                             <label for="id_output" class="form-label">Jenis File Keuangan</label>
                         </div>
-                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" required>
+                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Pilih Jenis File Keuangan" multiple="multiple" required>
                             @foreach ($jenisFileKeuangan as $namaFile)
                             <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
                             @endforeach

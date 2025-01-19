@@ -139,12 +139,22 @@ class MonitoringOperatorController extends Controller
                             throw new \Exception("Failed to store file {$fileKey}");
                         }
 
-                        FileUploadOperator::create([
-                            'id_form_pengajuan' => $formPengajuan->id,
-                            'id_akun_file_operator' => $akunFileOperator->id,
-                            'nip_pengaju' => auth()->user()->nip_lama,
-                            'file' => $path,
-                        ]);
+                        $existingFileUpload = FileUploadOperator::where('id_form_pengajuan', $formPengajuan->id)
+                            ->where('id_akun_file_operator', $akunFileOperator->id)
+                            ->where('nip_pengaju', auth()->user()->nip_lama)
+                            ->first();
+
+                        if ($existingFileUpload) {
+                            Storage::disk('public')->delete($existingFileUpload->file);
+                            $existingFileUpload->update(['file' => $path]);
+                        } else {
+                            FileUploadOperator::create([
+                                'id_form_pengajuan' => $formPengajuan->id,
+                                'id_akun_file_operator' => $akunFileOperator->id,
+                                'nip_pengaju' => auth()->user()->nip_lama,
+                                'file' => $path,
+                            ]);
+                        }
                     }
                 } catch (\Exception $e) {
                     DB::rollBack();

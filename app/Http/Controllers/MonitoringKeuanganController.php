@@ -22,7 +22,6 @@ class MonitoringKeuanganController extends Controller
             $filters = $request->input('filters');
             $jenisPembayaran = $request->input('jenis_pembayaran');
 
-            // Query pengajuan berdasarkan filter dan jenis pembayaran
             $query = FormPengajuan::query()->where('id_status', '!=', 1);
 
             if ($filters) {
@@ -65,6 +64,8 @@ class MonitoringKeuanganController extends Controller
         }
     }
 
+
+    // View File Upload Operator
     public function viewFile($id)
     {
         $formPengajuan = FormPengajuan::all();
@@ -103,18 +104,17 @@ class MonitoringKeuanganController extends Controller
 
     public function upload($id)
     {
-        // Cari form pengajuan berdasarkan ID
+        $formPengajuan = FormPengajuan::all();
         $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
 
-        // Validasi jika form pengajuan tidak ditemukan atau memiliki status tertentu
         if (!$fp || in_array($fp->id_status, [1, 2, 3])) {
             return view('error.unauthorized');
         }
 
-        // Ambil jenis file keuangan terkait akun belanja
+        $fk = FormKeuangan::where('id_form_pengajuan', $id)->first();
+
         $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan ?? [];
 
-        // Validasi berdasarkan jenis pembayaran
         if (request()->isMethod('post')) {
             $data = request()->validate([
                 'jenis_pembayaran' => 'required|string',
@@ -123,25 +123,12 @@ class MonitoringKeuanganController extends Controller
                 'tanggal_drpp' => request('jenis_pembayaran') !== 'LS' ? 'required|date' : 'nullable',
                 'no_spm' => 'required|string',
                 'tanggal_spm' => 'required|date',
-                // Tambahkan validasi file dinamis
-                // ...
             ]);
-
-            // Set nilai default untuk field yang tidak relevan (jika jenis pembayaran LS)
-            if ($data['jenis_pembayaran'] === 'LS') {
-                $data['no_spby'] = '-';
-                $data['no_drpp'] = '-';
-                $data['tanggal_drpp'] = '1970-01-01';
-            }
-
-            // Simpan data ke database atau lakukan tindakan lain yang diperlukan
-            // ...
             return redirect()->route('monitoring.keuangan.index')->with('success', 'Data berhasil disimpan.');
         }
 
-        // Tampilkan view upload dengan data yang relevan
-        $formPengajuan = FormPengajuan::all();
-        return view('monitoring.keuangan.upload', compact('fp', 'jenisFilesKeuangan', 'formPengajuan'));
+
+        return view('monitoring.keuangan.upload', compact('fp', 'fk', 'jenisFilesKeuangan','formPengajuan'));
     }
 
 
@@ -264,6 +251,135 @@ class MonitoringKeuanganController extends Controller
             return redirect()->back()->with('error', "Gagal mengupload file: " . $e->getMessage());
         }
     }
+
+    public function edit($id)
+    {
+        $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+
+        if (!$fp || in_array($fp->id_status, [1, 2, 3])) {
+            return view('error.unauthorized');
+        }
+
+        $fk = FormKeuangan::where('id_form_pengajuan', $id)->first();
+
+        if (!$fk) {
+            return redirect()->back()->with('error', 'Form keuangan tidak ditemukan.');
+        }
+
+        $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan ?? [];
+
+        return view('monitoring.keuangan.edit', compact('fp', 'fk', 'jenisFilesKeuangan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $fp = FormPengajuan::with(['akunBelanja.jenisFileKeuangan'])->find($id);
+
+        if (!$fp || in_array($fp->id_status, [1, 2, 3])) {
+            return view('error.unauthorized');
+        }
+
+        $fk = FormKeuangan::where('id_form_pengajuan', $id)->first();
+
+        if (!$fk) {
+            return redirect()->back()->with('error', 'Form keuangan tidak ditemukan.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $jenisFilesKeuangan = $fp->akunBelanja->jenisFileKeuangan;
+
+            $rules = [
+                'no_spby' => 'required|string|max:50',
+                'no_drpp' => 'required|string|max:50',
+                'no_spm' => 'required|string|max:50',
+                'tanggal_drpp' => 'required|date',
+                'tanggal_spm' => 'required|date',
+            ];
+
+            $messages = [
+                'no_spby.required' => 'No. SPBy wajib diisi.',
+                'no_drpp.required' => 'No. DRPP wajib diisi.',
+                'no_spm.required' => 'No. SPM wajib diisi.',
+                'tanggal_drpp.required' => 'Tanggal DRPP wajib diisi.',
+                'tanggal_drpp.date' => 'Tanggal DRPP harus berupa tanggal yang valid.',
+                'tanggal_spm.required' => 'Tanggal SPM wajib diisi.',
+                'tanggal_spm.date' => 'Tanggal SPM harus berupa tanggal yang valid.',
+            ];
+
+            foreach ($jenisFilesKeuangan as $jenisFileKeuangan) {
+                $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+                $rules[$fileKey] = 'nullable|file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:4096';
+                $messages["{$fileKey}.mimes"] = "File {$jenisFileKeuangan->nama_file} harus berformat jpeg, jpg, png, pdf, doc, docx, xls, atau xlsx.";
+                $messages["{$fileKey}.max"] = "Ukuran file {$jenisFileKeuangan->nama_file} maksimal 4MB.";
+            }
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $fk->update([
+                'no_spby' => $request->input('no_spby'),
+                'no_drpp' => $request->input('no_drpp'),
+                'no_spm' => $request->input('no_spm'),
+                'tanggal_drpp' => $request->input('tanggal_drpp'),
+                'tanggal_spm' => $request->input('tanggal_spm'),
+            ]);
+
+            foreach ($jenisFilesKeuangan as $jenisFileKeuangan) {
+                $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);
+
+                if ($request->hasFile($fileKey)) {
+                    $file = $request->file($fileKey);
+
+                    if (!$file->isValid()) {
+                        throw new \Exception("File {$fileKey} upload failed: " . $file->getErrorMessage());
+                    }
+
+                    $path = $file->store('uploads/file_keuangan', 'public');
+                    if (!$path) {
+                        throw new \Exception("Failed to store file {$fileKey}");
+                    }
+
+                    $akunFileKeuangan = AkunFileKeuangan::where('id_akun_belanja', $fp->akunBelanja->id)
+                        ->where('id_jenis_file_keuangan', $jenisFileKeuangan->id)
+                        ->first();
+
+                    if (!$akunFileKeuangan) {
+                        throw new \Exception("Akun file untuk {$jenisFileKeuangan->nama_file} tidak ditemukan. Silakan hubungi admin.");
+                    }
+
+                    $existingFileUpload = FileUploadKeuangan::where('id_form_pengajuan', $fp->id)
+                        ->where('id_akun_file_keuangan', $akunFileKeuangan->id)
+                        ->where('nip_pengawas', auth()->user()->nip_lama)
+                        ->first();
+
+                    if ($existingFileUpload) {
+                        Storage::disk('public')->delete($existingFileUpload->file);
+                        $existingFileUpload->update(['file' => $path]);
+                    } else {
+                        FileUploadKeuangan::create([
+                            'id_form_pengajuan' => $fp->id,
+                            'id_akun_file_keuangan' => $akunFileKeuangan->id,
+                            'nip_pengawas' => auth()->user()->nip_lama,
+                            'file' => $path,
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('monitoring.keuangan.index')->with('success', 'Form keuangan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', "Gagal mengupdate file: " . $e->getMessage());
+        }
+    }
+
 
     public function approve($id)
     {

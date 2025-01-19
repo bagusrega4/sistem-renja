@@ -105,6 +105,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/upload/{id}', [MonitoringKeuanganController::class, 'store'])->name('store');
             Route::post('/approve/{id}', [MonitoringKeuanganController::class, 'approve'])->name('approve');
             Route::post('/reject/{id}', [MonitoringKeuanganController::class, 'reject'])->name('reject');
+            Route::get('/edit/{id}', [MonitoringKeuanganController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [MonitoringKeuanganController::class, 'update'])->name('update');
             Route::get('/get-bukti-transfer/{id}', [MonitoringKeuanganController::class, 'getBuktiTransfer'])->name('get.bukti.transfer');
         });
     });
@@ -118,7 +120,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Manage MAK (Mata Anggaran Keuangan)
             Route::name('mak.')->prefix('/mak')->group(function () {
 
-                // Akun
+                // Akun Belanja
                 Route::get('/akun', [ManageMAKController::class, 'akun'])->name('akun');
                 Route::get('/akun/create', [ManageMAKController::class, 'createAkun'])->name('akun.create');
                 Route::get('/akun/edit/{id}', [ManageMAKController::class, 'editAkun'])->name('akun.edit');
