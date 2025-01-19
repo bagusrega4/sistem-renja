@@ -145,19 +145,19 @@ class FormController extends Controller
         return redirect()->route('monitoring.operator.index')->with('success', 'Form pengajuan berhasil dihapus.');
     }
 
-    public function markAsOpened($id)
-    {
-        try {
-            $formPengajuan = FormPengajuan::findOrFail($id);
+    // public function markAsOpened($id)
+    // {
+    //     try {
+    //         $formPengajuan = FormPengajuan::findOrFail($id);
 
-            if (!$formPengajuan->is_opened) {
-                $formPengajuan->update(['is_opened' => true]);
-            }
+    //         if (!$formPengajuan->is_opened) {
+    //             $formPengajuan->update(['is_opened' => true]);
+    //         }
 
-            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to update status.'], 500);
-        }
-    }
+    //         return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => 'Failed to update status.'], 500);
+    //     }
+    // }
 
 }
