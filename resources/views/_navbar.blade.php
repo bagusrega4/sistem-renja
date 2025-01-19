@@ -28,13 +28,13 @@
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="notification">{{ $pengajuanSelesai->count() + $pengajuanDitolak->count() }}</span>
+                        <span class="notification" id="notifCount"></span>
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
                         style="width: 350px; overflow-y: auto; overflow-x: hidden; max-height: 400px;">
                         <li>
                             <div class="dropdown-title">
-                                You have {{ $pengajuanSelesai->count() + $pengajuanDitolak->count() }} new notifications
+                                You have <span id="notifCount"></span> new notifications
                             </div>
                         </li>
                         <li>
@@ -42,7 +42,7 @@
                                 <div class="notif-center">
                                     <!-- Pengajuan Selesai -->
                                     @foreach ($pengajuanSelesai as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" style="cursor: pointer;" data-bs-toggle="modal"
+                                        <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
                                             data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
                                             <div class="notif-icon rounded-circle bg-success d-flex justify-content-center align-items-center flex-shrink-0"
                                                 style="width: 36px; height: 36px;">
@@ -58,7 +58,7 @@
 
                                     <!-- Pengajuan Ditolak -->
                                     @foreach ($pengajuanDitolak as $pengajuan)
-                                        <a class="d-flex align-items-center mb-2 clickable" style="cursor: pointer;" data-bs-toggle="modal"
+                                        <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
                                             data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
                                             <div class="notif-icon rounded-circle bg-danger d-flex justify-content-center align-items-center flex-shrink-0"
                                                 style="width: 36px; height: 36px;">
@@ -144,3 +144,28 @@
         color: #fff !important;
     }
 </style>
+
+<script>
+    $(document).on('click', '.dropdown-menu .clickable', function () {
+        const formId = $(this).data('id'); // Ambil ID form pengajuan dari elemen dropdown
+        
+        if (formId) {
+            $.ajax({
+                url: /form/${formId}/mark-as-read, // Menggunakan route yang baru dibuat
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    if (response.success) {
+                        console.log(response.message);
+                        $('#notifCount').text(response.newNotifCount); // Update jumlah notifikasi
+                    }
+                },
+                error: function (error) {
+                    console.error('Error updating status:', error);
+                }
+            });
+        }
+    });
+</script>

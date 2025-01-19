@@ -311,11 +311,11 @@ class ManageMAKController extends Controller
     public function storeJenisFileOperator(Request $request)
     {
         $request->validate([
-            'jenis_file_operator' => 'required|string|max:255',
+            'nama_file' => 'required|string|max:255',
         ]);
 
         JenisFileOperator::create([
-            'jenis_file_operator' => $request->jenis_file_operator,
+            'nama_file' => $request->nama_file,
             'flag' => $request->flag ?? 1,
         ]);
 
@@ -344,11 +344,11 @@ class ManageMAKController extends Controller
     public function storeJenisFileKeuangan(Request $request)
     {
         $request->validate([
-            'jenis_file_keuangan' => 'required|string|max:255',
+            'nama_file' => 'required|string|max:255',
         ]);
 
         JenisFileKeuangan::create([
-            'jenis_file_keuangan' => $request->jenis_file_keuangan,
+            'nama_file' => $request->nama_file,
             'flag' => $request->flag ?? 1,
         ]);
 

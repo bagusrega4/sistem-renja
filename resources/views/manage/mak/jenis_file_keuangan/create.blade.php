@@ -44,68 +44,27 @@
             <div class="card-body">
                 <form action="{{ route('manage.mak.jenis_file_keuangan.store') }}" method="POST">
                     @csrf
-
-                    <!-- Kode Akun-->
+                
+                    <!-- Jenis File Operator -->
                     <div class="mb-3">
-                        <label for="kode" class="form-label">Kode Akun</label>
-                        <input
-                            type="text"
-                            name="kode"
-                            class="form-control @error('kode') is-invalid @enderror"
-                            id="kode"
-                            value="{{ old('kode') }}"
-                            placeholder="Masukkan Kode Akun"
-                            required>
-                        @error('kode')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
+                        <label for="nama_file" class="form-label">Nama File Keuangan</label>
+                            <input
+                                type="text"
+                                name="nama_file"
+                                class="form-control @error('nama_file') is-invalid @enderror"
+                                id="nama_file"
+                                placeholder="Masukkan Nama File Keuangan"
+                                value="{{ old('nama_file') }}"
+                                required>
+                            @error('nama_file')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
 
-                    <!-- Nama Akun -->
-                    <div class="mb-3">
-                        <label for="nama_akun" class="form-label">Nama Akun</label>
-                        <input
-                            type="text"
-                            name="nama_akun"
-                            class="form-control @error('nama_akun') is-invalid @enderror"
-                            id="nama_akun"
-                            value="{{ old('nama_akun') }}"
-                            placeholder="Masukkan Nama Akun"
-                            required>
-                        @error('nama_akun')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
                     </div>
-
-                    <!-- Jenis File Operator-->
-                    <div class="mb-3">
-                        <div>
-                            <label for="id_output" class="form-label">Jenis File Operator</label>
-                        </div>
-                        <select class="form-select" name="jenisFileOp[]" id="multiple-select-clear-field" data-placeholder="Choose anything" multiple="multiple" required>
-                            @foreach ($jenisFileOperator as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Jenis File Keuangan-->
-                    <div class="mb-3">
-                        <div>
-                            <label for="id_output" class="form-label">Jenis File Keuangan</label>
-                        </div>
-                        <select class="form-select" name="jenisFileKeu[]" id="multiple-select-clear-field2" data-placeholder="Choose anything" multiple="multiple" required>
-                            @foreach ($jenisFileKeuangan as $namaFile)
-                            <option value="{{ $namaFile->id }}" id="check-{{ $namaFile->nama_file }}">{{ $namaFile->nama_file }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Tampilkan -->
+                
+                    <!-- Flag -->
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
                         <select
@@ -121,9 +80,10 @@
                         </div>
                         @enderror
                     </div>
-
+                
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
+                
             </div>
         </div>
     </div>

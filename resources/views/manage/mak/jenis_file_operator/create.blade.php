@@ -44,25 +44,27 @@
             <div class="card-body">
                 <form action="{{ route('manage.mak.jenis_file_operator.store') }}" method="POST">
                     @csrf
-
-                    <!-- Nama File Operator -->
+                
+                    <!-- Jenis File Operator -->
                     <div class="mb-3">
-                        <label for="nama_file_operator" class="form-label">Nama File Operator</label>
-                        <input
-                            type="text"
-                            name="nama_file_operator"
-                            class="form-control @error('nama_file_operator') is-invalid @enderror"
-                            id="nama_file_operator"
-                            placeholder="Masukkan Nama Akun"
-                            required>
-                        @error('nama_file_operator')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
+                        <label for="nama_file" class="form-label">Nama File Operator</label>
+                            <input
+                                type="text"
+                                name="nama_file"
+                                class="form-control @error('nama_file') is-invalid @enderror"
+                                id="nama_file"
+                                placeholder="Masukkan Nama File Operator"
+                                value="{{ old('nama_file') }}"
+                                required>
+                            @error('nama_file')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
 
-                    <!-- Tampilkan -->
+                    </div>
+                
+                    <!-- Flag -->
                     <div class="mb-3">
                         <label for="flag" class="form-label">Flag</label>
                         <select
@@ -78,9 +80,10 @@
                         </div>
                         @enderror
                     </div>
-
+                
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
+                
             </div>
         </div>
     </div>
