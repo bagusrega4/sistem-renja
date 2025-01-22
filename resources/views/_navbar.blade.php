@@ -44,7 +44,7 @@
                                     @foreach ($unreadPengajuan as $pengajuan)
                                     <a class="d-flex align-items-center mb-2 clickable" data-id="{{ $pengajuan->id }}" style="cursor: pointer;" data-bs-toggle="modal"
                                         data-bs-target="#viewModalCenter{{ $pengajuan->id }}">
-                                        <div style="width: 21%" class="notif-icon rounded-circle d-flex justify-content-center align-items-center 
+                                        <div class="notif-icon rounded-circle d-flex justify-content-center align-items-center 
                                                     @if ($pengajuan->id_status == 5) bg-success @elseif ($pengajuan->id_status == 3) bg-danger @endif">
                                             <i class="fa 
                                                         @if ($pengajuan->id_status == 5) fa-check @elseif ($pengajuan->id_status == 3) fa-times @endif"></i>
