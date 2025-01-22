@@ -63,6 +63,8 @@
                     </div>
 
                     <!-- Form Tim Keuangan -->
+
+                    <!-- Jenis Pembayaran -->
                     <div class="mb-3">
                         <label for="jenis_pembayaran" class="form-label">Jenis Pembayaran
                             <span class="text-danger">*</span></label>
@@ -84,6 +86,7 @@
                         @enderror
                     </div>
 
+                    <!-- No. SPBY -->
                     <div class="mb-3 spby-field">
                         <label for="no_spby" class="form-label">No. SPBy <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('no_spby') is-invalid @enderror" id="no_spby" name="no_spby" placeholder="Masukkan No. SPBy" value="{{ old('no_spby', $fk->no_spby ?? '') }}" />
@@ -94,6 +97,7 @@
                         @enderror
                     </div>
 
+                    <!-- No. DRPP -->
                     <div class="mb-3 drpp-field">
                         <label for="no_drpp" class="form-label">No. DRPP <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('no_drpp') is-invalid @enderror" id="no_drpp" name="no_drpp" placeholder="Masukkan No. DRPP" value="{{ old('no_drpp', $fk->no_drpp ?? '') }}" />
@@ -104,6 +108,7 @@
                         @enderror
                     </div>
 
+                    <!-- Tanggal DRPP -->
                     <div class="mb-3 drpp-date-field">
                         <label for="tanggal_drpp" class="form-label">Tanggal DRPP <span class="text-danger">*</span></label>
                         <input type="date" class="form-control @error('tanggal_drpp') is-invalid @enderror" id="tanggal_drpp" name="tanggal_drpp" value="{{ old('tanggal_drpp', $fk->tanggal_drpp ?? '') }}" />
@@ -114,6 +119,7 @@
                         @enderror
                     </div>
 
+                    <!-- No. SPM -->
                     <div class="mb-3">
                         <label for="no_spm" class="form-label">No. SPM
                             <span class="text-danger">*</span></label>
@@ -132,6 +138,7 @@
                         @enderror
                     </div>
 
+                    <!-- Tanggal SPM -->
                     <div class="mb-3">
                         <label for="tanggal_spm" class="form-label">Tanggal SPM
                             <span class="text-danger">*</span></label>
@@ -149,6 +156,7 @@
                         @enderror
                     </div>
 
+                    <!-- Upload File Keuangan -->
                     @foreach ($jenisFilesKeuangan as $jenisFileKeuangan)
                     @php
                     $fileKey = str_replace(' ', '_', $jenisFileKeuangan->nama_file);

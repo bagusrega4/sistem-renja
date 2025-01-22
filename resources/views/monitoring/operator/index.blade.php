@@ -64,29 +64,37 @@
                                     </th>
                                     <td class="text-end">{{ $fp->no_fp }}</td>
                                     <td class="text-start">{{ $fp->uraian }}</td>
-                                    <td class="text-end">{{ $fp->tanggal_mulai }} s.d. {{ $fp->tanggal_akhir }}</td>
+                                    <td class="text-start">
+                                        {{ \Carbon\Carbon::parse($fp->tanggal_mulai)->translatedFormat('d M Y') }}
+                                        s.d.
+                                        {{ \Carbon\Carbon::parse($fp->tanggal_akhir)->translatedFormat('d M Y') }}
+                                    </td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
                                             <button type="button" class="btn btn-primary btn-sm me-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#viewModalCenter{{ $fp->id }}"
-                                                data-bs-no-fp="{{ $fp->id }}">
+                                                data-bs-no-fp="{{ $fp->id }}"
+                                                title="Lihat Detail">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             @if($fp->id_status == 1)
                                             <button class="btn btn-secondary btn-sm me-2"
-                                                onclick="window.location.href='{{ route('form.edit', $fp->id) }}'">
+                                                onclick="window.location.href='{{ route('form.edit', $fp->id) }}'"
+                                                title="Edit Form Pengajuan">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             @endif
                                             <button class="btn btn-info btn-sm me-2"
-                                                onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->id) }}'">
+                                                onclick="window.location.href='{{ route('monitoring.operator.upload', $fp->id) }}'"
+                                                title="Upload File Operator">
                                                 <i class="fas fa-desktop"></i>
                                             </button>
 
                                             <button type="button" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#deleteModalCenter-{{ $fp->id }}">
+                                                data-bs-target="#deleteModalCenter-{{ $fp->id }}"
+                                                title="Hapus Form Pengajuan">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>

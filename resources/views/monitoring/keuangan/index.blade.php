@@ -71,32 +71,39 @@
                                     </th>
                                     <td class="text-end">{{ $p->no_fp }}</td>
                                     <td class="text-start">{{ $p->uraian }}</td>
-                                    <td class="text-end">{{ $p->tanggal_mulai }} s.d. {{ $p->tanggal_akhir }}</td>
+                                    <td class="text-end">
+                                        {{ \Carbon\Carbon::parse($p->tanggal_mulai)->translatedFormat('d M Y') }}
+                                        s.d.
+                                        {{ \Carbon\Carbon::parse($p->tanggal_akhir)->translatedFormat('d M Y') }}
+                                    </td>
                                     <td class="text-end">{{ $p->pegawai->nama }}</td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end">
                                             <button type="button" class="btn btn-primary btn-sm me-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#viewModalCenter{{ $p->id }}"
-                                                data-bs-id="{{ $p->id }}">
+                                                data-bs-id="{{ $p->id }}"
+                                                title="Lihat Detail">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             <a class="btn btn-info btn-sm me-2"
-                                                href="{{ route('monitoring.keuangan.file', $p->id) }}">
+                                                href="{{ route('monitoring.keuangan.file', $p->id) }}"
+                                                title="Lihat File Operator">
                                                 <i class="fas fa-desktop"></i>
                                             </a>
-                                            @if($p->id_status == 5)
-                                            <button class="btn btn-secondary btn-sm me-2"
-                                                onclick="window.location.href='{{ route('monitoring.keuangan.edit', $p->id) }}'">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            @endif
                                             @if($p->id_status == 4)
                                             <a class="btn btn-success btn-sm me-2"
                                                 aria-label="upload file"
-                                                href="{{ route('monitoring.keuangan.upload', $p->id) }}">
+                                                href="{{ route('monitoring.keuangan.upload', $p->id) }}"
+                                                title="Upload Form Keuangan">
                                                 <i class="fas fa-upload"></i>
                                             </a>
+                                            @elseif($p->id_status == 5)
+                                            <button class="btn btn-secondary btn-sm me-2"
+                                                onclick="window.location.href='{{ route('monitoring.keuangan.edit', $p->id) }}'"
+                                                title="Edit Form Keuangan">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
                                             @endif
                                         </div>
                                     </td>

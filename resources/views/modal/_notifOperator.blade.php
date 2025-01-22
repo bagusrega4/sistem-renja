@@ -31,7 +31,11 @@
                             <td class="text-start">{{$fp -> komponen -> komponen}}</td>
                             <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
                             <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
-                            <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
+                            <td class="text-start">
+                                {{ \Carbon\Carbon::parse($fp->tanggal_mulai)->translatedFormat('d M Y') }}
+                                s.d.
+                                {{ \Carbon\Carbon::parse($fp->tanggal_akhir)->translatedFormat('d M Y') }}
+                            </td>
                             <td class="text-start">{{$fp -> no_sk}}</td>
                             <td class="text-start nominal-currency">{{ $fp -> nominal }}</td>
                             <td class="text-center">{{ $fp -> rejection_note ?? '-' }}</td>

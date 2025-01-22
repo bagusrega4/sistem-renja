@@ -106,7 +106,11 @@
                             <td class="text-start">{{$fp -> komponen -> komponen}}</td>
                             <td class="text-start">{{$fp -> subKomponen -> sub_komponen}}</td>
                             <td class="text-start">{{$fp -> akunBelanja -> nama_akun}}</td>
-                            <td class="text-start">{{$fp -> tanggal_mulai}} s.d. {{$fp -> tanggal_akhir}}</td>
+                            <td class="text-start">
+                                {{ \Carbon\Carbon::parse($fp->tanggal_mulai)->translatedFormat('d M Y') }}
+                                s.d.
+                                {{ \Carbon\Carbon::parse($fp->tanggal_akhir)->translatedFormat('d M Y') }}
+                            </td>
                             <td class="text-start">{{$fp -> no_sk}}</td>
                             @if($fp->id_status === 5 && (Auth::user()->id_role == 2 || Auth::user()->id_role == 3))
                             <td class="text-start">{{ $fp -> formKeuangan -> jenis_pembayaran }}</td>
