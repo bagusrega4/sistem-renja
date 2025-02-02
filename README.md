@@ -1,66 +1,87 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dokumentasi Struktur Proyek
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Struktur Folder dan File
 
-## About Laravel
+### 1. `app`
+Berisi logika utama aplikasi, termasuk controller, model, dan middleware.
+- **Tujuan:** Menyimpan kode utama aplikasi.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 2. `bootstrap`
+Berisi file untuk bootstrap aplikasi.
+- **Tujuan:** Menginisialisasi framework dan memuat file konfigurasi.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 3. `config`
+Berisi file konfigurasi untuk aplikasi.
+- **Tujuan:** Memberikan pengaturan spesifik lingkungan seperti koneksi database dan caching.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 4. `database`
+Berisi migrasi dan seeder database.
+- **Tujuan:** Mengelola skema database dan data uji.
 
-## Learning Laravel
+### 5. `public`
+Berisi file yang dapat diakses publik seperti gambar, CSS, dan JavaScript.
+- **Tujuan:** Menyediakan aset statis untuk aplikasi.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 6. `resources`
+Berisi file view, aset mentah, dan file bahasa.
+- **Tujuan:** Menyimpan sumber daya seperti template Blade dan file lokalisasi.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 7. `routes`
+Mendefinisikan semua rute untuk aplikasi.
+- **Tujuan:** Memetakan URL ke controller dan metode.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 8. `storage`
+Digunakan untuk menyimpan log, template yang dikompilasi, dan file unggahan.
+- **Tujuan:** Menyimpan file sementara dan file yang diunggah pengguna.
 
-## Laravel Sponsors
+### 9. `stubs`
+Berisi file stub kustom untuk scaffolding.
+- **Tujuan:** Menyesuaikan template scaffolding.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 10. `tests`
+Berisi kasus uji untuk aplikasi.
+- **Tujuan:** Memastikan kualitas dan kebenaran kode.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## File Utama
 
-## Contributing
+### 1. `.editorconfig`
+- **Tujuan:** Memastikan gaya penulisan kode yang konsisten di berbagai editor.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. `.env.example`
+- **Tujuan:** Memberikan template untuk variabel lingkungan.
 
-## Code of Conduct
+### 3. `composer.json`
+- **Tujuan:** Mengelola dependensi PHP.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. `package.json`
+- **Tujuan:** Mengelola dependensi Node.js.
 
-## Security Vulnerabilities
+### 5. `README.md`
+- **Tujuan:** Memberikan gambaran umum dan instruksi untuk proyek.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Dokumen
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1. `Alih_Hak_Kelompok3.pdf`
+- **Tujuan:** Dokumentasi untuk alih hak.
+
+### 2. `BAST_Kelompok3.pdf`
+- **Tujuan:** Berisi BAST, perjanjian transfer, dan panduan.
+
+### 3. `Laporan Milestone_4_Kelompok3.pdf`
+- **Tujuan:** Laporan Milestone 4.
+
+### 4. `Buku Panduan Aplikasi BDA.pdf`
+- **Tujuan:** Panduan pengguna untuk aplikasi BDA.
+
+---
+
+## Catatan
+- Pastikan untuk memperbarui file `.env` dengan konfigurasi spesifik lingkungan.
+- Ikuti standar penulisan kode yang ditentukan dalam `.editorconfig`.
+- Gunakan `composer install` dan `npm install` untuk mengatur dependensi sebelum menjalankan aplikasi.
+
+---
