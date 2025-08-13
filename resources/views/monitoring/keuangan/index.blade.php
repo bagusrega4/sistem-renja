@@ -262,7 +262,7 @@
                     console.error("Elemen 'previewFileFrame' tidak ditemukan di DOM.");
                     return;
                 }
-                fileFrame.src = `/storage/${data.file_path}`;
+                fileFrame.src = `/storage/app/public/${data.file_path}`;
                 const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
                 previewModal.show();
             })
