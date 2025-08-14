@@ -3,14 +3,15 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <!-- Notifikasi Error Custom -->
+        {{-- Notifikasi Error Custom --}}
         @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         @endif
-        <!-- Notifikasi Validasi Error -->
+
+        {{-- Notifikasi Validasi Error --}}
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -20,164 +21,84 @@
             </ul>
         </div>
         @endif
-        <!-- Notifikasi Sukses -->
+
+        {{-- Notifikasi Sukses --}}
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         @endif
 
-        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-            <div>
-                <h2 class="fw-bold mb-3">Upload File Operator</h2>
-                <h6 class="op-7 mb-2">Mengunggah Berkas-Berkas Bukti Pendukung Form Pengajuan</h6>
-            </div>
-            <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('monitoring.operator.index') }}" class="btn btn-danger btn-round">Kembali</a>
-            </div>
-        </div>
-
+        {{-- Tabel Monitoring Rencana Kerja --}}
         <div class="card card-round">
+            <div class="card-header">
+                <h4 class="card-title">Monitoring Rencana Kerja</h4>
+            </div>
             <div class="card-body">
-                <form action="{{ route('monitoring.operator.store', $fp->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @switch($fp->id_status)
-                    @case(1)
-                    @break
-                    @case(2)
-                        <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
-                            <i class="fas fa-hourglass-half fa-2x me-2"></i>
-                            <div>
-                                <strong>Dokumen Anda sedang dalam proses pemeriksaan oleh Tim Keuangan.</strong>
-                                Proses pemeriksaan dilakukan secara mendetail, mohon bersabar.
-                            </div>
-                        </div>
-                    @break
-                    @case(3)
-                        <div class="alert alert-danger d-flex align-items-center mt-2" role="alert">
-                            <i class="fas fa-ban fa-2x me-2"></i>
-                            <div>
-                                <strong>Pengajuan telah Ditolak.</strong>
-                                Harap lakukan perbaikan dokumen.
-                            </div>
-                        </div>
-                    @break
-                    @case(4)
-                        <div class="alert alert-success d-flex align-items-center mt-2" role="alert">
-                            <i class="fas fa-check-circle fa-2x me-2"></i>
-                            <div>
-                                <strong>Pengajuan telah Disetujui.</strong>
-                                Mohon tunggu Tim Keuangan mengisi form keuangan.
-                            </div>
-                        </div>
-                    @break
-                    @case(5)
-                        <div class="alert alert-info d-flex align-items-center mt-2" role="alert">
-                            <i class="fas fa-check-double fa-2x me-2"></i>
-                            <div>
-                                <strong>Pengajuan telah Selesai.</strong>
-                                Semua proses dan verifikasi sudah tuntas.
-                            </div>
-                        </div>
-                    @break
-                    @default
-                        <div class="alert alert-secondary d-flex align-items-center mt-2" role="alert">
-                            <i class="fas fa-exclamation-circle fa-2x me-2"></i>
-                            <div>
-                                <strong>Dokumen gagal diperiksa</strong>,
-                                karena status pengajuan saat ini tidak memenuhi kriteria perubahan.
-                            </div>
-                        </div>
-                    @endswitch
-
-                    <!-- No FP (readonly) -->
-                    <div class="mb-3">
-                        <label for="no_fp" class="form-label">No FP</label>
-                        <input type="number" name="no_fp" class="form-control" id="no_fp" value="{{ $fp->no_fp }}" required readonly>
-                    </div>
-
-                    <!-- Nama Permintaan (readonly) -->
-                    <div class="mb-3">
-                        <label for="nama_permintaan" class="form-label">Nama Permintaan</label>
-                        <input type="text" name="nama_permintaan" class="form-control" id="nama_permintaan" value="{{ $fp->uraian }}" required readonly>
-                    </div>
-
-                    <!-- Akun Belanja (readonly) -->
-                    <div class="mb-3">
-                        <label for="akun_belanja" class="form-label">Akun Belanja</label>
-                        <input type="text" name="akun_belanja" class="form-control" id="akun_belanja" value="{{ $fp->akunBelanja->nama_akun }}" required readonly>
-                    </div>
-
-                    <!-- Input File Dinamis -->
-                    @foreach ($jenisFilesOperator as $jenisFileOperator)
-                    @php
-                    $fileKey = str_replace(' ', '_', $jenisFileOperator->nama_file);
-                    @endphp
-                    <div class="mb-3">
-                        <label for="{{ $fileKey }}" class="form-label">
-                            {{ ucfirst(str_replace('_', ' ', $jenisFileOperator->nama_file)) }}
-                        </label>
-                        @switch($fp->id_status)
-                        @case(1)
-                        @case(3)
-                        <div class="input-group">
-                            <input
-                                type="file"
-                                name="{{ $fileKey }}"
-                                class="form-control @error($fileKey) is-invalid @enderror"
-                                id="{{ $fileKey }}"
-                                accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
-                                required
-                                onchange="toggleResetButton('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">
-                            <button
-                                type="button"
-                                class="btn btn-outline-danger"
-                                id="btn_reset_{{ $fileKey }}"
-                                style="display: none;"
-                                onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')">X</button>
-                        </div>
-                        @break
-                        @default
-                        <div class="input-group">
-                            <input
-                                type="file"
-                                name="{{ $fileKey }}"
-                                class="form-control @error($fileKey) is-invalid @enderror"
-                                id="{{ $fileKey }}"
-                                accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
-                                disabled>
-                            <button
-                                type="button"
-                                class="btn btn-outline-danger"
-                                id="btn_reset_{{ $fileKey }}"
-                                style="display: none;"
-                                onclick="resetFileInput('{{ $fileKey }}','btn_reset_{{ $fileKey }}')"
-                                disabled>X</button>
-                        </div>
-                        <small class="text-muted">Pengajuan tidak dapat diubah pada status ini.</small>
-                        @endswitch
-                        @error($fileKey)
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-                    @endforeach
-                    @switch($fp->id_status)
-                    @case(1)
-                    @case(3)
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                    @break
-                    @default
-                    @endswitch
-                </form>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Kegiatan</th>
+                            <th>Tanggal</th>
+                            <th>Pukul</th>
+                            <th>Diketahui Ketua</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($rencanaKerja as $index => $rk)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $rk->user->pegawai->nama ?? '-' }}</td>
+                            <td>{{ $rk->kegiatan->nama_kegiatan ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($rk->tanggal)->format('d-m-Y') }}</td>
+                            <td>
+                                @php
+                                $pukul = ($rk->jam_mulai && $rk->jam_akhir)
+                                ? \Carbon\Carbon::parse($rk->jam_mulai)->format('H:i') . ' - ' . \Carbon\Carbon::parse($rk->jam_akhir)->format('H:i')
+                                : '-';
+                                @endphp
+                                {{ $pukul }}
+                            </td>
+                            <td class="text-center">
+                                @if(auth()->user()->id_role == 2)
+                                {{-- Ketua tim: bisa centang --}}
+                                <form action="{{ route('monitoring.operator.update.status', $rk->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="diketahui" value="0">
+                                    <input type="checkbox"
+                                        name="diketahui"
+                                        value="1"
+                                        {{ $rk->diketahui ? 'checked' : '' }}
+                                        onchange="this.form.submit()"
+                                        style="transform: scale(2); accent-color: green; cursor: pointer;">
+                                </form>
+                                @else
+                                {{-- Admin & Anggota: hanya lihat --}}
+                                <input type="checkbox"
+                                    {{ $rk->diketahui ? 'checked' : '' }}
+                                    onclick="return false;"
+                                    style="transform: scale(2); accent-color: green; cursor: not-allowed;">
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Belum ada rencana kerja.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
+
     </div>
 </div>
 
-<!-- Script untuk reset dan toggle tombol reset -->
+{{-- Script untuk reset input file --}}
 <script>
     function resetFileInput(fileInputId, buttonId) {
         var fileInput = document.getElementById(fileInputId);
@@ -188,12 +109,7 @@
     function toggleResetButton(fileInputId, buttonId) {
         var fileInput = document.getElementById(fileInputId);
         var button = document.getElementById(buttonId);
-
-        if (fileInput.value) {
-            button.style.display = "inline-block";
-        } else {
-            button.style.display = "none";
-        }
+        button.style.display = fileInput.value ? "inline-block" : "none";
     }
 </script>
 @endsection

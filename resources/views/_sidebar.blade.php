@@ -11,7 +11,7 @@
                 <span
                     style="font-family: Arial, sans-serif; font-size:11px; line-height:1.2;"
                     class="fw-bold fst-italic text-uppercase text-white">
-                    Badan Pusat Statistik Provinsi DKI Jakarta
+                    Badan Pusat Statistik Kabupaten Kediri
                 </span>
 
             </a>
@@ -71,92 +71,11 @@
                                     <span class="sub-item">Operator</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->routeIs('monitoring.keuangan.*') ? 'active' : '' }}">
-                                <a href="{{ route('monitoring.keuangan.index') }}">
-                                    <span class="sub-item">Keuangan</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
                 @endif
-                <li class="nav-item {{ request()->routeIs('download.index') ? 'active' : '' }}">
-                    <a href="{{ route('download.index') }}">
-                        <i class="fas fa-download"></i>
-                        <p>Download</p>
-                    </a>
-                </li>
-                @if(Auth::user()->id_role == 3)
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">Settings</h4>
-                </li>
-                <li class="nav-item {{ request()->routeIs('manage.user.*') || request()->routeIs('manage.user.create') || request()->routeIs('manage.user.edit') ? 'active' : '' }}">
-                    <a href="{{ route('manage.user.index') }}">
-                        <i class="fas fa-users-cog"></i>
-                        <p>Manage User</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->routeIs('manage.mak.*') ? 'active submenu' : '' }}">
-                    <a data-bs-toggle="collapse" href="#flag">
-                        <i class="fas fa-flag"></i>
-                        <p>Manage MAK</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('manage.mak.*') ? 'show' : '' }}" id="flag">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('manage.mak.akun') || request()->routeIs('manage.mak.akun.create') || request()->routeIs('manage.mak.akun.edit') ?  'active' : '' }}">
-                                <a href="{{ route('manage.mak.akun') }}">
-                                    <span class="sub-item">Akun</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.komponen') || request()->routeIs('manage.mak.komponen.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.komponen') }}">
-                                    <span class="sub-item">Komponen</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.subkomponen') || request()->routeIs('manage.mak.subkomponen.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.subkomponen') }}">
-                                    <span class="sub-item">Sub Komponen</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.kegiatan') || request()->routeIs('manage.mak.kegiatan.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.kegiatan') }}">
-                                    <span class="sub-item">Kegiatan</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.kro') || request()->routeIs('manage.mak.kro.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.kro') }}">
-                                    <span class="sub-item">KRO</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.output') || request()->routeIs('manage.mak.output.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.output') }}">
-                                    <span class="sub-item">Output</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.jenis_file_operator') || request()->routeIs('manage.mak.jenis_file_operator.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.jenis_file_operator') }}">
-                                    <span class="sub-item">Jenis File Operator</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs('manage.mak.jenis_file_keuangan') || request()->routeIs('manage.mak.jenis_file_keuangan.create') ? 'active' : '' }}">
-                                <a href="{{ route('manage.mak.jenis_file_keuangan') }}">
-                                    <span class="sub-item">Jenis File Keuangan</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                @endif
-                <li class="nav-item {{ request()->routeIs('panduan.index') ? 'active' : '' }}">
-                    <a href="{{ route('panduan.index') }}">
-                        <i class="fas fa-book"></i>
-                        <p>Panduan</p>
-                    </a>
-                </li>
+
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;

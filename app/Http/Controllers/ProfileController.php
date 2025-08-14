@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FormPengajuan;
+use App\Models\Form;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,57 +21,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $formPengajuan = FormPengajuan::all();
+        $form = Form::all();
 
         $nip_lama = Auth::user()->nip_lama;
         $pegawai = Pegawai::where('nip_lama', $nip_lama)->firstOrFail();
         return view('profile.edit', [
             'user' => $request->user(),
             'pegawai' => $pegawai,
-            'formPengajuan' => $formPengajuan
+            'form' => $form
         ]);
-    }
-
-    public function setPhotoProfile(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
-        ]);
-
-        try {
-            $user = Auth::user();
-
-            $imagePath = $request->file('image')->store('images', 'public');
-
-            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
-                Storage::disk('public')->delete($user->photo);
-            }
-
-            $user = $request->user();
-            $user->photo = $imagePath;
-            $user->save();
-
-            return back()->with('success', 'Photo uploaded successfully!')
-                ->with('image', $imagePath);
-        } catch (\Exception $e) {
-            return back()->with('error', 'Failed to upload photo. Please try again.');
-        }
-    }
-
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -95,26 +53,5 @@ class ProfileController extends Controller
                 ->withInput()
                 ->with('activeTab', 'password');
         }
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
     }
 }

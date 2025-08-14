@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nip_lama": "320007100",
+    "username": "heryanah",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "heryanah@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 2,
+    "nip_lama": "222212455",
+    "username": "agape",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "agape@bps.go.id",
+    "id_role": "1",
+    "tim_id": null
+  },
+  {
+    "id": 3,
+    "nip_lama": "222212544",
+    "username": "angga",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "angga@bps.go.id",
+    "id_role": "2",
+    "tim_id": "2"
+  },
+  {
+    "id": 5,
+    "nip_lama": "222212456",
+    "username": "Nasruddin",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "dwino@bps.go.id",
+    "id_role": "3",
+    "tim_id": null
+  }
+]

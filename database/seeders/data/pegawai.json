@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "nama": "Heryanah, S.IP., MA., M.S.E",
+    "nip_lama": "320007100",
+    "nip_baru": "197711192002122005",
+    "jabatan": "Statistisi Ahli Madya BPS Provinsi",
+    "kode_wilayah": "3100",
+    "nama_wilayah": "BPS Provinsi DKI Jakarta",
+    "golongan": "IV/a "
+  },
+  {
+    "id": 2,
+    "nama": "Agape Bagus",
+    "nip_lama": "222212455",
+    "nip_baru": "196705111987031002",
+    "jabatan": "Statistisi Ahli Madya BPS Provinsi",
+    "kode_wilayah": "3100",
+    "nama_wilayah": "BPS Kabupaten Kediri",
+    "golongan": "IV/b "
+  },
+  {
+    "id": 3,
+    "nama": "Rega Anggara",
+    "nip_lama": "222212544",
+    "nip_baru": "196603111988022001",
+    "jabatan": "Statistisi Ahli Madya BPS Provinsi",
+    "kode_wilayah": "3100",
+    "nama_wilayah": "BPS Kabupaten Kediri",
+    "golongan": "IV/b "
+  },
+  {
+    "id": 4,
+    "nama": "Nasruddin",
+    "nip_lama": "222212456",
+    "nip_baru": "196904141988121001",
+    "jabatan": "Pranata Komputer Ahli Madya BPS Provinsi",
+    "kode_wilayah": "3100",
+    "nama_wilayah": "BPS Kabupaten Kediri",
+    "golongan": "IV/b "
+  }
+]

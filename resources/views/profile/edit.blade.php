@@ -165,25 +165,6 @@
                                         {{ Auth::user()->role->role }}
                                     </div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
-                                    <div class="label">
-                                        {{__("Foto Profil")}}
-                                    </div>
-                                    <input
-                                        type="file"
-                                        id="profilePhoto"
-                                        name="image"
-                                        class="form-control"
-                                        accept="image/*" />
-                                </div>
-                            </div>
-                            <div class="text-end mt-4">
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary btn-round">
-                                    Simpan Perubahan
-                                </button>
                             </div>
                         </form>
                     </div>

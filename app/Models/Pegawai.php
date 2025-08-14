@@ -27,7 +27,6 @@ class Pegawai extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class, 'nip_lama', 'nip_lama');
+        return $this->belongsTo(User::class, 'nip_lama', 'nip_lama');
     }
-
 }

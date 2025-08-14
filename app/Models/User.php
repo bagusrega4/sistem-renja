@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -22,52 +23,47 @@ class User extends Authenticatable
         'username',
         'password',
         'email',
-        'id_role',
+        'id_role',   // role pengguna
+        'tim_id',    // tim pengguna
         'photo',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
+    // Relasi ke tabel Pegawai
     public function nipLama()
     {
         return $this->belongsTo(Pegawai::class, 'nip_lama', 'nip_lama');
     }
 
+    // Relasi ke tabel Role
     public function role()
     {
         return $this->belongsTo(Role::class, 'id_role', 'id');
     }
 
-    public function formPengajuan()
+    // Relasi ke Tim
+    public function tim()
     {
-        return $this->hasMany(FormPengajuan::class, 'nip_pengaju', 'nip_lama');
+        return $this->belongsTo(Tim::class, 'tim_id', 'id');
     }
 
-    public function fileUploadOperator()
+    // Relasi ke Form
+    public function forms()
     {
-        return $this->hasMany(FileUploadOperator::class, 'nip_pengaju', 'nip_lama');
+        return $this->hasMany(Form::class, 'user_id', 'id');
     }
 
-    public function fileUploadKeuangan()
+    public function pegawai()
     {
-        return $this->hasMany(FileUploadKeuangan::class, 'nip_pengawas', 'nip_lama');
+        return $this->hasOne(Pegawai::class, 'nip_lama', 'nip_lama');
     }
 }

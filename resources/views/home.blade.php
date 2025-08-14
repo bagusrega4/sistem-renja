@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Sistem Bukti Dukung Administrasi BPS Provinsi DKI Jakarta</title>
+    <title>SiReMon BPS Kabupaten Kediri</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -26,46 +26,6 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
-
-    <!-- <style>
-        .icon-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            height: 200px;
-            /* Tinggi konsisten */
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .icon-box h3 {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #051c48;
-            /* Warna teks */
-        }
-
-        .icon-box p {
-            font-size: 14px;
-            color: #666;
-            margin: 0;
-        }
-
-        .icon-box:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Atur spacing antar box */
-        .row .col-md-6 {
-            margin-bottom: 20px;
-        }
-    </style> -->
 </head>
 
 <body class="index-page">
@@ -84,8 +44,8 @@
                         <img src="assets/img/icon-landing-page.png" class="img-fluid animated sm" alt="">
                     </div>
                     <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
-                        <h1>Sistem Bukti Dukung <span>Administrasi</span></h1>
-                        <p>Sistem pengajuan bukti dukung administrasi untuk pegawai BPS Provinsi DKI Jakarta</p>
+                        <h1>Sistem Rencana Kerja <span>Monitoring</span></h1>
+                        <p>Sistem rencana kerja dan monitoring (SiReMon) untuk pegawai BPS Kabupaten Kediri</p>
                         <div class="d-flex">
                             <a href="/login" class="btn-get-started">Login</a>
                         </div>
@@ -121,8 +81,8 @@
                         <div class="col-lg-12 text-center">
                             <div class="content">
                                 <!--<h3>About Us</h3>-->
-                                <h2>Sistem Bukti Dukung Administrasi</h2>
-                                <p>Merupakan alat bantu untuk mempermudah pegawai BPS Provinsi DKI Jakarta dalam mengajukan bukti dukung administrasi pada kegiatan yang telah mereka lakukan.</p>
+                                <h2>Sistem Rencana Kerja dan Monitoring</h2>
+                                <p>Merupakan alat bantu untuk mempermudah pegawai BPS Kabupaten Kediri dalam merencanakan dan memonitoring kegiatan dinas di luar kantor.</p>
                             </div>
                         </div>
                     </div>
@@ -130,20 +90,20 @@
                     <!-- Icon Boxes -->
                     <div class="row gy-4">
                         <!-- Icon Box 1 -->
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <!-- <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                             <div class="icon-box">
                                 <i class="bi bi-buildings"></i>
                                 <h3>Sistem Ramah Lingkungan</h3>
-                                <p>Mendukung dalam mengurangi penggunaan kertas untuk proses administrasi</p>
+                                <p>Mendukung mengurangi penggunaan kertas, sehingga dapat menghemat sumber daya, dan menurunkan biaya operasional.</p>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Icon Box 2 -->
                         <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                             <div class="icon-box">
                                 <i class="bi bi-clipboard-pulse"></i>
-                                <h3>Monitoring Pengajuan</h3>
-                                <p>Peningkatan efektivitas dalam memonitor pengajuan melalui penerapan fitur notifikasi yang memberikan informasi secara real-time</p>
+                                <h3>Monitoring Renja</h3>
+                                <p>Peningkatan efektivitas dalam memonitor rencana kerja melalui penerapan fitur notifikasi yang memberikan informasi secara real-time</p>
                             </div>
                         </div>
 
@@ -152,18 +112,18 @@
                             <div class="icon-box">
                                 <i class="bi bi-command"></i>
                                 <h3>Kolaborasi</h3>
-                                <p>Memberikan dukungan untuk meningkatkan proses kolaborasi antar pegawai di BPS Provinsi DKI Jakarta</p>
+                                <p>Memberikan dukungan untuk meningkatkan proses kolaborasi antar tim/divisi di BPS Kabupaten Kediri</p>
                             </div>
                         </div>
 
                         <!-- Icon Box 4 -->
-                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
+                        <!-- <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                             <div class="icon-box">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 <h3>Efektivitas Kerja</h3>
-                                <p>Sistem administrasi keuangan yang lebih baik akan meningkatkan efektivitas pengajuan dan persetujuannya</p>
+                                <p>Tidak menggunakan Google Sites yang tampilannya kurang rapi, terkesan menumpuk, dan sulit untuk diatur secara terstruktur.</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div> <!-- End Icon Boxes Row -->
 
 

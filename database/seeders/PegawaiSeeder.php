@@ -14,29 +14,34 @@ class PegawaiSeeder extends Seeder
      */
     public function run(): void
     {
-        $filePath = database_path('seeders/data/pegawai.csv');
+        $filePath = database_path('seeders/data/Pegawai.json');
 
         if (!File::exists($filePath)) {
-            $this->command->error("File pegawai.csv tidak ditemukan.");
+            $this->command->error("File Pegawai.json tidak ditemukan.");
             return;
         }
 
-        $data = array_map('str_getcsv', file($filePath));
-        $header = array_shift($data);
+        $jsonData = File::get($filePath);
+        $pegawaiList = json_decode($jsonData, true);
 
-        foreach ($data as $row) {
+        if ($pegawaiList === null) {
+            $this->command->error("Gagal decode JSON. Pastikan format JSON valid.");
+            return;
+        }
+
+        foreach ($pegawaiList as $pegawai) {
             DB::table('pegawai')->insert([
-                'id' => $row[0],
-                'nama' => $row[1],
-                'nip_lama' => $row[2],
-                'nip_baru' => $row[3],
-                'jabatan' => $row[4],
-                'kode_wilayah' => $row[5],
-                'nama_wilayah' => $row[6],
-                'golongan' => $row[7],
+                'id' => $pegawai['id'],
+                'nama' => $pegawai['nama'],
+                'nip_lama' => $pegawai['nip_lama'],
+                'nip_baru' => $pegawai['nip_baru'],
+                'jabatan' => $pegawai['jabatan'],
+                'kode_wilayah' => $pegawai['kode_wilayah'],
+                'nama_wilayah' => $pegawai['nama_wilayah'],
+                'golongan' => $pegawai['golongan'],
             ]);
         }
 
-        $this->command->info("Data pegawai berhasil diimpor.");
+        $this->command->info("Data pegawai berhasil diimpor dari JSON.");
     }
 }

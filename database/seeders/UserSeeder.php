@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-
 class UserSeeder extends Seeder
 {
     /**
@@ -15,29 +14,38 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Kosongkan tabel users sebelum insert
         DB::table('users')->delete();
 
-        $csvFile = fopen(base_path("database/seeders/data/users.csv"), "r");
+        $filePath = database_path('seeders/data/users.json');
 
-        $isFirstLine = true;
-        while (($row = fgetcsv($csvFile, 1000, ",")) !== false) {
-            if ($isFirstLine) {
-                $isFirstLine = false;
-                continue;
-            }
+        if (!File::exists($filePath)) {
+            $this->command->error("File users.json tidak ditemukan.");
+            return;
+        }
 
+        $jsonData = File::get($filePath);
+        $userList = json_decode($jsonData, true);
+
+        if ($userList === null) {
+            $this->command->error("Gagal decode JSON. Pastikan format JSON valid.");
+            return;
+        }
+
+        foreach ($userList as $user) {
             User::create([
-                'id' => $row[0],
-                'nip_lama' => $row[1],
-                'username' => $row[2],
-                'password' => bcrypt('password123'),
-                'email' => $row[4],
-                'id_role' => $row[5],
+                'id'        => $user['id'],
+                'nip_lama'  => $user['nip_lama'],
+                'username'  => $user['username'],
+                'password'  => bcrypt('password123'),
+                'email'     => $user['email'],
+                'id_role'   => $user['id_role'],
+                'tim_id'    => $user['tim_id'] ?? null, // biarkan null kalau tidak ada
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
 
-        fclose($csvFile);
+        $this->command->info("Data users berhasil diimpor dari JSON.");
     }
 }
