@@ -3,9 +3,10 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
+
         {{-- Notifikasi Error Custom --}}
         @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-message">
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -13,7 +14,7 @@
 
         {{-- Notifikasi Validasi Error --}}
         @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" id="alert-message">
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -22,12 +23,26 @@
         </div>
         @endif
 
-        {{-- Notifikasi Sukses --}}
+        {{-- Notifikasi Sukses Bootstrap --}}
         @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-message">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+        @endif
+
+        {{-- Notifikasi Sukses SweetAlert --}}
+        @if(session('success'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: @json(session('success')),
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
         @endif
 
         @if(auth()->user()->id_role == 3)
@@ -114,7 +129,7 @@
     </div>
 </div>
 
-{{-- Script untuk reset input file --}}
+{{-- Script tambahan --}}
 <script>
     function resetFileInput(fileInputId, buttonId) {
         var fileInput = document.getElementById(fileInputId);
@@ -127,5 +142,14 @@
         var button = document.getElementById(buttonId);
         button.style.display = fileInput.value ? "inline-block" : "none";
     }
+
+    // Auto-hide alert bootstrap setelah 10 detik
+    setTimeout(function() {
+        var alert = document.getElementById('alert-message');
+        if (alert) {
+            var bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }
+    }, 10000);
 </script>
 @endsection

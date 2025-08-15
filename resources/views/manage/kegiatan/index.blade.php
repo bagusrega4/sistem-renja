@@ -28,7 +28,6 @@
         <div class="alert alert-success alert-dismissible fade show shadow-sm rounded w-100 mb-3"
             role="alert"
             style="border-left: 5px solid #28a745; padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between;">
-
             <span class="me-3">{{ session('success') }}</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin: 0;"></button>
         </div>
@@ -62,34 +61,11 @@
                                 <td>{{ $item->lokasi }}</td>
                                 <td>{{ $item->deskripsi }}</td>
                                 <td class="text-center">
-                                    <!-- Tombol untuk buka modal -->
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalHapus{{ $item->id }}">
-                                        Hapus
-                                    </button>
-
-                                    <!-- Modal Konfirmasi -->
-                                    <div class="modal fade" id="modalHapus{{ $item->id }}" tabindex="-1" aria-labelledby="modalHapusLabel{{ $item->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger text-white">
-                                                    <h5 class="modal-title" id="modalHapusLabel{{ $item->id }}">Konfirmasi Hapus</h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Apakah Anda yakin ingin menghapus kegiatan <strong>{{ $item->nama_kegiatan }}</strong>?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <form action="{{ route('manage.kegiatan.destroy', $item->id) }}" method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Ya, Hapus</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Modal -->
+                                    <form action="{{ route('manage.kegiatan.destroy', $item->id) }}" method="POST" onsubmit="return confirmHapus(this, '{{ $item->nama_kegiatan }}')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
                             @empty
@@ -106,3 +82,58 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<style>
+    /* Tambahkan jarak antar tombol di SweetAlert */
+    .swal2-actions .btn {
+        margin: 0 8px;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmHapus(form, namaKegiatan) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: `Yakin ingin menghapus kegiatan "${namaKegiatan}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+
+        return false;
+    }
+
+    // Auto close alert Bootstrap setelah 10 detik
+    setTimeout(() => {
+        let alert = document.querySelector('.alert-dismissible');
+        if (alert) {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }
+    }, 10000); // 10 detik
+
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: @json(session('success')),
+        timer: 3000,
+        showConfirmButton: false
+    });
+    @endif
+</script>
+@endpush

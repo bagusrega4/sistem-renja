@@ -67,7 +67,7 @@
                     id="tanggal"
                     name="tanggal"
                     value="{{ old('tanggal') }}"
-                    min="{{ date('Y-m-d') }}" {{-- Hanya bisa pilih hari ini atau setelahnya --}}
+                    min="{{ date('Y-m-d') }}"
                     required>
             </div>
 
@@ -97,6 +97,9 @@
 @endsection
 
 @push('scripts')
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const tanggalInput = document.getElementById('tanggal');
@@ -124,6 +127,17 @@
         if (tanggalInput.value) {
             updateMinTime();
         }
+
+        // Tampilkan SweetAlert jika ada session sukses
+        @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: @json(session('success')),
+            timer: 3000,
+            showConfirmButton: false
+        });
+        @endif
     });
 </script>
 @endpush
