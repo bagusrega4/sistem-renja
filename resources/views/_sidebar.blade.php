@@ -68,19 +68,29 @@
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs('monitoring.operator.*') ? 'active' : '' }}">
                                 <a href="{{ route('monitoring.operator.index') }}">
-                                    <span class="sub-item">Operator</span>
+                                    <span class="sub-item">
+                                        @if(Auth::user()->id_role == 2)
+                                        Anggota Tim
+                                        @elseif(Auth::user()->id_role == 3)
+                                        Semua Tim
+                                        @else
+                                        Operator
+                                        @endif
+                                    </span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 @endif
+                @if(in_array(Auth::user()->id_role, [2, 3]))
                 <li class="nav-item {{ request()->routeIs('manage.kegiatan.*') ? 'active' : '' }}">
                     <a href="{{ route('manage.kegiatan.index') }}">
                         <i class="fas fa-tasks"></i>
                         <p>Manage Kegiatan</p>
                     </a>
                 </li>
+                @endif
 
                 <style>
                     .nav-item a .badge-success {
