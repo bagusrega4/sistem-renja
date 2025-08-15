@@ -11,20 +11,26 @@ class FormController extends Controller
 {
     public function index()
     {
-        $timList = Tim::all();
-        $kegiatanList = Kegiatan::all();
-        return view('form.index', compact('timList', 'kegiatanList'));
+        $timList = Tim::orderBy('nama_tim')->get();
+        $kegiatanList = Kegiatan::orderBy('nama_kegiatan')->get();
+        $user = auth()->user();
+
+        return view('form.index', compact('timList', 'kegiatanList', 'user'));
     }
 
     public function create()
     {
-        $timList = Tim::all();
-        $kegiatanList = Kegiatan::all();
-        return view('form.create', compact('timList', 'kegiatanList'));
+        $timList = Tim::orderBy('nama_tim')->get();
+        $kegiatanList = Kegiatan::orderBy('nama_kegiatan')->get();
+        $user = auth()->user();
+
+        return view('form.create', compact('timList', 'kegiatanList', 'user'));
     }
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+
         // Validasi umum
         $request->validate([
             'kegiatan_id' => 'required|exists:kegiatan,id',
@@ -33,20 +39,22 @@ class FormController extends Controller
             'jam_akhir'   => 'required|date_format:H:i|after:jam_mulai',
         ]);
 
-        // Role 2 & 3 → tim_id otomatis
-        if (auth()->user()->id_role == 2 || auth()->user()->id_role == 3) {
-            $timId = auth()->user()->tim_id;
-        } else {
-            // Selain itu → tim_id harus dipilih
+        // Tentukan tim_id berdasarkan role
+        if (in_array($user->id_role, [2, 3])) {
+            $timId = $user->tim_id; // otomatis dari user
+        } elseif ($user->id_role == 1) {
             $request->validate([
                 'tim_id' => 'required|exists:tims,id',
             ]);
             $timId = $request->tim_id;
+        } else {
+            // Kalau ada role lain, default pakai tim user
+            $timId = $user->tim_id;
         }
 
         // Simpan data
         Form::create([
-            'user_id'     => auth()->id(),
+            'user_id'     => $user->id,
             'tim_id'      => $timId,
             'kegiatan_id' => $request->kegiatan_id,
             'tanggal'     => $request->tanggal,

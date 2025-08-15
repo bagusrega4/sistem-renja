@@ -3,28 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\Tim;
 use Illuminate\Http\Request;
 
 class MonitoringOperatorController extends Controller
 {
-    public function upload()
+    public function upload(Request $request)
     {
         $user = auth()->user();
 
-        // Query dengan relasi kegiatan + user + pegawai
+        // Ambil daftar tim (hanya untuk admin)
+        $timList = $user->id_role == 3
+            ? Tim::orderBy('nama_tim')->get()
+            : collect();
+
+        // Query dasar
         $query = Form::with(['kegiatan', 'user.pegawai'])
             ->orderBy('tanggal', 'desc');
 
         // Filter sesuai role
-        match ($user->id_role) {
-            2 => $query->where('tim_id', $user->tim_id), // Ketua tim
-            1 => $query->where('user_id', $user->id),    // Anggota tim
-            default => $query // Admin: semua data
-        };
+        if ($user->id_role == 1) {
+            // Anggota tim
+            $query->where('user_id', $user->id);
+        } elseif ($user->id_role == 2) {
+            // Ketua tim
+            $query->where('tim_id', $user->tim_id);
+        } elseif ($user->id_role == 3) {
+            // Admin: tampilkan data hanya jika tim dipilih
+            if ($request->filled('tim_id')) {
+                $query->where('tim_id', $request->tim_id);
+            } else {
+                $query->whereRaw('1=0'); // kosongkan hasil
+            }
+        }
 
         $rencanaKerja = $query->get();
 
-        return view('monitoring.operator.upload', compact('rencanaKerja'));
+        return view('monitoring.operator.upload', compact('rencanaKerja', 'timList'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -36,6 +51,7 @@ class MonitoringOperatorController extends Controller
             'diketahui' => 'nullable|boolean'
         ]);
 
+        // Hanya admin atau ketua tim yang sesuai yang boleh update
         if ($user->id_role == 3 || ($user->id_role == 2 && $form->tim_id == $user->tim_id)) {
             $form->diketahui = $request->boolean('diketahui') ? 1 : 0;
             $form->save();
@@ -57,6 +73,7 @@ class MonitoringOperatorController extends Controller
             'jam_akhir'   => 'required',
         ]);
 
+        // Set tim_id otomatis untuk ketua tim & admin
         if (in_array($user->id_role, [2, 3])) {
             $request->merge(['tim_id' => $user->tim_id]);
         }

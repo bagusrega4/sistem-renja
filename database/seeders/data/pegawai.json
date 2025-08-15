@@ -5,7 +5,7 @@
     "nip_lama": "320007100",
     "nip_baru": "197711192002122005",
     "jabatan": "Statistisi Ahli Madya BPS Provinsi",
-    "kode_wilayah": "3100",
+    "kode_wilayah": "3506",
     "nama_wilayah": "BPS Provinsi DKI Jakarta",
     "golongan": "IV/a "
   },
@@ -15,7 +15,7 @@
     "nip_lama": "222212455",
     "nip_baru": "196705111987031002",
     "jabatan": "Statistisi Ahli Madya BPS Provinsi",
-    "kode_wilayah": "3100",
+    "kode_wilayah": "3506",
     "nama_wilayah": "BPS Kabupaten Kediri",
     "golongan": "IV/b "
   },
@@ -25,7 +25,7 @@
     "nip_lama": "222212544",
     "nip_baru": "196603111988022001",
     "jabatan": "Statistisi Ahli Madya BPS Provinsi",
-    "kode_wilayah": "3100",
+    "kode_wilayah": "3506",
     "nama_wilayah": "BPS Kabupaten Kediri",
     "golongan": "IV/b "
   },
@@ -34,8 +34,18 @@
     "nama": "Nasruddin",
     "nip_lama": "222212456",
     "nip_baru": "196904141988121001",
-    "jabatan": "Pranata Komputer Ahli Madya BPS Provinsi",
-    "kode_wilayah": "3100",
+    "jabatan": "Kepala Sub Bagian Umum",
+    "kode_wilayah": "3506",
+    "nama_wilayah": "BPS Kabupaten Kediri",
+    "golongan": "IV/b "
+  },
+  {
+    "id": 5,
+    "nama": "Bambang Indarto, S.Si., M.Si",
+    "nip_lama": "222212466",
+    "nip_baru": "196904141988121001",
+    "jabatan": "Kepala BPS Kabupaten Kediri",
+    "kode_wilayah": "3506",
     "nama_wilayah": "BPS Kabupaten Kediri",
     "golongan": "IV/b "
   }

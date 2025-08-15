@@ -22,24 +22,29 @@
         @endif
 
         <form action="{{ route('form.store') }}" method="POST">
-            @csrf
+            @csrf {{-- Pastikan CSRF token selalu ada --}}
 
             <!-- Pilih Tim -->
-            @if(auth()->user()->id_role != 2 && auth()->user()->id_role != 3)
+            @if(auth()->user()->id_role == 1)
+            {{-- Role 1: Bisa memilih tim (kecuali pimpinan) --}}
             <div class="mb-3">
                 <label for="tim_id" class="form-label">Pilih Tim <span class="text-danger">*</span></label>
                 <select class="form-select" id="tim_id" name="tim_id" required>
                     <option value="" disabled selected hidden>Pilih Tim</option>
                     @foreach ($timList as $tim)
+                    @if ($tim->id != 9)
                     <option value="{{ $tim->id }}" {{ old('tim_id') == $tim->id ? 'selected' : '' }}>
                         {{ $tim->nama_tim }}
                     </option>
+                    @endif
                     @endforeach
                 </select>
             </div>
-            @else
-            {{-- Ketua tim dan pimpinan: langsung pakai tim_id dari user --}}
-            <input type="hidden" name="tim_id" value="{{ auth()->user()->id_tim }}">
+            @elseif(in_array(auth()->user()->id_role, [2, 3]))
+            {{-- Role 2 & 3: tim otomatis dari user, tidak tampilkan dropdown --}}
+            @if(auth()->user()->tim_id != 9)
+            <input type="hidden" name="tim_id" value="{{ auth()->user()->tim_id }}">
+            @endif
             @endif
 
             <!-- Pilih Kegiatan -->

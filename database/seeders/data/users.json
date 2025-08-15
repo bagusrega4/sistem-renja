@@ -27,12 +27,21 @@
     "tim_id": "2"
   },
   {
-    "id": 5,
+    "id": 4,
     "nip_lama": "222212456",
     "username": "nasruddin",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "nasruddin@bps.go.id",
     "id_role": "3",
-    "tim_id": null
+    "tim_id": "9"
+  },
+  {
+    "id": 5,
+    "nip_lama": "222212466",
+    "username": "bambang",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "bambang@bps.go.id",
+    "id_role": "3",
+    "tim_id": "9"
   }
 ]

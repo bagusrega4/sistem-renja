@@ -30,6 +30,22 @@
         </div>
         @endif
 
+        @if(auth()->user()->id_role == 3)
+        <div class="mb-3">
+            <form method="GET" action="{{ route('monitoring.operator.index') }}">
+                <label for="tim_id" class="form-label fw-bold">Pilih Tim</label>
+                <select name="tim_id" id="tim_id" class="form-select" onchange="this.form.submit()">
+                    <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
+                    @foreach($timList as $tim)
+                    <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>
+                        {{ $tim->nama_tim }}
+                    </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        @endif
+
         {{-- Tabel Monitoring Rencana Kerja --}}
         <div class="card card-round">
             <div class="card-header">

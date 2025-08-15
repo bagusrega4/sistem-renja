@@ -6,5 +6,6 @@
     { "id": 5, "tim": "Statistik Distribusi" },
     { "id": 6, "tim": "Statistik Produksi" },
     { "id": 7, "tim": "Newilis" },
-    { "id": 8, "tim": "SAKIP, ZI, EPSS" }
+    { "id": 8, "tim": "SAKIP, ZI, EPSS" },
+    { "id": 9, "tim": "Pimpinan" }
 ]
