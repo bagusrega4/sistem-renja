@@ -64,50 +64,25 @@
 @section('content')
 <div class="container">
     <div class="page-inner">
-        <!-- Notifikasi Sukses -->
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        <div
-            class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-1"></div>
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-1"></div>
         <div class="row mt-2">
             <div class="col-md-4 mx-auto">
-                <div
-                    class="card text-center d-flex align-items-center justify-content-center"
-                    style="
-                                        padding: 20px;
-                                        border-radius: 20px;
-                                        height: 100%;
-                                    ">
-                    <div
-                        class="card-body d-flex flex-column align-items-center">
-                        <div
-                            class="avatar-sm"
-                            style="width: 150px; height: 150px">
-                            <img
-                                src="{{!Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y': asset('/storage/'.Auth::user()->photo) }}"
+                <div class="card text-center d-flex align-items-center justify-content-center" style="padding: 20px; border-radius: 20px; height: 100%;">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="avatar-sm" style="width: 150px; height: 150px">
+                            <img src="{{!Auth::user()->photo ? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y': asset('/storage/'.Auth::user()->photo) }}"
                                 alt="..."
                                 class="rounded-circle img-fluid"
-                                style="
-                                                    width: 100%;
-                                                    height: 100%;
-                                                    object-fit: cover;
-                                                " />
+                                style="width: 100%; height: 100%; object-fit: cover;" />
                         </div>
-                        <h5 class="name">
-                            {{$pegawai->nama}}
-                        </h5>
+                        <h5 class="name">{{$pegawai->nama}}</h5>
                         <h4 class="nip">{{ Auth::user()->nip_lama }}</h4>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-8">
-                <div class="card h-100 ">
+                <div class="card h-100">
                     <div class="card-header d-flex align-items-center">
                         <h4 class="card-title mb-0 me-4 tab-link" id="profile-tab" style="cursor: pointer;">
                             {{ __('Detail Profile') }}
@@ -121,53 +96,34 @@
                         <form method="POST" action="{{route('edit.profile')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="container">
-                                <div
-                                    class="mb-3 d-flex align-items-center">
-                                    <div class="label">
-                                        {{__("Nama")}}
-                                    </div>
-                                    <div class="value">
-                                        {{$pegawai->nama}}
-                                    </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <div class="label">{{__("Nama")}}</div>
+                                    <div class="value">{{$pegawai->nama}}</div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
+                                <div class="mb-3 d-flex align-items-center">
                                     <div class="label">{{__("NIP")}}</div>
-                                    <div class="value">
-                                        {{$pegawai->nip_baru}}
-                                    </div>
+                                    <div class="value">{{$pegawai->nip_baru}}</div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
+                                <div class="mb-3 d-flex align-items-center">
                                     <div class="label">{{__("Email")}}</div>
-                                    <div class="value">
-                                        {{ Auth::user()->email }}
-                                    </div>
+                                    <div class="value">{{ Auth::user()->email }}</div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
+                                <div class="mb-3 d-flex align-items-center">
                                     <div class="label">{{__("Jabatan")}}</div>
-                                    <div class="value">
-                                        {{$pegawai->jabatan}}
-                                    </div>
+                                    <div class="value">{{$pegawai->jabatan}}</div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
-                                    <div class="label">
-                                        {{__("Golongan")}}
-                                    </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <div class="label">{{__("Golongan")}}</div>
                                     <div class="value">IV A</div>
                                 </div>
-                                <div
-                                    class="mb-3 d-flex align-items-center">
+                                <div class="mb-3 d-flex align-items-center">
                                     <div class="label">{{__("Role")}}</div>
-                                    <div class="value text-capitalize">
-                                        {{ Auth::user()->role->role }}
-                                    </div>
+                                    <div class="value text-capitalize">{{ Auth::user()->role->role }}</div>
                                 </div>
                             </div>
                         </form>
                     </div>
+
                     <div class="card-body" id="password-content">
                         <div class="container">
                             <form method="post" action="{{ route('password.change') }}" class="mt-6 space-y-6">
@@ -179,17 +135,10 @@
                                         Current Password
                                     </label>
                                     <div class="col-sm-9">
-                                        <input
-                                            type="password"
-                                            class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                                            id="update_password_current_password"
-                                            name="current_password"
-                                            autocomplete="current-password"
-                                        />
+                                        <input type="password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
+                                            id="update_password_current_password" name="current_password" autocomplete="current-password" />
                                         @error('current_password', 'updatePassword')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -199,17 +148,10 @@
                                         New Password
                                     </label>
                                     <div class="col-sm-9">
-                                        <input
-                                            type="password"
-                                            class="form-control @error('password', 'updatePassword') is-invalid @enderror"
-                                            id="update_password_password"
-                                            name="password"
-                                            autocomplete="new-password"
-                                        />
+                                        <input type="password" class="form-control @error('password', 'updatePassword') is-invalid @enderror"
+                                            id="update_password_password" name="password" autocomplete="new-password" />
                                         @error('password', 'updatePassword')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -219,17 +161,10 @@
                                         Confirm Password
                                     </label>
                                     <div class="col-sm-9">
-                                        <input
-                                            type="password"
-                                            class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror"
-                                            id="update_password_password_confirmation"
-                                            name="password_confirmation"
-                                            autocomplete="new-password"
-                                        />
+                                        <input type="password" class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror"
+                                            id="update_password_password_confirmation" name="password_confirmation" autocomplete="new-password" />
                                         @error('password_confirmation', 'updatePassword')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -245,22 +180,21 @@
         </div>
     </div>
 </div>
-</div>
 @endsection
 
 @section('script')
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const tabs = document.querySelectorAll('.tab-link');
         const contents = document.querySelectorAll('.card-body');
 
-        // Menonaktifkan semua tab dan konten
         function resetTabs() {
             tabs.forEach(tab => tab.classList.remove('active'));
             contents.forEach(content => content.style.display = 'none');
         }
 
-        // Mengaktifkan tab berdasarkan ID
         function activateTab(tabId) {
             resetTabs();
             const activeTabElement = document.querySelector(`#${tabId}-tab`);
@@ -271,21 +205,26 @@
             }
         }
 
-        // Meng-handle flash session untuk tab aktif
         const activeTab = "{{ session('activeTab', 'profile') }}";
         activateTab(activeTab);
 
-        // Menambahkan event listener untuk setiap tab
         tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
+            tab.addEventListener('click', function() {
                 const targetTabId = this.id.replace('-tab', '');
                 activateTab(targetTabId);
             });
         });
+
+        // SweetAlert2 Success
+        @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+        @endif
     });
 </script>
 @endsection
-
-
-
-
