@@ -8,6 +8,8 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\ManageKegiatanController;
+use App\Http\Controllers\KegiatanController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -89,6 +91,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // Update status diketahui
             Route::put('/update-status/{id}', [MonitoringOperatorController::class, 'updateStatus'])->name('update.status');
+        });
+
+        // Manage Kegiatan
+        Route::prefix('manage')->group(function () {
+            // List kegiatan
+            Route::get('/kegiatan', [KegiatanController::class, 'index'])
+                ->name('manage.kegiatan.index');
+
+            // Form tambah kegiatan
+            Route::get('/kegiatan/create', [KegiatanController::class, 'create'])
+                ->name('manage.kegiatan.create');
+
+            // Simpan kegiatan baru
+            Route::post('/kegiatan', [KegiatanController::class, 'store'])
+                ->name('manage.kegiatan.store');
+
+            // Update kegiatan
+            Route::put('/kegiatan/{id}', [KegiatanController::class, 'update'])
+                ->name('manage.kegiatan.update');
+
+            // Hapus kegiatan
+            Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy'])
+                ->name('manage.kegiatan.destroy');
         });
     });
 });

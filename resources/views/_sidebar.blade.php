@@ -75,6 +75,12 @@
                     </div>
                 </li>
                 @endif
+                <li class="nav-item {{ request()->routeIs('manage.kegiatan.*') ? 'active' : '' }}">
+                    <a href="{{ route('manage.kegiatan.index') }}">
+                        <i class="fas fa-tasks"></i>
+                        <p>Manage Kegiatan</p>
+                    </a>
+                </li>
 
                 <style>
                     .nav-item a .badge-success {
