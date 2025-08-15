@@ -26,7 +26,6 @@
 
             <!-- Pilih Tim -->
             @if(auth()->user()->id_role == 1)
-            {{-- Role 1: Bisa memilih tim (kecuali pimpinan) --}}
             <div class="mb-3">
                 <label for="tim_id" class="form-label">Pilih Tim <span class="text-danger">*</span></label>
                 <select class="form-select" id="tim_id" name="tim_id" required>
@@ -41,7 +40,6 @@
                 </select>
             </div>
             @elseif(in_array(auth()->user()->id_role, [2, 3]))
-            {{-- Role 2 & 3: tim otomatis dari user, tidak tampilkan dropdown --}}
             @if(auth()->user()->tim_id != 9)
             <input type="hidden" name="tim_id" value="{{ auth()->user()->tim_id }}">
             @endif
@@ -63,7 +61,14 @@
             <!-- Tanggal -->
             <div class="mb-3">
                 <label for="tanggal" class="form-label">Tanggal <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="tanggal"
+                    name="tanggal"
+                    value="{{ old('tanggal') }}"
+                    min="{{ date('Y-m-d') }}" {{-- Hanya bisa pilih hari ini atau setelahnya --}}
+                    required>
             </div>
 
             <!-- Jam Kegiatan -->
@@ -72,11 +77,15 @@
                 <div class="row g-2">
                     <div class="col-md-6">
                         <label>Jam Mulai</label>
-                        <input type="time" class="form-control" name="jam_mulai" value="{{ old('jam_mulai') }}" required>
+                        <input type="time" class="form-control" id="jam_mulai" name="jam_mulai"
+                            value="{{ old('jam_mulai') }}"
+                            min="08:00" max="16:00" required>
                     </div>
                     <div class="col-md-6">
                         <label>Jam Akhir</label>
-                        <input type="time" class="form-control" name="jam_akhir" value="{{ old('jam_akhir') }}" required>
+                        <input type="time" class="form-control" id="jam_akhir" name="jam_akhir"
+                            value="{{ old('jam_akhir') }}"
+                            min="08:00" max="16:00" required>
                     </div>
                 </div>
             </div>
@@ -86,3 +95,35 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tanggalInput = document.getElementById('tanggal');
+        const jamMulaiInput = document.getElementById('jam_mulai');
+
+        function updateMinTime() {
+            const today = new Date();
+            const selectedDate = new Date(tanggalInput.value);
+            const isToday = selectedDate.toDateString() === today.toDateString();
+
+            if (isToday) {
+                const nowHours = String(today.getHours()).padStart(2, '0');
+                const nowMinutes = String(today.getMinutes()).padStart(2, '0');
+                const nowTime = `${nowHours}:${nowMinutes}`;
+
+                const minTime = (nowTime < "08:00") ? "08:00" : nowTime;
+                jamMulaiInput.min = minTime;
+            } else {
+                jamMulaiInput.min = "08:00";
+            }
+        }
+
+        tanggalInput.addEventListener('change', updateMinTime);
+
+        if (tanggalInput.value) {
+            updateMinTime();
+        }
+    });
+</script>
+@endpush

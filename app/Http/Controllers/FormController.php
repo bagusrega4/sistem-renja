@@ -34,7 +34,7 @@ class FormController extends Controller
         // Validasi umum
         $request->validate([
             'kegiatan_id' => 'required|exists:kegiatan,id',
-            'tanggal'     => 'required|date',
+            'tanggal' => ['required', 'date', 'after_or_equal:today'],
             'jam_mulai'   => 'required|date_format:H:i',
             'jam_akhir'   => 'required|date_format:H:i|after:jam_mulai',
         ]);
