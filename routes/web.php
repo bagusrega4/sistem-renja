@@ -69,6 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/edit/{id}', [FormController::class, 'edit'])->name('edit');
             Route::put('/update/{id}', [FormController::class, 'update'])->name('update');
             Route::delete('/delete/{id}', [FormController::class, 'destroy'])->name('delete');
+            Route::get('/get-kegiatan/{tim_id}', [FormController::class, 'getKegiatan'])
+                ->name('get.kegiatan');
         });
 
         // Jadwal

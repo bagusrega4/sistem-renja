@@ -18,7 +18,7 @@ class MonitoringOperatorController extends Controller
             : collect();
 
         // Query dasar
-        $query = Form::with(['kegiatan', 'user.pegawai'])
+        $query = Form::with(['manageKegiatan', 'user.pegawai'])
             ->orderBy('tanggal', 'desc');
 
         // Filter sesuai role
@@ -44,13 +44,13 @@ class MonitoringOperatorController extends Controller
         }
 
         if ($request->filled('kegiatan')) {
-            $query->whereHas('kegiatan', function ($q) use ($request) {
+            $query->whereHas('manageKegiatan', function ($q) use ($request) {
                 $q->where('nama_kegiatan', 'like', '%' . $request->kegiatan . '%');
             });
         }
 
         if ($request->filled('periode_mulai') && $request->filled('periode_selesai')) {
-            $query->whereHas('kegiatan', function ($q) use ($request) {
+            $query->whereHas('manageKegiatan', function ($q) use ($request) {
                 $q->whereDate('periode_mulai', '<=', $request->periode_selesai)
                     ->whereDate('periode_selesai', '>=', $request->periode_mulai);
             });
@@ -93,7 +93,7 @@ class MonitoringOperatorController extends Controller
 
         Form::create([
             'user_id'     => $user->id,
-            'tim_id'      => $user->tim_id, // otomatis ikut tim user
+            'tim_id'      => $user->tim_id,
             'kegiatan_id' => $request->kegiatan_id,
             'tanggal'     => $request->tanggal,
             'jam_mulai'   => $request->jam_mulai,

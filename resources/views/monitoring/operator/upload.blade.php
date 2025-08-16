@@ -125,12 +125,12 @@
                             {{-- Kolom Tim Kerja --}}
                             <td>{{ $rk->tim->nama_tim ?? '-' }}</td>
 
-                            <td>{{ $rk->kegiatan->nama_kegiatan ?? '-' }}</td>
+                            <td>{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}</td>
                             <td>
-                                @if($rk->kegiatan && $rk->kegiatan->periode_mulai && $rk->kegiatan->periode_selesai)
-                                {{ \Carbon\Carbon::parse($rk->kegiatan->periode_mulai)->translatedFormat('j F Y') }}
+                                @if($rk->managekegiatan && $rk->managekegiatan->periode_mulai && $rk->managekegiatan->periode_selesai)
+                                {{ \Carbon\Carbon::parse($rk->managekegiatan->periode_mulai)->translatedFormat('j F Y') }}
                                 -
-                                {{ \Carbon\Carbon::parse($rk->kegiatan->periode_selesai)->translatedFormat('j F Y') }}
+                                {{ \Carbon\Carbon::parse($rk->managekegiatan->periode_selesai)->translatedFormat('j F Y') }}
                                 @else
                                 -
                                 @endif

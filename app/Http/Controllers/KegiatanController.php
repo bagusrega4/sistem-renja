@@ -10,23 +10,29 @@ class KegiatanController extends Controller
 {
     public function index()
     {
-        // Ambil semua manage_kegiatan + relasi ke master kegiatan
-        $kegiatanList = ManageKegiatan::with('kegiatan')->latest('id')->get();
+        $user = auth()->user();
+
+        if ($user->id_role == 3) {
+            $kegiatanList = ManageKegiatan::with('kegiatan')->latest('id')->get();
+        } else {
+            // Selain admin -> hanya tampilkan sesuai tim_id user login
+            $kegiatanList = ManageKegiatan::with('kegiatan')
+                ->where('tim_id', $user->tim_id)
+                ->latest('id')
+                ->get();
+        }
 
         return view('manage.kegiatan.index', compact('kegiatanList'));
     }
 
     public function create()
     {
-        // Ambil daftar kegiatan dari tabel 'kegiatan'
         $kegiatan = Kegiatan::orderBy('nama_kegiatan')->get();
-
         return view('manage.kegiatan.create', compact('kegiatan'));
     }
 
     public function store(Request $request)
     {
-        // validasi umum
         $validated = $request->validate([
             'periode_mulai'   => ['required', 'date', 'after_or_equal:today'],
             'periode_selesai' => ['required', 'date', 'after_or_equal:periode_mulai'],
@@ -34,8 +40,9 @@ class KegiatanController extends Controller
             'kegiatan_id'     => ['nullable'],
         ]);
 
+        $timId = auth()->user()->tim_id;
+
         if ($request->kegiatan_id === 'other') {
-            // tambah kegiatan baru ke tabel master kegiatan
             $request->validate([
                 'nama_kegiatan' => ['required', 'string', 'max:255'],
             ]);
@@ -44,7 +51,6 @@ class KegiatanController extends Controller
                 'nama_kegiatan' => $request->nama_kegiatan,
             ]);
 
-            // simpan ke tabel manage_kegiatan
             ManageKegiatan::create([
                 'kegiatan_id'     => $kegiatanBaru->id,
                 'nama_kegiatan'   => $kegiatanBaru->nama_kegiatan,
@@ -52,23 +58,23 @@ class KegiatanController extends Controller
                 'periode_mulai'   => $validated['periode_mulai'],
                 'periode_selesai' => $validated['periode_selesai'],
                 'status'          => 'aktif',
+                'tim_id'          => $timId,
             ]);
         } else {
-            // pilih dari dropdown (sudah ada di tabel kegiatan)
             $request->validate([
                 'kegiatan_id' => ['required', 'exists:kegiatan,id'],
             ]);
 
             $kegiatan = Kegiatan::findOrFail($request->kegiatan_id);
 
-            // simpan ke tabel manage_kegiatan
             ManageKegiatan::create([
-                'id'     => $kegiatan->id,
+                'kegiatan_id'     => $kegiatan->id,
                 'nama_kegiatan'   => $kegiatan->nama_kegiatan,
                 'deskripsi'       => $validated['deskripsi'] ?? null,
                 'periode_mulai'   => $validated['periode_mulai'],
                 'periode_selesai' => $validated['periode_selesai'],
                 'status'          => 'aktif',
+                'tim_id'          => $timId,
             ]);
         }
 

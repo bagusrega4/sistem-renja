@@ -50,11 +50,6 @@
                 <label for="kegiatan_id" class="form-label">Pilih Kegiatan <span class="text-danger">*</span></label>
                 <select class="form-select" id="kegiatan_id" name="kegiatan_id" required>
                     <option value="" disabled selected hidden>Pilih Kegiatan</option>
-                    @foreach ($kegiatanList as $kegiatan)
-                    <option value="{{ $kegiatan->id }}" {{ old('kegiatan_id') == $kegiatan->id ? 'selected' : '' }}>
-                        {{ $kegiatan->nama_kegiatan }}
-                    </option>
-                    @endforeach
                 </select>
             </div>
 
@@ -104,6 +99,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         const tanggalInput = document.getElementById('tanggal');
         const jamMulaiInput = document.getElementById('jam_mulai');
+        const timSelect = document.getElementById('tim_id');
+        const kegiatanSelect = document.getElementById('kegiatan_id');
 
         function updateMinTime() {
             const today = new Date();
@@ -123,10 +120,7 @@
         }
 
         tanggalInput.addEventListener('change', updateMinTime);
-
-        if (tanggalInput.value) {
-            updateMinTime();
-        }
+        if (tanggalInput.value) updateMinTime();
 
         // Tampilkan SweetAlert jika ada session sukses
         @if(session('success'))
@@ -138,6 +132,50 @@
             showConfirmButton: false
         });
         @endif
+
+        // Jika user klik dropdown kegiatan tapi tim belum dipilih
+        if (kegiatanSelect) {
+            kegiatanSelect.addEventListener('focus', function() {
+                if (timSelect && !timSelect.value) {
+                    kegiatanSelect.innerHTML = '';
+                    const option = document.createElement('option');
+                    option.disabled = true;
+                    option.selected = true;
+                    option.textContent = 'Anda belum memilih tim';
+                    kegiatanSelect.appendChild(option);
+                }
+            });
+        }
+
+        // Saat tim dipilih, ambil kegiatan
+        if (timSelect) {
+            timSelect.addEventListener('change', function() {
+                const timId = this.value;
+
+                // reset isi dropdown kegiatan
+                kegiatanSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Kegiatan</option>';
+
+                if (timId) {
+                    fetch(`/form/get-kegiatan/${timId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                data.forEach(kegiatan => {
+                                    const option = document.createElement('option');
+                                    option.value = kegiatan.id;
+                                    option.textContent = kegiatan.nama_kegiatan;
+                                    kegiatanSelect.appendChild(option);
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.disabled = true;
+                                option.textContent = 'Tidak ada kegiatan untuk tim ini';
+                                kegiatanSelect.appendChild(option);
+                            }
+                        });
+                }
+            });
+        }
     });
 </script>
 @endpush

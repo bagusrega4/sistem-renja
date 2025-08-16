@@ -21,9 +21,9 @@ class Form extends Model
         'diketahui',
     ];
 
-    public function kegiatan()
+    public function manageKegiatan()
     {
-        return $this->belongsTo(Kegiatan::class, 'kegiatan_id');
+        return $this->belongsTo(\App\Models\ManageKegiatan::class, 'kegiatan_id');
     }
 
     public function tim()

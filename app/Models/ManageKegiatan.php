@@ -13,6 +13,7 @@ class ManageKegiatan extends Model
 
     protected $fillable = [
         'kegiatan_id',
+        'tim_id',
         'nama_kegiatan',
         'periode_mulai',
         'periode_selesai',

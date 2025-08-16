@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use App\Models\Tim;
-use App\Models\Kegiatan;
+use App\Models\ManageKegiatan;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -14,7 +14,7 @@ class FormController extends Controller
         $timList = Tim::orderBy('nama_tim')->get();
 
         // Hanya ambil kegiatan aktif
-        $kegiatanList = Kegiatan::where('status', 'aktif')
+        $kegiatanList = ManageKegiatan::where('status', 'aktif')
             ->orderBy('nama_kegiatan')
             ->get();
 
@@ -27,8 +27,7 @@ class FormController extends Controller
     {
         $timList = Tim::orderBy('nama_tim')->get();
 
-        // Hanya ambil kegiatan aktif
-        $kegiatanList = Kegiatan::where('status', 'aktif')
+        $kegiatanList = ManageKegiatan::where('status', 'aktif')
             ->orderBy('nama_kegiatan')
             ->get();
 
@@ -76,5 +75,16 @@ class FormController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Rencana kerja berhasil disimpan!');
+    }
+
+    public function getKegiatan($tim_id)
+    {
+        // hanya ambil kegiatan yg aktif dan sesuai tim
+        $kegiatan = \App\Models\ManageKegiatan::where('tim_id', $tim_id)
+            ->where('status', 'aktif')
+            ->orderBy('nama_kegiatan')
+            ->get();
+
+        return response()->json($kegiatan);
     }
 }
