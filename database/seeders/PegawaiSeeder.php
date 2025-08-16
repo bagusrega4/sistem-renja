@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class PegawaiSeeder extends Seeder
 {
@@ -31,17 +32,31 @@ class PegawaiSeeder extends Seeder
 
         foreach ($pegawaiList as $pegawai) {
             DB::table('pegawai')->insert([
-                'id' => $pegawai['id'],
-                'nama' => $pegawai['nama'],
-                'nip_lama' => $pegawai['nip_lama'],
-                'nip_baru' => $pegawai['nip_baru'],
-                'jabatan' => $pegawai['jabatan'],
-                'kode_wilayah' => $pegawai['kode_wilayah'],
-                'nama_wilayah' => $pegawai['nama_wilayah'],
-                'golongan' => $pegawai['golongan'],
+                'id'             => $pegawai['id'],
+                'nama'           => $pegawai['nama'],
+                'nip_lama'       => $pegawai['nip_lama'],
+                'nip_baru'       => $pegawai['nip_baru'],
+                'jabatan'        => $pegawai['jabatan'],
+                'golongan_akhir' => $pegawai['golongan_akhir'],
+                'tamat_gol'      => $this->convertDate($pegawai['tamat_gol'] ?? null),
+                'pendidikan'     => $pegawai['pendidikan'],
+                'tanggal_lulus'  => $this->convertDate($pegawai['tanggal_lulus'] ?? null),
+                'jenis_kelamin'  => $pegawai['jenis_kelamin'],
+                'email'          => $pegawai['email'],
             ]);
         }
 
         $this->command->info("Data pegawai berhasil diimpor dari JSON.");
+    }
+
+    private function convertDate(?string $date)
+    {
+        if (!$date) return null;
+        try {
+            // asumsinya format dari JSON: DD-MM-YYYY
+            return Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null; // kalau gagal parsing, jadikan null biar tidak error
+        }
     }
 }
