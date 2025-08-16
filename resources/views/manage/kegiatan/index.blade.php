@@ -40,6 +40,7 @@
                 <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary btn-sm">+ Tambah Kegiatan</a>
             </div>
             <div class="card-body">
+                @if($kegiatanList->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
                         <thead>
@@ -53,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($kegiatanList as $index => $item)
+                            @foreach($kegiatanList as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_kegiatan }}</td>
@@ -66,7 +67,7 @@
                                     <em>Belum diatur</em>
                                     @endif
                                 </td>
-                                <td>{{ $item->deskripsi }}</td>
+                                <td>{{ $item->deskripsi ?? '-' }}</td>
                                 <td class="text-center">
                                     @if($item->status == 'selesai')
                                     <span class="badge bg-success">Selesai</span>
@@ -75,24 +76,29 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <form action="{{ route('manage.kegiatan.selesai', $item->id) }}" method="POST" onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
+                                    <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-success btn-sm">Selesai</button>
                                     </form>
                                 </td>
                             </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Belum ada kegiatan.</td>
-                            </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div class="text-center py-5">
+                    <h6 class="text-muted mb-3">Belum ada kegiatan yang ditambahkan.</h6>
+                    <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary">
+                        + Tambah Kegiatan Pertama
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
-
     </div>
 </div>
 @endsection

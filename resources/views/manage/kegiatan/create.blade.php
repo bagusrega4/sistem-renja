@@ -10,9 +10,23 @@
             <div class="card-body">
                 <form action="{{ route('manage.kegiatan.store') }}" method="POST">
                     @csrf
+
+                    {{-- Pilih kegiatan dari database --}}
                     <div class="mb-3">
-                        <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
-                        <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required>
+                        <label for="kegiatan_id" class="form-label">Pilih Kegiatan</label>
+                        <select name="kegiatan_id" id="kegiatan_id" class="form-control" required>
+                            <option value="" disabled selected hidden>Pilih kegiatan</option>
+                            @foreach($kegiatan as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama_kegiatan }}</option>
+                            @endforeach
+                            <option value="other">+ Tambah Baru</option>
+                        </select>
+                    </div>
+
+                    {{-- Input manual (hidden default) --}}
+                    <div class="mb-3" id="new_kegiatan_wrapper" style="display: none;">
+                        <label for="nama_kegiatan" class="form-label">Nama Kegiatan Baru</label>
+                        <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -50,3 +64,19 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.getElementById('kegiatan_id').addEventListener('change', function() {
+        let wrapper = document.getElementById('new_kegiatan_wrapper');
+        let input = document.getElementById('nama_kegiatan');
+        if (this.value === 'other') {
+            wrapper.style.display = 'block';
+            input.setAttribute('required', 'required');
+        } else {
+            wrapper.style.display = 'none';
+            input.removeAttribute('required');
+        }
+    });
+</script>
+@endpush

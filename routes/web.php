@@ -94,26 +94,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // Manage Kegiatan
-        Route::prefix('manage')->group(function () {
-            // List kegiatan
-            Route::get('/kegiatan', [KegiatanController::class, 'index'])
-                ->name('manage.kegiatan.index');
+        Route::name('manage.kegiatan.')->prefix('manage/kegiatan')->group(function () {
+            // List semua kegiatan
+            Route::get('/', [KegiatanController::class, 'index'])->name('index');
 
             // Form tambah kegiatan
-            Route::get('/kegiatan/create', [KegiatanController::class, 'create'])
-                ->name('manage.kegiatan.create');
+            Route::get('/create', [KegiatanController::class, 'create'])->name('create');
 
             // Simpan kegiatan baru
-            Route::post('/kegiatan', [KegiatanController::class, 'store'])
-                ->name('manage.kegiatan.store');
+            Route::post('/store', [KegiatanController::class, 'store'])->name('store');
 
-            // Update kegiatan (opsional kalau ada fitur edit)
-            Route::put('/kegiatan/{id}', [KegiatanController::class, 'update'])
-                ->name('manage.kegiatan.update');
+            // Tandai kegiatan selesai
+            Route::patch('/{id}/selesai', [KegiatanController::class, 'selesai'])->name('selesai');
 
-            // Tandai kegiatan sebagai selesai
-            Route::patch('/kegiatan/{id}/selesai', [KegiatanController::class, 'selesai'])
-                ->name('manage.kegiatan.selesai');
+            // (opsional) update kegiatan kalau ada fitur edit
+            Route::put('/{id}', [KegiatanController::class, 'update'])->name('update');
+
+            // (opsional) hapus kegiatan
+            Route::delete('/{id}', [KegiatanController::class, 'destroy'])->name('destroy');
         });
     });
 });
