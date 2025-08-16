@@ -46,9 +46,9 @@
                             <tr class="text-center">
                                 <th>No</th>
                                 <th>Nama Kegiatan</th>
-                                <th>Tanggal</th>
-                                <th>Lokasi</th>
+                                <th>Periode</th>
                                 <th>Deskripsi</th>
+                                <th>Status</th>
                                 <th style="width: 150px;">Aksi</th>
                             </tr>
                         </thead>
@@ -57,20 +57,34 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_kegiatan }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
-                                <td>{{ $item->lokasi }}</td>
+                                <td>
+                                    @if($item->periode_mulai && $item->periode_selesai)
+                                    {{ \Carbon\Carbon::parse($item->periode_mulai)->translatedFormat('d F Y') }}
+                                    -
+                                    {{ \Carbon\Carbon::parse($item->periode_selesai)->translatedFormat('d F Y') }}
+                                    @else
+                                    <em>Belum diatur</em>
+                                    @endif
+                                </td>
                                 <td>{{ $item->deskripsi }}</td>
                                 <td class="text-center">
-                                    <form action="{{ route('manage.kegiatan.destroy', $item->id) }}" method="POST" onsubmit="return confirmHapus(this, '{{ $item->nama_kegiatan }}')">
+                                    @if($item->status == 'selesai')
+                                    <span class="badge bg-success">Selesai</span>
+                                    @else
+                                    <span class="badge bg-primary">Aktif</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <form action="{{ route('manage.kegiatan.selesai', $item->id) }}" method="POST" onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-success btn-sm">Selesai</button>
                                     </form>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center">Belum ada kegiatan.</td>
+                                <td colspan="5" class="text-center">Belum ada kegiatan.</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -93,18 +107,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function confirmHapus(form, namaKegiatan) {
+    function confirmSelesai(form, namaKegiatan) {
         event.preventDefault();
 
         Swal.fire({
-            title: `Yakin ingin menghapus kegiatan "${namaKegiatan}"?`,
-            icon: 'warning',
+            title: `Tandai kegiatan "${namaKegiatan}" sebagai selesai?`,
+            icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Hapus',
+            confirmButtonText: 'Ya, Selesai',
             cancelButtonText: 'Batal',
             reverseButtons: true,
             customClass: {
-                confirmButton: 'btn btn-danger',
+                confirmButton: 'btn btn-success',
                 cancelButton: 'btn btn-secondary'
             },
             buttonsStyling: false

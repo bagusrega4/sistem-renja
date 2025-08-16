@@ -29,7 +29,7 @@
             <div class="mb-3">
                 <label for="tim_id" class="form-label">Pilih Tim <span class="text-danger">*</span></label>
                 <select class="form-select" id="tim_id" name="tim_id" required>
-                    <option value="" disabled selected hidden>Pilih Tim</option>
+                    <option value="" disabled selected hidden>Pilih Tim Kerja Kantor</option>
                     @foreach ($timList as $tim)
                     @if ($tim->id != 9)
                     <option value="{{ $tim->id }}" {{ old('tim_id') == $tim->id ? 'selected' : '' }}>

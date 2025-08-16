@@ -12,7 +12,12 @@ class FormController extends Controller
     public function index()
     {
         $timList = Tim::orderBy('nama_tim')->get();
-        $kegiatanList = Kegiatan::orderBy('nama_kegiatan')->get();
+
+        // Hanya ambil kegiatan aktif
+        $kegiatanList = Kegiatan::where('status', 'aktif')
+            ->orderBy('nama_kegiatan')
+            ->get();
+
         $user = auth()->user();
 
         return view('form.index', compact('timList', 'kegiatanList', 'user'));
@@ -21,7 +26,12 @@ class FormController extends Controller
     public function create()
     {
         $timList = Tim::orderBy('nama_tim')->get();
-        $kegiatanList = Kegiatan::orderBy('nama_kegiatan')->get();
+
+        // Hanya ambil kegiatan aktif
+        $kegiatanList = Kegiatan::where('status', 'aktif')
+            ->orderBy('nama_kegiatan')
+            ->get();
+
         $user = auth()->user();
 
         return view('form.create', compact('timList', 'kegiatanList', 'user'));
@@ -32,23 +42,26 @@ class FormController extends Controller
         $user = auth()->user();
 
         // Validasi umum
-        $request->validate([
+        $rules = [
             'kegiatan_id' => 'required|exists:kegiatan,id',
-            'tanggal' => ['required', 'date', 'after_or_equal:today'],
+            'tanggal'     => ['required', 'date', 'after_or_equal:today'],
             'jam_mulai'   => 'required|date_format:H:i',
             'jam_akhir'   => 'required|date_format:H:i|after:jam_mulai',
-        ]);
+        ];
+
+        // Kalau role admin (id_role == 1) maka wajib pilih tim
+        if ($user->id_role == 1) {
+            $rules['tim_id'] = 'required|exists:tims,id';
+        }
+
+        $request->validate($rules);
 
         // Tentukan tim_id berdasarkan role
         if (in_array($user->id_role, [2, 3])) {
-            $timId = $user->tim_id; // otomatis dari user
+            $timId = $user->tim_id;
         } elseif ($user->id_role == 1) {
-            $request->validate([
-                'tim_id' => 'required|exists:tims,id',
-            ]);
             $timId = $request->tim_id;
         } else {
-            // Kalau ada role lain, default pakai tim user
             $timId = $user->tim_id;
         }
 

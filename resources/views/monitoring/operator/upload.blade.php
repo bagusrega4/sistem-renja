@@ -45,18 +45,54 @@
         </script>
         @endif
 
-        @if(auth()->user()->id_role == 3)
+        @if(in_array(auth()->user()->id_role, [2,3]))
         <div class="mb-3">
             <form method="GET" action="{{ route('monitoring.operator.index') }}">
-                <label for="tim_id" class="form-label fw-bold">Pilih Tim</label>
-                <select name="tim_id" id="tim_id" class="form-select" onchange="this.form.submit()">
-                    <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
-                    @foreach($timList as $tim)
-                    <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>
-                        {{ $tim->nama_tim }}
-                    </option>
-                    @endforeach
-                </select>
+                <div class="row">
+                    {{-- Filter Tim: hanya untuk Admin --}}
+                    @if(auth()->user()->id_role == 3)
+                    <div class="col-md-3">
+                        <label for="tim_id" class="form-label fw-bold">Pilih Tim Kerja</label>
+                        <select name="tim_id" id="tim_id" class="form-select">
+                            <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
+                            @foreach($timList as $tim)
+                            <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>
+                                {{ $tim->nama_tim }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
+
+                    {{-- Filter Nama --}}
+                    <div class="col-md-3">
+                        <label for="nama" class="form-label">Nama</label>
+                        <input type="text" name="nama" id="nama" value="{{ request('nama') }}" class="form-control" placeholder="Cari nama...">
+                    </div>
+
+                    {{-- Filter Kegiatan --}}
+                    <div class="col-md-3">
+                        <label for="kegiatan" class="form-label">Kegiatan</label>
+                        <input type="text" name="kegiatan" id="kegiatan" value="{{ request('kegiatan') }}" class="form-control" placeholder="Cari kegiatan...">
+                    </div>
+
+                    {{-- Filter Periode Mulai --}}
+                    <div class="col-md-3">
+                        <label for="periode_mulai" class="form-label">Periode Mulai</label>
+                        <input type="date" name="periode_mulai" id="periode_mulai" value="{{ request('periode_mulai') }}" class="form-control">
+                    </div>
+
+                    {{-- Filter Periode Selesai --}}
+                    <div class="col-md-3 mt-2">
+                        <label for="periode_selesai" class="form-label">Periode Selesai</label>
+                        <input type="date" name="periode_selesai" id="periode_selesai" value="{{ request('periode_selesai') }}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="mt-3 text-end">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="{{ route('monitoring.operator.index') }}" class="btn btn-secondary">Reset</a>
+                </div>
             </form>
         </div>
         @endif
@@ -72,8 +108,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Tim Kerja</th> {{-- Tambahan --}}
                             <th>Kegiatan</th>
-                            <th>Tanggal</th>
+                            <th>Periode Kegiatan</th>
+                            <th>Tanggal Keluar</th>
                             <th>Pukul</th>
                             <th>Diketahui Ketua</th>
                         </tr>
@@ -83,8 +121,21 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $rk->user->pegawai->nama ?? '-' }}</td>
+
+                            {{-- Kolom Tim Kerja --}}
+                            <td>{{ $rk->tim->nama_tim ?? '-' }}</td>
+
                             <td>{{ $rk->kegiatan->nama_kegiatan ?? '-' }}</td>
-                            <td>{{ \Carbon\Carbon::parse($rk->tanggal)->format('d-m-Y') }}</td>
+                            <td>
+                                @if($rk->kegiatan && $rk->kegiatan->periode_mulai && $rk->kegiatan->periode_selesai)
+                                {{ \Carbon\Carbon::parse($rk->kegiatan->periode_mulai)->translatedFormat('j F Y') }}
+                                -
+                                {{ \Carbon\Carbon::parse($rk->kegiatan->periode_selesai)->translatedFormat('j F Y') }}
+                                @else
+                                -
+                                @endif
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($rk->tanggal)->translatedFormat('j F Y') }}</td>
                             <td>
                                 @php
                                 $pukul = ($rk->jam_mulai && $rk->jam_akhir)
@@ -95,7 +146,6 @@
                             </td>
                             <td class="text-center">
                                 @if(auth()->user()->id_role == 2)
-                                {{-- Ketua tim: bisa centang --}}
                                 <form action="{{ route('monitoring.operator.update.status', $rk->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
@@ -108,7 +158,6 @@
                                         style="transform: scale(2); accent-color: green; cursor: pointer;">
                                 </form>
                                 @else
-                                {{-- Admin & Anggota: hanya lihat --}}
                                 <input type="checkbox"
                                     {{ $rk->diketahui ? 'checked' : '' }}
                                     onclick="return false;"
@@ -118,7 +167,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">Belum ada rencana kerja.</td>
+                            <td colspan="8" class="text-center">Belum ada rencana kerja.</td>
                         </tr>
                         @endforelse
                     </tbody>

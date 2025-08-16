@@ -20,6 +20,28 @@
                         <textarea name="deskripsi" id="deskripsi" rows="4" class="form-control" placeholder="Tuliskan deskripsi kegiatan..."></textarea>
                     </div>
 
+                    {{-- Periode Mulai --}}
+                    <div class="mb-3">
+                        <label for="periode_mulai" class="form-label">Periode Mulai</label>
+                        <input type="date"
+                            name="periode_mulai"
+                            id="periode_mulai"
+                            class="form-control"
+                            required
+                            min="{{ date('Y-m-d') }}">
+                    </div>
+
+                    {{-- Periode Selesai --}}
+                    <div class="mb-3">
+                        <label for="periode_selesai" class="form-label">Periode Selesai</label>
+                        <input type="date"
+                            name="periode_selesai"
+                            id="periode_selesai"
+                            class="form-control"
+                            required
+                            min="{{ date('Y-m-d') }}">
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     <a href="{{ route('manage.kegiatan.index') }}" class="btn btn-secondary">Kembali</a>
                 </form>

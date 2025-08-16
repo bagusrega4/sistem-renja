@@ -21,27 +21,32 @@ class KegiatanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kegiatan' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'nama_kegiatan'   => 'required|string|max:255',
+            'deskripsi'       => 'nullable|string',
+            'periode_mulai'   => 'required|date|after_or_equal:today',
+            'periode_selesai' => 'required|date|after_or_equal:periode_mulai',
         ]);
 
-        $kegiatan = Kegiatan::create([
-            'nama_kegiatan' => $request->nama_kegiatan,
-            'deskripsi' => $request->deskripsi,
-        ]);
+        Kegiatan::create($request->only([
+            'nama_kegiatan',
+            'deskripsi',
+            'periode_mulai',
+            'periode_selesai'
+        ]));
 
         return redirect()
             ->route('manage.kegiatan.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
-    public function destroy($id)
+    public function selesai($id)
     {
         $kegiatan = Kegiatan::findOrFail($id);
-        $kegiatan->delete();
+        $kegiatan->status = 'selesai';
+        $kegiatan->save();
 
         return redirect()
             ->route('manage.kegiatan.index')
-            ->with('success', 'Kegiatan berhasil dihapus.');
+            ->with('success', 'Kegiatan berhasil ditandai selesai.');
     }
 }

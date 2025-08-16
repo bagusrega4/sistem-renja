@@ -1,0 +1,23 @@
+[
+    {
+        "nama_kegiatan": "Rapat Koordinasi",
+        "deskripsi": "Rapat koordinasi internal tim",
+        "periode_mulai": "2025-09-01",
+        "periode_selesai": "2025-09-03",
+        "status": "selesai"
+    },
+    {
+        "nama_kegiatan": "Sosialisasi Program",
+        "deskripsi": "Sosialisasi program kerja ke masyarakat",
+        "periode_mulai": "2025-09-05",
+        "periode_selesai": "2025-09-10",
+        "status": "aktif"
+    },
+    {
+        "nama_kegiatan": "Pelatihan",
+        "deskripsi": "Pelatihan untuk anggota tim",
+        "periode_mulai": "2025-09-15",
+        "periode_selesai": "2025-09-20",
+        "status": "aktif"
+    }
+]

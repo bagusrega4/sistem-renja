@@ -4,15 +4,29 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class KegiatanSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('kegiatan')->insert([
-            ['nama_kegiatan' => 'Rapat Koordinasi', 'deskripsi' => 'Rapat koordinasi internal tim', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_kegiatan' => 'Sosialisasi Program', 'deskripsi' => 'Sosialisasi program kerja ke masyarakat', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_kegiatan' => 'Pelatihan', 'deskripsi' => 'Pelatihan untuk anggota tim', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        // Path file JSON
+        $path = database_path('seeders/data/kegiatan.json');
+
+        // Baca isi file JSON
+        $json = File::get($path);
+
+        // Ubah JSON menjadi array
+        $data = json_decode($json, true);
+
+        // Tambahkan timestamp otomatis
+        $now = now();
+        foreach ($data as &$item) {
+            $item['created_at'] = $now;
+            $item['updated_at'] = $now;
+        }
+
+        // Insert ke tabel kegiatan
+        DB::table('kegiatan')->insert($data);
     }
 }

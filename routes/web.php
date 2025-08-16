@@ -107,13 +107,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/kegiatan', [KegiatanController::class, 'store'])
                 ->name('manage.kegiatan.store');
 
-            // Update kegiatan
+            // Update kegiatan (opsional kalau ada fitur edit)
             Route::put('/kegiatan/{id}', [KegiatanController::class, 'update'])
                 ->name('manage.kegiatan.update');
 
-            // Hapus kegiatan
-            Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy'])
-                ->name('manage.kegiatan.destroy');
+            // Tandai kegiatan sebagai selesai
+            Route::patch('/kegiatan/{id}/selesai', [KegiatanController::class, 'selesai'])
+                ->name('manage.kegiatan.selesai');
         });
     });
 });

@@ -23,18 +23,37 @@ class MonitoringOperatorController extends Controller
 
         // Filter sesuai role
         if ($user->id_role == 1) {
-            // Anggota tim
+            // Anggota tim → hanya data dirinya
             $query->where('user_id', $user->id);
         } elseif ($user->id_role == 2) {
-            // Ketua tim
+            // Ketua tim → semua anggota timnya
             $query->where('tim_id', $user->tim_id);
-        } elseif ($user->id_role == 3) {
-            // Admin: tampilkan data hanya jika tim dipilih
-            if ($request->filled('tim_id')) {
-                $query->where('tim_id', $request->tim_id);
-            } else {
-                $query->whereRaw('1=0'); // kosongkan hasil
-            }
+        }
+        // Admin (role 3) → default lihat semua data
+        // kalau ada filter tim, baru difilter
+
+        // ====== FILTER TAMBAHAN ======
+        if ($request->filled('tim_id')) {
+            $query->where('tim_id', $request->tim_id);
+        }
+
+        if ($request->filled('nama')) {
+            $query->whereHas('user.pegawai', function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->nama . '%');
+            });
+        }
+
+        if ($request->filled('kegiatan')) {
+            $query->whereHas('kegiatan', function ($q) use ($request) {
+                $q->where('nama_kegiatan', 'like', '%' . $request->kegiatan . '%');
+            });
+        }
+
+        if ($request->filled('periode_mulai') && $request->filled('periode_selesai')) {
+            $query->whereHas('kegiatan', function ($q) use ($request) {
+                $q->whereDate('periode_mulai', '<=', $request->periode_selesai)
+                    ->whereDate('periode_selesai', '>=', $request->periode_mulai);
+            });
         }
 
         $rencanaKerja = $query->get();
@@ -51,7 +70,6 @@ class MonitoringOperatorController extends Controller
             'diketahui' => 'nullable|boolean'
         ]);
 
-        // Hanya admin atau ketua tim yang sesuai yang boleh update
         if ($user->id_role == 3 || ($user->id_role == 2 && $form->tim_id == $user->tim_id)) {
             $form->diketahui = $request->boolean('diketahui') ? 1 : 0;
             $form->save();
@@ -73,14 +91,9 @@ class MonitoringOperatorController extends Controller
             'jam_akhir'   => 'required',
         ]);
 
-        // Set tim_id otomatis untuk ketua tim & admin
-        if (in_array($user->id_role, [2, 3])) {
-            $request->merge(['tim_id' => $user->tim_id]);
-        }
-
         Form::create([
             'user_id'     => $user->id,
-            'tim_id'      => $request->tim_id ?? null,
+            'tim_id'      => $user->tim_id, // otomatis ikut tim user
             'kegiatan_id' => $request->kegiatan_id,
             'tanggal'     => $request->tanggal,
             'jam_mulai'   => $request->jam_mulai,
