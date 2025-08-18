@@ -6,7 +6,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringOperatorController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ManageKegiatanController;
 use App\Http\Controllers\KegiatanController;
@@ -55,11 +54,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/edit-profile', [ProfileController::class, 'setPhotoProfile'])->name('edit.profile');
         Route::put('/password/change', [ProfileController::class, 'changePassword'])->name('password.change');
-
-        // Notification
-        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-        Route::patch('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
-        Route::get('/notifications/all', [NotificationController::class, 'seeAll'])->name('notifications.all');
 
         // Form
         Route::name('form.')->prefix('/form')->group(function () {

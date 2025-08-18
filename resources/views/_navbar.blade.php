@@ -24,32 +24,6 @@
     <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell"></i>
-                        <span class="notification" id="notifCount"></span>
-                    </a>
-                    <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
-                        style="width: 350px; overflow-y: auto; overflow-x: hidden; max-height: 400px;">
-                        <li>
-                            <div id="notifCount" class="dropdown-title">
-                                You have new notifications
-                            </div>
-                        </li>
-                        <li>
-                            <div class="notif-scroll scrollbar-outer">
-                                <div class="notif-center">
-                                    <div class="notif-content text-center text-muted">No new notifications.</div>
-                                </div>
-                            </div>
-                        </li>
-                        <button type="button" class="btn btn-see-all" data-bs-toggle="modal"
-                            data-bs-target="#exampleModalCenter">
-                            See all notifications <i class="fa fa-angle-right"></i>
-                        </button>
-                    </ul>
-                </li>
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">
@@ -113,6 +87,11 @@
         background-color: #dc3545 !important;
         color: #fff !important;
     }
+
+    .clickable:hover {
+        background-color: #f8f9fa !important;
+        transform: translateX(3px);
+    }
 </style>
 
 <script>
@@ -127,9 +106,15 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        console.log(response.message);
-                        $('#notifCount').text(response.newNotifCount); // Update jumlah notifikasi
-                        $(`a[data-id="${formId}"]`).remove(); // Hapus notifikasi dari dropdown
+                        // Update angka badge
+                        if (response.newNotifCount > 0) {
+                            $('#notifCount').text(response.newNotifCount);
+                        } else {
+                            $('#notifCount').remove(); // kalau sudah 0, hapus badge
+                        }
+
+                        // Hapus notifikasi dari dropdown
+                        $(`a[data-id="${formId}"]`).remove();
                     }
                 },
                 error: function(error) {
