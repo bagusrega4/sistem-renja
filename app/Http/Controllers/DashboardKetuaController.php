@@ -8,7 +8,7 @@ use App\Models\Form;
 use App\Models\Tim;
 use Carbon\Carbon;
 
-class DashboardController extends Controller
+class DashboardKetuaController extends Controller
 {
     public function index(Request $request)
     {
@@ -117,7 +117,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('dashboard', compact(
+        return view('dashboardKetua', compact(
             'selectedYear',
             'availableYears',
             'totalDinasTahun',

@@ -32,11 +32,23 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
+                    @if(Auth::user()->id_role == 2)
+                    <a href="{{ route('dashboard.ketua') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard Ketua Tim</p>
+                    </a>
+                    @elseif(Auth::user()->id_role == 1)
+                    <a href="{{ route('dashboard.anggota') }}">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard Anggota Tim</p>
+                    </a>
+                    @else
                     <a href="{{ route('dashboard') }}">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
+                        <p>Dashboard Pimpinan</p>
                     </a>
+                    @endif
                 </li>
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">

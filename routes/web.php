@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardKetuaController;
+use App\Http\Controllers\DashboardAnggotaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\ManageKegiatanController;
 use App\Http\Controllers\KegiatanController;
 
 // -------------------------------------------------------------------
@@ -42,11 +43,17 @@ Route::get('/notfound', function () {
 // -------------------------------------------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // 1) Route “umum” yang boleh diakses oleh Operator, Keuangan, dan Admin
     Route::middleware('role:1,2,3')->group(function () {
 
         // Dashboard
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard'); // untuk admin (id_role = 3)
+
+        Route::get('/dashboardKetua', [DashboardKetuaController::class, 'index'])
+            ->name('dashboard.ketua'); // untuk ketua tim (id_role = 2)
+
+        Route::get('/dashboardAnggota', [DashboardAnggotaController::class, 'index'])
+            ->name('dashboard.anggota'); // untuk anggota (id_role = 1)
 
         // Profile
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

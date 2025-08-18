@@ -13,4 +13,8 @@ class Tim extends Model
     {
         return $this->hasMany(Jadwal::class);
     }
+    public function forms()
+    {
+        return $this->hasMany(Form::class, 'tim_id');
+    }
 }

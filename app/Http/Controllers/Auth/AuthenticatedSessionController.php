@@ -30,8 +30,22 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
-        return redirect()->intended(RouteServiceProvider::HOME);
+
+        $role = Auth::user()->id_role;
+
+        switch ($role) {
+            case 1:
+                return redirect()->intended(route('dashboard.anggota'));
+            case 2:
+                return redirect()->intended(route('dashboard.ketua'));
+            case 3:
+                return redirect()->intended(route('dashboard'));
+            default:
+                Auth::logout();
+                return redirect('/login')->withErrors([
+                    'email' => 'Role tidak dikenali.',
+                ]);
+        }
     }
 
     /**

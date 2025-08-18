@@ -17,7 +17,17 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public static function redirectToHome()
+    {
+        $role = auth()->user()->id_role ?? null;
+
+        return match ($role) {
+            1 => route('dashboard.anggota'),
+            2 => route('dashboard.ketua'),
+            3 => route('dashboard'),
+            default => '/login',
+        };
+    }
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
