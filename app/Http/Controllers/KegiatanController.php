@@ -63,7 +63,7 @@ class KegiatanController extends Controller
         }
 
         // eksekusi query
-        $kegiatanList = $query->latest('id')->get();
+        $kegiatanList = $query->paginate($request->get('per_page', 5));
 
         // list tim untuk dropdown
         $timList = Tim::orderBy('nama_tim')->get();

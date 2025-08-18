@@ -46,13 +46,12 @@
             <div class="card-body">
 
                 {{-- FILTER --}}
-                <div class="mb-4">
+                <div class="mb-3">
                     <form method="GET" action="{{ route('manage.kegiatan.index') }}">
                         <div class="row g-3">
-
                             {{-- Nama Tim (khusus role 3) --}}
                             @if(auth()->user()->id_role == 3)
-                            <div class="col-md-3">
+                            <div class="col">
                                 <label for="tim_id" class="form-label">Nama Tim</label>
                                 <select name="tim_id" id="tim_id" class="form-select">
                                     <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
@@ -66,7 +65,7 @@
                             @endif
 
                             {{-- Nama Kegiatan --}}
-                            <div class="col-md-3">
+                            <div class="col">
                                 <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
                                 <input type="text" name="nama_kegiatan" id="nama_kegiatan"
                                     value="{{ request('nama_kegiatan') }}"
@@ -75,7 +74,7 @@
                             </div>
 
                             {{-- Periode Mulai --}}
-                            <div class="col-md-3">
+                            <div class="col">
                                 <label for="periode_mulai" class="form-label">Periode Mulai</label>
                                 <input type="date" name="periode_mulai" id="periode_mulai"
                                     value="{{ request('periode_mulai') }}"
@@ -83,7 +82,7 @@
                             </div>
 
                             {{-- Periode Selesai --}}
-                            <div class="col-md-3">
+                            <div class="col">
                                 <label for="periode_selesai" class="form-label">Periode Selesai</label>
                                 <input type="date" name="periode_selesai" id="periode_selesai"
                                     value="{{ request('periode_selesai') }}"
@@ -91,7 +90,7 @@
                             </div>
 
                             {{-- Status --}}
-                            <div class="col-md-3">
+                            <div class="col">
                                 <label for="status" class="form-label">Status</label>
                                 <select name="status" id="status" class="form-select">
                                     <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua</option>
@@ -100,7 +99,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-3 d-flex align-items-end">
+                            <div class="col-auto d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary me-2">Filter</button>
                                 <a href="{{ route('manage.kegiatan.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
@@ -128,7 +127,9 @@
                         <tbody>
                             @foreach($kegiatanList as $item)
                             <tr>
-                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">
+                                    {{ ($kegiatanList->currentPage() - 1) * $kegiatanList->perPage() + $loop->iteration }}
+                                </td>
                                 <td>{{ $item->nama_kegiatan }}</td>
                                 <td>
                                     @if($item->periode_mulai && $item->periode_selesai)
@@ -186,74 +187,100 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @else
-                <div class="text-center py-5">
-                    <h6 class="text-muted mb-3">Belum ada kegiatan yang ditambahkan.</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <form method="GET" action="{{ route('manage.kegiatan.index') }}">
+                                {{-- Bawa semua filter lama agar tidak hilang --}}
+                                <input type="hidden" name="tim_id" value="{{ request('tim_id') }}">
+                                <input type="hidden" name="nama" value="{{ request('nama') }}">
+                                <input type="hidden" name="kegiatan" value="{{ request('kegiatan') }}">
+                                <input type="hidden" name="periode_mulai" value="{{ request('periode_mulai') }}">
+                                <input type="hidden" name="periode_selesai" value="{{ request('periode_selesai') }}">
 
-                    {{-- Tombol tambah kegiatan hanya untuk selain role 3 --}}
-                    @if(auth()->user()->id_role != 3)
-                    <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary">
-                        + Tambah Kegiatan Pertama
-                    </a>
+                                <label for="per_page" class="form-label">Tampilkan</label>
+                                <select name="per_page" id="per_page" class="form-select d-inline-block w-auto"
+                                    onchange="this.form.submit()">
+                                    <option value="5" {{ request('per_page') == 5  ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                                </select>
+                                <span>data per halaman</span>
+                            </form>
+                        </div>
+
+                        {{-- Pagination --}}
+                        <div>
+                            {{ $kegiatanList->withQueryString()->links() }}
+                        </div>
+                    </div>
+                    @else
+                    <div class="text-center py-5">
+                        <h6 class="text-muted mb-3">Belum ada kegiatan yang ditambahkan.</h6>
+
+                        {{-- Tombol tambah kegiatan hanya untuk selain role 3 --}}
+                        @if(auth()->user()->id_role != 3)
+                        <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary">
+                            + Tambah Kegiatan Pertama
+                        </a>
+                        @endif
+                    </div>
                     @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>
-</div>
-@endsection
+    @endsection
 
-@push('scripts')
-<style>
-    .swal2-actions .btn {
-        margin: 0 8px;
-    }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmSelesai(form, namaKegiatan) {
-        event.preventDefault();
-
-        Swal.fire({
-            title: `Tandai kegiatan "${namaKegiatan}" sebagai selesai?`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Selesai',
-            cancelButtonText: 'Batal',
-            reverseButtons: true,
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-secondary'
-            },
-            buttonsStyling: false
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-
-        return false;
-    }
-
-    setTimeout(() => {
-        let alert = document.querySelector('.alert-dismissible');
-        if (alert) {
-            let bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
+    @push('scripts')
+    <style>
+        .swal2-actions .btn {
+            margin: 0 8px;
         }
-    }, 10000);
+    </style>
 
-    @if(session('success'))
-    Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
-        text: @json(session('success')),
-        timer: 3000,
-        showConfirmButton: false
-    });
-    @endif
-</script>
-@endpush
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmSelesai(form, namaKegiatan) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: `Tandai kegiatan "${namaKegiatan}" sebagai selesai?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Selesai',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
+        }
+
+        setTimeout(() => {
+            let alert = document.querySelector('.alert-dismissible');
+            if (alert) {
+                let bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
+        }, 10000);
+
+        @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: @json(session('success')),
+            timer: 3000,
+            showConfirmButton: false
+        });
+        @endif
+    </script>
+    @endpush

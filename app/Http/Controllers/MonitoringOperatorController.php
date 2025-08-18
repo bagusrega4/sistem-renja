@@ -30,7 +30,6 @@ class MonitoringOperatorController extends Controller
             $query->where('tim_id', $user->tim_id);
         }
         // Admin (role 3) → default lihat semua data
-        // kalau ada filter tim, baru difilter
 
         // ====== FILTER TAMBAHAN ======
         if ($request->filled('tim_id')) {
@@ -56,18 +55,16 @@ class MonitoringOperatorController extends Controller
                     ->whereDate('periode_selesai', '>=', $request->periode_mulai);
             });
         } elseif ($request->filled('periode_mulai')) {
-            // Jika hanya periode_mulai diisi → kegiatan yg masih aktif/selesai setelah tanggal ini
             $query->whereHas('manageKegiatan', function ($q) use ($request) {
                 $q->whereDate('periode_selesai', '>=', $request->periode_mulai);
             });
         } elseif ($request->filled('periode_selesai')) {
-            // Jika hanya periode_selesai diisi → kegiatan yg sudah dimulai sebelum tanggal ini
             $query->whereHas('manageKegiatan', function ($q) use ($request) {
                 $q->whereDate('periode_mulai', '<=', $request->periode_selesai);
             });
         }
 
-        $rencanaKerja = $query->get();
+        $rencanaKerja = $query->paginate($request->get('per_page', 5))->withQueryString();
 
         return view('monitoring.operator.upload', compact('rencanaKerja', 'timList'));
     }

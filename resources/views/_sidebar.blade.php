@@ -56,12 +56,14 @@
                     </span>
                     <h4 class="text-section">Menu</h4>
                 </li>
+                @if(in_array(Auth::user()->id_role, [1, 2]))
                 <li class="nav-item {{ request()->routeIs('form.*') ? 'active' : '' }}">
                     <a href="{{ route('form.index') }}">
                         <i class="fas fa-file"></i>
                         <p>Form</p>
                     </a>
                 </li>
+                @endif
                 @if(Auth::user()->id_role == 1)
                 <li class="nav-item {{ request()->routeIs('monitoring.*') ? 'active' : '' }}">
                     <a href="{{ route('monitoring.operator.index') }}">

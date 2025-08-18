@@ -102,6 +102,7 @@
         const timSelect = document.getElementById('tim_id');
         const kegiatanSelect = document.getElementById('kegiatan_id');
 
+        // Fungsi untuk atur min jam mulai
         function updateMinTime() {
             const today = new Date();
             const selectedDate = new Date(tanggalInput.value);
@@ -111,7 +112,6 @@
                 const nowHours = String(today.getHours()).padStart(2, '0');
                 const nowMinutes = String(today.getMinutes()).padStart(2, '0');
                 const nowTime = `${nowHours}:${nowMinutes}`;
-
                 const minTime = (nowTime < "08:00") ? "08:00" : nowTime;
                 jamMulaiInput.min = minTime;
             } else {
@@ -122,7 +122,7 @@
         tanggalInput.addEventListener('change', updateMinTime);
         if (tanggalInput.value) updateMinTime();
 
-        // Tampilkan SweetAlert jika ada session sukses
+        // SweetAlert jika ada session sukses
         @if(session('success'))
         Swal.fire({
             icon: 'success',
@@ -133,10 +133,39 @@
         });
         @endif
 
-        // Jika user klik dropdown kegiatan tapi tim belum dipilih
-        if (kegiatanSelect) {
+        // Fungsi load kegiatan berdasarkan tim_id
+        function loadKegiatan(timId) {
+            kegiatanSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Kegiatan</option>';
+
+            if (timId) {
+                fetch(`/form/get-kegiatan/${timId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            data.forEach(kegiatan => {
+                                const option = document.createElement('option');
+                                option.value = kegiatan.id;
+                                option.textContent = kegiatan.nama_kegiatan;
+                                kegiatanSelect.appendChild(option);
+                            });
+                        } else {
+                            const option = document.createElement('option');
+                            option.disabled = true;
+                            option.textContent = 'Tidak ada kegiatan untuk tim ini';
+                            kegiatanSelect.appendChild(option);
+                        }
+                    });
+            }
+        }
+
+        // Cek role user
+        const userRole = "{{ auth()->user()->id_role }}";
+        const userTimId = "{{ auth()->user()->tim_id }}";
+
+        if (userRole == 1) {
+            // Admin → wajib pilih tim dulu
             kegiatanSelect.addEventListener('focus', function() {
-                if (timSelect && !timSelect.value) {
+                if (!timSelect.value) {
                     kegiatanSelect.innerHTML = '';
                     const option = document.createElement('option');
                     option.disabled = true;
@@ -145,36 +174,16 @@
                     kegiatanSelect.appendChild(option);
                 }
             });
-        }
 
-        // Saat tim dipilih, ambil kegiatan
-        if (timSelect) {
             timSelect.addEventListener('change', function() {
-                const timId = this.value;
-
-                // reset isi dropdown kegiatan
-                kegiatanSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Kegiatan</option>';
-
-                if (timId) {
-                    fetch(`/form/get-kegiatan/${timId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.length > 0) {
-                                data.forEach(kegiatan => {
-                                    const option = document.createElement('option');
-                                    option.value = kegiatan.id;
-                                    option.textContent = kegiatan.nama_kegiatan;
-                                    kegiatanSelect.appendChild(option);
-                                });
-                            } else {
-                                const option = document.createElement('option');
-                                option.disabled = true;
-                                option.textContent = 'Tidak ada kegiatan untuk tim ini';
-                                kegiatanSelect.appendChild(option);
-                            }
-                        });
-                }
+                loadKegiatan(this.value);
             });
+
+        } else {
+            // Ketua/anggota → langsung auto load berdasarkan tim user
+            if (userTimId) {
+                loadKegiatan(userTimId);
+            }
         }
     });
 </script>

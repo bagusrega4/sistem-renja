@@ -45,10 +45,11 @@
         </script>
         @endif
 
-        @if(in_array(auth()->user()->id_role, [2,3]))
+        @if(in_array(auth()->user()->id_role, [1,2,3]))
         <div class="mb-3">
             <form method="GET" action="{{ route('monitoring.operator.index') }}">
                 <div class="row g-3">
+
                     {{-- Filter Tim: hanya untuk Admin --}}
                     @if(auth()->user()->id_role == 3)
                     <div class="col">
@@ -64,25 +65,27 @@
                     </div>
                     @endif
 
-                    {{-- Filter Nama --}}
+                    {{-- Filter Nama: hanya untuk role 2 & 3 --}}
+                    @if(in_array(auth()->user()->id_role, [2,3]))
                     <div class="col">
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" name="nama" id="nama" value="{{ request('nama') }}" class="form-control" placeholder="Cari nama...">
                     </div>
+                    @endif
 
-                    {{-- Filter Kegiatan --}}
+                    {{-- Filter Kegiatan: semua role (1,2,3) --}}
                     <div class="col">
                         <label for="kegiatan" class="form-label">Kegiatan</label>
                         <input type="text" name="kegiatan" id="kegiatan" value="{{ request('kegiatan') }}" class="form-control" placeholder="Cari kegiatan...">
                     </div>
 
-                    {{-- Filter Periode Mulai --}}
+                    {{-- Filter Periode Mulai: semua role (1,2,3) --}}
                     <div class="col">
                         <label for="periode_mulai" class="form-label">Periode Mulai</label>
                         <input type="date" name="periode_mulai" id="periode_mulai" value="{{ request('periode_mulai') }}" class="form-control">
                     </div>
 
-                    {{-- Filter Periode Selesai --}}
+                    {{-- Filter Periode Selesai: semua role (1,2,3) --}}
                     <div class="col">
                         <label for="periode_selesai" class="form-label">Periode Selesai</label>
                         <input type="date" name="periode_selesai" id="periode_selesai" value="{{ request('periode_selesai') }}" class="form-control">
@@ -109,7 +112,9 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            @if(auth()->user()->id_role == 3)
                             <th>Tim Kerja</th>
+                            @endif
                             <th>Kegiatan</th>
                             <th>Periode Kegiatan</th>
                             <th>Tanggal Keluar</th>
@@ -122,7 +127,11 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $rk->user->pegawai->nama ?? '-' }}</td>
+
+                            @if(auth()->user()->id_role == 3)
                             <td>{{ $rk->tim->nama_tim ?? '-' }}</td>
+                            @endif
+
                             <td>{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}</td>
                             <td>
                                 @if($rk->managekegiatan && $rk->managekegiatan->periode_mulai && $rk->managekegiatan->periode_selesai)
@@ -165,15 +174,43 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center">Belum ada rencana kerja.</td>
+                            <td colspan="{{ auth()->user()->id_role == 3 ? 8 : 7 }}" class="text-center">Belum ada rencana kerja.</td>
                         </tr>
                         @endforelse
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <form method="GET" action="{{ route('monitoring.operator.index') }}">
+                            {{-- Bawa semua filter lama agar tidak hilang --}}
+                            <input type="hidden" name="tim_id" value="{{ request('tim_id') }}">
+                            <input type="hidden" name="nama" value="{{ request('nama') }}">
+                            <input type="hidden" name="kegiatan" value="{{ request('kegiatan') }}">
+                            <input type="hidden" name="periode_mulai" value="{{ request('periode_mulai') }}">
+                            <input type="hidden" name="periode_selesai" value="{{ request('periode_selesai') }}">
+
+                            <label for="per_page" class="form-label">Tampilkan</label>
+                            <select name="per_page" id="per_page" class="form-select d-inline-block w-auto"
+                                onchange="this.form.submit()">
+                                <option value="5" {{ request('per_page') == 5  ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                            <span>data per halaman</span>
+                        </form>
+                    </div>
+
+                    {{-- Pagination --}}
+                    <div>
+                        {{ $rencanaKerja->withQueryString()->links() }}
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 {{-- Script tambahan --}}
