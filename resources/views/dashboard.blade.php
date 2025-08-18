@@ -35,13 +35,13 @@
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Total Dinas Tahun Ini</h6>
+                    <h6>Total Keluar Dinas Tahun Ini</h6>
                     <h3 class="fw-bold text-primary">{{ $totalDinasTahun }}</h3>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Total Dinas Bulan Ini</h6>
+                    <h6>Total Keluar Dinas Bulan Ini</h6>
                     <h3 class="fw-bold text-success">{{ $totalDinasBulan }}</h3>
                 </div>
             </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-md-3">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Rata-rata Dinas / Bulan</h6>
+                    <h6>Rata-rata Keluar Dinas / Bulan</h6>
                     <h3 class="fw-bold text-warning">{{ $rataRataBulan }}</h3>
                 </div>
             </div>
@@ -63,7 +63,7 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Persentase Dinas per Tim ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Persentase Keluar Dinas per Tim ({{ $selectedYear }})</h6>
                     <div style="height:300px">
                         <canvas id="pieChart"></canvas>
                     </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Top Tim dengan Jumlah Dinas Terbanyak ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Top Tim dengan Jumlah Keluar Dinas Terbanyak ({{ $selectedYear }})</h6>
                     <div style="height:300px">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -82,7 +82,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Tren Bulanan Perjalanan Dinas per Tim ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Tren Bulanan Keluar Dinas per Tim ({{ $selectedYear }})</h6>
                     <div style="height:400px">
                         <canvas id="lineChart"></canvas>
                     </div>

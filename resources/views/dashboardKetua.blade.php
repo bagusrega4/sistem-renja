@@ -5,8 +5,8 @@
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h3 class="fw-bold mb-3">Dashboard Ketua Tim</h3>
-                <h6 class="op-7 mb-2">Ringkasan Rencana Kerja & Monitoring</h6>
+                <h3 class="fw-bold mb-3">Dashboard Ketua Tim {{ $timName }}</h3>
+                <h6 class="op-7 mb-2">Ringkasan Rencana Kerja & Monitoring Tim {{ $timName }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('monitoring.operator.index') }}" class="btn btn-label-info btn-round me-2">Monitoring</a>
@@ -33,27 +33,21 @@
 
         {{-- KPI CARDS --}}
         <div class="row mb-4">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Total Dinas Tahun Ini</h6>
+                    <h6>Total Keluar Dinas Tahun {{ $selectedYear }}</h6>
                     <h3 class="fw-bold text-primary">{{ $totalDinasTahun }}</h3>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Total Dinas Bulan Ini</h6>
+                    <h6>Total Keluar Dinas Bulan {{ $selectedYear }}</h6>
                     <h3 class="fw-bold text-success">{{ $totalDinasBulan }}</h3>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Tim Paling Aktif</h6>
-                    <h5 class="fw-bold text-info">{{ $timPalingAktifNama }}</h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm rounded-3 text-center p-3">
-                    <h6>Rata-rata Dinas / Bulan</h6>
+                    <h6>Rata-rata Keluar Dinas / Bulan {{ $selectedYear }}</h6>
                     <h3 class="fw-bold text-warning">{{ $rataRataBulan }}</h3>
                 </div>
             </div>
@@ -63,7 +57,7 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Persentase Dinas per Tim ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Persentase Jenis Kegiatan Keluar Dinas Tim {{ $timName }} ({{ $selectedYear }})</h6>
                     <div style="height:300px">
                         <canvas id="pieChart"></canvas>
                     </div>
@@ -71,7 +65,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Top Tim dengan Jumlah Dinas Terbanyak ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Jumlah Kegiatan Keluar Dinas Tim {{ $timName }} ({{ $selectedYear }})</h6>
                     <div style="height:300px">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -82,7 +76,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Tren Bulanan Perjalanan Dinas per Tim ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Tren Bulanan Keluar Dinas Tim {{ $timName }} ({{ $selectedYear }})</h6>
                     <div style="height:400px">
                         <canvas id="lineChart"></canvas>
                     </div>
@@ -93,7 +87,7 @@
         <div class="row">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm p-3">
-                    <h6 class="fw-bold">Distribusi Jenis Kegiatan per Tim ({{ $selectedYear }})</h6>
+                    <h6 class="fw-bold">Distribusi Jenis Kegiatan Tim {{ $timName }} ({{ $selectedYear }})</h6>
                     <div style="height:400px">
                         <canvas id="stackedBarChart"></canvas>
                     </div>
@@ -131,7 +125,7 @@
                             let total = dataset.data.reduce((sum, val) => sum + val, 0);
                             let value = dataset.data[context.dataIndex];
                             let percentage = ((value / total) * 100).toFixed(1) + '%';
-                            return percentage;
+                            return context.label + ': ' + value + ' (' + percentage + ')';
                         }
                     }
                 }
@@ -145,7 +139,7 @@
         data: {
             labels: {!! json_encode($barLabels) !!},
             datasets: [{
-                label: 'Jumlah Dinas',
+                label: 'Jumlah Kegiatan',
                 data: {!! json_encode($barData) !!},
                 backgroundColor: '#36b9cc'
             }]
@@ -173,7 +167,7 @@
     new Chart(document.getElementById('stackedBarChart'), {
         type: 'bar',
         data: {
-            labels: {!! json_encode($timLabels) !!},
+            labels: {!! json_encode($userLabels) !!},
             datasets: {!! json_encode($stackedDatasets) !!}
         },
         options: {

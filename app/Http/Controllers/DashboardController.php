@@ -59,7 +59,7 @@ class DashboardController extends Controller
         // --- LINE DATA (tren bulanan per tim) ---
         $lineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-        $timList = Tim::pluck('nama_tim', 'id'); // lebih aman dari DB::table
+        $timList = Tim::pluck('nama_tim', 'id');
         $lineDatasets = [];
 
         // pakai palet warna supaya konsisten (bukan random)
@@ -79,6 +79,7 @@ class DashboardController extends Controller
                 'data' => $data,
                 'borderWidth' => 2,
                 'fill' => false,
+                'tension' => 0.3,
                 'borderColor' => $colors[$timId % count($colors)]
             ];
         }

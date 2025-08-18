@@ -12,126 +12,88 @@ class DashboardAnggotaController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $selectedYear = $request->get('year', Carbon::now()->year);
 
-        // --- daftar tahun untuk dropdown ---
+        // --- daftar tahun untuk dropdown
         $availableYears = Form::selectRaw('YEAR(tanggal) as year')
+            ->where('user_id', $user->id)
             ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year')
-            ->toArray();
+            ->pluck('year');
 
-        // --- KPI CARDS ---
-        $totalDinasTahun = Form::whereYear('tanggal', $selectedYear)->count();
+        // --- total keluar dinas tahun ini (user login)
+        $totalDinasTahun = Form::where('user_id', $user->id)
+            ->whereYear('tanggal', $selectedYear)
+            ->count();
 
-        $totalDinasBulan = Form::whereYear('tanggal', $selectedYear)
+        // --- total keluar dinas bulan ini (user login)
+        $totalDinasBulan = Form::where('user_id', $user->id)
+            ->whereYear('tanggal', $selectedYear)
             ->whereMonth('tanggal', Carbon::now()->month)
             ->count();
 
-        $timPalingAktif = Form::select('tim_id', DB::raw('COUNT(*) as total'))
+        // --- rata-rata keluar dinas / bulan
+        $rataRataBulan = Form::where('user_id', $user->id)
             ->whereYear('tanggal', $selectedYear)
-            ->groupBy('tim_id')
-            ->orderByDesc('total')
-            ->with('tim')
-            ->first();
+            ->selectRaw('COUNT(*) / COUNT(DISTINCT MONTH(tanggal)) as avg')
+            ->value('avg') ?? 0;
 
-        $timPalingAktifNama = $timPalingAktif && $timPalingAktif->tim
-            ? $timPalingAktif->tim->nama_tim
-            : '-';
-
-        $rataRataBulan = $totalDinasTahun > 0 ? round($totalDinasTahun / 12, 1) : 0;
-
-        // --- PIE DATA (persentase per tim) ---
-        $pie = Form::select('tim_id', DB::raw('COUNT(*) as total'))
-            ->whereYear('tanggal', $selectedYear)
-            ->groupBy('tim_id')
-            ->with('tim')
-            ->get();
-
-        $pieLabels = $pie->pluck('tim.nama_tim');
-        $pieData   = $pie->pluck('total');
-
-        // --- BAR DATA (top tim) ---
-        $bar       = $pie->sortByDesc('total')->take(5);
-        $barLabels = $bar->pluck('tim.nama_tim');
-        $barData   = $bar->pluck('total');
-
-        // --- LINE DATA (tren bulanan per tim) ---
-        $lineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-
-        $timList = Tim::pluck('nama_tim', 'id'); // lebih aman dari DB::table
-        $lineDatasets = [];
-
-        // pakai palet warna supaya konsisten (bukan random)
-        $colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796', '#20c997', '#6f42c1'];
-
-        foreach ($timList as $timId => $timNama) {
-            $data = [];
-            for ($bulan = 1; $bulan <= 12; $bulan++) {
-                $count = Form::whereYear('tanggal', $selectedYear)
-                    ->whereMonth('tanggal', $bulan)
-                    ->where('tim_id', $timId)
-                    ->count();
-                $data[] = $count;
-            }
-            $lineDatasets[] = [
-                'label' => $timNama,
-                'data' => $data,
-                'borderWidth' => 2,
-                'fill' => false,
-                'borderColor' => $colors[$timId % count($colors)]
-            ];
-        }
-
-        // --- STACKED BAR DATA (Distribusi Jenis Kegiatan per Tim) ---
-        $jenisKegiatanData = Form::select(
-            'tims.nama_tim',
+        // --- Pie Chart: distribusi jenis kegiatan user
+        $pieDataRaw = Form::select(
             'kegiatan.nama_kegiatan',
             DB::raw('COUNT(*) as total')
         )
-            ->join('tims', 'forms.tim_id', '=', 'tims.id')
             ->join('kegiatan', 'forms.kegiatan_id', '=', 'kegiatan.id')
+            ->where('forms.user_id', $user->id)
             ->whereYear('forms.tanggal', $selectedYear)
-            ->groupBy('tims.nama_tim', 'kegiatan.nama_kegiatan')
+            ->groupBy('kegiatan.nama_kegiatan')
             ->get();
 
-        $timLabels   = $jenisKegiatanData->pluck('nama_tim')->unique()->values();
-        $jenisLabels = $jenisKegiatanData->pluck('nama_kegiatan')->unique()->values();
+        $pieLabels = $pieDataRaw->pluck('nama_kegiatan');
+        $pieData   = $pieDataRaw->pluck('total');
 
-        $stackedDatasets = [];
-        $colorsStacked = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'];
+        // --- Bar Chart: jumlah kegiatan user login per jenis kegiatan
+        $barLabels = $pieLabels; // sama dengan pie
+        $barData   = $pieData;
 
-        foreach ($jenisLabels as $i => $jenis) {
-            $data = [];
-            foreach ($timLabels as $tim) {
-                $row = $jenisKegiatanData
-                    ->where('nama_tim', $tim)
-                    ->where('nama_kegiatan', $jenis)
-                    ->first();
-                $data[] = $row ? $row->total : 0;
-            }
-            $stackedDatasets[] = [
-                'label' => $jenis,
-                'data' => $data,
-                'backgroundColor' => $colorsStacked[$i % count($colorsStacked)]
-            ];
+        // --- Line Chart: tren bulanan user login
+        $lineRaw = Form::select(
+            DB::raw('MONTH(tanggal) as bulan'),
+            DB::raw('COUNT(*) as total')
+        )
+            ->where('user_id', $user->id)
+            ->whereYear('tanggal', $selectedYear)
+            ->groupBy(DB::raw('MONTH(tanggal)'))
+            ->pluck('total', 'bulan');
+
+        $lineLabels = [];
+        $lineValues = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $lineLabels[] = Carbon::create()->month($m)->format('F');
+            $lineValues[] = $lineRaw[$m] ?? 0;
         }
 
+        $lineDatasets = [[
+            'label' => $user->username,
+            'data' => $lineValues,
+            'borderColor' => '#4e73df',
+            'backgroundColor' => 'rgba(78, 115, 223, 0.1)',
+            'fill' => true,
+            'tension' => 0.3
+        ]];
+
         return view('dashboardAnggota', compact(
-            'selectedYear',
             'availableYears',
+            'selectedYear',
             'totalDinasTahun',
             'totalDinasBulan',
-            'timPalingAktifNama',
             'rataRataBulan',
             'pieLabels',
             'pieData',
             'barLabels',
             'barData',
             'lineLabels',
-            'lineDatasets',
-            'timLabels',
-            'stackedDatasets'
+            'lineDatasets'
         ));
     }
 }

@@ -5,107 +5,111 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Form;
-use App\Models\Tim;
 use Carbon\Carbon;
 
 class DashboardKetuaController extends Controller
 {
     public function index(Request $request)
     {
+        $user   = auth()->user();
+        $timId  = $user->tim_id;
         $selectedYear = $request->get('year', Carbon::now()->year);
 
-        // --- daftar tahun untuk dropdown ---
-        $availableYears = Form::selectRaw('YEAR(tanggal) as year')
+        $timName = $user->tim ? $user->tim->nama_tim : '-';
+
+        // --- daftar tahun untuk dropdown (hanya tahun yg ada di tim ini) ---
+        $availableYears = Form::where('tim_id', $timId)
+            ->selectRaw('YEAR(tanggal) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year')
             ->toArray();
 
         // --- KPI CARDS ---
-        $totalDinasTahun = Form::whereYear('tanggal', $selectedYear)->count();
+        $totalDinasTahun = Form::where('tim_id', $timId)
+            ->whereYear('tanggal', $selectedYear)
+            ->count();
 
-        $totalDinasBulan = Form::whereYear('tanggal', $selectedYear)
+        $totalDinasBulan = Form::where('tim_id', $timId)
+            ->whereYear('tanggal', $selectedYear)
             ->whereMonth('tanggal', Carbon::now()->month)
             ->count();
 
-        $timPalingAktif = Form::select('tim_id', DB::raw('COUNT(*) as total'))
-            ->whereYear('tanggal', $selectedYear)
-            ->groupBy('tim_id')
-            ->orderByDesc('total')
-            ->with('tim')
-            ->first();
-
-        $timPalingAktifNama = $timPalingAktif && $timPalingAktif->tim
-            ? $timPalingAktif->tim->nama_tim
-            : '-';
-
         $rataRataBulan = $totalDinasTahun > 0 ? round($totalDinasTahun / 12, 1) : 0;
 
-        // --- PIE DATA (persentase per tim) ---
-        $pie = Form::select('tim_id', DB::raw('COUNT(*) as total'))
+        // --- PIE DATA (jenis kegiatan untuk tim ini) ---
+        $pie = Form::where('tim_id', $timId)
             ->whereYear('tanggal', $selectedYear)
-            ->groupBy('tim_id')
-            ->with('tim')
+            ->select('kegiatan_id', DB::raw('COUNT(*) as total'))
+            ->groupBy('kegiatan_id')
+            ->with('manageKegiatan')
             ->get();
 
-        $pieLabels = $pie->pluck('tim.nama_tim');
+        $pieLabels = $pie->pluck('manageKegiatan.nama_kegiatan');
         $pieData   = $pie->pluck('total');
 
-        // --- BAR DATA (top tim) ---
-        $bar       = $pie->sortByDesc('total')->take(5);
-        $barLabels = $bar->pluck('tim.nama_tim');
-        $barData   = $bar->pluck('total');
+        // --- BAR DATA (jumlah kegiatan per jenis) ---
+        $barLabels = $pieLabels;
+        $barData   = $pieData;
 
-        // --- LINE DATA (tren bulanan per tim) ---
+        // --- LINE DATA (tren bulanan per orang di tim) ---
         $lineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-        $timList = Tim::pluck('nama_tim', 'id'); // lebih aman dari DB::table
-        $lineDatasets = [];
+        $lineRaw = Form::where('forms.tim_id', $timId)
+            ->whereYear('forms.tanggal', $selectedYear)
+            ->join('users', 'forms.user_id', '=', 'users.id')
+            ->selectRaw('users.id as user_id, users.username, MONTH(forms.tanggal) as bulan, COUNT(*) as total')
+            ->groupBy('users.id', 'users.username', 'bulan')
+            ->get();
 
-        // pakai palet warna supaya konsisten (bukan random)
+        $users = $lineRaw->pluck('username', 'user_id')->unique();
+
+        $lineDatasets = [];
         $colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796', '#20c997', '#6f42c1'];
 
-        foreach ($timList as $timId => $timNama) {
+        foreach ($users as $userId => $username) {
             $data = [];
             for ($bulan = 1; $bulan <= 12; $bulan++) {
-                $count = Form::whereYear('tanggal', $selectedYear)
-                    ->whereMonth('tanggal', $bulan)
-                    ->where('tim_id', $timId)
-                    ->count();
+                $count = $lineRaw
+                    ->where('user_id', $userId)
+                    ->where('bulan', $bulan)
+                    ->pluck('total')
+                    ->first() ?? 0;
                 $data[] = $count;
             }
             $lineDatasets[] = [
-                'label' => $timNama,
+                'label' => $username,
                 'data' => $data,
                 'borderWidth' => 2,
                 'fill' => false,
-                'borderColor' => $colors[$timId % count($colors)]
+                'borderColor' => $colors[count($lineDatasets) % count($colors)]
             ];
         }
 
-        // --- STACKED BAR DATA (Distribusi Jenis Kegiatan per Tim) ---
+        // --- STACKED BAR DATA ---
         $jenisKegiatanData = Form::select(
-            'tims.nama_tim',
+            'users.username as nama_user',
             'kegiatan.nama_kegiatan',
             DB::raw('COUNT(*) as total')
         )
-            ->join('tims', 'forms.tim_id', '=', 'tims.id')
+            ->join('users', 'forms.user_id', '=', 'users.id')
             ->join('kegiatan', 'forms.kegiatan_id', '=', 'kegiatan.id')
             ->whereYear('forms.tanggal', $selectedYear)
-            ->groupBy('tims.nama_tim', 'kegiatan.nama_kegiatan')
+            ->where('forms.tim_id', $timId) // 👈 filter hanya tim yang sedang login
+            ->groupBy('users.username', 'kegiatan.nama_kegiatan')
             ->get();
 
-        $timLabels   = $jenisKegiatanData->pluck('nama_tim')->unique()->values();
-        $jenisLabels = $jenisKegiatanData->pluck('nama_kegiatan')->unique()->values();
+        $userLabels   = $jenisKegiatanData->pluck('nama_user')->unique()->values();
+        $jenisLabels  = $jenisKegiatanData->pluck('nama_kegiatan')->unique()->values();
 
         $stackedDatasets = [];
         $colorsStacked = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'];
 
         foreach ($jenisLabels as $i => $jenis) {
             $data = [];
-            foreach ($timLabels as $tim) {
+            foreach ($userLabels as $user) {
                 $row = $jenisKegiatanData
-                    ->where('nama_tim', $tim)
+                    ->where('nama_user', $user)
                     ->where('nama_kegiatan', $jenis)
                     ->first();
                 $data[] = $row ? $row->total : 0;
@@ -120,9 +124,9 @@ class DashboardKetuaController extends Controller
         return view('dashboardKetua', compact(
             'selectedYear',
             'availableYears',
+            'timName',
             'totalDinasTahun',
             'totalDinasBulan',
-            'timPalingAktifNama',
             'rataRataBulan',
             'pieLabels',
             'pieData',
@@ -130,7 +134,7 @@ class DashboardKetuaController extends Controller
             'barData',
             'lineLabels',
             'lineDatasets',
-            'timLabels',
+            'userLabels',
             'stackedDatasets'
         ));
     }
