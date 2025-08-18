@@ -440,5 +440,18 @@
         "tanggal_lulus": "14-06-2000",
         "jenis_kelamin": "LK",
         "email": "agus.wachyu@bps.go.id"
+    },
+    {
+        "id": 35,
+        "nama": "Super Admin",
+        "nip_lama": "444444444",
+        "nip_baru": "555555555555555555",
+        "jabatan": "Admin",
+        "golongan_akhir": "IV/a",
+        "tamat_gol": "09-09-2022",
+        "pendidikan": "Politeknik Statistika STIS",
+        "tanggal_lulus": "09-09-2026",
+        "jenis_kelamin": "LK",
+        "email": "super.admin@bps.go.id"
     }
 ]

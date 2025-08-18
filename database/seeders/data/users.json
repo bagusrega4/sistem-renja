@@ -275,8 +275,8 @@
     "username": "nasruddin",
     "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
     "email": "nasruddin2@bps.go.id",
-    "id_role": "3",
-    "tim_id": "9"
+    "id_role": "2",
+    "tim_id": "1"
   },
   {
     "id": 32,
@@ -304,5 +304,14 @@
     "email": "agus.wachyu@bps.go.id",
     "id_role": "1",
     "tim_id": null
+  },
+  {
+    "id": 35,
+    "nip_lama": "444444444",
+    "username": "super.admin",
+    "password": "$2y$10$qdupGpW0xMVo.8mB4lPgcejIoO4ByhYxp4ahO.AQQz0yn2RtgNWUS",
+    "email": "super.admin@bps.go.id",
+    "id_role": "3",
+    "tim_id": "9"
   }
 ]
