@@ -37,9 +37,78 @@
         <div class="card card-round">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Manage Kegiatan</h4>
+
+                {{-- Tombol Tambah Kegiatan hanya untuk selain role 3 --}}
+                @if(auth()->user()->id_role != 3)
                 <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary btn-sm">+ Tambah Kegiatan</a>
+                @endif
             </div>
             <div class="card-body">
+
+                {{-- FILTER --}}
+                <div class="mb-4">
+                    <form method="GET" action="{{ route('manage.kegiatan.index') }}">
+                        <div class="row g-3">
+
+                            {{-- Nama Tim (khusus role 3) --}}
+                            @if(auth()->user()->id_role == 3)
+                            <div class="col-md-3">
+                                <label for="tim_id" class="form-label">Nama Tim</label>
+                                <select name="tim_id" id="tim_id" class="form-select">
+                                    <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
+                                    @foreach($timList as $tim)
+                                    <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>
+                                        {{ $tim->nama_tim }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
+
+                            {{-- Nama Kegiatan --}}
+                            <div class="col-md-3">
+                                <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
+                                <input type="text" name="nama_kegiatan" id="nama_kegiatan"
+                                    value="{{ request('nama_kegiatan') }}"
+                                    class="form-control"
+                                    placeholder="Cari kegiatan...">
+                            </div>
+
+                            {{-- Periode Mulai --}}
+                            <div class="col-md-3">
+                                <label for="periode_mulai" class="form-label">Periode Mulai</label>
+                                <input type="date" name="periode_mulai" id="periode_mulai"
+                                    value="{{ request('periode_mulai') }}"
+                                    class="form-control">
+                            </div>
+
+                            {{-- Periode Selesai --}}
+                            <div class="col-md-3">
+                                <label for="periode_selesai" class="form-label">Periode Selesai</label>
+                                <input type="date" name="periode_selesai" id="periode_selesai"
+                                    value="{{ request('periode_selesai') }}"
+                                    class="form-control">
+                            </div>
+
+                            {{-- Status --}}
+                            <div class="col-md-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua</option>
+                                    <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary me-2">Filter</button>
+                                <a href="{{ route('manage.kegiatan.index') }}" class="btn btn-secondary">Reset</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {{-- END FILTER --}}
+
                 @if($kegiatanList->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
@@ -49,6 +118,9 @@
                                 <th>Nama Kegiatan</th>
                                 <th>Periode</th>
                                 <th>Deskripsi</th>
+                                @if(auth()->user()->id_role == 3)
+                                <th>Nama Tim</th>
+                                @endif
                                 <th>Status</th>
                                 <th style="width: 150px;">Aksi</th>
                             </tr>
@@ -68,6 +140,13 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->deskripsi ?? '-' }}</td>
+
+                                @if(auth()->user()->id_role == 3)
+                                <td class="text-center">
+                                    {{ $item->tim->nama_tim ?? '-' }}
+                                </td>
+                                @endif
+
                                 <td class="text-center">
                                     @if($item->status == 'selesai')
                                     <span class="badge bg-success">Selesai</span>
@@ -75,14 +154,33 @@
                                     <span class="badge bg-primary">Aktif</span>
                                     @endif
                                 </td>
+
                                 <td class="text-center">
+                                    @if(auth()->user()->id_role != 3)
+                                    @if($item->status != 'selesai')
                                     <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
                                         method="POST"
                                         onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            Selesai
+                                        </button>
                                     </form>
+                                    @else
+                                    <button class="btn btn-success btn-sm"
+                                        onclick="return false;"
+                                        style="cursor: not-allowed; opacity: 0.65;">
+                                        Selesai
+                                    </button>
+                                    @endif
+                                    @else
+                                    <button class="btn btn-success btn-sm"
+                                        onclick="return false;"
+                                        style="cursor: not-allowed; opacity: 0.65;">
+                                        Selesai
+                                    </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -92,9 +190,13 @@
                 @else
                 <div class="text-center py-5">
                     <h6 class="text-muted mb-3">Belum ada kegiatan yang ditambahkan.</h6>
+
+                    {{-- Tombol tambah kegiatan hanya untuk selain role 3 --}}
+                    @if(auth()->user()->id_role != 3)
                     <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary">
                         + Tambah Kegiatan Pertama
                     </a>
+                    @endif
                 </div>
                 @endif
             </div>
@@ -105,7 +207,6 @@
 
 @push('scripts')
 <style>
-    /* Tambahkan jarak antar tombol di SweetAlert */
     .swal2-actions .btn {
         margin: 0 8px;
     }
@@ -137,14 +238,13 @@
         return false;
     }
 
-    // Auto close alert Bootstrap setelah 10 detik
     setTimeout(() => {
         let alert = document.querySelector('.alert-dismissible');
         if (alert) {
             let bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         }
-    }, 10000); // 10 detik
+    }, 10000);
 
     @if(session('success'))
     Swal.fire({

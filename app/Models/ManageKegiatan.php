@@ -26,4 +26,9 @@ class ManageKegiatan extends Model
     {
         return $this->belongsTo(Kegiatan::class, 'kegiatan_id');
     }
+    
+    public function tim()
+    {
+        return $this->belongsTo(Tim::class, 'tim_id');
+    }
 }

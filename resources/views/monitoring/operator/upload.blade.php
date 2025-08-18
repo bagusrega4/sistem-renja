@@ -27,7 +27,7 @@
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-message">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         @endif
 
@@ -48,10 +48,10 @@
         @if(in_array(auth()->user()->id_role, [2,3]))
         <div class="mb-3">
             <form method="GET" action="{{ route('monitoring.operator.index') }}">
-                <div class="row">
+                <div class="row g-3">
                     {{-- Filter Tim: hanya untuk Admin --}}
                     @if(auth()->user()->id_role == 3)
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="tim_id" class="form-label fw-bold">Pilih Tim Kerja</label>
                         <select name="tim_id" id="tim_id" class="form-select">
                             <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
@@ -65,33 +65,34 @@
                     @endif
 
                     {{-- Filter Nama --}}
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" name="nama" id="nama" value="{{ request('nama') }}" class="form-control" placeholder="Cari nama...">
                     </div>
 
                     {{-- Filter Kegiatan --}}
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="kegiatan" class="form-label">Kegiatan</label>
                         <input type="text" name="kegiatan" id="kegiatan" value="{{ request('kegiatan') }}" class="form-control" placeholder="Cari kegiatan...">
                     </div>
 
                     {{-- Filter Periode Mulai --}}
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="periode_mulai" class="form-label">Periode Mulai</label>
                         <input type="date" name="periode_mulai" id="periode_mulai" value="{{ request('periode_mulai') }}" class="form-control">
                     </div>
 
                     {{-- Filter Periode Selesai --}}
-                    <div class="col-md-3 mt-2">
+                    <div class="col">
                         <label for="periode_selesai" class="form-label">Periode Selesai</label>
                         <input type="date" name="periode_selesai" id="periode_selesai" value="{{ request('periode_selesai') }}" class="form-control">
                     </div>
-                </div>
 
-                <div class="mt-3 text-end">
-                    <button type="submit" class="btn btn-primary">Filter</button>
-                    <a href="{{ route('monitoring.operator.index') }}" class="btn btn-secondary">Reset</a>
+                    {{-- Tombol --}}
+                    <div class="col-auto d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">Filter</button>
+                        <a href="{{ route('monitoring.operator.index') }}" class="btn btn-secondary">Reset</a>
+                    </div>
                 </div>
             </form>
         </div>
@@ -108,7 +109,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Tim Kerja</th> {{-- Tambahan --}}
+                            <th>Tim Kerja</th>
                             <th>Kegiatan</th>
                             <th>Periode Kegiatan</th>
                             <th>Tanggal Keluar</th>
@@ -121,10 +122,7 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $rk->user->pegawai->nama ?? '-' }}</td>
-
-                            {{-- Kolom Tim Kerja --}}
                             <td>{{ $rk->tim->nama_tim ?? '-' }}</td>
-
                             <td>{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}</td>
                             <td>
                                 @if($rk->managekegiatan && $rk->managekegiatan->periode_mulai && $rk->managekegiatan->periode_selesai)
@@ -155,13 +153,13 @@
                                         value="1"
                                         {{ $rk->diketahui ? 'checked' : '' }}
                                         onchange="this.form.submit()"
-                                        style="transform: scale(2); accent-color: green; cursor: pointer;">
+                                        style="transform: scale(1.5); accent-color: green; cursor: pointer;">
                                 </form>
                                 @else
                                 <input type="checkbox"
                                     {{ $rk->diketahui ? 'checked' : '' }}
                                     onclick="return false;"
-                                    style="transform: scale(2); accent-color: green; cursor: not-allowed;">
+                                    style="transform: scale(1.5); accent-color: green; cursor: not-allowed;">
                                 @endif
                             </td>
                         </tr>
@@ -180,18 +178,6 @@
 
 {{-- Script tambahan --}}
 <script>
-    function resetFileInput(fileInputId, buttonId) {
-        var fileInput = document.getElementById(fileInputId);
-        fileInput.value = "";
-        document.getElementById(buttonId).style.display = "none";
-    }
-
-    function toggleResetButton(fileInputId, buttonId) {
-        var fileInput = document.getElementById(fileInputId);
-        var button = document.getElementById(buttonId);
-        button.style.display = fileInput.value ? "inline-block" : "none";
-    }
-
     // Auto-hide alert bootstrap setelah 10 detik
     setTimeout(function() {
         var alert = document.getElementById('alert-message');

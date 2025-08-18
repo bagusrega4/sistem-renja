@@ -5,24 +5,74 @@ namespace App\Http\Controllers;
 use App\Models\ManageKegiatan;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
+use App\Models\Tim;
 
 class KegiatanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
+        // ambil semua input filter
+        $statusFilter   = $request->get('status');
+        $timFilter      = $request->get('tim_id');
+        $namaFilter     = $request->get('nama_kegiatan');
+        $periodeMulai   = $request->get('periode_mulai');
+        $periodeSelesai = $request->get('periode_selesai');
+
+        // base query
         if ($user->id_role == 3) {
-            $kegiatanList = ManageKegiatan::with('kegiatan')->latest('id')->get();
+            $query = ManageKegiatan::with('kegiatan', 'tim');
         } else {
-            // Selain admin -> hanya tampilkan sesuai tim_id user login
-            $kegiatanList = ManageKegiatan::with('kegiatan')
-                ->where('tim_id', $user->tim_id)
-                ->latest('id')
-                ->get();
+            $query = ManageKegiatan::with('kegiatan', 'tim')
+                ->where('tim_id', $user->tim_id);
         }
 
-        return view('manage.kegiatan.index', compact('kegiatanList'));
+        // filter status
+        if (!empty($statusFilter) && in_array($statusFilter, ['aktif', 'selesai'])) {
+            $query->where('status', $statusFilter);
+        }
+
+        // filter nama kegiatan
+        if (!empty($namaFilter)) {
+            $query->where('nama_kegiatan', 'like', "%$namaFilter%");
+        }
+
+        // filter tim (hanya role 3)
+        if ($user->id_role == 3 && !empty($timFilter)) {
+            $query->where('tim_id', $timFilter);
+        }
+
+        // filter periode (overlap)
+        if (!empty($periodeMulai) && !empty($periodeSelesai)) {
+            $query->where(function ($q) use ($periodeMulai, $periodeSelesai) {
+                $q->whereDate('periode_mulai', '<=', $periodeSelesai)
+                    ->whereDate('periode_selesai', '>=', $periodeMulai);
+            });
+        } elseif (!empty($periodeMulai)) {
+            // kalau hanya isi mulai → kegiatan yg selesai setelah mulai
+            $query->whereDate('periode_selesai', '>=', $periodeMulai);
+        } elseif (!empty($periodeSelesai)) {
+            // kalau hanya isi selesai → kegiatan yg mulai sebelum selesai
+            $query->whereDate('periode_mulai', '<=', $periodeSelesai);
+        }
+
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // eksekusi query
+        $kegiatanList = $query->latest('id')->get();
+
+        // list tim untuk dropdown
+        $timList = Tim::orderBy('nama_tim')->get();
+
+        return view('manage.kegiatan.index', compact(
+            'kegiatanList',
+            'statusFilter',
+            'timList'
+        ));
     }
 
     public function create()
