@@ -54,7 +54,7 @@
                     @if(auth()->user()->id_role == 3)
                     <div class="col">
                         <label for="tim_id" class="form-label fw-bold">Pilih Tim Kerja</label>
-                        <select name="tim_id" id="tim_id" class="form-select">
+                        <select name="tim_id" id="tim_id" class="form-control">
                             <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
                             @foreach($timList as $tim)
                             <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>

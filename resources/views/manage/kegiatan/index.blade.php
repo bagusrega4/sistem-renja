@@ -53,7 +53,7 @@
                             @if(auth()->user()->id_role == 3)
                             <div class="col">
                                 <label for="tim_id" class="form-label">Nama Tim</label>
-                                <select name="tim_id" id="tim_id" class="form-select">
+                                <select name="tim_id" id="tim_id" class="form-control">
                                     <option value="" disabled {{ request('tim_id') ? '' : 'selected' }}>Pilih Tim</option>
                                     @foreach($timList as $tim)
                                     <option value="{{ $tim->id }}" {{ request('tim_id') == $tim->id ? 'selected' : '' }}>
@@ -92,7 +92,7 @@
                             {{-- Status --}}
                             <div class="col">
                                 <label for="status" class="form-label">Status</label>
-                                <select name="status" id="status" class="form-select">
+                                <select name="status" id="status" class="form-control">
                                     <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua</option>
                                     <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                     <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
