@@ -105,7 +105,12 @@
                     </a>
                 </li>
                 @endif
-
+                <li class="nav-item {{ request()->routeIs('panduan.index') ? 'active' : '' }}">
+                    <a href="{{ route('panduan.index') }}">
+                        <i class="fas fa-book"></i>
+                        <p>Panduan</p>
+                    </a>
+                </li>
                 <style>
                     .nav-item a .badge-success {
                         margin-right: 0;

@@ -10,6 +10,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\PanduanController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -115,6 +116,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // (opsional) hapus kegiatan
             Route::delete('/{id}', [KegiatanController::class, 'destroy'])->name('destroy');
+        });
+
+        // Panduan
+        Route::prefix('panduan')->name('panduan.')->group(function () {
+            Route::get('/', [PanduanController::class, 'index'])->name('index');
+            Route::get('/upload', [PanduanController::class, 'uploadPanduan'])->name('upload.form');
+            Route::post('/upload', [PanduanController::class, 'store'])->name('upload');
         });
     });
 });
