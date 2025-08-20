@@ -11,6 +11,7 @@ use App\Http\Controllers\MonitoringOperatorController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\ManageUserController;
 
 // -------------------------------------------------------------------
 // Halaman Home
@@ -123,6 +124,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [PanduanController::class, 'index'])->name('index');
             Route::get('/upload', [PanduanController::class, 'uploadPanduan'])->name('upload.form');
             Route::post('/upload', [PanduanController::class, 'store'])->name('upload');
+        });
+
+        // Manage User
+        Route::name('manage.user.')->prefix('manage/user')->group(function () {
+            Route::get('/', [ManageUserController::class, 'index'])->name('index');
+            Route::get('/create', [ManageUserController::class, 'create'])->name('create');
+            Route::post('/store', [ManageUserController::class, 'store'])->name('store');
+            Route::put('/{id}/update-role', [ManageUserController::class, 'updateRoleUser'])->name('updateRole');
+            Route::put('/{id}/update-tim', [ManageUserController::class, 'updateTimUser'])->name('updateTim'); // 👉 tambahan
+            Route::get('/edit/{id}', [ManageUserController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ManageUserController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ManageUserController::class, 'destroy'])->name('destroy');
         });
     });
 });

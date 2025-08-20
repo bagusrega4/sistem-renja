@@ -20,9 +20,12 @@ class Pegawai extends Model
         'nip_lama',
         'nip_baru',
         'jabatan',
-        'kode_wilayah',
-        'nama_wilayah',
-        'golongan',
+        'golongan_akhir',
+        'tamat_gol',
+        'pendidikan',
+        'tanggal_lulus',
+        'jenis_kelamin',
+        'email'
     ];
 
     public function user()

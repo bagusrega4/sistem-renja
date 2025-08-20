@@ -105,6 +105,14 @@
                     </a>
                 </li>
                 @endif
+                @if(in_array(Auth::user()->id_role, [3]))
+                <li class="nav-item {{ request()->routeIs('manage.user.*') || request()->routeIs('manage.user.create') || request()->routeIs('manage.user.edit') ? 'active' : '' }}">
+                    <a href="{{ route('manage.user.index') }}">
+                        <i class="fas fa-users-cog"></i>
+                        <p>Manage User</p>
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item {{ request()->routeIs('panduan.index') ? 'active' : '' }}">
                     <a href="{{ route('panduan.index') }}">
                         <i class="fas fa-book"></i>
