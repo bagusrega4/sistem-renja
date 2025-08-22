@@ -154,21 +154,29 @@
                                     @endif
                                 </td>
 
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-column gap-1">
                                     @if(auth()->user()->id_role != 3)
                                     @if($item->status != 'selesai')
+                                    {{-- Tombol Selesaikan --}}
                                     <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
                                         method="POST"
                                         onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                                        <button type="submit" class="btn btn-success btn-sm w-100">Selesai</button>
                                     </form>
                                     @else
-                                    <button class="btn btn-success btn-sm" disabled>Selesai</button>
+                                    {{-- Tombol Aktifkan Kembali --}}
+                                    <form action="{{ route('manage.kegiatan.aktif', $item->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirmAktif(this, '{{ $item->nama_kegiatan }}')">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-warning btn-sm w-100">Aktifkan</button>
+                                    </form>
                                     @endif
                                     @else
-                                    <button class="btn btn-success btn-sm" disabled>Selesai</button>
+                                    <button class="btn btn-success btn-sm w-100" disabled>Selesai</button>
                                     @endif
                                 </td>
                             </tr>
@@ -218,3 +226,46 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmSelesai(form, namaKegiatan) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Yakin?',
+            text: "Kegiatan \"" + namaKegiatan + "\" akan ditandai sebagai selesai.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Selesaikan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+
+    function confirmAktif(form, namaKegiatan) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Aktifkan kembali?',
+            text: "Kegiatan \"" + namaKegiatan + "\" akan diaktifkan kembali.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#ffc107',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Aktifkan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+</script>
+@endpush

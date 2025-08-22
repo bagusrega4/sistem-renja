@@ -145,4 +145,13 @@ class KegiatanController extends Controller
             ->route('manage.kegiatan.index')
             ->with('success', 'Kegiatan berhasil ditandai selesai.');
     }
+
+    public function aktif($id)
+    {
+        $kegiatan = ManageKegiatan::findOrFail($id);
+        $kegiatan->status = 'aktif';
+        $kegiatan->save();
+
+        return redirect()->route('manage.kegiatan.index')->with('success', 'Kegiatan berhasil diaktifkan kembali.');
+    }
 }

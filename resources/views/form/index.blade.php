@@ -51,6 +51,8 @@
                 <select class="form-select" id="kegiatan_id" name="kegiatan_id" required>
                     <option value="" disabled selected hidden>Pilih Kegiatan</option>
                 </select>
+                <!-- Catatan Kegiatan -->
+                <div id="catatan_kegiatan" class="mt-2 text-muted small"></div>
             </div>
 
             <!-- Tanggal -->
@@ -133,9 +135,23 @@
         });
         @endif
 
-        // Fungsi load kegiatan berdasarkan tim_id
+        function formatTanggalIndo(tanggal) {
+            if (!tanggal) return '';
+            const bulanIndo = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const d = new Date(tanggal);
+            const tgl = d.getDate();
+            const bln = bulanIndo[d.getMonth()];
+            const thn = d.getFullYear();
+            return `${tgl} ${bln} ${thn}`;
+        }
+
         function loadKegiatan(timId) {
             kegiatanSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Kegiatan</option>';
+            const catatanDiv = document.getElementById('catatan_kegiatan');
+            catatanDiv.innerHTML = ''; // reset catatan
 
             if (timId) {
                 fetch(`/form/get-kegiatan/${timId}`)
@@ -146,6 +162,17 @@
                                 const option = document.createElement('option');
                                 option.value = kegiatan.id;
                                 option.textContent = kegiatan.nama_kegiatan;
+
+                                // Format periode ke Indonesia
+                                const periodeMulai = kegiatan.periode_mulai ? formatTanggalIndo(kegiatan.periode_mulai) : null;
+                                const periodeSelesai = kegiatan.periode_selesai ? formatTanggalIndo(kegiatan.periode_selesai) : null;
+
+                                option.setAttribute('data-deskripsi', kegiatan.deskripsi ?? '-');
+                                option.setAttribute('data-periode',
+                                    (periodeMulai && periodeSelesai) ?
+                                    `${periodeMulai} s/d ${periodeSelesai}` :
+                                    'Belum diatur'
+                                );
                                 kegiatanSelect.appendChild(option);
                             });
                         } else {
@@ -163,7 +190,6 @@
         const userTimId = "{{ auth()->user()->tim_id }}";
 
         if (userRole == 1) {
-            // Admin → wajib pilih tim dulu
             kegiatanSelect.addEventListener('focus', function() {
                 if (!timSelect.value) {
                     kegiatanSelect.innerHTML = '';
@@ -185,6 +211,26 @@
                 loadKegiatan(userTimId);
             }
         }
+
+        kegiatanSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const deskripsi = selectedOption.getAttribute('data-deskripsi');
+            const periode = selectedOption.getAttribute('data-periode');
+
+            const catatanDiv = document.getElementById('catatan_kegiatan');
+            if (deskripsi || periode) {
+                catatanDiv.innerHTML = `
+            <div class="card border-light shadow-sm mt-2">
+                <div class="card-body p-2">
+                    <p class="mb-1"><strong>Periode:</strong> ${periode}</p>
+                    <p class="mb-0"><strong>Deskripsi:</strong> ${deskripsi}</p>
+                </div>
+            </div>
+        `;
+            } else {
+                catatanDiv.innerHTML = '';
+            }
+        });
     });
 </script>
 @endpush
