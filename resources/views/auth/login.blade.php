@@ -1,58 +1,87 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    <div class="container" id="container">
-        <div class="form-container sign-in">
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-                <h1>Sign In</h1>
-                <br>
-                <span for="email" :value="__('Use your email password')"></span>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    id="email"
-                    type="email"
-                    name="email"
-                    :value="old('email')"
-                    required autofocus autocomplete="username">
-                <input
-                    id=""
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    required autocomplete="current-password">
-                <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
 
-                <div class="d-flex ">
-                    <a href="#">Forget Your Password?</a>
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298, #6dd5fa);
+            min-height: 100vh;
+        }
 
-                    <label for="remember_me" class="d-flex align-items-center">
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+    </style>
+
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%;">
+            <div class="card-body p-5">
+                <h2 class="text-center mb-3 fw-bold">Login</h2>
+                <p class="text-center text-muted mb-4">Masukan username email BPS anda untuk login</p>
+
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+
+                    <!-- Email -->
+                    <div class="mb-4">
                         <input
-                            id="remember_me"
-                            type="checkbox"
-                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 small-checkbox"
-                            name="remember">
-                        <span class="text-sm text-gray-600">{{ __('Remember me') }}</span>
-                    </label>
+                            type="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Email"
+                            required autofocus autocomplete="username">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
+                    </div>
 
-                </div>
-                <button>Sign In</button>
-            </form>
-        </div>
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of the site features</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
-                <div class="toggle-panel toggle-right">
-                    <h1>Login SSO</h1>
-                    <p>Login directly without email and password using Single Sign On</p>
-                    <button class="hidden" id="register">SSO Login</button>
-                </div>
+                    <!-- Password -->
+                    <div class="mb-4 position-relative">
+                        <input
+                            type="password"
+                            id="password"
+                            class="form-control @error('password') is-invalid @enderror"
+                            name="password"
+                            placeholder="Password"
+                            required autocomplete="current-password">
+                        <span class="password-toggle" onclick="togglePassword()">
+                            <i id="toggleIcon" class="bi bi-eye"></i>
+                        </span>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary fw-semibold">
+                            Login
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    <!-- Script Toggle Password -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const icon = document.getElementById("toggleIcon");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        }
+    </script>
+
+    <!-- Bootstrap Icons (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </x-guest-layout>
