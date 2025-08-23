@@ -173,6 +173,11 @@
                                     `${periodeMulai} s/d ${periodeSelesai}` :
                                     'Belum diatur'
                                 );
+
+                                // Tambahkan atribut raw date agar bisa dipakai langsung
+                                if (kegiatan.periode_mulai) option.setAttribute('data-periode-mulai', kegiatan.periode_mulai);
+                                if (kegiatan.periode_selesai) option.setAttribute('data-periode-selesai', kegiatan.periode_selesai);
+
                                 kegiatanSelect.appendChild(option);
                             });
                         } else {
@@ -217,16 +222,36 @@
             const deskripsi = selectedOption.getAttribute('data-deskripsi');
             const periode = selectedOption.getAttribute('data-periode');
 
+            // Ambil periode mulai & selesai (format YYYY-MM-DD)
+            const periodeMulai = selectedOption.getAttribute('data-periode-mulai');
+            const periodeSelesai = selectedOption.getAttribute('data-periode-selesai');
+
+            const tanggalInput = document.getElementById('tanggal');
+            if (periodeMulai && periodeSelesai) {
+                tanggalInput.min = periodeMulai;
+                tanggalInput.max = periodeSelesai;
+
+                // reset jika tanggal yang dipilih di luar range
+                if (tanggalInput.value < periodeMulai || tanggalInput.value > periodeSelesai) {
+                    tanggalInput.value = '';
+                }
+            } else {
+                // fallback default (misal mulai dari hari ini tanpa batas)
+                tanggalInput.min = "{{ date('Y-m-d') }}";
+                tanggalInput.removeAttribute('max');
+            }
+
+            // tampilkan catatan kegiatan
             const catatanDiv = document.getElementById('catatan_kegiatan');
             if (deskripsi || periode) {
                 catatanDiv.innerHTML = `
-            <div class="card border-light shadow-sm mt-2">
-                <div class="card-body p-2">
-                    <p class="mb-1"><strong>Periode:</strong> ${periode}</p>
-                    <p class="mb-0"><strong>Deskripsi:</strong> ${deskripsi}</p>
+                <div class="card border-light shadow-sm mt-2">
+                    <div class="card-body p-2">
+                        <p class="mb-1"><strong>Periode:</strong> ${periode}</p>
+                        <p class="mb-0"><strong>Deskripsi:</strong> ${deskripsi}</p>
+                    </div>
                 </div>
-            </div>
-        `;
+                `;
             } else {
                 catatanDiv.innerHTML = '';
             }
