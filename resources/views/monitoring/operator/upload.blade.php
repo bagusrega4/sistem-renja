@@ -115,6 +115,7 @@
                             <th>Tanggal Keluar</th>
                             <th>Pukul</th>
                             <th>Diketahui Ketua</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,10 +167,27 @@
                                     style="transform: scale(1.5); accent-color: green; cursor: not-allowed;">
                                 @endif
                             </td>
+                            <td class="text-center">
+                                @if(!$rk->diketahui)
+                                <form action="{{ route('form.delete', $rk->id) }}" method="POST" class="delete-form d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="btn btn-link text-danger p-0 btn-delete"
+                                        style="border:none;"
+                                        data-kegiatan="{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}"
+                                        data-tanggal="{{ \Carbon\Carbon::parse($rk->tanggal)->translatedFormat('j F Y') }}">
+                                        <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
+                                    </button>
+                                </form>
+                                @else
+                                <i class="bi bi-lock-fill text-secondary" title="Tidak bisa dihapus, sudah diketahui ketua"></i>
+                                @endif
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->id_role == 3 ? 8 : 7 }}" class="text-center">Belum ada rencana kerja.</td>
+                            <td colspan="{{ auth()->user()->id_role == 3 ? 9 : 8 }}" class="text-center">Belum ada rencana kerja.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -216,4 +234,46 @@
         }
     }, 10000);
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // SweetAlert konfirmasi delete
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Ambil data dari tombol di dalam form
+            let btnDelete = form.querySelector('.btn-delete');
+            let kegiatan = btnDelete.getAttribute('data-kegiatan');
+            let tanggal = btnDelete.getAttribute('data-tanggal');
+
+            Swal.fire({
+                title: 'Yakin hapus?',
+                html: `Rencana kerja <b>${kegiatan}</b> pada tanggal <b>${tanggal}</b> akan dihapus permanen!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: @json(session('success')),
+        showConfirmButton: false,
+        timer: 2000
+    });
+</script>
+@endif
 @endsection

@@ -87,4 +87,17 @@ class FormController extends Controller
 
         return response()->json($kegiatan);
     }
+
+    public function destroy($id)
+    {
+        $form = Form::findOrFail($id);
+
+        if ($form->diketahui) {
+            return redirect()->back()->with('error', 'Rencana kerja sudah diketahui ketua, tidak bisa dihapus.');
+        }
+
+        $form->delete();
+
+        return redirect()->back()->with('success', 'Rencana kerja berhasil dihapus.');
+    }
 }
