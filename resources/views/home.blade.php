@@ -36,7 +36,7 @@
         }
 
         .hero .hero-img img {
-            max-width: 100%;
+            max-width: 75%;
             height: auto;
         }
 
@@ -55,8 +55,7 @@
             }
 
             .hero .hero-img img {
-                width: 70%;
-                /* biar tidak terlalu besar di HP */
+                max-width: 50%;
             }
 
             .btn-get-started {

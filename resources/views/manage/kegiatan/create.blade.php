@@ -4,11 +4,14 @@
 <div class="container">
     <div class="page-inner">
         <div class="card card-round">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Tambah Kegiatan</h4>
+                <a href="{{ route('manage.kegiatan.template') }}" class="btn btn-success">
+                    Download Template Excel
+                </a>
             </div>
             <div class="card-body">
-                <form action="{{ route('manage.kegiatan.store') }}" method="POST">
+                <form id="kegiatanForm" action="{{ route('manage.kegiatan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     {{-- Pilih kegiatan dari database --}}
@@ -56,6 +59,12 @@
                             min="{{ date('Y-m-d') }}">
                     </div>
 
+                    {{-- Import Excel --}}
+                    <div class="mb-3">
+                        <label for="file_excel" class="form-label">Import dari Excel</label>
+                        <input type="file" name="file_excel" id="file_excel" class="form-control" accept=".xlsx,.xls">
+                        <small class="text-muted">Format file: .xlsx / .xls. Pastikan kolom minimal berisi <b>nama_kegiatan</b>, <b>deskripsi</b>, <b>periode_mulai</b>, dan <b>periode_selesai</b>.</small>
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     <a href="{{ route('manage.kegiatan.index') }}" class="btn btn-secondary">Kembali</a>
                 </form>
@@ -76,6 +85,66 @@
         } else {
             wrapper.style.display = 'none';
             input.removeAttribute('required');
+        }
+    });
+</script>
+@endpush
+
+@push('scripts')
+<script>
+    const form = document.getElementById('kegiatanForm'); // tambahkan id="kegiatanForm" di <form>
+    const kegiatanSelect = document.getElementById('kegiatan_id');
+    const newKegiatanWrapper = document.getElementById('new_kegiatan_wrapper');
+    const newKegiatanInput = document.getElementById('nama_kegiatan');
+    const deskripsi = document.getElementById('deskripsi');
+    const mulai = document.getElementById('periode_mulai');
+    const selesai = document.getElementById('periode_selesai');
+    const fileExcel = document.getElementById('file_excel');
+
+    // Toggle input manual / tambah baru
+    kegiatanSelect.addEventListener('change', function() {
+        if (this.value === 'other') {
+            newKegiatanWrapper.style.display = 'block';
+            newKegiatanInput.setAttribute('required', 'required');
+        } else {
+            newKegiatanWrapper.style.display = 'none';
+            newKegiatanInput.removeAttribute('required');
+        }
+    });
+
+    // Toggle ketika pilih file Excel
+    fileExcel.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            // Nonaktifkan input manual
+            kegiatanSelect.disabled = true;
+            newKegiatanInput.disabled = true;
+            deskripsi.disabled = true;
+            mulai.disabled = true;
+            selesai.disabled = true;
+
+            // Hilangkan required
+            kegiatanSelect.removeAttribute('required');
+            newKegiatanInput.removeAttribute('required');
+            mulai.removeAttribute('required');
+            selesai.removeAttribute('required');
+
+            // Ganti action ke import
+            form.setAttribute('action', "{{ route('manage.kegiatan.import') }}");
+        } else {
+            // Aktifkan kembali input manual
+            kegiatanSelect.disabled = false;
+            newKegiatanInput.disabled = false;
+            deskripsi.disabled = false;
+            mulai.disabled = false;
+            selesai.disabled = false;
+
+            // Kembalikan required default
+            kegiatanSelect.setAttribute('required', 'required');
+            mulai.setAttribute('required', 'required');
+            selesai.setAttribute('required', 'required');
+
+            // Balik lagi ke store
+            form.setAttribute('action', "{{ route('manage.kegiatan.store') }}");
         }
     });
 </script>

@@ -6,6 +6,10 @@ use App\Models\ManageKegiatan;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use App\Models\Tim;
+use App\Imports\KegiatanImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class KegiatanController extends Controller
 {
@@ -153,5 +157,31 @@ class KegiatanController extends Controller
         $kegiatan->save();
 
         return redirect()->route('manage.kegiatan.index')->with('success', 'Kegiatan berhasil diaktifkan kembali.');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file_excel' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new KegiatanImport, $request->file('file_excel'));
+
+        return redirect()->route('manage.kegiatan.index')->with('success', 'Kegiatan berhasil diimport dari Excel!');
+    }
+
+    public function downloadTemplate()
+    {
+        $export = new class implements FromCollection {
+            public function collection()
+            {
+                return new Collection([
+                    ['nama_kegiatan', 'deskripsi', 'periode_mulai', 'periode_selesai'],
+                    ['Contoh Kegiatan', 'Deskripsi contoh', '2025-08-01', '2025-08-10'],
+                ]);
+            }
+        };
+
+        return Excel::download($export, 'template_kegiatan.xlsx');
     }
 }

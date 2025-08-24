@@ -105,6 +105,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/store', [KegiatanController::class, 'store'])->name('store');
             Route::patch('/{id}/selesai', [KegiatanController::class, 'selesai'])->name('selesai');
             Route::patch('/{id}/aktif', [KegiatanController::class, 'aktif'])->name('aktif');
+            Route::post('/import', [KegiatanController::class, 'import'])->name('import');
+            Route::get('/template-excel', [KegiatanController::class, 'downloadTemplate'])->name('template');
         });
 
         // Panduan

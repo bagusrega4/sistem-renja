@@ -154,30 +154,33 @@
                                     @endif
                                 </td>
 
-                                <td class="text-center d-flex flex-column gap-1">
-                                    @if(auth()->user()->id_role != 3)
-                                    @if($item->status != 'selesai')
-                                    {{-- Tombol Selesaikan --}}
-                                    <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-success btn-sm w-100">Selesai</button>
-                                    </form>
-                                    @else
-                                    {{-- Tombol Aktifkan Kembali --}}
-                                    <form action="{{ route('manage.kegiatan.aktif', $item->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirmAktif(this, '{{ $item->nama_kegiatan }}')">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-warning btn-sm w-100">Aktifkan</button>
-                                    </form>
-                                    @endif
-                                    @else
-                                    <button class="btn btn-success btn-sm w-100" disabled>Selesai</button>
-                                    @endif
+                                <td class="text-center">
+                                    <div class="d-flex flex-md-column flex-row gap-1 justify-content-center">
+                                        @if(auth()->user()->id_role != 3)
+                                        @if($item->status != 'selesai')
+                                        {{-- Tombol Selesaikan --}}
+                                        <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirmSelesai(this, '{{ $item->nama_kegiatan }}')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-success btn-sm w-100">Selesai</button>
+                                        </form>
+                                        @else
+                                        {{-- Tombol Aktifkan Kembali --}}
+                                        <form action="{{ route('manage.kegiatan.aktif', $item->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirmAktif(this, '{{ $item->nama_kegiatan }}')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-warning btn-sm w-100">Aktifkan</button>
+                                        </form>
+                                        @endif
+                                        @else
+                                        <button class="btn btn-success btn-sm w-100" disabled>Selesai</button>
+                                        @endif
+                                    </div>
+                                </td>
                                 </td>
                             </tr>
                             @endforeach
