@@ -42,24 +42,26 @@ class FormController extends Controller
 
         // Validasi umum
         $rules = [
-            'kegiatan_id' => 'required|exists:kegiatan,id',
+            'kegiatan_id' => 'required|exists:manage_kegiatan,id',
             'tanggal'     => ['required', 'date', 'after_or_equal:today'],
             'jam_mulai'   => 'required|date_format:H:i',
             'jam_akhir'   => 'required|date_format:H:i|after:jam_mulai',
         ];
 
-        // Kalau role admin (id_role == 1) maka wajib pilih tim
-        if ($user->id_role == 1) {
+        // Admin (1) & Ketua Tim (2) wajib pilih tim
+        if (in_array($user->id_role, [1, 2])) {
             $rules['tim_id'] = 'required|exists:tims,id';
         }
 
         $request->validate($rules);
 
         // Tentukan tim_id berdasarkan role
-        if (in_array($user->id_role, [2, 3])) {
-            $timId = $user->tim_id;
-        } elseif ($user->id_role == 1) {
+        if ($user->id_role == 1 || $user->id_role == 2) {
+            // Admin & ketua tim bisa pilih tim dari form
             $timId = $request->tim_id;
+        } elseif ($user->id_role == 3) {
+            // Anggota hanya bisa pakai tim dia sendiri
+            $timId = $user->tim_id;
         } else {
             $timId = $user->tim_id;
         }

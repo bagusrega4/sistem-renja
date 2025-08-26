@@ -22,24 +22,26 @@
         @endif
 
         <form action="{{ route('form.store') }}" method="POST">
-            @csrf {{-- Pastikan CSRF token selalu ada --}}
+            @csrf
 
             <!-- Pilih Tim -->
-            @if(auth()->user()->id_role == 1)
+            @if(auth()->user()->id_role == 1 || auth()->user()->id_role == 2)
             <div class="mb-3">
                 <label for="tim_id" class="form-label">Pilih Tim <span class="text-danger">*</span></label>
                 <select class="form-select" id="tim_id" name="tim_id" required>
                     <option value="" disabled selected hidden>Pilih Tim Kerja Kantor</option>
                     @foreach ($timList as $tim)
                     @if ($tim->id != 9)
-                    <option value="{{ $tim->id }}" {{ old('tim_id') == $tim->id ? 'selected' : '' }}>
+                    <option value="{{ $tim->id }}"
+                        {{ old('tim_id', auth()->user()->tim_id) == $tim->id ? 'selected' : '' }}>
                         {{ $tim->nama_tim }}
                     </option>
                     @endif
                     @endforeach
                 </select>
             </div>
-            @elseif(in_array(auth()->user()->id_role, [2, 3]))
+
+            @elseif(auth()->user()->id_role == 3)
             @if(auth()->user()->tim_id != 9)
             <input type="hidden" name="tim_id" value="{{ auth()->user()->tim_id }}">
             @endif
@@ -194,7 +196,8 @@
         const userRole = "{{ auth()->user()->id_role }}";
         const userTimId = "{{ auth()->user()->tim_id }}";
 
-        if (userRole == 1) {
+        if (userRole == 1 || userRole == 2) {
+            // Admin & Ketua tim bisa pilih tim lalu kegiatan akan menyesuaikan
             kegiatanSelect.addEventListener('focus', function() {
                 if (!timSelect.value) {
                     kegiatanSelect.innerHTML = '';
@@ -210,8 +213,13 @@
                 loadKegiatan(this.value);
             });
 
-        } else {
-            // Ketua/anggota → langsung auto load berdasarkan tim user
+            // Jika ada default tim terpilih (misalnya old value), langsung load
+            if (timSelect.value) {
+                loadKegiatan(timSelect.value);
+            }
+
+        } else if (userRole == 3) {
+            // Anggota → auto load kegiatan timnya sendiri
             if (userTimId) {
                 loadKegiatan(userTimId);
             }
