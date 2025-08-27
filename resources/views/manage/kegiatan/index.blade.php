@@ -156,7 +156,6 @@
 
                                 <td class="text-center">
                                     <div class="d-flex flex-md-column flex-row gap-1 justify-content-center">
-                                        @if(auth()->user()->id_role != 3)
                                         @if($item->status != 'selesai')
                                         {{-- Tombol Selesaikan --}}
                                         <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
@@ -175,9 +174,6 @@
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-warning btn-sm w-100">Aktifkan</button>
                                         </form>
-                                        @endif
-                                        @else
-                                        <button class="btn btn-success btn-sm w-100" disabled>Selesai</button>
                                         @endif
                                     </div>
                                 </td>
