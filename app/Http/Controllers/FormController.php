@@ -38,45 +38,39 @@ class FormController extends Controller
 
     public function store(Request $request)
     {
-        $user = auth()->user();
-
-        // Validasi umum
-        $rules = [
-            'kegiatan_id' => 'required|exists:manage_kegiatan,id',
-            'tanggal'     => ['required', 'date', 'after_or_equal:today'],
+        // dd($request->all());
+        // Validasi input
+        $validated = $request->validate([
+            'tim_id'      => 'required|exists:tims,id',
+            'kegiatan_id' => 'required|exists:kegiatan,id',
+            'tanggal'     => 'required|date',
             'jam_mulai'   => 'required|date_format:H:i',
             'jam_akhir'   => 'required|date_format:H:i|after:jam_mulai',
-        ];
-
-        // Admin (1) & Ketua Tim (2) wajib pilih tim
-        if (in_array($user->id_role, [1, 2])) {
-            $rules['tim_id'] = 'required|exists:tims,id';
-        }
-
-        $request->validate($rules);
-
-        // Tentukan tim_id berdasarkan role
-        if ($user->id_role == 1 || $user->id_role == 2) {
-            // Admin & ketua tim bisa pilih tim dari form
-            $timId = $request->tim_id;
-        } elseif ($user->id_role == 3) {
-            // Anggota hanya bisa pakai tim dia sendiri
-            $timId = $user->tim_id;
-        } else {
-            $timId = $user->tim_id;
-        }
-
-        // Simpan data
-        Form::create([
-            'user_id'     => $user->id,
-            'tim_id'      => $timId,
-            'kegiatan_id' => $request->kegiatan_id,
-            'tanggal'     => $request->tanggal,
-            'jam_mulai'   => $request->jam_mulai,
-            'jam_akhir'   => $request->jam_akhir,
+        ], [
+            'kegiatan_id.exists' => 'Kegiatan yang dipilih tidak valid.',
         ]);
 
-        return redirect()->back()->with('success', 'Rencana kerja berhasil disimpan!');
+        // Simpan ke tabel forms
+        $form = new Form();
+        $form->user_id     = auth()->id();
+        $form->tim_id      = $validated['tim_id'];
+        $form->kegiatan_id = $validated['kegiatan_id'];
+        $form->tanggal     = $validated['tanggal'];
+        $form->jam_mulai   = $validated['jam_mulai'];
+        $form->jam_akhir   = $validated['jam_akhir'];
+        $form->save();
+
+        return redirect()->route('form.index')->with('success', 'Rencana kerja berhasil ditambahkan');
+    }
+
+    // API untuk load kegiatan per tim
+    public function getKegiatanByTim($timId)
+    {
+        $kegiatan = ManageKegiatan::where('tim_id', $timId)
+            ->select('id', 'nama_kegiatan', 'deskripsi', 'periode_mulai', 'periode_selesai')
+            ->get();
+
+        return response()->json($kegiatan);
     }
 
     public function getKegiatan($tim_id)

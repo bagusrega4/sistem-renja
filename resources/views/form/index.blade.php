@@ -52,7 +52,13 @@
                 <label for="kegiatan_id" class="form-label">Pilih Kegiatan <span class="text-danger">*</span></label>
                 <select class="form-select" id="kegiatan_id" name="kegiatan_id" required>
                     <option value="" disabled selected hidden>Pilih Kegiatan</option>
+                    @foreach($kegiatanList as $kegiatan)
+                    <option value="{{ $kegiatan->kegiatan_id }}">
+                        {{ $kegiatan->kegiatan->nama_kegiatan }}
+                    </option>
+                    @endforeach
                 </select>
+
                 <!-- Catatan Kegiatan -->
                 <div id="catatan_kegiatan" class="mt-2 text-muted small"></div>
             </div>
@@ -162,7 +168,7 @@
                         if (data.length > 0) {
                             data.forEach(kegiatan => {
                                 const option = document.createElement('option');
-                                option.value = kegiatan.id;
+                                option.value = kegiatan.kegiatan_id;
                                 option.textContent = kegiatan.nama_kegiatan;
 
                                 // Format periode ke Indonesia
