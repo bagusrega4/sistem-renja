@@ -149,7 +149,7 @@
                             </td>
                             <td class="text-center">
                                 @if(auth()->user()->id_role == 2)
-                                <form action="{{ route('monitoring.operator.update.status', $rk->id) }}" method="POST">
+                                <form action="{{ route('monitoring.operator.update.status', $rk->id) }}" method="POST" class="form-diketahui">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="diketahui" value="0">
@@ -157,7 +157,7 @@
                                         name="diketahui"
                                         value="1"
                                         {{ $rk->diketahui ? 'checked' : '' }}
-                                        onchange="this.form.submit()"
+                                        data-link="{{ $rk->link_bukti ?? '' }}"
                                         style="transform: scale(1.5); accent-color: green; cursor: pointer;">
                                 </form>
                                 @else
@@ -168,21 +168,35 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if(!$rk->diketahui)
-                                <form action="{{ route('form.delete', $rk->id) }}" method="POST" class="delete-form d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="btn btn-link text-danger p-0 btn-delete"
-                                        style="border:none;"
-                                        data-kegiatan="{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}"
-                                        data-tanggal="{{ \Carbon\Carbon::parse($rk->tanggal)->translatedFormat('j F Y') }}">
-                                        <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
+                                <div class="d-flex justify-content-center align-items-center gap-3">
+                                    {{-- Tombol input link bukti dukung --}}
+                                    <button type="button"
+                                        class="btn btn-link text-primary p-0 btn-link"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#linkModal"
+                                        data-id="{{ $rk->id }}"
+                                        data-link="{{ $rk->link_bukti ?? '' }}"
+                                        title="Tambahkan/Edit Link Bukti">
+                                        <i class="bi bi-link-45deg" style="font-size: 1.5rem;"></i>
                                     </button>
-                                </form>
-                                @else
-                                <i class="bi bi-lock-fill text-secondary" title="Tidak bisa dihapus, sudah diketahui ketua"></i>
-                                @endif
+
+                                    {{-- Tombol delete --}}
+                                    @if(!$rk->diketahui)
+                                    <form action="{{ route('form.delete', $rk->id) }}" method="POST" class="delete-form d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-link text-danger p-0 btn-delete"
+                                            style="border:none;"
+                                            data-kegiatan="{{ $rk->managekegiatan->nama_kegiatan ?? '-' }}"
+                                            data-tanggal="{{ \Carbon\Carbon::parse($rk->tanggal)->translatedFormat('j F Y') }}">
+                                            <i class="bi bi-trash" style="font-size: 1.5rem;"></i>
+                                        </button>
+                                    </form>
+                                    @else
+                                    <i class="bi bi-lock-fill text-secondary" title="Tidak bisa dihapus, sudah diketahui ketua"></i>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                         @empty
@@ -221,6 +235,31 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal Input Link -->
+<div class="modal fade" id="linkModal" tabindex="-1" aria-labelledby="linkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ route('monitoring.operator.update.link') }}">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="id" id="modal_rk_id">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="linkModalLabel">Input Link Bukti Dukung</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="link_bukti" class="form-label">Link Google Drive</label>
+                    <input type="url" class="form-control" name="link_bukti" id="modal_link_bukti" placeholder="https://drive.google.com/..." required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -264,6 +303,56 @@
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var linkModal = document.getElementById('linkModal');
+        linkModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var rkId = button.getAttribute('data-id');
+            var rkLink = button.getAttribute('data-link');
+
+            document.getElementById('modal_rk_id').value = rkId;
+            document.getElementById('modal_link_bukti').value = rkLink || '';
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.form-diketahui input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                let link = this.getAttribute('data-link');
+                let form = this.closest('form');
+
+                if (!link) {
+                    e.preventDefault();
+                    this.checked = false; // balikin ke unchecked
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Link Bukti Belum Ada',
+                        text: 'Harap isi link bukti dukung terlebih dahulu sebelum menyetujui.',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    form.submit(); // kalau ada link, baru submit form
+                }
+            });
+        });
+    });
+</script>
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Akses Ditolak',
+        text: @json(session('error')),
+        confirmButtonColor: '#d33'
+    });
+</script>
+@endif
 
 @if(session('success'))
 <script>

@@ -111,4 +111,23 @@ class MonitoringOperatorController extends Controller
 
         return back()->with('success', 'Form berhasil disimpan.');
     }
+
+    public function updateLink(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:forms,id',
+            'link_bukti' => 'required|url',
+        ]);
+
+        $form = Form::findOrFail($request->id);
+
+        if ($form->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'Anda tidak berhak mengubah link ini!');
+        }
+
+        $form->link_bukti = $request->link_bukti;
+        $form->save();
+
+        return redirect()->back()->with('success', 'Link bukti dukung berhasil disimpan!');
+    }
 }

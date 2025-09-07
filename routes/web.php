@@ -96,6 +96,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // Update status diketahui
             Route::put('/update-status/{id}', [MonitoringOperatorController::class, 'updateStatus'])->name('update.status');
+
+            // link google drive
+            Route::put('/update-link', [MonitoringOperatorController::class, 'updateLink'])->name('update.link');
         });
 
         // Manage Kegiatan
