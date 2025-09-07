@@ -41,10 +41,11 @@
         <div class="card card-round">
             <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
                 <h4 class="card-title mb-0">Manage Kegiatan</h4>
-
-                @if(auth()->user()->id_role != 3)
-                <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary btn-sm">+ Tambah Kegiatan</a>
-                @endif
+                <div class="d-flex flex-column align-items-md-end gap-2">
+                    @if(auth()->user()->id_role != 1)
+                    <a href="{{ route('manage.kegiatan.create') }}" class="btn btn-primary btn-sm">+ Tambah Kegiatan</a>
+                    @endif
+                </div>
             </div>
 
             <div class="card-body">
@@ -184,29 +185,45 @@
                     </table>
 
                     {{-- Per Page & Pagination --}}
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 mb-3">
-                        <div>
-                            <form method="GET" action="{{ route('manage.kegiatan.index') }}">
-                                <input type="hidden" name="tim_id" value="{{ request('tim_id') }}">
-                                <input type="hidden" name="nama_kegiatan" value="{{ request('nama_kegiatan') }}">
-                                <input type="hidden" name="periode_mulai" value="{{ request('periode_mulai') }}">
-                                <input type="hidden" name="periode_selesai" value="{{ request('periode_selesai') }}">
-                                <input type="hidden" name="status" value="{{ request('status') }}">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-3">
 
-                                <label for="per_page" class="form-label">Tampilkan</label>
-                                <select name="per_page" id="per_page" class="form-select d-inline-block w-auto"
-                                    onchange="this.form.submit()">
-                                    <option value="5" {{ request('per_page') == 5  ? 'selected' : '' }}>5</option>
-                                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
-                                </select>
-                                <span>data per halaman</span>
-                            </form>
-                        </div>
+                        {{-- Per Page Selector --}}
+                        <form method="GET" action="{{ route('manage.kegiatan.index') }}" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="tim_id" value="{{ request('tim_id') }}">
+                            <input type="hidden" name="nama_kegiatan" value="{{ request('nama_kegiatan') }}">
+                            <input type="hidden" name="periode_mulai" value="{{ request('periode_mulai') }}">
+                            <input type="hidden" name="periode_selesai" value="{{ request('periode_selesai') }}">
+                            <input type="hidden" name="status" value="{{ request('status') }}">
 
-                        <div>
-                            {{ $kegiatanList->withQueryString()->links() }}
+                            <label for="per_page" class="form-label mb-0">Tampilkan</label>
+                            <select name="per_page" id="per_page" class="form-select form-select-sm w-auto"
+                                onchange="this.form.submit()">
+                                <option value="5" {{ request('per_page') == 5  ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                            </select>
+                            <span class="ms-1">data per halaman</span>
+                        </form>
+
+                        {{-- Pagination + Download --}}
+                        <div class="d-flex flex-column align-items-end gap-2">
+                            {{-- Pagination --}}
+                            <div>
+                                {{ $kegiatanList->withQueryString()->links() }}
+                            </div>
+
+                            {{-- Tombol Download --}}
+                            @if(auth()->user()->id_role == 3)
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('manage.kegiatan.export.excel', request()->all()) }}" class="btn btn-success btn-sm">
+                                    <i class="bi bi-file-earmark-excel"></i> Excel
+                                </a>
+                                <a href="{{ route('manage.kegiatan.export.pdf', request()->all()) }}" class="btn btn-danger btn-sm" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

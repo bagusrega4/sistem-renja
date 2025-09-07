@@ -10,6 +10,8 @@ use App\Imports\KegiatanImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Exports\KegiatanExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KegiatanController extends Controller
 {
@@ -67,7 +69,9 @@ class KegiatanController extends Controller
         }
 
         // eksekusi query
-        $kegiatanList = $query->paginate($request->get('per_page', 5));
+        $kegiatanList = $query
+            ->orderBy('id', 'desc')
+            ->paginate($request->get('per_page', 5));
 
         // list tim untuk dropdown
         $timList = Tim::orderBy('nama_tim')->get();
@@ -183,5 +187,93 @@ class KegiatanController extends Controller
         };
 
         return Excel::download($export, 'template_kegiatan.xlsx');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $user = auth()->user();
+
+        $query = ($user->id_role == 3)
+            ? ManageKegiatan::with('kegiatan', 'tim')
+            : ManageKegiatan::with('kegiatan', 'tim')->where('tim_id', $user->tim_id);
+
+        // filter status
+        if ($request->filled('status') && in_array($request->status, ['aktif', 'selesai'])) {
+            $query->where('status', $request->status);
+        }
+
+        // filter nama kegiatan
+        if ($request->filled('nama_kegiatan')) {
+            $query->where('nama_kegiatan', 'like', '%' . $request->nama_kegiatan . '%');
+        }
+
+        // filter tim
+        if ($user->id_role == 3 && $request->filled('tim_id')) {
+            $query->where('tim_id', $request->tim_id);
+        }
+
+        // filter periode
+        if ($request->filled('periode_mulai') && $request->filled('periode_selesai')) {
+            $query->where(function ($q) use ($request) {
+                $q->whereDate('periode_mulai', '<=', $request->periode_selesai)
+                    ->whereDate('periode_selesai', '>=', $request->periode_mulai);
+            });
+        } elseif ($request->filled('periode_mulai')) {
+            $query->whereDate('periode_selesai', '>=', $request->periode_mulai);
+        } elseif ($request->filled('periode_selesai')) {
+            $query->whereDate('periode_mulai', '<=', $request->periode_selesai);
+        }
+
+        // urutkan per tim lalu nama kegiatan
+        $kegiatanList = $query->orderBy('tim_id', 'asc')
+            ->orderBy('nama_kegiatan', 'asc')
+            ->get();
+
+        return Excel::download(new KegiatanExport($kegiatanList), 'daftar_kegiatan.xlsx');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $user = auth()->user();
+
+        $query = ($user->id_role == 3)
+            ? ManageKegiatan::with('kegiatan', 'tim')
+            : ManageKegiatan::with('kegiatan', 'tim')->where('tim_id', $user->tim_id);
+
+        // filter status
+        if ($request->filled('status') && in_array($request->status, ['aktif', 'selesai'])) {
+            $query->where('status', $request->status);
+        }
+
+        // filter nama kegiatan
+        if ($request->filled('nama_kegiatan')) {
+            $query->where('nama_kegiatan', 'like', '%' . $request->nama_kegiatan . '%');
+        }
+
+        // filter tim
+        if ($user->id_role == 3 && $request->filled('tim_id')) {
+            $query->where('tim_id', $request->tim_id);
+        }
+
+        // filter periode
+        if ($request->filled('periode_mulai') && $request->filled('periode_selesai')) {
+            $query->where(function ($q) use ($request) {
+                $q->whereDate('periode_mulai', '<=', $request->periode_selesai)
+                    ->whereDate('periode_selesai', '>=', $request->periode_mulai);
+            });
+        } elseif ($request->filled('periode_mulai')) {
+            $query->whereDate('periode_selesai', '>=', $request->periode_mulai);
+        } elseif ($request->filled('periode_selesai')) {
+            $query->whereDate('periode_mulai', '<=', $request->periode_selesai);
+        }
+
+        // urutkan per tim lalu nama kegiatan
+        $kegiatanList = $query->orderBy('tim_id', 'asc')
+            ->orderBy('nama_kegiatan', 'asc')
+            ->get();
+
+        // lempar ke blade PDF
+        $pdf = Pdf::loadView('exports.kegiatan-pdf', compact('kegiatanList'));
+        return $pdf->download('daftar_kegiatan.pdf');
     }
 }

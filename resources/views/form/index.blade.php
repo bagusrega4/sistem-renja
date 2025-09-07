@@ -31,12 +31,10 @@
                 <select class="form-select" id="tim_id" name="tim_id" required>
                     <option value="" disabled selected hidden>Pilih Tim Kerja Kantor</option>
                     @foreach ($timList as $tim)
-                    @if ($tim->id != 9)
                     <option value="{{ $tim->id }}"
                         {{ old('tim_id', auth()->user()->tim_id) == $tim->id ? 'selected' : '' }}>
                         {{ $tim->nama_tim }}
                     </option>
-                    @endif
                     @endforeach
                 </select>
             </div>

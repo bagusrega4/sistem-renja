@@ -107,6 +107,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('/{id}/aktif', [KegiatanController::class, 'aktif'])->name('aktif');
             Route::post('/import', [KegiatanController::class, 'import'])->name('import');
             Route::get('/template-excel', [KegiatanController::class, 'downloadTemplate'])->name('template');
+            Route::get('/export/excel', [KegiatanController::class, 'exportExcel'])->name('export.excel');
+            Route::get('/export/pdf', [KegiatanController::class, 'exportPDF'])->name('export.pdf');
         });
 
         // Panduan
