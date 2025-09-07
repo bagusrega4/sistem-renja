@@ -276,4 +276,13 @@ class KegiatanController extends Controller
         $pdf = Pdf::loadView('exports.kegiatan-pdf', compact('kegiatanList'));
         return $pdf->download('daftar_kegiatan.pdf');
     }
+
+    public function destroy($id)
+    {
+        $manageKegiatan = ManageKegiatan::findOrFail($id);
+        $manageKegiatan->delete();
+
+        return redirect()->route('manage.kegiatan.index')
+            ->with('success', 'Manage Kegiatan berhasil dihapus.');
+    }
 }

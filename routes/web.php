@@ -109,6 +109,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/template-excel', [KegiatanController::class, 'downloadTemplate'])->name('template');
             Route::get('/export/excel', [KegiatanController::class, 'exportExcel'])->name('export.excel');
             Route::get('/export/pdf', [KegiatanController::class, 'exportPDF'])->name('export.pdf');
+            Route::delete('/{id}', [KegiatanController::class, 'destroy'])->name('destroy');
         });
 
         // Panduan

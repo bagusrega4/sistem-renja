@@ -156,7 +156,7 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <div class="d-flex flex-md-column flex-row gap-1 justify-content-center">
+                                    <div class="d-flex flex-row gap-1 justify-content-center">
                                         @if($item->status != 'selesai')
                                         {{-- Tombol Selesaikan --}}
                                         <form action="{{ route('manage.kegiatan.selesai', $item->id) }}"
@@ -174,6 +174,19 @@
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-warning btn-sm w-100">Aktifkan</button>
+                                        </form>
+                                        @endif
+
+                                        {{-- Tombol Hapus (khusus id_role == 3) --}}
+                                        @if(auth()->user()->id_role == 3)
+                                        <form action="{{ route('manage.kegiatan.destroy', $item->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirmDelete(this, '{{ $item->nama_kegiatan }}')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm w-100">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </form>
                                         @endif
                                     </div>
@@ -214,7 +227,7 @@
                             </div>
 
                             {{-- Tombol Download --}}
-                            @if(auth()->user()->id_role == 3)
+                            @if(auth()->user()->id_role == 3 || 2)
                             <div class="d-flex gap-2">
                                 <a href="{{ route('manage.kegiatan.export.excel', request()->all()) }}" class="btn btn-success btn-sm">
                                     <i class="bi bi-file-earmark-excel"></i> Excel
@@ -275,6 +288,25 @@
             confirmButtonColor: '#ffc107',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Ya, Aktifkan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+
+    function confirmDelete(form, namaKegiatan) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Hapus kegiatan?',
+            text: "Kegiatan \"" + namaKegiatan + "\" akan dihapus permanen.",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Hapus',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
