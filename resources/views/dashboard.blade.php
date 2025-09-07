@@ -21,9 +21,9 @@
                         <label for="year">Pilih Tahun</label>
                         <select name="year" id="year" class="form-select" onchange="this.form.submit()">
                             @foreach($availableYears as $year)
-                                <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
-                                    {{ $year }}
-                                </option>
+                            <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -101,6 +101,44 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card shadow-sm p-3">
+                    <h6 class="fw-bold">Matriks Pegawai vs Kegiatan ({{ $selectedYear }})</h6>
+                    <div class="mb-3" style="max-width: 300px;">
+                        <label for="searchKegiatan" class="form-label fw-bold">Cari Kegiatan</label>
+                        <input type="text" id="searchKegiatan" class="form-control" placeholder="Ketik nama kegiatan...">
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="kegiatanTable" class="table table-bordered table-striped text-center align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th></th>
+                                    @foreach($userLabels as $user)
+                                        <th>{{ $user }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($kegiatanLabels as $index => $kegiatan)
+                                    <tr>
+                                        <td class="fw-bold">{{ $kegiatan }}</td>
+                                        @foreach($userLabels as $uIndex => $user)
+                                            @php
+                                                $nilai = collect($matrixData)->firstWhere(fn($d) => $d['x'] == $uIndex && $d['y'] == $index)['v'] ?? 0;
+                                            @endphp
+                                            <td>{{ $nilai }}</td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
@@ -108,6 +146,22 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.3.0/dist/chartjs-chart-matrix.min.js"></script>
+
+<script>
+document.getElementById("searchKegiatan").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#kegiatanTable tbody tr");
+
+    rows.forEach(row => {
+        let kegiatan = row.querySelector("td").textContent.toLowerCase();
+        if (kegiatan.includes(filter)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+</script>
 
 <script>
     // --- Pie Chart ---

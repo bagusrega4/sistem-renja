@@ -62,7 +62,6 @@ class DashboardController extends Controller
         $timList = Tim::pluck('nama_tim', 'id');
         $lineDatasets = [];
 
-        // pakai palet warna supaya konsisten (bukan random)
         $colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796', '#20c997', '#6f42c1'];
 
         foreach ($timList as $timId => $timNama) {
@@ -118,6 +117,34 @@ class DashboardController extends Controller
             ];
         }
 
+        // --- MATRIX DATA (Pegawai vs Kegiatan) ---
+        $user = DB::table('users')->select('id', 'username')->orderBy('username')->get();
+        $kegiatan = DB::table('kegiatan')->select('id', 'nama_kegiatan')->orderBy('nama_kegiatan')->get();
+
+        $counts = Form::select('user_id', 'kegiatan_id', DB::raw('COUNT(*) as total'))
+            ->whereYear('tanggal', $selectedYear)
+            ->groupBy('user_id', 'kegiatan_id')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->user_id . '_' . $item->kegiatan_id;
+            });
+
+        $userLabels = $user->pluck('username')->toArray();
+        $kegiatanLabels = $kegiatan->pluck('nama_kegiatan')->toArray();
+
+        $matrixData = [];
+        foreach ($kegiatan as $yIndex => $keg) {
+            foreach ($user as $xIndex => $peg) {
+                $key = $peg->id . '_' . $keg->id;
+                $val = isset($counts[$key]) ? (int)$counts[$key]->total : 0;
+                $matrixData[] = [
+                    'x' => $xIndex,
+                    'y' => $yIndex,
+                    'v' => $val
+                ];
+            }
+        }
+
         return view('dashboard', compact(
             'selectedYear',
             'availableYears',
@@ -132,7 +159,10 @@ class DashboardController extends Controller
             'lineLabels',
             'lineDatasets',
             'timLabels',
-            'stackedDatasets'
+            'stackedDatasets',
+            'userLabels',
+            'kegiatanLabels',
+            'matrixData'
         ));
     }
 }
