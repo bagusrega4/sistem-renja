@@ -12,28 +12,25 @@ class MonitoringOperatorController extends Controller
     {
         $user = auth()->user();
 
-        // Ambil daftar tim (hanya untuk admin)
         $timList = $user->id_role == 3
             ? Tim::orderBy('nama_tim')->get()
             : collect();
 
-        // Query dasar
         $query = Form::with(['manageKegiatan', 'user.pegawai'])
             ->orderBy('tanggal', 'desc');
 
-        // Filter sesuai role
         if ($user->id_role == 1) {
-            // Anggota tim → hanya data dirinya
             $query->where('user_id', $user->id);
         } elseif ($user->id_role == 2) {
-            // Ketua tim → semua anggota timnya
-            $query->where('tim_id', $user->tim_id);
+            $query->where(function ($q) use ($user) {
+                $q->where('tim_id', $user->tim_id)
+                    ->orWhere('user_id', $user->id);
+            });
         }
-        // Admin (role 3) → default lihat semua data
 
-        // ====== FILTER TAMBAHAN ======
         if ($request->filled('tim_id')) {
-            $query->where('tim_id', $request->tim_id);
+            $query->where('tim_id', $request->tim_id)
+                ->orWhere('user_id', $user->id);
         }
 
         if ($request->filled('nama')) {
@@ -49,7 +46,6 @@ class MonitoringOperatorController extends Controller
         }
 
         if ($request->filled('periode_mulai') && $request->filled('periode_selesai')) {
-            // Jika dua-duanya diisi → cek overlap
             $query->whereHas('manageKegiatan', function ($q) use ($request) {
                 $q->whereDate('periode_mulai', '<=', $request->periode_selesai)
                     ->whereDate('periode_selesai', '>=', $request->periode_mulai);

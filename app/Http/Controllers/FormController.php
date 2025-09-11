@@ -6,6 +6,7 @@ use App\Models\Form;
 use App\Models\Tim;
 use App\Models\ManageKegiatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class FormController extends Controller
 {
@@ -38,7 +39,6 @@ class FormController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         // Validasi input
         $validated = $request->validate([
             'tim_id'      => 'required|exists:tims,id',
@@ -60,7 +60,47 @@ class FormController extends Controller
         $form->jam_akhir   = $validated['jam_akhir'];
         $form->save();
 
-        return redirect()->route('form.index')->with('success', 'Rencana kerja berhasil ditambahkan');
+        // Data untuk pesan
+        $pegawai   = $form->user->pegawai->nama ?? '-';
+        $kegiatan  = $form->manageKegiatan->nama_kegiatan ?? '-';
+        $deskripsi = $form->manageKegiatan->deskripsi ?? '-';
+
+        // Cari ketua tim berdasarkan tim_id
+        $ketua = \App\Models\User::where('tim_id', $form->tim_id)
+            ->where('id_role', 2)
+            ->first();
+
+        if ($ketua && $ketua->no_hp) {
+            // Ambil nama ketua dari tabel pegawai (relasi user -> pegawai)
+            $namaKetua = $ketua->pegawai->nama ?? '-';
+            $namaTim   = $form->tim->nama_tim ?? '-';
+
+            $token = env('WHATSAPP_TOKEN');
+            $phoneNumberId = env('WHATSAPP_PHONE_NUMBER_ID');
+            $url = "https://graph.facebook.com/v22.0/{$phoneNumberId}/messages";
+
+            Http::withToken($token)->post($url, [
+                'messaging_product' => 'whatsapp',
+                'to' => $ketua->no_hp,
+                'type' => 'text',
+                'text' => [
+                    'body' => "📢 *Notifikasi Rencana Keluar Dinas*\n\n"
+                        . "Halo *{$namaKetua}*, berikut adalah data pegawai yang akan keluar untuk mengerjakan kegiatan dari tim *{$namaTim}*.\n\n"
+                        . "👤 Nama Pegawai : {$pegawai}\n"
+                        . "📅 Tanggal      : {$form->tanggal}\n"
+                        . "⏰ Waktu        : {$form->jam_mulai} - {$form->jam_akhir}\n"
+                        . "📌 Kegiatan     : {$kegiatan}\n"
+                        . "📝 Deskripsi    : {$deskripsi}\n\n"
+                        . "Mohon untuk dilakukan tindak lanjut, terima kasih 🙏\n\n"
+                        . "*note:*\n"
+                        . "*_untuk detailnya, kunjungi siremon.radata.id_\n"
+                        . "**_pesan ini dikirimkan otomatis_"
+                ]
+            ]);
+        }
+
+        return redirect()->route('form.index')
+            ->with('success', 'Rencana kerja berhasil ditambahkan dan pesan WA sudah dikirim ke ketua tim.');
     }
 
     // API untuk load kegiatan per tim
